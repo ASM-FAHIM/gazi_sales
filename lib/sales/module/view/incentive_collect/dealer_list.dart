@@ -24,7 +24,7 @@ class _DealerListScreenState extends State<DealerListScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    qrController.getDealerInfo(loginController.xso.value);
+    qrController.getDealerInfo(loginController.xtso.value);
     super.initState();
   }
 

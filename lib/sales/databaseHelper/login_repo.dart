@@ -140,7 +140,7 @@ class LoginRepo{
     }
   }
 
-  /// only tso_info
+/*  /// only tso_info
   Future<int> insertToTsoInfoTable(TsoInfoListModel tsoInfoModel) async{
     var dbClient = await conn.db;
     int result = 0;
@@ -191,7 +191,7 @@ class LoginRepo{
       print("There are some issues getting products : $e");
     }
     return tsoInfoList;
-  }
+  }*/
 
   /// only for dealerVisit Table
   Future<int> insertToDealerVisitTable(Map<String, dynamic> data ) async{

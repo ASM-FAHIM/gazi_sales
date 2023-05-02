@@ -147,7 +147,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       return Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(
-                          height: Dimensions.height70 ,
+                          height: Dimensions.height70 + Dimensions.height30,
                           clipBehavior: Clip.hardEdge,
                           padding: EdgeInsets.only(left: 10),
                           decoration: BoxDecoration(
@@ -167,9 +167,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               cartController.addToCart(
                                 dashboardController.productList[index]["xitem"],
                                 dashboardController.productList[index]["xdesc"],
-                                dashboardController.productList[index]["packQty"].toString(),
                                 '${dashboardController.updatedProductList[index]}',
-                                dashboardController.productList[index]["xunitsel"]?? '',
+                                dashboardController.productList[index]["xunit"],
                               );
                             },
                             style: TextButton.styleFrom(
@@ -184,14 +183,23 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   children: [
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         BigText(text: '${dashboardController.productList[index]["xdesc"]}', size: 14,),
                                         SmallText(text: '${dashboardController.productList[index]["xitem"]}', size: 12, color: Colors.grey,),
-                                        SmallText(text: '${dashboardController.productList[index]["xunitsel"]}', size: 12, color: Colors.grey,)
+                                        SmallText(text: '${dashboardController.productList[index]["xunit"]}', size: 12, color: Colors.grey,),
+                                        SmallText(text: '${dashboardController.productList[index]["color"]}', size: 12, color: Colors.grey,),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Icon(MdiIcons.currencyBdt, size: 20, color: Colors.red,),
+                                            Text('${dashboardController.updatedProductList[index]}',style: GoogleFonts.roboto(color: Colors.black, fontSize: 18),),
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                    Column(
+                                    /*Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
@@ -205,7 +213,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                         ),
 
                                       ],
-                                    )
+                                    )*/
                                   ],
                                 ),
                               ],

@@ -12,12 +12,13 @@ class DBHelper{
   static  const loginTable = 'loginTable';
   static  const loginStatus = 'loginStatus';
   static  const territoryTable = 'territoryTable';
-  static  const tsoInfoTable = 'tsoInfoTable';
   static  const dealerTable = 'dealerTable';
   static  const productTable = 'productTable';
+  static  const productAccessories = 'productAccessories';
   static  const caCusPrice = 'caCusPrice';
   static  const cartTable = 'cartTable';
   static  const cartDetailsTable = 'cartDetailsTable';
+  static  const cartAccessoriesTable = 'cartAccessoriesTable';
   static  const giftAndPromotion = 'giftAndPromotion';
   static  const workNoteTable = 'workNote';
   static  const dealerVisitTable = 'dealerVisitTable';
@@ -71,64 +72,59 @@ class DBHelper{
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           zid VARCHAR(150),
           xterritory VARCHAR(150),
-          xso VARCHAR(150), 
-          xrole VARCHAR(150)
-          )""");
-          await db.execute("""
-        CREATE TABLE $tsoInfoTable (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          zid INTEGER,
-          xwh VARCHAR(150),
-          xsp VARCHAR(150), 
-          xstaff VARCHAR(150), 
-          xsm VARCHAR(150), 
-          xrsm VARCHAR(150), 
-          xname VARCHAR(150), 
-          xphone VARCHAR(150), 
-          xterritory VARCHAR(150),
-          mTarget VARCHAR(150),
-          dTarget VARCHAR(150),
-          mshopvisit VARCHAR(150),
-          qtyTarget VARCHAR(150),
-          qtyAch VARCHAR(150)
+          xtso VARCHAR(150), 
+          xzone VARCHAR(150), 
+          xzm VARCHAR(150), 
+          xdivision VARCHAR(150), 
+          xdm VARCHAR(150)
           )""");
           await db.execute("""
         CREATE TABLE $dealerTable (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          zid INTEGER ,
-          xso VARCHAR(150), 
-          xsp VARCHAR(150), 
+          zid INTEGER , 
           xcus VARCHAR(150), 
-          xorg VARCHAR(150), 
-          xmadd VARCHAR(150), 
-          xterritory VARCHAR(150),
-          xfield VARCHAR(150),
+          xorg VARCHAR(150),
           xphone VARCHAR(150),
+          xmadd VARCHAR(150), 
           xgcus VARCHAR(150),
-          xdateeff VARCHAR(150),
-          xdateexp VARCHAR(150)
+          xterritory VARCHAR(150),
+          xcontact VARCHAR(150),
+          xmobile VARCHAR(150),
+          xtso VARCHAR(150),
+          xzone VARCHAR(150),
+          xzm VARCHAR(150),
+          xdivision VARCHAR(150),
+          xdm VARCHAR(150),
+          xthana VARCHAR(150),
+          xdistrict VARCHAR(150)
           )""");
           await db.execute("""
         CREATE TABLE $productTable (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
+          zid INTEGER , 
           xitem VARCHAR(150), 
           xdesc VARCHAR(150), 
           xrate VARCHAR(150), 
-          xvatrate VARCHAR(150), 
-          xvatamt VARCHAR(150),
-          xminrate VARCHAR(150),
-          totrate VARCHAR(150), 
-          dealrate VARCHAR(150), 
-          xgitem VARCHAR(150), 
-          xpackqty VARCHAR(150), 
-          xunitsel VARCHAR(150),
-          xdisc VARCHAR(150),
-          xdiscstatus VARCHAR(150),
-          xunitiss VARCHAR(150),
-          xdealerp VARCHAR(150),
-          xpsize VARCHAR(150),
-          xtheircode VARCHAR(150),
-          xsubcat VARCHAR(150)
+          xdealerp VARCHAR(150), 
+          xmrp VARCHAR(150),
+          color VARCHAR(150),
+          xcapacity VARCHAR(150),
+          xunit VARCHAR(150), 
+          xunitsel VARCHAR(150), 
+          xcatitem VARCHAR(150), 
+          xstype VARCHAR(150), 
+          xpnature VARCHAR(150)
+          )""");
+          await db.execute("""
+        CREATE TABLE $productAccessories (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          zid INTEGER,
+          xrow VARCHAR(150),
+          xitem VARCHAR(150), 
+          xitemaccessories VARCHAR(150),
+          name VARCHAR(150),
+          xunit VARCHAR(150),
+          xqty VARCHAR(150)
           )""");
           await db.execute("""
         CREATE TABLE $caCusPrice (
@@ -175,8 +171,22 @@ class DBHelper{
           xqty REAL,
           subTotal REAL,
           subPackQty REAL,
+          yes_no VARCHAR(20),
+          xmasteritem VARCHAR(20),
           FOREIGN KEY (cartID) REFERENCES $cartTable(cartID)
           )""");
+          await db.execute("""
+          CREATE TABLE $cartAccessoriesTable (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          zid INTEGER,         
+          xitem VARCHAR(150),          
+          accName VARCHAR(150),
+          xqty REAL,
+          xunit VARCHAR(150),
+          xmasteritem VARCHAR(150)
+        )
+        """);
+
           await db.execute("""
         CREATE TABLE $giftAndPromotion (
           id INTEGER PRIMARY KEY AUTOINCREMENT,

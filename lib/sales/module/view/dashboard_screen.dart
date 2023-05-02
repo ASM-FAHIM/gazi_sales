@@ -58,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     dashboardController.getVisitedDealerList();
+     // dashboardController.getVisitedDealerList();
   }
 
   @override
@@ -81,7 +81,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           centerTitle: true,
           title: BigText(
-            text: "Petronas",
+            text: "Gazi Sales",
             color: AppColor.defWhite,
             size: 25,
           ),
@@ -162,7 +162,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         endColor: Colors.lightBlue,
                                         width: 8.0,
                                       ),
-                                      child: Center(child: Text('${loginController.tsoInfoList[0]["qtyTarget"]} LTR', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
+                                      child: Center(child: Text('5000 LTR', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
                                     ),
                                   ),
                                 ),
@@ -186,7 +186,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         width: 8.0,
                                       ),
                                       child: Center(
-                                          child: Text('${loginController.tsoInfoList[0]["qtyAch"]} LTR', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
+                                          child: Text('25000 LTR', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
                                     ),
                                   ),
                                 ),
@@ -246,7 +246,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text('Shops', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('${loginController.tsoInfoList[0]["dTarget"]}', style: GoogleFonts.roboto(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        Text('150', style: GoogleFonts.roboto(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.grey),),
                                       ],
                                     ),
                                   ),
@@ -270,7 +270,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text('Visited', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('${dashboardController.dVisitedShops.value}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        Text('70', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
                                       ],
                                     ),
                                   ),
@@ -294,7 +294,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text('Remaining', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('${dashboardController.dRemainShops.value}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        Text('80', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
                                       ],
                                     ),
                                   ),
@@ -330,7 +330,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text('Shops', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('${loginController.tsoInfoList[0]["mTarget"]}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        Text('700', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
                                       ],
                                     ),
                                   ),
@@ -378,7 +378,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text('Remaining', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('${dashboardController.mRemainShops.value}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        Text('700', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
                                       ],
                                     ),
                                   ),

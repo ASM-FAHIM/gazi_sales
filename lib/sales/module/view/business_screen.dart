@@ -48,7 +48,6 @@ class _BusinessScreenState extends State<BusinessScreen> {
               Obx(() => IconButton(
                 onPressed: () {
                   loginController.fetchTerritoryList();
-                  //dashboardController.getProductInfo();
                 },
                 icon: loginController.isFetched.value
                     ? const Center(
@@ -65,7 +64,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
             ]
           ),
           body: Obx((){
-            return  loginController.isDataLoaded.value
+            return  loginController.isDone.value
                 ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -101,9 +101,12 @@ class _TsoSelectionScreenState extends State<TsoSelectionScreen> {
                       child: GestureDetector(
                         onTap: (){
                           loginController.getTsoInfo(
-                              '${loginController.territoryList[index]["xso"]}',
+                              '${loginController.territoryList[index]["xtso"]}',
                               '${loginController.territoryList[index]["xterritory"]}',
-                              '${loginController.territoryList[index]["xrole"]}'
+                              '${loginController.territoryList[index]["xzone"]}',
+                              '${loginController.territoryList[index]["xzm"]}',
+                              '${loginController.territoryList[index]["xdivision"]}',
+                              '${loginController.territoryList[index]["xdm"]}'
                           );
                         },
                         child: Container(
@@ -128,7 +131,7 @@ class _TsoSelectionScreenState extends State<TsoSelectionScreen> {
                                 AppColor.defWhite,
                               ),
                               SmallText(
-                                text: loginController.territoryList[index]["xso"],
+                                text: loginController.territoryList[index]["xtso"],
                                 size: 12,
                                 color:
                                 AppColor.defWhite,

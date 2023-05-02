@@ -20,19 +20,22 @@ class LoginController extends GetxController {
   //ei 3 ta value home screen a dhukar por database theke value get kore eikhane diye dicci
   RxString xposition = ''.obs;
   RxString xsid = ''.obs;
-  RxString xstaff90 = ''.obs;
-  RxString xstaff210 = ''.obs;
   RxString xsid90 = ''.obs;
   RxString xsid210 = ''.obs;
   RxString xstaff = ''.obs;
 
   //getTso info te ami xsp and xterritory er value set kore rakhsi territory info theke paowa
 
-  RxString xso = ''.obs;
+  RxString xtso = ''.obs;
   RxString xsp = ''.obs; //ei value ta dealer screen theke product screen a jaowar somoy save kortesi
   RxString xwh = ''.obs;
   RxString xrole = ''.obs;
+  RxString xName = ''.obs;
   RxString xterritory = ''.obs;
+  RxString xZone = ''.obs;
+  RxString xZM= ''.obs;
+  RxString xDivision = ''.obs;
+  RxString xDM = ''.obs;
 
   //user wise business inserted into database
   RxBool isDataLoaded = false.obs;
@@ -92,14 +95,14 @@ class LoginController extends GetxController {
   }
 
   void clearBusinessList(){
-    userWiseBusiness = [];
+    userWiseBusiness.clear();
   }
 
 
 
   //xterritory loginMethod a value save kore rakhtesi for further use
   AppConstants appConstants = AppConstants();
-  RxBool isLoading1 = false.obs;
+/*  RxBool isLoading1 = false.obs;
   List<TsoInfoListModel>? tsoInfoListModel;
   Future<void> loginMethod() async {
     try{
@@ -107,7 +110,7 @@ class LoginController extends GetxController {
       DateTime now = DateTime.now();
       String month = DateFormat.M().format(now);
       String year = DateFormat.y().format(now);
-      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/tsoinfo.php?xstaff90=${xstaff90.value}&xstaff210=${xstaff210.value}&month_per=$month&xyear=$year'));
+      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/tso_id.php?xstaff=${xstaff.value}'));
       if (response.statusCode == 404) {
         isLoading1(false);
         Get.snackbar(
@@ -134,20 +137,23 @@ class LoginController extends GetxController {
   Future dropTsoInfoTable() async{
     LoginRepo().deleteFromtsoInfoTable();
     print('Table deleted successfully');
-  }
+  }*/
 
   //get tso info
   List tsoInfoList = [];
-  Future getTsoInfo(String Xso, String xTerritory, String role) async{
+  Future getTsoInfo(String xTso, String xTerritory, String zone, String zm, String division, String dm) async{
     try{
-      xso.value = Xso;
+      xtso.value = xTso;
       xterritory.value = xTerritory;
-      xrole.value = role;
-      tsoInfoList = await LoginRepo().getTsoInfo(zID.value);
+      xZone.value = zone;
+      xZM.value = zm;
+      xDivision.value = division;
+      xDM.value = dm;
+      /*tsoInfoList = await LoginRepo().getTsoInfo(zID.value);
       xwh.value = tsoInfoList[0]["xwh"].toString();
       print('------XWH value from tsoInfo field  : $xwh');
-      print('------saved xso value  : ${xso.value}');
-      //print('------saved xsp value  : ${xsp.value}');
+      print('------saved xso value  : ${xtso.value}');
+      print('------saved xsp value  : ${xsp.value}');*/
     }catch(error){
       print('There are some issue: $error');
     }
@@ -165,12 +171,10 @@ class LoginController extends GetxController {
   Future<Object> fetchTerritoryList() async{
     try{
       isFetched(true);
-      var responseTerritoryList = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/tso_ID.php?staff210=${xstaff210.value}&staff90=${xstaff90.value}'));
+      var responseTerritoryList = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/tso_id.php?xstaff=${xstaff.value}'));
       if(responseTerritoryList.statusCode == 200){
         territoryListModel = territoryListModelFromJson(responseTerritoryList.body);
         await dropTerritoryTable();
-        print("xstaff90 List = $xstaff90");
-        print("xstaff210 List = $xstaff210");
         print("Territory List = ${responseTerritoryList.body}");
         (json.decode(responseTerritoryList.body) as List).map((territoryList) {
           LoginRepo().insertToTerritoryTable(TerritoryListModel.fromJson(territoryList));
@@ -181,7 +185,7 @@ class LoginController extends GetxController {
             backgroundColor: Colors.white,
             duration: const Duration(seconds: 1)
         );
-        await loginMethod();
+        // await loginMethod();
         isFetched(false);
         return 'Territory list fetched Successfully';
       }else{

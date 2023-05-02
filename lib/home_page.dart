@@ -84,8 +84,9 @@ class _HomepageState extends State<Homepage> {
       xrole= firstRow['xrole'];
       isLoading = false;
     });
+
     loginController.xposition.value = xposition;
-    //loginController.xsid.value = xsid;
+    loginController.xName.value = xname;
     loginController.xstaff.value = xstaff;
 
     print('all'+ firstRow.toString());

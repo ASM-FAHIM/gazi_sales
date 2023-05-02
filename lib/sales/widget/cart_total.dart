@@ -49,7 +49,6 @@ class CartTotal extends StatelessWidget {
                   children: [
                     Icon(MdiIcons.currencyBdt, size: 22, color: Colors.red,),
                     BigText(text: '${cartController.totalPrice.value.toStringAsFixed(2)}', size: 22, color: Colors.red,),
-                    SmallText(text: '(${cartController.totalPackQty.value} LTR)', size: 12, color: Colors.red,),
                   ],
                 ),
               ),
@@ -78,7 +77,7 @@ class CartTotal extends StatelessWidget {
                       onPressed: () async{
                         print('The xsp value from dealer table is: ${loginController.xsp.value}');
                         showDialog(context: context, builder: (BuildContext context){
-                          return ReusableAlert(cartController: cartController, xso: loginController.xso.value, xsp: loginController.xsp.value, xCus: xCus, xOrg: xOrg, xterritory: xterritory, xareaop: xareaop, xdivisionop: xdivisionop, xsubcat: xsubcat);
+                          return ReusableAlert(cartController: cartController, xso: loginController.xtso.value, xsp: loginController.xsp.value, xCus: xCus, xOrg: xOrg, xterritory: xterritory, xareaop: xareaop, xdivisionop: xdivisionop, xsubcat: xsubcat);
                         });
                       },
                       child:  cartController.isSync.value
@@ -108,7 +107,7 @@ class CartTotal extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async{
                         print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                        await cartController.placeOrder(loginController.xso.value,loginController.xsp.value, xCus, xOrg, xterritory, xareaop, xdivisionop, xsubcat,'Open');
+                        await cartController.placeOrder(loginController.xtso.value,loginController.xsp.value, xCus, xOrg, xterritory, xareaop, xdivisionop, xsubcat,'Open');
                       },
                       style: ElevatedButton.styleFrom(primary: AppColor.appBarColor,),
                       child: cartController.isPlaced.value

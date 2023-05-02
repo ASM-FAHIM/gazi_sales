@@ -11,87 +11,67 @@ String productModelToJson(List<ProductModel> data) => json.encode(List<dynamic>.
 class ProductModel {
   ProductModel({
     this.id,
+    required this.zid,
     required this.xitem,
     required this.xdesc,
     required this.xrate,
     required this.xdealerp,
-    required this.xvatrate,
-    required this.xvatamt,
-    required this.xminrate,
-    required this.totrate,
-    required this.dealrate,
-    required this.xgitem,
-    required this.xpackqty,
+    required this.xmrp,
+    required this.color,
+    required this.xcapacity,
+    required this.xunit,
     required this.xunitsel,
-    required this.xdisc,
-    required this.xdiscstatus,
-    required this.xunitiss,
-    required this.xpsize,
-    required this.xtheircode,
-    required this.xsubcat,
+    required this.xcatitem,
+    required this.xstype,
+    required this.xpnature,
   });
 
   int? id;
+  int zid;
   String xitem;
   String xdesc;
   String xrate;
   String xdealerp;
-  String xvatrate;
-  String xvatamt;
-  String xminrate;
-  int totrate;
-  int dealrate;
-  String xgitem;
-  String xpackqty;
+  String xmrp;
+  String color;
+  String xcapacity;
+  String xunit;
   String xunitsel;
-  String xdisc;
-  String xdiscstatus;
-  String xunitiss;
-  String xpsize;
-  String xtheircode;
-  String xsubcat;
+  String xcatitem;
+  String xstype;
+  String xpnature;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
     id: json["id"],
+    zid: json["zid"],
     xitem: json["xitem"],
     xdesc: json["xdesc"],
     xrate: json["xrate"],
     xdealerp: json["xdealerp"],
-    xvatrate: json["xvatrate"],
-    xvatamt: json["xvatamt"],
-    xminrate: json["xminrate"],
-    totrate: json["totrate"],
-    dealrate: json["dealrate"],
-    xgitem: json["xgitem"],
-    xpackqty: json["xpackqty"],
+    xmrp: json["xmrp"],
+    color: json["color"],
+    xcapacity: json["xcapacity"],
+    xunit: json["xunit"],
     xunitsel: json["xunitsel"],
-    xdisc: json["xdisc"],
-    xdiscstatus: json["xdiscstatus"],
-    xunitiss: json["xunitiss"],
-    xpsize: json["xpsize"],
-    xtheircode: json["xtheircode"],
-    xsubcat: json["xsubcat"],
+    xcatitem: json["xcatitem"],
+    xstype: json["xstype"],
+    xpnature: json["xpnature"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
+    "zid": zid,
     "xitem": xitem,
     "xdesc": xdesc,
     "xrate": xrate,
     "xdealerp": xdealerp,
-    "xvatrate": xvatrate,
-    "xvatamt": xvatamt,
-    "xminrate": xminrate,
-    "totrate": totrate,
-    "dealrate": dealrate,
-    "xgitem": xgitem,
-    "xpackqty": xpackqty,
+    "xmrp": xmrp,
+    "color": color,
+    "xcapacity": xcapacity,
+    "xunit": xunit,
     "xunitsel": xunitsel,
-    "xdisc": xdisc,
-    "xdiscstatus": xdiscstatus,
-    "xunitiss": xunitiss,
-    "xpsize": xpsize,
-    "xtheircode": xtheircode,
-    "xsubcat": xsubcat,
+    "xcatitem": xcatitem,
+    "xstype": xstype,
+    "xpnature": xpnature,
   };
 }

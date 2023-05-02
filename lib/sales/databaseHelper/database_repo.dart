@@ -1,6 +1,7 @@
 import '../module/model/ca_cus_price_model.dart';
 import '../module/model/dealer_model.dart';
 import '../module/model/gift_promo_model.dart';
+import '../module/model/product_accessories_model.dart';
 import '../module/model/product_model.dart';
 import 'database_helper.dart';
 
@@ -118,32 +119,24 @@ class DatabaseRepo{
     return result;
   }
 
-  /*Future getProduct(String dealerType) async{
-    var dbClient = await conn.db;
-    List productList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.query(DBHelper.productTable);
-      for(var products in maps){
-        productList.add(products);
-      }
-    }catch(e){
-      print("There are some issues getting products : $e");
-    }
-    return productList;
-  }*/
-
   Future getProduct(String dealerType) async{
     var dbClient = await conn.db;
     List productList = [];
     try{
-      if(dealerType == 'Dealer' || dealerType == 'Corporate'){
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunitsel, CAST(dealrate as int) as totrate, CAST(xpackqty as int) as packQty FROM ${DBHelper.productTable}');
+      if(dealerType == 'Dealer'){
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xdealerp as totrate FROM ${DBHelper.productTable}');
+        for(var products in maps){
+          productList.add(products);
+          print('Product List from repo : $productList');
+        }
+      }else if(dealerType == 'Corporate'){
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xrate as totrate FROM ${DBHelper.productTable}');
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
         }
       }else{
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunitsel, totrate, CAST(xpackqty as int) as packQty  FROM ${DBHelper.productTable}');
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xmrp as totrate FROM ${DBHelper.productTable}');
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
@@ -179,6 +172,57 @@ class DatabaseRepo{
     var dbClient = await conn.db;
     dbClient!.delete(DBHelper.productTable);
     print("Table deleted successfully");
+  }
+
+
+  ///Product-Accessories Tbale Section
+
+  //for product table CRUD
+  Future<int> addProductAccessories(ProductAccessoriesModel productAccessoriesModel) async{
+    var dbClient = await conn.db;
+    int result = 0;
+    try{
+      result = await dbClient!.insert(DBHelper.productAccessories, productAccessoriesModel.toJson());
+      print("-------------$result");
+    }catch(e){
+      print('There are some issues inserting product accessories table : $e');
+    }
+    return result;
+  }
+
+  /*Future getProduct(String dealerType) async{
+    var dbClient = await conn.db;
+    List productList = [];
+    try{
+      List<Map<String, dynamic>> maps = await dbClient!.query(DBHelper.productTable);
+      for(var products in maps){
+        productList.add(products);
+      }
+    }catch(e){
+      print("There are some issues getting products : $e");
+    }
+    return productList;
+  }*/
+
+  Future getProductAccessories() async{
+    var dbClient = await conn.db;
+    List productAccessoriesList = [];
+    try{
+      List<Map<String, dynamic>> maps = await dbClient!.query(DBHelper.productAccessories);
+      for(var productAcs in maps){
+        productAccessoriesList.add(productAcs);
+        print('Product List from repo : $productAccessoriesList');
+      }
+    }catch(e){
+      print("There are some issues getting products : $e");
+    }
+    return productAccessoriesList;
+  }
+
+  Future<void> dropProductAccessoriesTable() async {
+    var dbClient = await conn.db;
+    dbClient!.delete(DBHelper.productAccessories);
+    print("Accessories table deleted successfully");
   }
 
   ///Cart table Section
@@ -292,7 +336,21 @@ class DatabaseRepo{
     await dbClient!.delete(DBHelper.cartDetailsTable);
   }
 
-
+  //For inserting into cartAccessories table
+  Future<void> cartAccessoriesInsert(String xitem, String zid) async{
+    var dbClient = await conn.db;
+    try{
+     var result = await dbClient!.rawQuery('''
+          INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
+          SELECT zid, xitemaccessories, name, xqty, xunit, xitem
+          FROM ${DBHelper.productAccessories}
+          WHERE xitem = ? and zid =?
+          ''', [xitem, zid]);
+      print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+    }catch(e){
+      print('There are some issues inserting cartTable: $e');
+    }
+  }
 
 /*  Map<String, dynamic>? singleHeader;
   Future deleteSingleCartInfo(String cartId) async{

@@ -13,63 +13,78 @@ String dealerModelToJson(List<DealerModel> data) =>
 class DealerModel {
   DealerModel({
     this.id,
-    this.zid,
-    required this.xso,
-    required this.xsp,
+    required this.zid,
     required this.xcus,
     required this.xorg,
-    required this.xmadd,
-    required this.xterritory,
-    required this.xfield,
     required this.xphone,
+    required this.xmadd,
     required this.xgcus,
-    required this.xdateeff,
-    required this.xdateexp,
+    required this.xterritory,
+    required this.xcontact,
+    required this.xmobile,
+    required this.xtso,
+    required this.xzone,
+    required this.xzm,
+    required this.xdivision,
+    required this.xdm,
+    required this.xthana,
+    required this.xdistrict,
   });
 
   int? id;
-  int? zid;
-  String xso;
-  String xsp;
+  int zid;
   String xcus;
   String xorg;
-  String xmadd;
-  String xterritory;
-  String xfield;
   String xphone;
+  String xmadd;
   String xgcus;
-  String xdateeff;
-  String xdateexp;
+  String xterritory;
+  String xcontact;
+  String xmobile;
+  String xtso;
+  String xzone;
+  String xzm;
+  String xdivision;
+  String xdm;
+  String xthana;
+  String xdistrict;
 
   factory DealerModel.fromJson(Map<String, dynamic> json) => DealerModel(
-        id: json["id"],
-        zid: json["zid"],
-        xso: json["xso"] ?? ' ',
-        xsp: json["xsp"] ?? ' ',
-        xcus: json["xcus"] ?? ' ',
-        xorg: json["xorg"] ?? ' ',
-        xmadd: json["xmadd"] ?? ' ',
-        xterritory: json["xterritory"] ?? ' ',
-        xfield: json["xfield"] ?? ' ',
-        xphone: json["xphone"] ?? ' ',
-        xgcus: json["xgcus"] ?? ' ',
-        xdateeff: json["xdateeff"] ?? ' ',
-        xdateexp: json["xdateexp"] ?? ' ',
+    zid: json["zid"],
+    xcus: json["xcus"],
+    xorg: json["xorg"] ?? ' ',
+    xphone: json["xphone"] ?? ' ',
+    xmadd: json["xmadd"] ?? ' ',
+    xgcus: json["xgcus"] ?? ' ',
+    xterritory: json["xterritory"] ?? ' ',
+    xcontact: json["xcontact"] ?? ' ',
+    xmobile: json["xmobile"] ?? ' ',
+    xtso: json["xtso"] ?? ' ',
+    xzone: json["xzone"] ?? ' ',
+    xzm: json["xzm"] ?? ' ',
+    xdivision: json["xdivision"] ?? ' ',
+    xdm: json["xdm"] ?? ' ',
+    xthana: json["xthana"] ?? ' ',
+    xdistrict: json["xdistrict"] ?? ' ',
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "zid": zid,
-        "xso": xso,
-        "xsp": xsp,
-        "xcus": xcus,
-        "xorg": xorg,
-        "xmadd": xmadd,
-        "xterritory": xterritory,
-        "xfield": xfield,
-        "xphone": xphone,
-        "xgcus": xgcus,
-        "xdateeff": xdateeff,
-        "xdateexp": xdateexp,
+      "id": id,
+      "zid": zid,
+      "xcus": xcus,
+      "xorg": xorg,
+      "xphone": xphone,
+      "xmadd": xmadd,
+      "xgcus": xgcus,
+      "xterritory": xterritory,
+      "xcontact": xcontact,
+      "xmobile": xmobile,
+      "xtso": xtso,
+      "xzone": xzone,
+      "xzm": xzm,
+      "xdivision": xdivision,
+      "xdm": xdm,
+      "xthana": xthana,
+      "xdistrict": xdistrict,
       };
 }

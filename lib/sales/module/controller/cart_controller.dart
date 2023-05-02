@@ -50,26 +50,31 @@ class CartController extends GetxController {
   }
 
 
-  void addToCart(String productId, String pName, String packQty, String pPrice, String xUnit) {
-    if (addedProducts.isNotEmpty) {
-      bool flag = false;
-      for (int i = 0; i < addedProducts.length; i++) {
-        if (addedProducts[i][0] == productId) {
-          flag = true;
-          int tempCount;
-          tempCount = int.parse(addedProducts[i][1]);
-          addedProducts[i][1] = (tempCount + 1).toString();
-        }
-      }
-      if (!flag) {
-        addedProducts.add([productId, '1', pName, pPrice, xUnit, packQty]);
-      }
-    } else {
-      addedProducts.add([productId, '1', pName, pPrice, xUnit, packQty]);
-    }
-    print('The selected products are: $addedProducts');
-    totalClicked();
-    update();
+  Future<void> addToCart(String productId, String pName, String pPrice, String xUnit) async{
+   try{
+     await DatabaseRepo().cartAccessoriesInsert(productId, loginController.zID.value);
+     if (addedProducts.isNotEmpty) {
+       bool flag = false;
+       for (int i = 0; i < addedProducts.length; i++) {
+         if (addedProducts[i][0] == productId) {
+           flag = true;
+           int tempCount;
+           tempCount = int.parse(addedProducts[i][1]);
+           addedProducts[i][1] = (tempCount + 1).toString();
+         }
+       }
+       if (!flag) {
+         addedProducts.add([productId, '1', pName, pPrice, xUnit]);
+       }
+     } else {
+       addedProducts.add([productId, '1', pName, pPrice, xUnit]);
+     }
+     print('The selected products are: $addedProducts');
+     totalClicked();
+     update();
+   }catch(e){
+     print('There is an error $e');
+   }
   }
 
   void increment(String productId) {
@@ -126,17 +131,16 @@ class CartController extends GetxController {
         totalQty += temp;
         double tempPrice = double.parse(addedProducts[i][3]);
         subTotalPrice += tempPrice * temp;
-        double tempQty = double.parse(addedProducts[i][5]);
-        print('===============${double.parse(addedProducts[i][5])}------------- ');
-        subTotalPackQty += tempQty * temp;
+        /*double tempQty = double.parse(addedProducts[i][5]);
+        subTotalPackQty += tempQty * temp;*/
       }
       totalClick.value = totalQty;
       totalPrice.value = subTotalPrice;
-      totalPackQty.value = subTotalPackQty;
-
-      print('total clicked is: $totalClick');
-      print('total price is: $totalPrice');
-      print('total pack is: $totalPackQty');
+      // totalPackQty.value = subTotalPackQty;
+      //
+      // print('total clicked is: $totalClick');
+      // print('total price is: $totalPrice');
+      // print('total pack is: $totalPackQty');
     }catch(e){
       print('There is an error : $e');
     }

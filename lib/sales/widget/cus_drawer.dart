@@ -64,8 +64,8 @@ class CusDrawer extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      BigText(text: '${loginController.tsoInfoList[0]["xname"].toString()}', color: Colors.white,),
-                      SmallText(text: '${loginController.tsoInfoList[0]["xsp"].toString()}', color: Colors.white,),
+                      BigText(text: loginController.xName.value, color: Colors.white,),
+                      SmallText(text: loginController.xtso.value, color: Colors.white,),
                     ],
                   ),
                 )

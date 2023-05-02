@@ -120,7 +120,7 @@ class _PO_WO_approval_NotificationListState
                                             ),
                                           ),
                                           Text(
-                                            snapshot.data![index].prepname ?? ' ',
+                                            snapshot.data![index].prepname,
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),

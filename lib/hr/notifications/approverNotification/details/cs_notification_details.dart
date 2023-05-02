@@ -109,7 +109,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                   children: [
                                     Text(
                                       "Item : " +
-                                          (snapshot.data![index].xitem ?? ""),
+                                          (snapshot.data![index].xitem),
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,

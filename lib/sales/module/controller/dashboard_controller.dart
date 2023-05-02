@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io' show Platform, exit;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gazi_sales_app/sales/module/model/product_accessories_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -83,7 +84,7 @@ class DashboardController extends GetxController {
             print(loginController.addressInOut.value.toString());
             var responseDealerCheckIn = await http.post(Uri.parse("http://${AppConstants.baseurl}/salesforce/TSOAttDealer.php"),
                 body: jsonEncode(<String, dynamic>{
-                  "TSOID" : loginController.xso.value,
+                  "TSOID" : loginController.xtso.value,
                   "InTime" : DateTime.now().toString(),
                   "OutTime" : DateTime.now().toString(),
                   "xidsup" : loginController.xsid.value,
@@ -97,7 +98,7 @@ class DashboardController extends GetxController {
             if(responseDealerCheckIn.statusCode == 200){
               print('-----------------$responseDealerCheckIn');
               Map<String, dynamic> dealerVisitInfo = {
-                "tsoId" : loginController.xso.value,
+                "tsoId" : loginController.xtso.value,
                 "dealerName": dVisitName,
                 "xidsup": loginController.xsid.value,
                 "xdate": date,
@@ -124,7 +125,7 @@ class DashboardController extends GetxController {
           case InternetConnectionStatus.disconnected:
           // ignore: avoid_print
             Map<String, dynamic> dealerVisitInfo = {
-              "tsoId" : loginController.xso.value,
+              "tsoId" : loginController.xtso.value,
               "dealerName": dVisitName,
               "xidsup": loginController.xsid.value,
               "xdate": date,
@@ -164,7 +165,7 @@ class DashboardController extends GetxController {
             await loginController.periodicallyLocationTracking();
             var responseDealerCheckOut = await http.post(Uri.parse("http://${AppConstants.baseurl}/salesforce/TSOAttDealer.php"),
                 body: jsonEncode(<String, dynamic>{
-                  "TSOID" : loginController.xso.value,
+                  "TSOID" : loginController.xtso.value,
                   "InTime" : DateTime.now().toString(),
                   "OutTime" : DateTime.now().toString(),
                   "xidsup" : loginController.xsid.value,
@@ -177,7 +178,7 @@ class DashboardController extends GetxController {
             );
             if(responseDealerCheckOut.statusCode == 200){
               print('-----------------${responseDealerCheckOut.statusCode}');
-              print('-----------------${loginController.xso.value}');
+              print('-----------------${loginController.xtso.value}');
               print('-----------------${DateTime.now().toString()}');
               print('-----------------${dVisitName}');
               // Map<String, dynamic> dealerVisitInfo = {
@@ -343,7 +344,7 @@ class DashboardController extends GetxController {
     try{
       isLoading(true);
       //new dealer api for petronas http://${AppConstants.baseurl}/salesforce/dealerinfo.php?user=1000
-      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/dealerinfo.php?xsp=${loginController.xso.value}'));
+      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/dealerinfo.php?xstaff=${loginController.xstaff.value}'));
       if(response.statusCode == 200){
         dealersList = dealerModelFromJson(response.body);
         await dropDealerTable();
@@ -439,7 +440,7 @@ class DashboardController extends GetxController {
   Future<Object> getProductInfo() async{
     try{
       isLoading3(true);
-      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/productlist.php'));
+      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/productlist.php'));
       if(response.statusCode == 200){
         productsList = productModelFromJson(response.body);
         await dropProductTable();
@@ -517,27 +518,35 @@ class DashboardController extends GetxController {
 
   }
 
-  RxBool isTargetFetched = false.obs;
-  TargetModel? targetModel;
-  Future<void> getMonthlyTarget() async{
-    isTargetFetched(true);
-    await countDealerVisitTable();
-    DateTime now = DateTime.now();
-    String month = DateFormat.M().format(now);
-    String year = DateFormat.y().format(now);
-   // print('xstaff :------------${loginController.xstaff.value}');
-    print('Month:------------$month');
-    print('Month:------------$year');
-    var targetResponse = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/TSO_target_TON.php?xstaff=EID-0026&mothth_per=$month&xyear=$year'));
-    if (targetResponse.statusCode == 200) {
-      // targetModel = targetNodelFromJson(targetResponse.body);
-      // print('----------------${loginController.xpreparer.value}--------------${targetResponse.body}');
-      isTargetFetched(false);
+  ///product accessories fetch and insert to local db
+  RxBool isPALoaded = false.obs;
+  List<ProductAccessoriesModel> productsAccessoriesList = [];
+  Future<Object> getProductAccessoriesInfo() async{
+    try{
+      isPALoaded(true);
+      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/ProductAccessoriesList.php'));
+      if(response.statusCode == 200){
+        productsAccessoriesList = productAccessoriesModelFromJson(response.body);
+        await dropProductAccessoriesTable();
+        await (json.decode(response.body) as List).map((productAccessories) {
+          DatabaseRepo().addProductAccessories(ProductAccessoriesModel.fromJson(productAccessories));
+        }).toList();
+        isPALoaded(false);
+        return 'Product fetched Successfully';
+      }else{
+        isPALoaded(false);
+        print("There is an Error:------------------ ${response.statusCode}");
+        return response.statusCode;
+      }
+    }catch(e){
+      print("Something went wrong fetching product List:  $e");
+      return isPALoaded(false);
     }
-    else{
-      print('Status code for target : ${targetResponse.statusCode}');
-      isTargetFetched(false);
-    }
+  }
+  //delete dealer table first
+  Future dropProductAccessoriesTable() async{
+    DatabaseRepo().dropProductAccessoriesTable();
+    print('Product Accessories table deleted successfully');
   }
 
 
@@ -547,7 +556,7 @@ class DashboardController extends GetxController {
   Future<Object> getCusWiseProduct() async{
     try{
       isLoading4(true);
-      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/CUSwiseProductList.php'));
+      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/CUSwiseProductList.php'));
       if(response.statusCode == 200){
         caCusPriceList = caCusPriceModelFromJson(response.body);
         await dropCaCusPriceTable();
@@ -574,7 +583,7 @@ class DashboardController extends GetxController {
     print('Table deleted successfully');
   }
 
-  ///git and promo items
+ /* ///git and promo items
   RxBool isLoading6 = false.obs;
   List<GiftModel> addGiftList = [];
   Future<Object> getGiftItems() async{
@@ -599,7 +608,7 @@ class DashboardController extends GetxController {
       print("Something went wrong $e");
       return isLoading6(false);
     }
-  }
+  }*/
 
   RxBool isLoading7 = false.obs;
   List<PromoModel> addPromoList = [];
@@ -608,12 +617,15 @@ class DashboardController extends GetxController {
       isLoading7(true);
       await getDealerInfo();
       await getProductInfo();
-      await dropCaCusPriceTable();
+      await getProductAccessoriesInfo();
       await getCusWiseProduct();
+      //await dropCaCusPriceTable();
+      isLoading7(false);
       Get.snackbar('Success', 'Successfully fetched data',
           backgroundColor: AppColor.defWhite,
           duration: const Duration(seconds: 1));
-      await getGiftItems();
+      return 'All Data fetched Successfully';
+      /*await getGiftItems();
       var responsePromoItems = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/promotion.php'));
       if(responsePromoItems.statusCode == 200){
         addPromoList = promoModelFromJson(responsePromoItems.body);
@@ -626,7 +638,7 @@ class DashboardController extends GetxController {
         isLoading7(false);
         print("There is an Error ${responsePromoItems.statusCode}");
         return responsePromoItems.statusCode;
-      }
+      }*/
     }catch(e){
       print("Something went wrong $e");
       return isLoading7(false);
