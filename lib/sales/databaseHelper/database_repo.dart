@@ -340,15 +340,62 @@ class DatabaseRepo{
   Future<void> cartAccessoriesInsert(String xitem, String zid) async{
     var dbClient = await conn.db;
     try{
-     var result = await dbClient!.rawQuery('''
-          INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
-          SELECT zid, xitemaccessories, name, xqty, xunit, xitem
-          FROM ${DBHelper.productAccessories}
-          WHERE xitem = ? and zid =?
-          ''', [xitem, zid]);
-      print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
-    }catch(e){
-      print('There are some issues inserting cartTable: $e');
+      var existingRow = await dbClient!.rawQuery('''
+      SELECT * FROM ${DBHelper.cartAccessoriesTable}
+      WHERE zid = ? AND xmasteritem = ?
+      ''', [zid, xitem]);
+
+      print("length of row: ${existingRow.length}");
+
+      if (existingRow.isNotEmpty) {
+        for(int i = 0; i<= existingRow.length; i++){
+          var productAcc = await dbClient.rawQuery('''
+          SELECT CAST(xqty AS INTEGER) as xqty FROM ${DBHelper.productAccessories}
+          WHERE zid = ? AND xitemaccessories = ? AND xitem = ?
+        ''', [zid, existingRow[i]['xitem'], xitem]);
+          print('Searched from PA Table = ${int.parse(productAcc[0]['xqty'].toString())}') ;
+          print('Searched from CA Table = ${(existingRow[i]['xqty'] as double)}') ;
+
+          var founded = productAcc[0]['xqty'] as int;
+          var newQty = (existingRow[i]['xqty'] as double) + founded ; // cast to int before adding 1
+          print("newQty: -------------$newQty");
+          var result = await dbClient.rawQuery('''
+          UPDATE ${DBHelper.cartAccessoriesTable}
+          SET xqty = ?
+           WHERE zid = ? AND xmasteritem = ? AND xitem = ?
+            ''', [newQty, zid, xitem, existingRow[i]['xitem']]);
+          print("Updated Successfully into cartAccessoriesTable table: -------------$result");
+        }
+        // Combination of zid and xmasteritem already exists, update the quantity
+
+      } else {
+        // Combination of zid and xmasteritem does not exist, insert a new row
+        var result = await dbClient.rawQuery('''
+        INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
+        SELECT zid, xitemaccessories, name, xqty, xunit, xitem
+        FROM ${DBHelper.productAccessories}
+        WHERE xitem = ? and zid =?
+      ''', [xitem, zid]);
+        print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+      }
+    } catch(e){
+      print('There are some issues inserting/updating cartTable: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getAccessories(String xitem) async {
+    var dbClient = await conn.db;
+    try {
+      var acccItem = await dbClient!.rawQuery('''
+      SELECT zid, xitem, accName, xunit, xqty, xmasteritem  
+      FROM ${DBHelper.cartAccessoriesTable}
+      WHERE xmasteritem = ?
+    ''', [xitem]);
+      print('Accessories List = $acccItem') ;
+      return acccItem;
+    } catch(e) {
+      print('There are some issues for getting cartAccessoriesTable: $e');
+      return [];
     }
   }
 

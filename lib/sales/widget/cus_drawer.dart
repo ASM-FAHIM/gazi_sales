@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/widget/small_text.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import '../../screen/login_page.dart';
 import '../constant/colors.dart';
 import '../constant/dimensions.dart';
 import '../module/controller/login_controller.dart';
 import '../module/view/dashboard_screen.dart';
+import '../module/view/deposi_entry_screen.dart';
 import '../module/view/gift_promo_screen.dart';
 import '../module/view/history/order_history_screen.dart';
 import '../module/view/incentive_collect/dealer_list.dart';
@@ -184,19 +184,19 @@ class CusDrawer extends StatelessWidget {
                         ),
                         title: SmallText(text: 'Work note', size: 20,),
                       ),
-                      /*const CusDivider(),
+                      const CusDivider(),
                       ListTile(
                         onTap: () {
                           Get.back();
-                          Get.to(() => EODReportScreen());
+                          Get.to(() => DepositEntryScreen());
                         },
                         leading: const Icon(
-                          MdiIcons.chartAreaspline,
+                          MdiIcons.bank,
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'EOD Report', size: 20,),
-                      ),*/
+                        title: SmallText(text: 'Deposit entry', size: 20,),
+                      ),
                       const CusDivider(),
                       ListTile(
                         onTap: () {
@@ -251,7 +251,7 @@ class CusDrawer extends StatelessWidget {
                         ),
                         title: SmallText(text: 'Incentive', size: 20,),
                       ),
-                      const CusDivider(),
+                      /*const CusDivider(),
                       ListTile(
                         onTap: () {
                           Get.offAll(() => Login_page());
@@ -263,7 +263,7 @@ class CusDrawer extends StatelessWidget {
                         ),
                         title: SmallText(text: 'Logout', size: 20,),
                       ),
-                      const CusDivider(),
+                      const CusDivider(),*/
                     ],
                   ),
                 ),

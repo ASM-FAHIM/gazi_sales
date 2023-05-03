@@ -147,6 +147,23 @@ class CartController extends GetxController {
 
   }
 
+
+  /// functions for accessories
+  List<Map<String, dynamic>> cartAcc = [];
+  RxBool isAccLoaded = false.obs;
+
+  Future<void> getAccessoriesList(String productCode) async {
+    try {
+      isAccLoaded(true);
+      cartAcc = await DatabaseRepo().getAccessories(productCode);
+      isAccLoaded(false);
+      print("found cartAccessories by masterItem: $cartAcc");
+    } catch(error) {
+      isAccLoaded(false);
+      print('There are some issue getting cartAccessories List: $error');
+    }
+  }
+
   //getLatitude and longitude
   RxDouble curntLong = 0.0.obs;
   RxDouble curntLat = 0.0.obs;
