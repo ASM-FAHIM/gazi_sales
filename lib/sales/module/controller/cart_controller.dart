@@ -164,6 +164,18 @@ class CartController extends GetxController {
     }
   }
 
+
+ void updateCartAccessories(String accCode, String proCode, int plusMinus) async{
+    if(plusMinus == 1){
+      await DatabaseRepo().updateAccessories(accCode, proCode, plusMinus);
+      await getAccessoriesList(proCode);
+    }else{
+      await DatabaseRepo().updateAccessories(accCode, proCode, plusMinus);
+      await getAccessoriesList(proCode);
+    }
+
+ }
+
   //getLatitude and longitude
   RxDouble curntLong = 0.0.obs;
   RxDouble curntLat = 0.0.obs;

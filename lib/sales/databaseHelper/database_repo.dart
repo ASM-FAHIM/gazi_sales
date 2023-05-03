@@ -399,6 +399,52 @@ class DatabaseRepo{
     }
   }
 
+
+  Future<void> updateAccessories(String xitem, String xmasteritem, int qtyChange) async {
+    var dbClient = await conn.db;
+    try {
+      var result = await dbClient!.rawQuery('''
+        UPDATE ${DBHelper.cartAccessoriesTable}
+        SET xqty = xqty + ?
+        WHERE xmasteritem = ? AND xitem = ?
+        ''', [qtyChange, xmasteritem, xitem]);
+      print('Accessories List = $result');
+
+      // Check if xqty is less than or equal to 0
+      var xqtyResult = await dbClient.rawQuery('''
+        SELECT xqty FROM ${DBHelper.cartAccessoriesTable}
+        WHERE xmasteritem = ? AND xitem = ?
+        ''', [xmasteritem, xitem]);
+      print("the updated qty : $xqtyResult");
+      print("the updated qty : ${xqtyResult.first['xqty']}");
+      if (xqtyResult.isNotEmpty && xqtyResult.first['xqty'] as double <= 0) {
+        print("the updated qty : $xqtyResult");
+        await dbClient.rawQuery('''
+          DELETE FROM ${DBHelper.cartAccessoriesTable}
+          WHERE xmasteritem = ? AND xitem = ?
+          ''', [xmasteritem, xitem]);
+        print('Accessory deleted');
+      }
+
+    } catch(e) {
+      print('There are some issues for getting cartAccessoriesTable: $e');
+    }
+  }
+
+  Future<bool> deleteAccessory(int zid) async {
+    var dbClient = await conn.db;
+    try {
+      await dbClient!.rawDelete('''
+      DELETE FROM ${DBHelper.cartAccessoriesTable}
+      WHERE zid = ?
+      ''', [zid]);
+      return true;
+    } catch(e) {
+      print('There are some issues for deleting accessory: $e');
+      return false;
+    }
+  }
+
 /*  Map<String, dynamic>? singleHeader;
   Future deleteSingleCartInfo(String cartId) async{
     var dbClient = await conn.db;

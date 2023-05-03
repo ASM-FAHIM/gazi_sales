@@ -7,6 +7,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../base/no_data_page.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
+import '../../../databaseHelper/database_repo.dart';
 import '../../../widget/big_text.dart';
 
 class CartAccessoriesScreen extends StatefulWidget {
@@ -67,10 +68,10 @@ class _CartAccessoriesScreenState extends State<CartAccessoriesScreen> {
             : Container(
               child: cartController.cartAcc.isEmpty
                   ? const Center(
-                child: NoDataPage(
-                  text: 'No accessories found yet !',
-                ),
-              )
+                    child: NoDataPage(
+                      text: 'No accessories found yet !',
+                    ),
+                  )
                   : ListView.builder(
                   itemCount: cartController.cartAcc.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -78,7 +79,7 @@ class _CartAccessoriesScreenState extends State<CartAccessoriesScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: Container(
-                        height: Dimensions.height120,
+                        height: Dimensions.height120 - Dimensions.height20,
                         padding: const EdgeInsets.only(top: 5, bottom: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -120,43 +121,41 @@ class _CartAccessoriesScreenState extends State<CartAccessoriesScreen> {
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: Container(
-                                width: 150,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    IconButton(
+                            Container(
+                              width: 170,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
 
-                                      onPressed: (){
-                                        //remove quantity
-                                      },
-                                      alignment: Alignment.center,
-                                      icon: const Icon(
-                                        MdiIcons.minusCircle,
-                                        size: 35,
-                                        color: AppColor.appBarColor,
-                                      ),
+                                    onPressed: () {
+                                      cartController.updateCartAccessories(cartController.cartAcc[index]["xitem"], widget.productCode, -1);
+                                    },
+                                    alignment: Alignment.center,
+                                    icon: const Icon(
+                                      MdiIcons.minusCircle,
+                                      size: 35,
+                                      color: AppColor.appBarColor,
                                     ),
-                                    const SizedBox(width: 20,),
-                                    Text(cartController.cartAcc[index]["xqty"].toString(),
-                                      style: TextStyle(
-                                          fontFamily: GoogleFonts.poppins().fontFamily,
-                                          fontSize: 20),),
-                                    const SizedBox(width: 20,),
-                                    IconButton(
-                                      onPressed: (){
-                                        // add quantity
-                                      },
-                                      icon: const Icon(
-                                        MdiIcons.plusCircle,
-                                        size: 35,
-                                        color: AppColor.appBarColor,
-                                      ),
+                                  ),
+                                  const SizedBox(width: 20,),
+                                  Text(cartController.cartAcc[index]["xqty"].toString(),
+                                    style: TextStyle(
+                                        fontFamily: GoogleFonts.poppins().fontFamily,
+                                        fontSize: 20),),
+                                  const SizedBox(width: 20,),
+                                  IconButton(
+                                    onPressed: () {
+                                      cartController.updateCartAccessories(cartController.cartAcc[index]["xitem"], widget.productCode, 1);
+                                    },
+                                    icon: const Icon(
+                                      MdiIcons.plusCircle,
+                                      size: 35,
+                                      color: AppColor.appBarColor,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             )
                           ],
