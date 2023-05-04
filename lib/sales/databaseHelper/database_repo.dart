@@ -348,7 +348,7 @@ class DatabaseRepo{
       print("length of row: ${existingRow.length}");
 
       if (existingRow.isNotEmpty) {
-        for(int i = 0; i<= existingRow.length; i++){
+        for(int i = 0; i< existingRow.length; i++){
           var productAcc = await dbClient.rawQuery('''
           SELECT CAST(xqty AS INTEGER) as xqty FROM ${DBHelper.productAccessories}
           WHERE zid = ? AND xitemaccessories = ? AND xitem = ?
@@ -399,7 +399,7 @@ class DatabaseRepo{
     }
   }
 
-
+  //Update Accessories for inside accessories page
   Future<void> updateAccessories(String xitem, String xmasteritem, int qtyChange) async {
     var dbClient = await conn.db;
     try {
@@ -428,6 +428,55 @@ class DatabaseRepo{
 
     } catch(e) {
       print('There are some issues for getting cartAccessoriesTable: $e');
+    }
+  }
+
+  //update accessories from cart page
+  Future<void> updateFromCartScreenAccessories(String zid,String xmasteritem, int qtyChange) async {
+    var dbClient = await conn.db;
+    print('Qty from cart screen: $qtyChange');
+    try{
+      if (qtyChange==0) {
+        print("the updated qty : $qtyChange");
+        await dbClient!.rawQuery('''
+          DELETE FROM ${DBHelper.cartAccessoriesTable}
+          WHERE xmasteritem = ?
+          ''', [xmasteritem]);
+        print('Accessory deleted');
+      }else{
+        var existingRow = await dbClient!.rawQuery('''
+        SELECT * FROM ${DBHelper.cartAccessoriesTable}
+        WHERE xmasteritem = ?
+        ''', [xmasteritem]);
+
+        print("length of row: ${existingRow.length}");
+
+        if (existingRow.isNotEmpty) {
+          for(int i = 0; i< existingRow.length; i++){
+            // cast to int before adding 1
+            var qtyFromPA = await dbClient.rawQuery('''
+             SELECT CAST(xqty AS INTEGER) as xqty FROM ${DBHelper.productAccessories}
+             WHERE zid = ? AND xitemaccessories = ? AND xitem = ?
+           ''', [zid, existingRow[i]['xitem'], xmasteritem]);
+            var qty = qtyFromPA[0]['xqty'];
+            print("Length of qtyFromPA: -------------${qtyFromPA.length}");
+
+            print("newQty from for loop: -------------$qty");
+            var result = await dbClient.rawQuery('''
+          UPDATE ${DBHelper.cartAccessoriesTable}
+          SET xqty = ? * ?
+           WHERE xmasteritem = ? AND xitem = ?
+            ''', [qty,qtyChange,xmasteritem, existingRow[i]['xitem']]);
+            print("Updated Successfully into cartAccessoriesTable table: -------------$result");
+
+
+          }
+          // Combination of zid and xmasteritem already exists, update the quantity
+
+        }
+      }
+    } catch(e){
+      print('There are some issues inserting/updating cartTable: $e');
     }
   }
 

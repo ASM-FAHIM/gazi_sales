@@ -77,41 +77,47 @@ class CartController extends GetxController {
    }
   }
 
-  void increment(String productId) {
+  void increment(String productId) async{
     for (int i = 0; i < addedProducts.length; i++) {
       if (addedProducts[i][0] == productId) {
         int tempCount;
         tempCount = int.parse(addedProducts[i][1]);
         addedProducts[i][1] = (tempCount + 1).toString();
-        updateQuantity(addedProducts[i][0], int.parse(addedProducts[i][1]));
+        //updateQuantity(addedProducts[i][0], int.parse(addedProducts[i][1]));
+        await updateFromCartScreenAcc(productId,int.parse(addedProducts[i][1]));
       }
     }
     totalClicked();
     update();
+
   }
 
-  void decrement(String productId) {
+  void decrement(String productId) async{
     for (int i = 0; i < addedProducts.length; i++) {
       if (addedProducts[i][0] == productId) {
         if (addedProducts[i][1] == '1') {
           addedProducts.removeAt(i);
+          await updateFromCartScreenAcc(productId,0);
         } else {
           int tempCount;
           tempCount = int.parse(addedProducts[i][1]);
           addedProducts[i][1] = (tempCount - 1).toString();
+          await updateFromCartScreenAcc(productId,int.parse(addedProducts[i][1]));
         }
       }
     }
     totalClicked();
     update();
+
   }
 
   //update for textfield
-  void updateQuantity(String item, int quantity) {
+  void updateQuantity(String item, int quantity) async{
     for (var i = 0; i < addedProducts.length; i++) {
       if (addedProducts[i][0] == item) {
         addedProducts[i][1] = quantity.toString();
         update();
+        await updateFromCartScreenAcc(item,int.parse(addedProducts[i][1]));
         break;
       }
     }
@@ -149,6 +155,8 @@ class CartController extends GetxController {
 
 
   /// functions for accessories
+  ///
+
   List<Map<String, dynamic>> cartAcc = [];
   RxBool isAccLoaded = false.obs;
 
@@ -176,6 +184,20 @@ class CartController extends GetxController {
 
  }
 
+// method for accessories update from cart screeen
+  List<Map<String, dynamic>> cartScreenAcc = [];
+  RxBool isCartAccLoaded = false.obs;
+  Future<void> updateFromCartScreenAcc(String productCode,int qty) async {
+    try {
+      isCartAccLoaded(true);
+      await DatabaseRepo().updateFromCartScreenAccessories(loginController.zID.value,productCode,qty);
+      isCartAccLoaded(false);
+      print("found cartAccessories by masterItem: $cartScreenAcc");
+    } catch(error) {
+      isCartAccLoaded(false);
+      print('There are some issue getting cartAccessories List: $error');
+    }
+  }
   //getLatitude and longitude
   RxDouble curntLong = 0.0.obs;
   RxDouble curntLat = 0.0.obs;
