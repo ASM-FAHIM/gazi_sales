@@ -18,9 +18,6 @@ class ProductsScreen extends StatefulWidget {
   String xcus;
   String xOrg;
   String xterritory;
-  String xareaop;
-  String xdivisionop;
-  String xsubcat;
   String xgcus;
 
   ProductsScreen({
@@ -28,9 +25,6 @@ class ProductsScreen extends StatefulWidget {
     required this.xcus,
     required this.xOrg,
     required this.xterritory,
-    required this.xareaop,
-    required this.xdivisionop,
-    required this.xsubcat,
     required this.xgcus,
   })
       : super(key: key);
@@ -232,9 +226,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
               xcus: widget.xcus,
               xOrg: widget.xOrg,
               xterritory: widget.xterritory,
-              xareaop: widget.xareaop,
-              xdivisionop: widget.xdivisionop,
-              xsubcat: widget.xsubcat,
             ));
           },
           label: Row(

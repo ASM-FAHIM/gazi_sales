@@ -124,19 +124,19 @@ class DatabaseRepo{
     List productList = [];
     try{
       if(dealerType == 'Dealer'){
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xdealerp as totrate FROM ${DBHelper.productTable}');
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature FROM ${DBHelper.productTable}');
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
         }
       }else if(dealerType == 'Corporate'){
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xrate as totrate FROM ${DBHelper.productTable}');
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xrate as totrate, xpnature FROM ${DBHelper.productTable}');
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
         }
       }else{
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xmrp as totrate FROM ${DBHelper.productTable}');
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xmrp as totrate, xpnature FROM ${DBHelper.productTable}');
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
@@ -254,6 +254,7 @@ class DatabaseRepo{
 
   //inserting cart_details table
   Future<int> cartDetailsInsert(Map<String, dynamic> data ) async{
+    print('Called from cartDetailsInsert');
     var dbClient = await conn.db;
     int result = 0;
     try{
@@ -264,6 +265,35 @@ class DatabaseRepo{
     }
     return result;
   }
+
+
+  Future<void> cartTableAccInsert(String xitem, String zid, String cartID ) async{
+    print('Called from cartTableAccInsert');
+    var dbClient = await conn.db;
+    int result = 0;
+    try{
+      var result = await dbClient!.rawQuery('''
+        INSERT INTO ${DBHelper.cartDetailsTable} (zid,  cartID, xitem,  xdesc, xunit,  xrate, xqty, subTotal, yes_no, xmasteritem)
+        SELECT zid, ?, xitem, accName, xunit, 0, xqty, 0,'Yes',  ? 
+        FROM ${DBHelper.cartAccessoriesTable}
+        WHERE xmasteritem = ? and zid =?
+      ''', [cartID,xitem, xitem, zid]);
+       print("Inserted Successfully in details table : -------------$result");
+    }catch(e){
+      print('There are some issues inserting product from accessoories table to cart details table: $e');
+    }
+  }
+
+  /*zid INTEGER,
+      cartID VARCHAR(150) NOT NULL,
+      xitem VARCHAR(150),
+  xdesc VARCHAR(150),
+  xunit VARCHAR(150),
+  xrate REAL,
+      xqty REAL,
+  subTotal REAL,
+  yes_no VARCHAR(20),
+  xmasteritem VARCHAR(20),*/
 
   //cartHeaderInfo
   Future getCartHeader() async{

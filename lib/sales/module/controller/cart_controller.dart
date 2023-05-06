@@ -21,7 +21,7 @@ class CartController extends GetxController {
   List<List<String>> addedProducts = [];
 
   Future<void> generateSoNumber() async{
-    var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/getsonum.php'));
+    var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/getsonum.php?zid=${loginController.zID.value}'));
     if(response.statusCode == 200) {
       SoModel? data = soModelFromJson(response.body);
       print('So number : ${data!.sOnum}');
@@ -235,52 +235,57 @@ class CartController extends GetxController {
   //for getting CartId and Insert it to the cart Table as well as Cart_details Table
   RxInt cartTableMax = 0.obs;
   RxBool saving = false.obs;
-  Future<void> insertToCart(String tsoId, String Xsp, String cusId, String xOrg, String xterritory, String xareaop, String xdivision, String xsubcat, String status) async {
+  Future<void> insertToCart(String cusId, String xOrg, String status) async {
     try{
       saving(true);
       cartTableMax.value = await DatabaseRepo().getCartID();
       var cartID = 'C-00${(cartTableMax + 1)}';
       Map<String, dynamic> cartInsert = {
         'zid': loginController.zID.value,
-        'xwh': loginController.xwh.value,
         'cartID': cartID,
-        'xso': tsoId,
-        'xsp': Xsp,
+        'xtso': loginController.xtso.value,
         'xcus': cusId,
         'xorg': xOrg,
-        'xterritory': xterritory,
-        'xareaop': xareaop,
-        'xdivision': xdivision,
-        'xsubcat': xsubcat,
-        'xdelivershift': dropDownValue.value,
+        'xterritory': loginController.xterritory.value,
         'total': totalPrice.toDouble(),
-        'totalPackQty': totalPackQty.toDouble(),
+        'xfwh': 30, // need to check again
+        'xdm': loginController.xDM.value,
+        'xdivision': loginController.xDivision.value,
+        'xzm': loginController.xZM.value,
+        'xzone': loginController.xZone.value,
+        'xpnature': "Tank", //need to check again
         'lattitude': '$curntLat',
         'longitude' : '$curntLong',
         'xstatus': status
       };
-      DatabaseRepo().cartInsert(cartInsert);
+
+      await DatabaseRepo().cartInsert(cartInsert);
       for (int i = 0; i < addedProducts.length; i++) {
+        print('Inside from for details');
         String xItem = addedProducts[i][0];
         double qty = double.parse(addedProducts[i][1]);
         String xDesc = addedProducts[i][2];
         double itemPrice = double.parse(addedProducts[i][3]);
         double subTotal = qty * itemPrice;
         String xunit = addedProducts[i][4];
-        double itemPackQty = double.parse(addedProducts[i][5]);
-        double subPackQty = qty * itemPackQty;
+        // double itemPackQty = double.parse(addedProducts[i][5]);
+        // double subPackQty = qty * itemPackQty;
         Map<String, dynamic> cartDetailsInsert = {
           'zid': loginController.zID.value,
           'cartID': cartID,
           'xitem': xItem,
           'xdesc': xDesc,
           'xunit': xunit,
-          'xrate': itemPrice,
-          'xqty': qty,
-          'subTotal': subTotal,
-          'subPackQty': subPackQty,
+          'xrate': itemPrice.toString(),
+          'xqty': qty.toString(),
+          'subTotal': subTotal.toString(),
+          'yes_no': 'No',
+          'xmasteritem': xItem,
         };
-        DatabaseRepo().cartDetailsInsert(cartDetailsInsert);
+        print('Calling cartDetailsInsert');
+        await DatabaseRepo().cartDetailsInsert(cartDetailsInsert);
+        print('Calling cartTableAccInsert');
+        await DatabaseRepo().cartTableAccInsert(xItem, loginController.zID.value, cartID);
       }
       saving(false);
       Get.back();
@@ -354,10 +359,12 @@ class CartController extends GetxController {
 
   //for place order button
   RxBool isPlaced= false.obs;
-  Future<void> placeOrder(String tsoId, String Xsp, String cusId, String xOrg, String xterritory, String xareaop, String xdivision, String xsubcat, String status) async{
+
+
+  Future<void> placeOrder(String cusId, String xOrg, String status) async{
     isPlaced(true);
     await getGeoLocationPosition();
-    await insertToCart(tsoId, Xsp,cusId, xOrg, xterritory, xareaop, xdivision, xsubcat, status);
+    await insertToCart(cusId, xOrg, status);
     isPlaced(false);
   }
 
@@ -390,18 +397,37 @@ class CartController extends GetxController {
                       "zid" : "${listCartHeader[i]['zid']}",
                       "xtornum" : customId.value,
                       "xdate" : "${listCartHeader[i]['createdAt']}",
-                      "xstatustor" : "Applied",
                       "xcus" : "${listCartHeader[i]['xcus']}",
-                      "xidsup" : loginController.xsid.value,
                       "xpreparer" : loginController.xstaff.value,
                       "xterritory" : "${listCartHeader[i]['xterritory']}",
-                      "xtso" : "${listCartHeader[i]['xso']}",
-                      "xsp" : "${listCartHeader[i]['xsp']}",
+                      "xtso" : "${listCartHeader[i]['xtso']}",
+                      "xdm" : "${listCartHeader[i]['xdm']}",
                       "xtotamt" : '${listCartHeader[i]['total']}',
-                      "xfwh" : '${listCartHeader[i]['xwh']}',
+                      "xfwh" : '${listCartHeader[i]['xfwh']}',
+                      "xdivision" : '${listCartHeader[i]['xdivision']}',
+                      "xpnature" : '${listCartHeader[i]['xpnature']}',
+                      "xzm" : '${listCartHeader[i]['xzm']}',
+                      "xzone" : '${listCartHeader[i]['xzone']}',
                     });
+
+                   /* $zid = $data["zid"];
+                    $zauserid = $data["zauserid"];
+                    $xtornum = $data["xtornum"];
+                    $xdate = $data["xdate"];
+                    $xcus = $data["xcus"];
+                    $xpreparer = $data["xpreparer"];
+                    $xterritory = $data["xterritory"];
+                    $xtso = $data["xtso"];
+                    $xdm = $data["xdm"];
+                    $xtotamt = $data["xtotamt"];
+                    $xfwh = $data["xfwh"];
+                    $xdivision = $data["xdivision"];
+                    $xpnature = $data["xpnature"];
+                    $xzm = $data["xzm"];
+                    $xzone = $data["xzone"];*/
+
                     var responseHeader = await http.post(
-                        Uri.parse('http://${AppConstants.baseurl}/salesforce/SOtableInsert.php'),
+                        Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
                         body: dataHeader);
                     var tempHeader = '${listCartHeader[i]['cartID']}';
                     await getCartHeaderDetailsList(tempHeader);
@@ -415,14 +441,29 @@ class CartController extends GetxController {
                         "xunit" : listCartHeaderDetails[j]['xunit'],
                         "qty" : listCartHeaderDetails[j]['xqty'],
                         "amount" : listCartHeaderDetails[j]['subTotal'],
+                        "xpartno" : listCartHeaderDetails[j]['yes_no'],
+                        "xmasteritem" : listCartHeaderDetails[j]['xmasteritem'],
                       });
+
+                      /*$zid = $data["zid"]; //added by Monyeem
+                      $zauserid = $data["zauserid"];
+                      $xtornum = $data["xtornum"];
+                      $xrow = $data["xrow"];
+                      $xitem = $data["xitem"];
+                      $xunit = $data["xunit"];
+                      $qty = $data["qty"];
+                      $amount = $data["amount"];
+                      $xpartno = $data["xpartno"];
+                      $xmasteritem = $data["xmasteritem"];*/
+
+
                       var responseDetails = await http.post(
-                          Uri.parse('http://${AppConstants.baseurl}/salesforce/SOdetailsTableInsert.php'),
+                          Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                           body: dataDetails);
                       print('Details Data: ${responseDetails.body}');
                     }
                     var updateSO = await http.get(
-                        Uri.parse('http://${AppConstants.baseurl}/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
+                        Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
                     if(updateSO.statusCode == 200){
                       print('Successfully updated');
                     }
@@ -464,7 +505,7 @@ class CartController extends GetxController {
 
   //instant order
   RxBool isSync = false.obs;
-  Future<void> syncNow(String tsoId,String Xsp, String cusId, String xOrg, String xterritory, String xareaop, String xdivision, String xsubcat, BuildContext context) async{
+  Future<void> syncNow(String cusId, String xOrg, BuildContext context) async{
     try{
       final StreamSubscription<InternetConnectionStatus> listener =
           InternetConnectionChecker().onStatusChange.listen(
@@ -474,7 +515,7 @@ class CartController extends GetxController {
                 //code
                 isSync(true);
                 await getGeoLocationPosition();
-                await insertToCart(tsoId,Xsp, cusId, xOrg, xterritory, xareaop, xdivision, xsubcat,'Applied');
+                await insertToCart(cusId, xOrg,'Applied');
                 await getCartHeaderListForSync();
                 int i = (listCartHeaderForSync.length - 1);
                 await generateSoNumber();
@@ -483,18 +524,22 @@ class CartController extends GetxController {
                   "zid" : "${listCartHeaderForSync[i]['zid']}",
                   "xtornum" : customId.value,
                   "xdate" : "${listCartHeaderForSync[i]['createdAt']}",
-                  "xstatustor" : "Applied",
                   "xcus" : "${listCartHeaderForSync[i]['xcus']}",
-                  "xidsup" : loginController.xsid.value,
                   "xpreparer" : loginController.xstaff.value,
                   "xterritory" : "${listCartHeaderForSync[i]['xterritory']}",
-                  "xtso" : "${listCartHeaderForSync[i]['xso']}",
-                  "xsp" : "${listCartHeaderForSync[i]['xsp']}",
-                  "xtotamt" : listCartHeaderForSync[i]['total'],
-                  "xfwh" : '${listCartHeaderForSync[i]['xwh']}',
+                  "xtso" : "${listCartHeaderForSync[i]['xtso']}",
+                  "xdm" : "${listCartHeaderForSync[i]['xdm']}",
+                  "xtotamt" : '${listCartHeaderForSync[i]['total']}',
+                  "xfwh" : '${listCartHeaderForSync[i]['xfwh']}',
+                  "xdivision" : '${listCartHeaderForSync[i]['xdivision']}',
+                  "xpnature" : '${listCartHeaderForSync[i]['xpnature']}',
+                  "xzm" : '${listCartHeaderForSync[i]['xzm']}',
+                  "xzone" : '${listCartHeaderForSync[i]['xzone']}',
                 });
+
+
                 var responseHeader = await http.post(
-                    Uri.parse('http://${AppConstants.baseurl}/salesforce/SOtableInsert.php'),
+                    Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
                     body: dataHeader);
                 var tempHeader = '${listCartHeaderForSync[i]['cartID']}';
                 await getCartHeaderDetailsListForSync(tempHeader);
@@ -508,15 +553,17 @@ class CartController extends GetxController {
                     "xunit" : listCartHeaderDetailsForSync[j]['xunit'],
                     "qty" : listCartHeaderDetailsForSync[j]['xqty'],
                     "amount" : listCartHeaderDetailsForSync[j]['subTotal'],
+                    "xpartno" : listCartHeaderDetailsForSync[j]['yes_no'],
+                    "xmasteritem" : listCartHeaderDetailsForSync[j]['xmasteritem'],
                   });
                   var responseDetails = await http.post(
-                      Uri.parse('http://${AppConstants.baseurl}/salesforce/SOdetailsTableInsert.php'),
+                      Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                       body: dataDetails);
                   print('so details = $responseDetails');
                 }
                 await getCartHeaderList();
                 var updateSO = await http.get(
-                    Uri.parse('http://${AppConstants.baseurl}/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
+                    Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
                 if(updateSO.statusCode == 200){
                   print('Successfully updated----${updateSO.statusCode}');
                   isSync(false);
@@ -603,7 +650,7 @@ class CartController extends GetxController {
                   "xfwh" : '${idWiseCartHeader[0]['xwh']}',
                 });
                 var responseHeader = await http.post(
-                    Uri.parse('http://${AppConstants.baseurl}/salesforce/SOtableInsert.php'),
+                    Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
                     body: dataHeader);
                 print('Cart header is uploaded: $responseHeader');
                 await getIdWiseCartDetailsList(cartID);
@@ -619,14 +666,14 @@ class CartController extends GetxController {
                     "amount" : idWiseCartHeaderDetails[0]['subTotal'],
                   });
                   var responseDetails = await http.post(
-                      Uri.parse('http://${AppConstants.baseurl}/salesforce/SOdetailsTableInsert.php'),
+                      Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                       body: dataDetails);
                   print('so details = $responseDetails');
                 }
                 await updateCartHeaderStatus(cartID);
                 await getCartHeaderList();
                 var updateSO = await http.get(
-                    Uri.parse('http://${AppConstants.baseurl}/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
+                    Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
                 if(updateSO.statusCode == 200){
                   print('Successfully updated----${updateSO.statusCode}');
                   Get.snackbar(

@@ -109,9 +109,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                     xcus: dashboardController.foundDealerList[index]['xcus'].toString(),
                                     xOrg: dashboardController.foundDealerList[index]['xorg'].toString(),
                                     xterritory: dashboardController.foundDealerList[index]['xterritory'].toString(),
-                                    xareaop: dashboardController.foundDealerList[index]['xareaop'].toString(),
-                                    xdivisionop: dashboardController.foundDealerList[index]['xdivisionop'].toString(),
-                                    xsubcat: dashboardController.foundDealerList[index]['xsubcat'].toString(),
                                     xgcus: dashboardController.foundDealerList[index]['xgcus'].toString(),
                                   ));
                                 },

@@ -15,18 +15,11 @@ class CartTotal extends StatelessWidget {
   String xCus;
   String xOrg;
   String xterritory;
-  String xareaop;
-  String xdivisionop;
-  String xsubcat;
-
   CartTotal({
     Key? key,
     required this.xCus,
     required this.xOrg,
     required this.xterritory,
-    required this.xareaop,
-    required this.xdivisionop,
-    required this.xsubcat,
   }) : super(key: key);
 
   @override
@@ -77,7 +70,7 @@ class CartTotal extends StatelessWidget {
                       onPressed: () async{
                         print('The xsp value from dealer table is: ${loginController.xsp.value}');
                         showDialog(context: context, builder: (BuildContext context){
-                          return ReusableAlert(cartController: cartController, xso: loginController.xtso.value, xsp: loginController.xsp.value, xCus: xCus, xOrg: xOrg, xterritory: xterritory, xareaop: xareaop, xdivisionop: xdivisionop, xsubcat: xsubcat);
+                          return ReusableAlert(cartController: cartController, xCus: xCus, xOrg: xOrg,);
                         });
                       },
                       child:  cartController.isSync.value
@@ -106,8 +99,8 @@ class CartTotal extends StatelessWidget {
                     clipBehavior: Clip.hardEdge,
                     child: ElevatedButton(
                       onPressed: () async{
-                        print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                        await cartController.placeOrder(loginController.xtso.value,loginController.xsp.value, xCus, xOrg, xterritory, xareaop, xdivisionop, xsubcat,'Open');
+                        //print('The xsp value from dealer table is: ${loginController.xsp.value}');
+                        await cartController.placeOrder(xCus, xOrg, 'Open');
                       },
                       style: ElevatedButton.styleFrom(primary: AppColor.appBarColor,),
                       child: cartController.isPlaced.value
@@ -136,25 +129,13 @@ class ReusableAlert extends StatelessWidget {
   const ReusableAlert({
     Key? key,
     required this.cartController,
-    required this.xso,
-    required this.xsp,
-    required this.xCus,
     required this.xOrg,
-    required this.xterritory,
-    required this.xareaop,
-    required this.xdivisionop,
-    required this.xsubcat,
+    required this.xCus,
   }) : super(key: key);
 
   final CartController cartController;
-  final String xso;
-  final String xsp;
-  final String xCus;
   final String xOrg;
-  final String xterritory;
-  final String xareaop;
-  final String xdivisionop;
-  final String xsubcat;
+  final String xCus;
 
   @override
   Widget build(BuildContext context) {
@@ -202,15 +183,7 @@ class ReusableAlert extends StatelessWidget {
           ),
           onPressed: () async{
             Navigator.pop(context);
-            await cartController.syncNow(
-                xso,
-                xsp,
-                xCus,
-                xOrg,
-                xterritory,
-                xareaop,
-                xdivisionop,
-                xsubcat, context);
+            await cartController.syncNow(xCus, xOrg, context);
           },
         ),
       ],

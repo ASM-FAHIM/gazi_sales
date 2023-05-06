@@ -141,24 +141,24 @@ class DBHelper{
         CREATE TABLE $cartTable (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           zid INTEGER,
-          xwh VARCHAR(150),
-          cartID VARCHAR(150),
-          xso VARCHAR(150), 
-          xsp VARCHAR(150),
-          xcus VARCHAR(150),
+          cartID VARCHAR(50),
+          xcus VARCHAR(50),
+          xtso VARCHAR(50),
           xorg VARCHAR(150),
           xterritory VARCHAR(150),
-          xareaop VARCHAR(150),
-          xdivision VARCHAR(150),
-          xsubcat VARCHAR(150),
-          xdelivershift VARCHAR(150),
           total REAL,
-          totalPackQty REAL,
+          xfwh VARCHAR(50),
+          xdm VARCHAR(50), 
+          xdivision VARCHAR(150),
+          xzm VARCHAR(50),
+          xzone VARCHAR(50), 
+          xpnature VARCHAR(150),
           lattitude VARCHAR(150),
           longitude VARCHAR(150),
           xstatus VARCHAR(150),
           createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
           )""");
+
           await db.execute("""
         CREATE TABLE $cartDetailsTable (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -170,7 +170,6 @@ class DBHelper{
           xrate REAL,
           xqty REAL,
           subTotal REAL,
-          subPackQty REAL,
           yes_no VARCHAR(20),
           xmasteritem VARCHAR(20),
           FOREIGN KEY (cartID) REFERENCES $cartTable(cartID)
