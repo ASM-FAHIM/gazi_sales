@@ -393,7 +393,7 @@ class CartController extends GetxController {
                   for(int i = 0; i< listCartHeader.length; i++){
                     await generateSoNumber();
                     var dataHeader = jsonEncode(<String, dynamic>{
-                      "zauserid" : loginController.xposition.value,
+                      "zauserid" : loginController.xstaff.value,
                       "zid" : "${listCartHeader[i]['zid']}",
                       "xtornum" : customId.value,
                       "xdate" : "${listCartHeader[i]['createdAt']}",
@@ -434,7 +434,7 @@ class CartController extends GetxController {
                     for(int j = 0; j< listCartHeaderDetails.length; j++){
                       var dataDetails = jsonEncode(<String, dynamic>{
                         "zid" : listCartHeaderDetails[j]['zid'],
-                        "zauserid" : loginController.xposition.value,
+                        "zauserid" : loginController.xstaff.value,
                         "xtornum" : customId.value,
                         "xrow" : "${j+1}",
                         "xitem" : listCartHeaderDetails[j]['xitem'],
