@@ -143,7 +143,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         child: Container(
                           height: Dimensions.height70 + Dimensions.height30,
                           clipBehavior: Clip.hardEdge,
-                          padding: EdgeInsets.only(left: 10),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20.0),
@@ -169,48 +168,31 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 backgroundColor: Colors.white,
 
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        BigText(text: '${dashboardController.productList[index]["xdesc"]}', size: 14,),
-                                        SmallText(text: '${dashboardController.productList[index]["xitem"]}', size: 12, color: Colors.grey,),
-                                        SmallText(text: '${dashboardController.productList[index]["xunit"]}', size: 12, color: Colors.grey,),
-                                        SmallText(text: '${dashboardController.productList[index]["color"]}', size: 12, color: Colors.grey,),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Icon(MdiIcons.currencyBdt, size: 20, color: Colors.red,),
-                                            Text('${dashboardController.updatedProductList[index]}',style: GoogleFonts.roboto(color: Colors.black, fontSize: 18),),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    /*Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Icon(MdiIcons.currencyBdt, size: 20, color: Colors.red,),
-                                            Text('${dashboardController.updatedProductList[index]}',style: GoogleFonts.roboto(color: Colors.black, fontSize: 18),),
-                                          ],
-                                        ),
-
-                                      ],
-                                    )*/
-                                  ],
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  BigText(text: '${dashboardController.productList[index]["xdesc"]}', size: 14,),
+                                  SmallText(text: '${dashboardController.productList[index]["xitem"]}', size: 12, color: Colors.grey,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SmallText(text: 'Unit: ${dashboardController.productList[index]["xunit"]}', size: 14, color: Colors.grey,),
+                                      SmallText(text: 'Color: ${dashboardController.productList[index]["color"]}', size: 14, color: Colors.grey,),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Icon(MdiIcons.currencyBdt, size: 20, color: Colors.red,),
+                                          Text('${dashboardController.updatedProductList[index]}',style: GoogleFonts.roboto(color: Colors.black, fontSize: 18),),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),

@@ -100,7 +100,7 @@ class CartTotal extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async{
                         //print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                        await cartController.placeOrder(xCus, xOrg, 'Open');
+                        await cartController.saveOrder(xCus, xOrg, 'Open');
                       },
                       style: ElevatedButton.styleFrom(primary: AppColor.appBarColor,),
                       child: cartController.isPlaced.value
@@ -183,7 +183,7 @@ class ReusableAlert extends StatelessWidget {
           ),
           onPressed: () async{
             Navigator.pop(context);
-            await cartController.syncNow(xCus, xOrg, context);
+            await cartController.placeOrder(xCus, xOrg, context);
           },
         ),
       ],

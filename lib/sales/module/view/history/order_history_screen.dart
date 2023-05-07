@@ -114,8 +114,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     SmallText(text: '${cartHeader['total'].toStringAsFixed(2)}', size: 18, color: AppColor.defWhite,),
-                                    const Icon(MdiIcons.currencyBdt, color: AppColor.defWhite, size: 18,),
-                                    SmallText(text: '${cartHeader['totalPackQty']} LTR', size: 10, color: AppColor.defWhite,),
+                                    const Icon(MdiIcons.currencyBdt, color: AppColor.defWhite, size: 22,),
                                   ],
                                 ),
                               ],
