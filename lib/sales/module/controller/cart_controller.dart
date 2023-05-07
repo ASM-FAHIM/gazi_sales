@@ -268,6 +268,7 @@ class CartController extends GetxController {
         double itemPrice = double.parse(addedProducts[i][3]);
         double subTotal = qty * itemPrice;
         String xunit = addedProducts[i][4];
+        // String color = addedProducts[i][5];
         // double itemPackQty = double.parse(addedProducts[i][5]);
         // double subPackQty = qty * itemPackQty;
         Map<String, dynamic> cartDetailsInsert = {
@@ -287,6 +288,8 @@ class CartController extends GetxController {
         print('Calling cartTableAccInsert');
         await DatabaseRepo().cartTableAccInsert(xItem, loginController.zID.value, cartID);
       }
+      print('Delete cart accessories table c cartTableAccInsert');
+      await DatabaseRepo().deleteAccessory();
       saving(false);
       Get.back();
       Get.back();
@@ -329,6 +332,20 @@ class CartController extends GetxController {
     }
   }
 
+  //for getting cart accessories List from cart details table
+  List listCartAccessoriesDetails = [];
+  RxBool isAccLoad = false.obs;
+  Future<void> getCarHisAccList(String cartId,String productId) async{
+    try{
+      isAccLoad(true);
+      listCartAccessoriesDetails = await DatabaseRepo().getCartHistoryAccessories(cartId, productId);
+      print(listCartAccessoriesDetails);
+      isAccLoad(false);
+    }catch(error){
+      print('There are some issue: $error');
+    }
+  }
+
   //for getting cart_List from cart table
   List listCartHeaderForSync = [];
   RxBool isLoadingForSync = false.obs;
@@ -361,7 +378,7 @@ class CartController extends GetxController {
   RxBool isPlaced= false.obs;
 
 
-  Future<void> placeOrder(String cusId, String xOrg, String status) async{
+  Future<void> saveOrder(String cusId, String xOrg, String status) async{
     isPlaced(true);
     await getGeoLocationPosition();
     await insertToCart(cusId, xOrg, status);
@@ -410,22 +427,6 @@ class CartController extends GetxController {
                       "xzone" : '${listCartHeader[i]['xzone']}',
                     });
 
-                   /* $zid = $data["zid"];
-                    $zauserid = $data["zauserid"];
-                    $xtornum = $data["xtornum"];
-                    $xdate = $data["xdate"];
-                    $xcus = $data["xcus"];
-                    $xpreparer = $data["xpreparer"];
-                    $xterritory = $data["xterritory"];
-                    $xtso = $data["xtso"];
-                    $xdm = $data["xdm"];
-                    $xtotamt = $data["xtotamt"];
-                    $xfwh = $data["xfwh"];
-                    $xdivision = $data["xdivision"];
-                    $xpnature = $data["xpnature"];
-                    $xzm = $data["xzm"];
-                    $xzone = $data["xzone"];*/
-
                     var responseHeader = await http.post(
                         Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
                         body: dataHeader);
@@ -444,18 +445,6 @@ class CartController extends GetxController {
                         "xpartno" : listCartHeaderDetails[j]['yes_no'],
                         "xmasteritem" : listCartHeaderDetails[j]['xmasteritem'],
                       });
-
-                      /*$zid = $data["zid"]; //added by Monyeem
-                      $zauserid = $data["zauserid"];
-                      $xtornum = $data["xtornum"];
-                      $xrow = $data["xrow"];
-                      $xitem = $data["xitem"];
-                      $xunit = $data["xunit"];
-                      $qty = $data["qty"];
-                      $amount = $data["amount"];
-                      $xpartno = $data["xpartno"];
-                      $xmasteritem = $data["xmasteritem"];*/
-
 
                       var responseDetails = await http.post(
                           Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
@@ -505,7 +494,7 @@ class CartController extends GetxController {
 
   //instant order
   RxBool isSync = false.obs;
-  Future<void> syncNow(String cusId, String xOrg, BuildContext context) async{
+  Future<void> placeOrder(String cusId, String xOrg, BuildContext context) async{
     try{
       final StreamSubscription<InternetConnectionStatus> listener =
           InternetConnectionChecker().onStatusChange.listen(
@@ -633,21 +622,24 @@ class CartController extends GetxController {
                 isLoading(true);
                 await getIdWiseCartHeaderList(cartID);
                 int i = (idWiseCartHeader.length);
+                print('idWise cart Header: $i');
                 await generateSoNumber();
                 var dataHeader = jsonEncode(<String, dynamic>{
                   "zauserid" : loginController.xposition.value,
                   "zid" : "${idWiseCartHeader[0]['zid']}",
                   "xtornum" : customId.value,
                   "xdate" : "${idWiseCartHeader[0]['createdAt']}",
-                  "xstatustor" : "Applied",
                   "xcus" : "${idWiseCartHeader[0]['xcus']}",
-                  "xidsup" : loginController.xsid.value,
                   "xpreparer" : loginController.xstaff.value,
                   "xterritory" : "${idWiseCartHeader[0]['xterritory']}",
-                  "xtso" : "${idWiseCartHeader[0]['xso']}",
-                  "xsp" : "${idWiseCartHeader[0]['xsp']}",
-                  "xtotamt" : idWiseCartHeader[0]['total'],
-                  "xfwh" : '${idWiseCartHeader[0]['xwh']}',
+                  "xtso" : "${idWiseCartHeader[0]['xtso']}",
+                  "xdm" : "${idWiseCartHeader[0]['xdm']}",
+                  "xtotamt" : '${idWiseCartHeader[0]['total']}',
+                  "xfwh" : '${idWiseCartHeader[0]['xfwh']}',
+                  "xdivision" : '${idWiseCartHeader[0]['xdivision']}',
+                  "xpnature" : '${idWiseCartHeader[0]['xpnature']}',
+                  "xzm" : '${idWiseCartHeader[0]['xzm']}',
+                  "xzone" : '${idWiseCartHeader[0]['xzone']}',
                 });
                 var responseHeader = await http.post(
                     Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
@@ -656,14 +648,16 @@ class CartController extends GetxController {
                 await getIdWiseCartDetailsList(cartID);
                 for(int j = 0; j< idWiseCartHeaderDetails.length; j++){
                   var dataDetails = jsonEncode(<String, dynamic>{
-                    "zid" : idWiseCartHeaderDetails[0]['zid'],
+                    "zid" : idWiseCartHeaderDetails[j]['zid'],
                     "zauserid" : loginController.xposition.value,
                     "xtornum" : customId.value,
                     "xrow" : "${j+1}",
-                    "xitem" : idWiseCartHeaderDetails[0]['xitem'],
-                    "xunit" : idWiseCartHeaderDetails[0]['xunit'],
-                    "qty" : idWiseCartHeaderDetails[0]['xqty'],
-                    "amount" : idWiseCartHeaderDetails[0]['subTotal'],
+                    "xitem" : idWiseCartHeaderDetails[j]['xitem'],
+                    "xunit" : idWiseCartHeaderDetails[j]['xunit'],
+                    "qty" : idWiseCartHeaderDetails[j]['xqty'],
+                    "amount" : idWiseCartHeaderDetails[j]['subTotal'],
+                    "xpartno" : idWiseCartHeaderDetails[j]['yes_no'],
+                    "xmasteritem" : idWiseCartHeaderDetails[j]['xmasteritem'],
                   });
                   var responseDetails = await http.post(
                       Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
@@ -716,12 +710,27 @@ class CartController extends GetxController {
 
   //update cartdetails
   TextEditingController quantity = TextEditingController();
-  Future<void> updateItemWiseCartDetails(String cartID, String itemCode, String qty, String price, String packQty)async{
+  Future<void> updateItemWiseCartDetails(String cartID, String itemCode, String qty, String price, String zId)async{
     try{
-      await DatabaseRepo().updateCartDetailsTable(cartID, itemCode, qty, price, packQty);
+      await DatabaseRepo().updateCartDetailsTable(cartID, itemCode, qty, price);
+      await DatabaseRepo().updateCartHistoryAccessories(zId, itemCode, int.parse(qty), cartID);
       await getCartHeaderDetailsList(cartID);
       await getCartHeaderList();
       quantity.clear();
+    }catch(e){
+      print('Failed to execute the process: $e');
+    }
+  }
+
+
+  //update cart hist acc screen
+  TextEditingController accQty = TextEditingController();
+  Future<void> updateFromAccHisScreen(String accCode, String cartID, String qty, String zId, String productId)async{
+    try{
+      print("Quantity inside updateFromAccHisScreen: $qty");
+      await DatabaseRepo().updateFromAccHistoryScreen(cartID, accCode, qty, zId);
+      await getCarHisAccList(cartID, productId);
+      accQty.clear();
     }catch(e){
       print('Failed to execute the process: $e');
     }

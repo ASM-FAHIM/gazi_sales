@@ -20,8 +20,6 @@ class LoginController extends GetxController {
   //ei 3 ta value home screen a dhukar por database theke value get kore eikhane diye dicci
   RxString xposition = ''.obs;
   RxString xsid = ''.obs;
-  RxString xsid90 = ''.obs;
-  RxString xsid210 = ''.obs;
   RxString xstaff = ''.obs;
 
   //getTso info te ami xsp and xterritory er value set kore rakhsi territory info theke paowa
@@ -222,7 +220,7 @@ class LoginController extends GetxController {
   RxString zID = ''.obs;
   List territoryList = [];
   RxBool territoryFetched = false.obs;
-  Future getTerritory(String zid,String businessSupID,) async{
+  Future getTerritory(String zid,String businessSupID) async{
     try{
       territoryFetched(true);
       zID.value = zid;

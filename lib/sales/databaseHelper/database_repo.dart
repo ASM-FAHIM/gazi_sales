@@ -510,13 +510,12 @@ class DatabaseRepo{
     }
   }
 
-  Future<bool> deleteAccessory(int zid) async {
+  Future<bool> deleteAccessory() async {
     var dbClient = await conn.db;
     try {
       await dbClient!.rawDelete('''
       DELETE FROM ${DBHelper.cartAccessoriesTable}
-      WHERE zid = ?
-      ''', [zid]);
+      ''');
       return true;
     } catch(e) {
       print('There are some issues for deleting accessory: $e');
@@ -550,12 +549,7 @@ class DatabaseRepo{
     var dbClient = await conn.db;
     List cartHeaderDetails = [];
     try{
-      cartHeaderDetails = await dbClient!.query(
-        DBHelper.cartDetailsTable,
-        where: 'cartId = ?',
-        whereArgs: [cartId],
-        orderBy: 'cartId DESC',
-      );
+      cartHeaderDetails = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'",[cartId]);
       print('Product: $cartHeaderDetails');
     }catch(e){
       print("There are some issues: $e");
@@ -563,6 +557,7 @@ class DatabaseRepo{
     return cartHeaderDetails;
   }
 
+  //for place order purpose
   Future getCartHeaderDetailsForSync(String cartId) async{
     var dbClient = await conn.db;
     List cartHeaderDetailsForSync = [];
@@ -580,8 +575,71 @@ class DatabaseRepo{
     return cartHeaderDetailsForSync;
   }
 
+  //for history accessories list from history accessories screen
+  Future getCartHistoryAccessories(String cartId,String productID) async{
+    var dbClient = await conn.db;
+    List cartHistoryAccessories = [];
+    try{
+      cartHistoryAccessories = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'Yes' AND xmasteritem = ?",[cartId, productID]);
+      print('Product: $cartHistoryAccessories');
+    }catch(e){
+      print("There are some issues: $e");
+    }
+    return cartHistoryAccessories;
+  }
+
+
+  //for update item details wise cart details acc qty by pressing eidt button from cart details screen
+  Future updateCartHistoryAccessories(String zid,String xmasteritem, int qtyChange, String cartID) async{
+    var dbClient = await conn.db;
+    print('Qty from cart screen: $qtyChange');
+    try{
+      if (qtyChange==0) {
+        print("the updated qty : $qtyChange");
+        await dbClient!.rawQuery('''
+          DELETE FROM ${DBHelper.cartDetailsTable}
+          WHERE xmasteritem = ? AND cartID = ? AND zid = ?
+          ''', [xmasteritem, cartID, zid]);
+        print('Accessory deleted');
+      }else{
+        var existingRow = await dbClient!.rawQuery('''
+        SELECT * FROM ${DBHelper.cartDetailsTable}
+        WHERE xmasteritem = ? AND cartID = ? AND zid = ? AND yes_no = 'Yes'
+        ''', [xmasteritem,cartID, zid]);
+
+        print("length of row: ${existingRow.length}");
+
+        if (existingRow.isNotEmpty) {
+          for(int i = 0; i< existingRow.length; i++){
+            // cast to int before adding 1
+            var qtyFromPA = await dbClient.rawQuery('''
+             SELECT CAST(xqty AS INTEGER) as xqty FROM ${DBHelper.productAccessories}
+             WHERE zid = ? AND xitemaccessories = ? AND xitem = ?
+           ''', [zid, existingRow[i]['xitem'], xmasteritem]);
+            var qty = qtyFromPA[0]['xqty'];
+            print("Length of qtyFromPA: -------------${qtyFromPA.length}");
+
+            print("newQty from for loop: -------------$qty");
+            var result = await dbClient.rawQuery('''
+          UPDATE ${DBHelper.cartDetailsTable}
+          SET xqty = ? * ?
+           WHERE xmasteritem = ? AND xitem = ? AND cartID = ? AND zid = ? AND yes_no = 'Yes'
+            ''', [qty,qtyChange,xmasteritem, existingRow[i]['xitem'], cartID, zid,]);
+            print("Updated Successfully into cartAccessoriesTable table: -------------$result");
+
+          }
+          // Combination of zid and xmasteritem already exists, update the quantity
+
+        }
+      }
+    } catch(e){
+      print('There are some issues inserting/updating cartTable: $e');
+    }
+  }
+
+
   ///Order history calculation and all data related segments
-  Future updateCartDetailsTable(String cartID, String itemCode, String qty, String price, String packQty) async{
+  Future updateCartDetailsTable(String cartID, String itemCode, String qty, String price) async{
     var dbClient = await conn.db;
     if(qty == '0'){
       await dbClient!.delete(
@@ -593,14 +651,36 @@ class DatabaseRepo{
       print('Price = $price');
       print('Quantity = $qty');
       var total= double.parse(qty) * double.parse(price);
-      var subPackQty= double.parse(qty) * double.parse(packQty);
       print('Total = $total');
       dbClient!.rawQuery(
           "UPDATE ${DBHelper.cartDetailsTable} "
-              "SET xqty = ?,subTotal = ?, subPackQty = ? "
-              " WHERE cartID = ? and xitem = ?", [qty,total,subPackQty,cartID,itemCode]);
+              "SET xqty = ?,subTotal = ?"
+              " WHERE cartID = ? and xitem = ?", [qty,total,cartID,itemCode]);
 
       await updateCartHeader(cartID);
+    }
+  }
+
+
+  //for edit from Accessories history screen
+  Future updateFromAccHistoryScreen(String cartID, String accCode, String qty, String zid) async{
+    var dbClient = await conn.db;
+    print("Quantity inside updateFromAccHistoryScreen: $qty");
+    if(qty == '0'){
+      await dbClient!.rawQuery('''
+          DELETE FROM ${DBHelper.cartDetailsTable}
+          WHERE xitem = ? AND cartID = ? AND zid = ?
+          ''', [accCode, cartID, zid]);
+    }else{
+
+      print('Quantity = $qty');
+
+      dbClient!.rawQuery(
+          "UPDATE ${DBHelper.cartDetailsTable} "
+              "SET xqty = ?"
+              " WHERE cartID = ? and xitem = ?", [qty,cartID,accCode]);
+
+      //await updateCartHeader(cartID);
     }
   }
 
@@ -611,18 +691,11 @@ class DatabaseRepo{
       "SELECT SUM(subTotal) as subTotalSum FROM ${DBHelper.cartDetailsTable} WHERE cartID = ?",
       [cartID],
     );
-
-    var subPackQty = await dbClient.rawQuery(
-      "SELECT SUM(subPackQty) as subTotalPack FROM ${DBHelper.cartDetailsTable} WHERE cartID = ?",
-      [cartID],
-    );
-
     print('Total in Details table = ${subTotalResult[0]["subTotalSum"]}');
 
     await dbClient.update(
       DBHelper.cartTable,
-      {'total': subTotalResult[0]["subTotalSum"],
-        'totalPackQty': subPackQty[0]["subTotalPack"]},
+      {'total': subTotalResult[0]["subTotalSum"]},
       where: 'cartID = ?',
       whereArgs: [cartID],
     );
