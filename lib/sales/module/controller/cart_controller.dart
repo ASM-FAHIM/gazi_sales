@@ -15,7 +15,7 @@ class CartController extends GetxController {
   LoginController loginController = Get.find<LoginController>();
   AppConstants appConstants = AppConstants();
 
-  RxString dropDownValue = 'Any time'.obs;
+
   // Define the custom ID string
   RxString customId = ''.obs;
   List<List<String>> addedProducts = [];

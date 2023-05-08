@@ -49,11 +49,58 @@ class _OrderScreenState extends State<OrderScreen> {
             color: AppColor.defWhite,
             size: 25,
           ),
+          actions: [
+            Container(
+              width: Dimensions.height70 + Dimensions.height45,
+              child: DropdownButtonFormField(
+                decoration: const InputDecoration(
+                  enabledBorder: OutlineInputBorder( //<-- SEE HERE
+                    borderSide: BorderSide(color: Colors.black, width: 1),
+                  ),
+                  focusedBorder: OutlineInputBorder( //<-- SEE HERE
+                    borderSide: BorderSide(color: Colors.black, width: 1),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                dropdownColor: AppColor.defWhite,
+                items: <String>[
+                  "Tank",
+                  "Toy",
+                ].map<DropdownMenuItem<String>>(
+                      (String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                      ),
+                    );
+                  },
+                ).toList(),
+                onChanged: (value) {
+                  loginController.selectedOption.value = value.toString();
+                },
+                hint: Obx(() => Text(
+                  loginController.selectedOption.value,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15.0,
+                  ),
+                )),
+                isExpanded: true, // to make the dropdown button span the full width of the container
+                icon: const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          ],
         ),
         body: Obx((){
           return dashboardController.isLoading1.value
               ? Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       margin: const EdgeInsets.all(10.0),

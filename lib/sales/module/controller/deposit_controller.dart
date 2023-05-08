@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import '../../constant/app_constants.dart';
 import '../../databaseHelper/database_repo.dart';
-import '../model/dealer_model.dart';
+import '../model/payment_model_model.dart';
 import 'login_controller.dart';
 
 class DepositController extends GetxController{
   LoginController loginController = Get.find<LoginController>();
-
+  RxString dropDownValue = ''.obs;
   List<Map<String, dynamic>> dealerList = [];
   RxBool isLoading = false.obs;
   Future getDealerList() async {
@@ -44,11 +49,77 @@ class DepositController extends GetxController{
     print("Clear dealer list after back to deposit entry screen : $dealerList");
   }
 
+  RxBool isAllLoaded = false.obs;
+  Future<void> fetchAll() async{
+    try{
+      isAllLoaded(true);
+      await getBankNames();
+      await getPaymentType();
+      isAllLoaded(false);
+    }catch(e){
+      isAllLoaded(false);
+      print('There is an error occured fetching all data: $e');
+    }
+
+  }
+
+
+  /// bank lists
+  RxString bankSelection = 'Bank name'.obs;
+  RxBool isLoading1 = false.obs;
+  final bankList = <BankListModel>[].obs;
+  Future<void> getBankNames() async{
+    try{
+      isLoading1(true);
+      //new dealer api for petronas http://${AppConstants.baseurl}/salesforce/dealerinfo.php?user=1000
+      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/deposit/bankList.php?zid=${loginController.zID.value}'));
+      if(response.statusCode == 200){
+        final jsonData = jsonDecode(response.body);
+        final bankNames = <BankListModel>[];
+        for(var bankList in jsonData){
+          bankNames.add(BankListModel.fromJson(bankList));
+        }
+        bankList.assignAll(bankNames);
+        isLoading1(false);
+        print('List of banks: $bankList');
+      }else{
+        isLoading1(false);
+        print("There is an Error ${response.statusCode}");
+      }
+    }catch(e){
+      print("Something went wrong in bank list $e");
+    }
+  }
+
+  /// bank lists
+  RxString paymentMod = 'Mode of payment'.obs;
+  RxBool isLoading2 = false.obs;
+  final paymentList = <PaymentModeModel>[].obs;
+  Future<void> getPaymentType() async{
+    try{
+      isLoading2(true);
+      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/deposit/paymentMode.php?zid=${loginController.zID.value}'));
+      if(response.statusCode == 200){
+        final jsonData = jsonDecode(response.body);
+        final payments = <PaymentModeModel>[];
+        for(var paymentList in jsonData){
+          payments.add(PaymentModeModel.fromJson(paymentList));
+        }
+        paymentList.assignAll(payments);
+        isLoading2(false);
+        print('List of payment types: $paymentList');
+      }else{
+        isLoading2(false);
+        print("There is an Error ${response.statusCode}");
+      }
+    }catch(e){
+      print("Something went wrong in payment types $e");
+    }
+  }
+
 
   //for entry operations
   RxString selectedOption = 'Invoice type'.obs;
-  RxString paymentMod = 'Mode of payment'.obs;
-  RxString bankSelection = 'Bank name'.obs;
 
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
@@ -56,5 +127,6 @@ class DepositController extends GetxController{
   updateDate(DateTime dateTime){
     date.value = dateTime.toString();
   }
+
 
 }

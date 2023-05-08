@@ -158,7 +158,6 @@ class DBHelper{
           xstatus VARCHAR(150),
           createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
           )""");
-
           await db.execute("""
         CREATE TABLE $cartDetailsTable (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -185,7 +184,6 @@ class DBHelper{
           xmasteritem VARCHAR(150)
         )
         """);
-
           await db.execute("""
         CREATE TABLE $giftAndPromotion (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
