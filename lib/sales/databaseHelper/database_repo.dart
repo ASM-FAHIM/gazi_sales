@@ -284,6 +284,8 @@ class DatabaseRepo{
     }
   }
 
+
+
   /*zid INTEGER,
       cartID VARCHAR(150) NOT NULL,
       xitem VARCHAR(150),
@@ -412,6 +414,41 @@ class DatabaseRepo{
       print('There are some issues inserting/updating cartTable: $e');
     }
   }
+  //Method for only inserting accessories to cartAccories table
+
+  Future<void> additionalAccessoriesInsert(String xitem, String zid, String masteritem, String qty) async{
+    var dbClient = await conn.db;
+    try{
+      var existingRow = await dbClient!.rawQuery('''
+      SELECT * FROM ${DBHelper.cartAccessoriesTable}
+      WHERE zid = ? AND xmasteritem = ? AND xitem = ?
+      ''', [zid, masteritem, xitem]);
+
+      print("length of row: ${existingRow.length}");
+
+      if (existingRow.isNotEmpty) {
+        var result = await dbClient.rawQuery('''
+          UPDATE ${DBHelper.cartAccessoriesTable}
+          SET xqty = ?
+           WHERE zid = ? AND xmasteritem = ? AND xitem = ?
+            ''', [qty, zid, masteritem, xitem]);
+        print("Updated Successfully into cartAccessoriesTable table: -------------$result");
+        // Combination of zid and xmasteritem already exists, update the quantity
+
+      } else {
+        // Combination of zid and xmasteritem does not exist, insert a new row
+        var result = await dbClient.rawQuery('''
+        INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
+        SELECT zid, ?, name, ?, xunit, ?
+        FROM ${DBHelper.productAccessories}
+        WHERE xitem = ? and zid =?
+      ''', [xitem, qty, masteritem, xitem, zid]);
+        print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+      }
+    } catch(e){
+      print('There are some issues inserting/updating cartTable: $e');
+    }
+  }
 
   Future<List<Map<String, dynamic>>> getAccessories(String xitem) async {
     var dbClient = await conn.db;
@@ -425,6 +462,24 @@ class DatabaseRepo{
       return acccItem;
     } catch(e) {
       print('There are some issues for getting cartAccessoriesTable: $e');
+      return [];
+    }
+  }
+
+
+  //Method for getting all Accessories list
+  Future<List<Map<String, dynamic>>> getAllAccessoriesList(String zid) async {
+    var dbClient = await conn.db;
+    try {
+      var accList = await dbClient!.rawQuery('''
+      SELECT zid, xitem, accName, xunit, xqty, xmasteritem  
+      FROM ${DBHelper.cartAccessoriesTable}
+      WHERE zid = ?
+    ''', [zid]);
+      print('Accessories List = $accList') ;
+      return accList;
+    } catch(e) {
+      print('There are some issues for getting accessories list: $e');
       return [];
     }
   }
