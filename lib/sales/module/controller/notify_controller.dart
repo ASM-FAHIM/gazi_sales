@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../constant/app_constants.dart';
+import '../model/depo_notification_model.dart';
 import '../model/notification_model.dart';
 import '../model/sroWiseTso_model.dart';
 import '../model/tsoWise_dealerVisit_model.dart';
@@ -10,9 +11,8 @@ import '../model/tso_summary_model.dart';
 
 
 class NotifyController extends GetxController {
-  var notifyList = <NotificationModel>[].obs;
   AppConstants appConstants = AppConstants();
-  RxBool isLoading = false.obs;
+
 
   // @override
   // void onInit() {
@@ -21,15 +21,41 @@ class NotifyController extends GetxController {
   //   super.onInit();
   // }
 
-  void fetchNotification(String tsoId) async {
+  var notifyList = <NotificationModel>[].obs;
+  RxBool isLoading = false.obs;
+  void fetchSoNotification(String staff) async {
     try {
       isLoading(true);
-      var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/salesforce/TSO_notification.php?tso=$tsoId"));
+      var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/gazi/salesforce/SO_notification.php?staff=$staff"));
       var notify = notificationModelFromJson(response.body);
       notifyList.assignAll(notify.map((e) => e));
     } finally {
       isLoading(false);
     }
+  }
+
+  void clearSoList(){
+    notifyList.clear();
+  }
+
+  var depositNotifyList = <DepositNotificationModel>[].obs;
+  RxBool isLoading1 = false.obs;
+  void fetchDepositNotification(String staff) async {
+    try {
+      isLoading1(true);
+      var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/gazi/deposit/depositNotification.php?staff=$staff"));
+      var depoNotify = depositNotificationModelFromJson(response.body);
+      depositNotifyList.assignAll(depoNotify.map((e) => e));
+      print('length: ${depositNotifyList.length}');
+      for(int i = 0; i < depositNotifyList.length; i++){
+        print('Fetched notifications: ${depositNotifyList[i].xstatus}');
+      }
+    } finally {
+      isLoading1(false);
+    }
+  }
+  void clearDepositList(){
+    depositNotifyList.clear();
   }
 
   //srowise tso list
@@ -85,7 +111,6 @@ class NotifyController extends GetxController {
 
   //switch case for color combination
   changeColor(String statusdemo){
-
     switch(statusdemo){
       case "Applied":
         return Colors.blueAccent;

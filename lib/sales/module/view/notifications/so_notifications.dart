@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../constant/colors.dart';
-import '../../constant/dimensions.dart';
-import '../../widget/big_text.dart';
-import '../../widget/small_text.dart';
-import '../controller/login_controller.dart';
-import '../controller/notify_controller.dart';
+import '../../../constant/colors.dart';
+import '../../../constant/dimensions.dart';
+import '../../../widget/big_text.dart';
+import '../../../widget/small_text.dart';
+import '../../controller/login_controller.dart';
+import '../../controller/notify_controller.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+class SoNotificationScreen extends StatefulWidget {
+  const SoNotificationScreen({Key? key}) : super(key: key);
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  State<SoNotificationScreen> createState() => _SoNotificationScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
+class _SoNotificationScreenState extends State<SoNotificationScreen> {
   final NotifyController notifyController = Get.put(NotifyController());
   LoginController loginController = Get.find<LoginController>();
 
   @override
   void initState() {
     // TODO: implement initState
-    notifyController.fetchNotification(loginController.xposition.value);
+    notifyController.fetchSoNotification(loginController.xstaff.value);
     super.initState();
   }
 
@@ -32,13 +32,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         backgroundColor: AppColor.appBarColor,
         leading: GestureDetector(
             onTap: () {
+              notifyController.clearSoList();
               Get.back();
             },
             child: const Icon(
               Icons.arrow_back_outlined,
               size: 25,
             )),
-        title: BigText(text: "Notifications", color: AppColor.defWhite, size: 25,),
+        title: BigText(text: "Sales order notification", color: AppColor.defWhite, size: 25,),
 
       ),
       body: Padding(
