@@ -78,14 +78,13 @@ class _DepositEntryScreenState extends State<DepositEntryScreen> {
             onChanged: (value) {
               depositController.selectedOption.value = value.toString();
             },
-            style: TextStyle(fontSize: 20),
             hint: Obx(() => Text(
               depositController.selectedOption.value,
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 15.0,
               ),
-            ),),
+            )),
             isExpanded: true, // to make the dropdown button span the full width of the container
             icon: const Icon(
               Icons.arrow_drop_down,
