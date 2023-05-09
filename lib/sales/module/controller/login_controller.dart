@@ -16,7 +16,7 @@ import '../view/dashboard_screen.dart';
 
 class LoginController extends GetxController {
   Box? box1;
-
+  RxString selectedOption = 'Type'.obs;
   //ei 3 ta value home screen a dhukar por database theke value get kore eikhane diye dicci
   RxString xposition = ''.obs;
   RxString xsid = ''.obs;

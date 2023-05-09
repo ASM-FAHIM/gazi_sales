@@ -6,7 +6,7 @@ import '../constant/colors.dart';
 import '../constant/dimensions.dart';
 import '../module/controller/login_controller.dart';
 import '../module/view/dashboard_screen.dart';
-import '../module/view/deposi_entry_screen.dart';
+import '../module/view/deposit/deposi_entry_screen.dart';
 import '../module/view/gift_promo_screen.dart';
 import '../module/view/history/order_history_screen.dart';
 import '../module/view/incentive_collect/dealer_list.dart';
