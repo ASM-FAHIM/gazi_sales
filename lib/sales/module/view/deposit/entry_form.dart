@@ -106,6 +106,21 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 ),
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
+                              child: BigText(text: 'Customer name: ${widget.cusName}',),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width:double.maxFinite,
+                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
                               child: BigText(text: 'Customer ID: ${widget.cusId}',),
                             ),
                             Container(
@@ -122,6 +137,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: TextFormField(
+                                controller: depositController.amount,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.deny(RegExp(r'^0')),
                                   FilteringTextInputFormatter.deny(RegExp(r'-')),
@@ -144,7 +160,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 ),
                               ),
                             ),
-                            Container(
+                            /*Container(
                               height: Dimensions.height70,
                               width: double.maxFinite,
                               padding: EdgeInsets.only(left: 10, right: 10),
@@ -195,7 +211,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   color: Colors.grey,
                                 ),
                               ),
-                            ),
+                            ),*/
                             Container(
                               height: Dimensions.height70,
                               width:double.maxFinite,
@@ -210,6 +226,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: TextFormField(
+                                controller: depositController.depositBranch,
                                 decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Enter deposit branch'
@@ -327,6 +344,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: TextFormField(
+                                controller: depositController.cusBank,
                                 decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Enter customer bank'
@@ -350,6 +368,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: TextFormField(
+                                controller: depositController.chkRefNo,
                                 decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Enter check/Ref. No'
@@ -407,6 +426,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: TextFormField(
+                                controller: depositController.note,
                                 decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Enter note'
@@ -421,11 +441,26 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                       ),
                     ),
                     Container(
-                      height: 50,
-                      width: 100,
+                      height: Dimensions.height50,
+                      width: Dimensions.height120,
                       child: ElevatedButton(
-                        onPressed: (){},
-                        child: Text("Submit"),
+                        style: ElevatedButton.styleFrom(
+                          primary: AppColor.appBarColor
+                        ),
+                        onPressed: (){
+                          final String paymentNature = depositController.selectedOption.value;
+                          final String bankName = depositController.bankSelection.value;
+                          final String paymentType = depositController.paymentMod.value;
+                          print('============$bankName');
+                          print('============$paymentType');
+                          depositController.depositSubmission(widget.cusId, bankName,paymentNature, paymentType);
+                        },
+                        child: depositController.isSubmitted.value
+                            ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,),
+                            )
+                            : BigText(text: 'Submit', color: AppColor.defWhite,),
                       ),
                     ),
                   ],
