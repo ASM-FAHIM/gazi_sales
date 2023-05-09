@@ -13,7 +13,7 @@ import 'dart:math';
 import '../../widget/small_text.dart';
 import '../controller/dashboard_controller.dart';
 import '../controller/login_controller.dart';
-import 'notification_screen.dart';
+import 'notifications/notification_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key? key}) : super(key: key);

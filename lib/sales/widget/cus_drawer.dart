@@ -10,7 +10,7 @@ import '../module/view/deposit/deposi_entry_screen.dart';
 import '../module/view/gift_promo_screen.dart';
 import '../module/view/history/order_history_screen.dart';
 import '../module/view/incentive_collect/dealer_list.dart';
-import '../module/view/notification_screen.dart';
+import '../module/view/notifications/notification_screen.dart';
 import '../module/view/order_process/order_process_screen.dart';
 import '../module/view/sro_summary/sro_screen.dart';
 import '../module/view/work_note_screen.dart';

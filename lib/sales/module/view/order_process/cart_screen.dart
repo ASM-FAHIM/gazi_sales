@@ -40,6 +40,9 @@ class CartScreen extends StatelessWidget {
             color: AppColor.defWhite,
             size: 25,
           ),
+          actions: [
+
+          ],
         ),
         body: SingleChildScrollView(
           child: cartController.addedProducts.isEmpty
