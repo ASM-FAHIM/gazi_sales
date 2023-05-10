@@ -20,6 +20,10 @@ class AdditionAccScreen extends StatefulWidget {
 
 class _AdditionAccScreenState extends State<AdditionAccScreen> {
   CartController cartController = Get.find<CartController>();
+  TextEditingController accNameSearch = TextEditingController();
+
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -31,6 +35,7 @@ class _AdditionAccScreenState extends State<AdditionAccScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
         appBar: AppBar(
           backgroundColor: AppColor.appBarColor,
           leading: GestureDetector(
@@ -65,121 +70,150 @@ class _AdditionAccScreenState extends State<AdditionAccScreen> {
                   ),
                 )
               : Container(
-                  child: cartController.allAccList.isEmpty
-                    ? const Center(
-                        child: NoDataPage(
-                          text: 'No accessories found yet !',
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: accNameSearch,
+                        decoration: const InputDecoration(
+                            hintText: 'Search by name',
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.search)
                         ),
-                      )
-                    : ListView.builder(
-                      itemCount: cartController.allAccList.length,
-                      itemBuilder: (BuildContext context, int index) {
-// final itemName = controller.addedProducts[index][0];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          child: Container(
-                            height: Dimensions.height70,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-//color: Colors.green,
-                              boxShadow: const [
-                                BoxShadow(
-// color: Colors.greenAccent[200],
-                                  offset: Offset(0.01,0.01,),
-                                  blurRadius: 1.10,
-                                  spreadRadius: .05,
-                                ), //BoxShadow
-                                BoxShadow(
-                                  color: Colors.white,
-                                  offset: Offset(0.0, 0.0),
-                                  blurRadius: 0.0,
-                                  spreadRadius: 0.0,
-                                ), //BoxShadow
-                              ],
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(primary: Colors.white),
-                              onPressed: (){
-                                print("Main producy COde: ${widget.productCode}");
-                                cartController.insertAdditionalAccessories(
-                                    cartController.allAccList[index]["xitemaccessories"],
-                                    widget.productCode,
-                                    cartController.allAccList[index]["xqty"],
-                                    context
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        onChanged: (value) => cartController.runFilterForAccessories(value),
+                      ),
+                      const SizedBox(height: 10,),
+                      Obx((){
+                        return Expanded(
+                          child: cartController.isSearched.value
+                              ? Center(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.all(10.0),
+                                        child: CircularProgressIndicator(
+                                          color: AppColor.appBarColor,
+                                        ),
+                                      ),
+                                      Text('Loading...')
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                              itemCount: cartController.foundAccList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                                  child: Container(
+                                    height: Dimensions.height70,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      //color: Colors.green,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          // color: Colors.greenAccent[200],
+                                          offset: Offset(0.01,0.01,),
+                                          blurRadius: 1.10,
+                                          spreadRadius: .05,
+                                        ), //BoxShadow
+                                        BoxShadow(
+                                          color: Colors.white,
+                                          offset: Offset(0.0, 0.0),
+                                          blurRadius: 0.0,
+                                          spreadRadius: 0.0,
+                                        ), //BoxShadow
+                                      ],
+                                    ),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: AppColor.appBarColor,
+                                      ),
+                                      onPressed: (){
+                                        print("Main producy COde: ${widget.productCode}");
+                                        cartController.insertAdditionalAccessories(
+                                            cartController.foundAccList[index]["xitemaccessories"],
+                                            widget.productCode,
+                                            cartController.foundAccList[index]["xqty"],
+                                            scaffoldKey
+                                        );
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            cartController.allAccList[index]["name"],
-                                            style: TextStyle(color: Colors.black, fontFamily: GoogleFonts.poppins().fontFamily, fontWeight: FontWeight.bold, fontSize: 14),
+                                          Expanded(
+                                            child: Container(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                children: [
+                                                  Text(
+                                                    cartController.foundAccList[index]["name"],
+                                                    style: TextStyle(color: Colors.black, fontFamily: GoogleFonts.poppins().fontFamily, fontWeight: FontWeight.bold, fontSize: 14),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      SmallText(text: cartController.foundAccList[index]["xitemaccessories"], color: Colors.white, size: 14,),
+                                                      SmallText(text: cartController.foundAccList[index]["xunit"], color: Colors.white, size: 14,),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          SmallText(text: cartController.allAccList[index]["xitemaccessories"], color: Colors.redAccent, size: 14,),
-                                          SmallText(text: cartController.allAccList[index]["xunit"], color: Colors.redAccent, size: 14,),
+                                          /*Container(
+                                            width: 170,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                IconButton(
 
-
+                                                  onPressed: () {
+                                                    cartController.updateCartAccessories(cartController.cartAcc[index]["xitem"], widget.productCode, -1);
+                                                  },
+                                                  alignment: Alignment.center,
+                                                  icon: const Icon(
+                                                    MdiIcons.minusCircle,
+                                                    size: 35,
+                                                    color: AppColor.appBarColor,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 20,),
+                                                Text(cartController.cartAcc[index]["xqty"].toString(),
+                                                  style: TextStyle(
+                                                      fontFamily: GoogleFonts.poppins().fontFamily,
+                                                      fontSize: 20),),
+                                                const SizedBox(width: 20,),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    cartController.updateCartAccessories(cartController.cartAcc[index]["xitem"], widget.productCode, 1);
+                                                  },
+                                                  icon: const Icon(
+                                                    MdiIcons.plusCircle,
+                                                    size: 35,
+                                                    color: AppColor.appBarColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )*/
                                         ],
                                       ),
                                     ),
                                   ),
-                                  /*Container(
-                                    width: 170,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        IconButton(
-
-                                          onPressed: () {
-                                            cartController.updateCartAccessories(cartController.cartAcc[index]["xitem"], widget.productCode, -1);
-                                          },
-                                          alignment: Alignment.center,
-                                          icon: const Icon(
-                                            MdiIcons.minusCircle,
-                                            size: 35,
-                                            color: AppColor.appBarColor,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20,),
-                                        Text(cartController.cartAcc[index]["xqty"].toString(),
-                                          style: TextStyle(
-                                              fontFamily: GoogleFonts.poppins().fontFamily,
-                                              fontSize: 20),),
-                                        const SizedBox(width: 20,),
-                                        IconButton(
-                                          onPressed: () {
-                                            cartController.updateCartAccessories(cartController.cartAcc[index]["xitem"], widget.productCode, 1);
-                                          },
-                                          icon: const Icon(
-                                            MdiIcons.plusCircle,
-                                            size: 35,
-                                            color: AppColor.appBarColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )*/
-                                ],
-                              ),
-                            ),
-                          ),
+                                );
+                              }),
                         );
-                      }),
+                      })
+                    ],
+                  ),
           );
         })
     );
   }
 }
-
-
 
 
 

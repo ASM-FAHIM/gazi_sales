@@ -413,7 +413,7 @@ class DatabaseRepo{
     }
   }
 
-  //Method for only inserting accessories to cartAccories table
+//Method for only inserting accessories to cartAccories table
   Future<void> additionalAccessoriesInsert(String xitem, String zid, String masteritem, String qty) async{
     var dbClient = await conn.db;
     try{
@@ -427,21 +427,25 @@ class DatabaseRepo{
       if (existingRow.isNotEmpty) {
         var result = await dbClient.rawQuery('''
           UPDATE ${DBHelper.cartAccessoriesTable}
-          SET xqty = ?
+          SET xqty = xqty +1
            WHERE zid = ? AND xmasteritem = ? AND xitem = ?
-            ''', [qty, zid, masteritem, xitem]);
+            ''', [ zid, masteritem, xitem]);
         print("Updated Successfully into cartAccessoriesTable table: -------------$result");
         // Combination of zid and xmasteritem already exists, update the quantity
 
       } else {
         // Combination of zid and xmasteritem does not exist, insert a new row
-        var result = await dbClient.rawQuery('''
-        INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
-        SELECT zid, xitemaccessories, name, ?, xunit, ?
-        FROM ${DBHelper.productAccessories}
-        WHERE xitemaccessories = ? and zid =? and xitem = ?
-      ''', [qty, xitem, zid, masteritem]);
-        print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+        var sqlResult = await dbClient.rawQuery('''
+          INSERT INTO ${DBHelper.cartAccessoriesTable} (zid, xitem, accName, xqty, xunit, xmasteritem)
+          VALUES (?, ?, (SELECT name FROM ${DBHelper.productAccessories} WHERE xitemaccessories = ? LIMIT 1),
+                  ?, (SELECT xunit FROM ${DBHelper.productAccessories} WHERE xitemaccessories = ? LIMIT 1), ?)
+        ''', [zid, xitem, xitem, qty, xitem, masteritem]);
+
+        if (sqlResult != -1) {
+          print("Inserted Successfully into cartAccessoriesTable: $sqlResult");
+        } else {
+          print("Failed to insert into cartAccessoriesTable");
+        }
       }
     } catch(e){
       print('There are some issues inserting/updating cartTable: $e');
@@ -606,6 +610,21 @@ class DatabaseRepo{
     try{
       cartHeaderDetails = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'",[cartId]);
       print('Product: $cartHeaderDetails');
+      print('Product details length: ${cartHeaderDetails.length}');
+    }catch(e){
+      print("There are some issues: $e");
+    }
+    return cartHeaderDetails;
+  }
+
+  //for uploading all cart details
+  Future getAllCartDetailsList(String cartId) async{
+    var dbClient = await conn.db;
+    List cartHeaderDetails = [];
+    try{
+      cartHeaderDetails = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ?",[cartId]);
+      print('Product: $cartHeaderDetails');
+      print('Product details length: ${cartHeaderDetails.length}');
     }catch(e){
       print("There are some issues: $e");
     }
