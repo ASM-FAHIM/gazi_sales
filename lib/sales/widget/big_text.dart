@@ -28,7 +28,7 @@ class BigText extends StatelessWidget {
       style: GoogleFonts.roboto(
         // fontFamily: 'Roboto',
         color: color,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w500,
         fontSize: size == 0 ? Dimensions.fontBigS20 : size,
       ),
     );

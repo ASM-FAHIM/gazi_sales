@@ -66,49 +66,69 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                   return ListView.builder(
                       itemCount: notifyController.notifyList.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)
+                        return Container(
+                          height: Dimensions.height150 + Dimensions.height30,
+                          width: double.infinity,
+                          margin: EdgeInsets.all(12.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 10,
+                                offset: Offset(2, 2), // changes position of shadow
+                              ),
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    BigText(text: notifyController.notifyList[index].cusname, size: 16,),
-                                    SmallText(text: notifyController.notifyList[index].xsonumber),
-                                    SmallText(text: notifyController.notifyList[index].xcus,),
-                                    BigText(text: notifyController.notifyList[index].xdate, size: 15, color: AppColor.defRed,),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Card(
-                                    color: notifyController.changeColor(notifyController.notifyList[index].xstatusso),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20.0)
-                                    ),
-                                    elevation: 5,
-                                    child: Container(
-                                      height: Dimensions.height45,
-                                      width: Dimensions.height60 + Dimensions.height45,
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          BigText(text: '${notifyController.notifyList[index].xstatusso}', color: Colors.white,),
-                                        ],
-                                      ),
-                                    ),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: Dimensions.height50,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: notifyController.changeColor(notifyController.notifyList[index].xstatusso),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0)
                                   ),
                                 ),
-                              ],
-                            ),
+                                alignment: Alignment.center,
+                                child: BigText(text: notifyController.notifyList[index].xstatusso, color: Colors.white,),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          SmallText(text: notifyController.notifyList[index].xdate, size: 12, color: AppColor.defRed,),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          BigText(text: notifyController.notifyList[index].cusname, size: 20,),
+                                        ],
+                                      ),
+                                      SizedBox(height: 15,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SmallText(text: 'So No : ${notifyController.notifyList[index].xsonumber}', size: 16),
+                                          SmallText(text: 'Customer Id : ${notifyController.notifyList[index].xcus}', size: 16),
+                                          SmallText(text: 'Territory : ${notifyController.notifyList[index].xterritory} BDT', size: 16, color: AppColor.defRed,),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       }

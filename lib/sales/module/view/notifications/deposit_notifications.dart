@@ -64,7 +64,7 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
               itemCount: notifyController.depositNotifyList.length,
               itemBuilder: (context, index) {
                 return Container(
-                  height: 200,
+                  height: Dimensions.height200,
                   width: double.infinity,
                   margin: EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
@@ -81,36 +81,51 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
                   ),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                BigText(text: notifyController.depositNotifyList[index].xdate, size: 12, color: AppColor.defRed,),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                BigText(text: notifyController.depositNotifyList[index].cusname, size: 20,),
-                              ],
-                            ),
-                            SizedBox(height: 15,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SmallText(text: 'Deposit No : ${notifyController.depositNotifyList[index].xdepositnum}', size: 16),
-                                SmallText(text: 'Bank : ${notifyController.depositNotifyList[index].xbank}', size: 16),
-                                SmallText(text: 'Amount : ${notifyController.depositNotifyList[index].xamount} BDT', size: 16, color: AppColor.defRed,),
-                              ],
-                            ),
-                          ],
+                      Container(
+                        height: Dimensions.height50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: notifyController.changeColor(notifyController.depositNotifyList[index].xstatus),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0)
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: BigText(text: notifyController.depositNotifyList[index].xstatus, color: Colors.white,),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  BigText(text: notifyController.depositNotifyList[index].xdate, size: 12, color: AppColor.defRed,),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BigText(text: notifyController.depositNotifyList[index].cusname, size: 20,),
+                                ],
+                              ),
+                              SizedBox(height: 5,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SmallText(text: 'Deposit No : ${notifyController.depositNotifyList[index].xdepositnum}', size: 16),
+                                  SmallText(text: 'Bank : ${notifyController.depositNotifyList[index].xbank}', size: 16),
+                                  SmallText(text: 'Amount : ${notifyController.depositNotifyList[index].xamount} BDT', size: 16, color: AppColor.defRed,),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      /*SizedBox(height: 15,),
                       Expanded(
                         child: Container(
                           width: double.infinity,
@@ -124,7 +139,7 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
                           alignment: Alignment.center,
                           child: BigText(text: notifyController.depositNotifyList[index].xstatus, color: Colors.white,),
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 );
