@@ -172,7 +172,37 @@ class CartController extends GetxController {
     }
   }
 
+  //get all cart accessories list from product accessories table
+  List<Map<String, dynamic>> allAccList = [];
+  RxBool isAllAccLoaded = false.obs;
+  Future<void> getAllAccessoriesList() async {
+    try {
+      isAllAccLoaded(true);
+      allAccList = await DatabaseRepo().getAllAccessoriesList(loginController.zID.value);
+      isAllAccLoaded(false);
+      print("found all accessories list from product accessories table: $allAccList");
+    } catch(error) {
+      isAllAccLoaded(false);
+      print('There are some issue getting all Accessories List: $error');
+    }
+  }
 
+  //function for addional accessories insert
+  Future<void> insertAdditionalAccessories(String xitem, String masteritem, String qty, BuildContext context) async{
+    await DatabaseRepo().additionalAccessoriesInsert(xitem, loginController.zID.value, masteritem, qty);
+    await getAccessoriesList(masteritem);
+    const ScaffoldMessenger(
+        child: SnackBar(
+            content: Text(
+                'Accessories added to table'
+            ),
+          duration: Duration(seconds: 2),
+        )
+    );
+  }
+
+
+  //cart accessories update method from cart accessories screen
  void updateCartAccessories(String accCode, String proCode, int plusMinus) async{
     if(plusMinus == 1){
       await DatabaseRepo().updateAccessories(accCode, proCode, plusMinus);

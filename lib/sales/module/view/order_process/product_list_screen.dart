@@ -132,76 +132,77 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ),
             )
             : Container(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                    itemCount: dashboardController.productList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          height: Dimensions.height70 + Dimensions.height30,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 10,
-                                offset: Offset(2, 2), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              cartController.addToCart(
-                                dashboardController.productList[index]["xitem"],
-                                dashboardController.productList[index]["xdesc"],
-                                '${dashboardController.updatedProductList[index]}',
-                                dashboardController.productList[index]["xunit"],
-                              );
-                            },
-                            style: TextButton.styleFrom(
-                                backgroundColor: Colors.white,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: dashboardController.productList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                height: Dimensions.height70 + Dimensions.height30,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 10,
+                                      offset: Offset(2, 2), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    cartController.addToCart(
+                                      dashboardController.productList[index]["xitem"],
+                                      dashboardController.productList[index]["xdesc"],
+                                      '${dashboardController.updatedProductList[index]}',
+                                      dashboardController.productList[index]["xunit"],
+                                    );
+                                  },
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: Colors.white,
 
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  BigText(text: '${dashboardController.productList[index]["xdesc"]}', size: 14,),
-                                  SmallText(text: '${dashboardController.productList[index]["xitem"]}', size: 12, color: Colors.grey,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SmallText(text: 'Unit: ${dashboardController.productList[index]["xunit"]}', size: 14, color: Colors.grey,),
-                                      SmallText(text: 'Color: ${dashboardController.productList[index]["color"]}', size: 14, color: Colors.grey,),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Icon(MdiIcons.currencyBdt, size: 20, color: Colors.red,),
-                                          Text('${dashboardController.updatedProductList[index]}',style: GoogleFonts.roboto(color: Colors.black, fontSize: 18),),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        BigText(text: '${dashboardController.productList[index]["xdesc"]}', size: 14,),
+                                        SmallText(text: '${dashboardController.productList[index]["xitem"]}', size: 12, color: Colors.grey,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SmallText(text: 'Unit: ${dashboardController.productList[index]["xunit"]}', size: 14, color: Colors.grey,),
+                                            SmallText(text: 'Color: ${dashboardController.productList[index]["color"]}', size: 14, color: Colors.grey,),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Icon(MdiIcons.currencyBdt, size: 20, color: Colors.red,),
+                                                Text('${dashboardController.updatedProductList[index]}',style: GoogleFonts.roboto(color: Colors.black, fontSize: 18),),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-              )
-            ],
-          ),
-        )),
+                            );
+                          }),
+                    )
+                  ],
+                ),
+            )
+        ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: (){
             Get.to(() => CartScreen(

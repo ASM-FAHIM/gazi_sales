@@ -413,6 +413,42 @@ class DatabaseRepo{
     }
   }
 
+  //Method for only inserting accessories to cartAccories table
+  Future<void> additionalAccessoriesInsert(String xitem, String zid, String masteritem, String qty) async{
+    var dbClient = await conn.db;
+    try{
+      var existingRow = await dbClient!.rawQuery('''
+      SELECT * FROM ${DBHelper.cartAccessoriesTable}
+      WHERE zid = ? AND xmasteritem = ? AND xitem = ?
+      ''', [zid, masteritem, xitem]);
+
+      print("length of row of new added item acc: ${existingRow.length}");
+
+      if (existingRow.isNotEmpty) {
+        var result = await dbClient.rawQuery('''
+          UPDATE ${DBHelper.cartAccessoriesTable}
+          SET xqty = ?
+           WHERE zid = ? AND xmasteritem = ? AND xitem = ?
+            ''', [qty, zid, masteritem, xitem]);
+        print("Updated Successfully into cartAccessoriesTable table: -------------$result");
+        // Combination of zid and xmasteritem already exists, update the quantity
+
+      } else {
+        // Combination of zid and xmasteritem does not exist, insert a new row
+        var result = await dbClient.rawQuery('''
+        INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
+        SELECT zid, xitemaccessories, name, ?, xunit, ?
+        FROM ${DBHelper.productAccessories}
+        WHERE xitemaccessories = ? and zid =? and xitem = ?
+      ''', [qty, xitem, zid, masteritem]);
+        print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+      }
+    } catch(e){
+      print('There are some issues inserting/updating cartTable: $e');
+    }
+  }
+
+  //for getting product wise accessories list from cart screen to cart accessories screen
   Future<List<Map<String, dynamic>>> getAccessories(String xitem) async {
     var dbClient = await conn.db;
     try {
@@ -428,6 +464,25 @@ class DatabaseRepo{
       return [];
     }
   }
+
+  //Method for getting all Accessories list
+  Future<List<Map<String, dynamic>>> getAllAccessoriesList(String zid) async {
+    var dbClient = await conn.db;
+    try {
+      var accList = await dbClient!.rawQuery('''
+      SELECT DISTINCT xitemaccessories, name, xunit, xqty
+      FROM productAccessories
+      WHERE zid = ?
+    ''', [zid]);
+      print('Accessories List = $accList') ;
+      return accList;
+    } catch(e) {
+      print('There are some issues for getting accessories list: $e');
+      return [];
+    }
+  }
+
+
 
   //Update Accessories for inside accessories page
   Future<void> updateAccessories(String xitem, String xmasteritem, int qtyChange) async {
