@@ -132,6 +132,19 @@ class CusDrawer extends StatelessWidget {
                      ],
                       const CusDivider(),
                       ListTile(
+                        onTap: () {
+                          Get.back();
+                          Get.to(() => DepositEntryScreen());
+                        },
+                        leading: const Icon(
+                          MdiIcons.bank,
+                          color: AppColor.appBarColor,
+                          size: 25,
+                        ),
+                        title: SmallText(text: 'Deposit entry', size: 20,),
+                      ),
+                      const CusDivider(),
+                      ListTile(
                         visualDensity: VisualDensity(horizontal: 0, vertical: 0),
                         onTap: () {
                           Get.back();
@@ -183,19 +196,6 @@ class CusDrawer extends StatelessWidget {
                           size: 25,
                         ),
                         title: SmallText(text: 'Work note', size: 20,),
-                      ),
-                      const CusDivider(),
-                      ListTile(
-                        onTap: () {
-                          Get.back();
-                          Get.to(() => DepositEntryScreen());
-                        },
-                        leading: const Icon(
-                          MdiIcons.bank,
-                          color: AppColor.appBarColor,
-                          size: 25,
-                        ),
-                        title: SmallText(text: 'Deposit entry', size: 20,),
                       ),
                       const CusDivider(),
                       ListTile(

@@ -18,8 +18,12 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/GAZI/Notification/sr/sr.php';
   final String pendingVoucherApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/voucher/pendingVoucher.php';
+  final String cashAdvApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/Cash_Adv/cash_adv.php';
+  final String depositApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit.php';
   final String pendingSPRApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/spr.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/spr/spr_notification.php';
   final String pendingSpotPurchaseAdvanceApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/spotpurchaseadvance.php';
   final String grnApi =
@@ -74,6 +78,8 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/srdetails.php';
   final String pendingVoucherDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingVoucherDetails.php';
+  final String cashAdvDetailsApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/Cash_Adv/cashAdv_details.php';
   final String pendingSPRDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/sprdetails.php';
   final String pendingSpotPurchaseAdvanceDetails = 'Has no data for test';
@@ -108,6 +114,11 @@ class ConstApiLink {
   final String poRejectApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/poreject.php';
 
+  final String cashAdvApproveApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/cash_Approve.php';
+  final String cashAdvRejectApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/cash_Reject.php';
+
   final String csApproveApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/CS/csapprove.php';
   final String csRejectApi =
@@ -117,6 +128,11 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/GAZI/Notification/sr/srapprove.php';
   final String srRejectApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/sr/srreject.php';
+
+  final String depositApproveApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php';
+  final String depositRejectApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Reject.php';
 
   final String pendingVoucherApproveApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingVoucherapproval.php';
