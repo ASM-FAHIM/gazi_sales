@@ -25,7 +25,7 @@ class LoginController extends GetxController {
   //getTso info te ami xsp and xterritory er value set kore rakhsi territory info theke paowa
 
   RxString xtso = ''.obs;
-  RxString xsp = ''.obs; //ei value ta dealer screen theke product screen a jaowar somoy save kortesi
+  RxString invType = ''.obs; //ei value ta dealer screen theke product screen a jaowar somoy save kortesi
   RxString xwh = ''.obs;
   RxString xrole = ''.obs;
   RxString xName = ''.obs;

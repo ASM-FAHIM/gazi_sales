@@ -150,7 +150,6 @@ class CartController extends GetxController {
     }catch(e){
       print('There is an error : $e');
     }
-
   }
 
 
@@ -179,6 +178,7 @@ class CartController extends GetxController {
     try {
       isAllAccLoaded(true);
       allAccList = await DatabaseRepo().getAllAccessoriesList(loginController.zID.value);
+      foundAccList = allAccList;
       isAllAccLoaded(false);
       print("found all accessories list from product accessories table: $allAccList");
     } catch(error) {
@@ -187,18 +187,50 @@ class CartController extends GetxController {
     }
   }
 
+  Future<void> deleteFromCartAccTable() async{
+    print('Delete cart accessories table c cartTableAccInsert');
+    await DatabaseRepo().deleteAccessory();
+  }
+
+  //search function for accessories
+  RxBool isSearched = false.obs;
+  List foundAccList = [];
+  // RxBool enableDealerList = false.obs;
+  void runFilterForAccessories(String keyword) async{
+    try{
+      isSearched(true);
+      List result = [];
+      if(keyword.isEmpty){
+        result = allAccList;
+        isSearched(false);
+      }else{
+        result = allAccList.where((name) => name['name'].toLowerCase().contains(keyword.toLowerCase())).toList();
+        isSearched(false);
+        print('Actual list : $result');
+      }
+      foundAccList = result;
+      isSearched(false);
+    }catch(e){
+      isSearched(false);
+      print('Error Occured: $e');
+    }
+  }
+
   //function for addional accessories insert
-  Future<void> insertAdditionalAccessories(String xitem, String masteritem, String qty, BuildContext context) async{
+  Future<void> insertAdditionalAccessories(String xitem, String masteritem, String qty,GlobalKey<ScaffoldState> scaffoldKey) async{
     await DatabaseRepo().additionalAccessoriesInsert(xitem, loginController.zID.value, masteritem, qty);
-    await getAccessoriesList(masteritem);
-    const ScaffoldMessenger(
-        child: SnackBar(
-            content: Text(
-                'Accessories added to table'
-            ),
-          duration: Duration(seconds: 2),
-        )
+    final currentContext = scaffoldKey.currentContext; // Replace 'scaffoldKey' with the key of your scaffold widget
+
+    ScaffoldMessenger.of(currentContext!).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Accessories added to table',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        duration: Duration(seconds: 1),
+      ),
     );
+    await getAccessoriesList(masteritem);
   }
 
 
@@ -283,7 +315,7 @@ class CartController extends GetxController {
         'xdivision': loginController.xDivision.value,
         'xzm': loginController.xZM.value,
         'xzone': loginController.xZone.value,
-        'xpnature': "Tank", //need to check again
+        'xpnature': loginController.selectedOption.value, //need to check again
         'lattitude': '$curntLat',
         'longitude' : '$curntLong',
         'xstatus': status
@@ -402,12 +434,20 @@ class CartController extends GetxController {
       print('There are some issue: $error');
     }
   }
+  //for getting All cart details _List from cart table
+  List allCartDetails = [];
+    Future<void> allCartHeaderDetails(String cartId) async{
+    try{
+      allCartDetails = await DatabaseRepo().getAllCartDetailsList(cartId);
+      print(allCartDetails);
+    }catch(error){
+      print('There are some issue: $error');
+    }
+  }
 
 
   //for place order button
   RxBool isPlaced= false.obs;
-
-
   Future<void> saveOrder(String cusId, String xOrg, String status) async{
     isPlaced(true);
     await getGeoLocationPosition();
@@ -440,7 +480,7 @@ class CartController extends GetxController {
                   for(int i = 0; i< listCartHeader.length; i++){
                     await generateSoNumber();
                     var dataHeader = jsonEncode(<String, dynamic>{
-                      "zauserid" : loginController.xstaff.value,
+                      "zauserid" : loginController.xposition.value,
                       "zid" : "${listCartHeader[i]['zid']}",
                       "xtornum" : customId.value,
                       "xdate" : "${listCartHeader[i]['createdAt']}",
@@ -460,20 +500,22 @@ class CartController extends GetxController {
                     var responseHeader = await http.post(
                         Uri.parse('http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
                         body: dataHeader);
+                    print('cart uploaded: $responseHeader');
                     var tempHeader = '${listCartHeader[i]['cartID']}';
-                    await getCartHeaderDetailsList(tempHeader);
-                    for(int j = 0; j< listCartHeaderDetails.length; j++){
+                    await allCartHeaderDetails(tempHeader);
+                    print('details length: ${allCartDetails.length}');
+                    for(int j = 0; j< allCartDetails.length; j++){
                       var dataDetails = jsonEncode(<String, dynamic>{
-                        "zid" : listCartHeaderDetails[j]['zid'],
-                        "zauserid" : loginController.xstaff.value,
+                        "zid" : allCartDetails[j]['zid'],
+                        "zauserid" : loginController.xposition.value,
                         "xtornum" : customId.value,
                         "xrow" : "${j+1}",
-                        "xitem" : listCartHeaderDetails[j]['xitem'],
-                        "xunit" : listCartHeaderDetails[j]['xunit'],
-                        "qty" : listCartHeaderDetails[j]['xqty'],
-                        "amount" : listCartHeaderDetails[j]['subTotal'],
-                        "xpartno" : listCartHeaderDetails[j]['yes_no'],
-                        "xmasteritem" : listCartHeaderDetails[j]['xmasteritem'],
+                        "xitem" : allCartDetails[j]['xitem'],
+                        "xunit" : allCartDetails[j]['xunit'],
+                        "qty" : allCartDetails[j]['xqty'],
+                        "amount" : allCartDetails[j]['subTotal'],
+                        "xpartno" : allCartDetails[j]['yes_no'],
+                        "xmasteritem" : allCartDetails[j]['xmasteritem'],
                       });
 
                       var responseDetails = await http.post(

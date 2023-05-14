@@ -467,6 +467,7 @@ class DashboardController extends GetxController {
   Future getProductList(String xcus, String dealerType) async{
     isLoading2(true);
     productList = await DatabaseRepo().getProduct(dealerType);
+    foundProductList = productList; //for search option in product list
     print('---===================-------$productList');
     print('---===================-------${productList.length}');
     await getCusWisePrice();
@@ -490,6 +491,30 @@ class DashboardController extends GetxController {
     }
     print('Updated product list == $updatedProductList');
     isLoading2(false);
+  }
+
+
+  RxBool isSearched = false.obs;
+  List foundProductList = [];
+  // RxBool enableDealerList = false.obs;
+  void runFilterForProduct(String keyword) async{
+    try{
+      isSearched(true);
+      List result = [];
+      if(keyword.isEmpty){
+        result = productList;
+        isSearched(false);
+      }else{
+        result = productList.where((name) => name['xdesc'].toLowerCase().contains(keyword.toLowerCase())).toList();
+        isSearched(false);
+        print('Actual list : $result');
+      }
+      foundProductList = result;
+      isSearched(false);
+    }catch(e){
+      isSearched(false);
+      print('Error Occured: $e');
+    }
   }
 
 /*  var specProduct;

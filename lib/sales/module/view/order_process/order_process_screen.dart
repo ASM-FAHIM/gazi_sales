@@ -150,8 +150,6 @@ class _OrderScreenState extends State<OrderScreen> {
                               height: Dimensions.height50 + Dimensions.height20,
                               child: ListTile(
                                 onTap: () {
-                                  loginController.xsp.value = dashboardController.foundDealerList[index]['xsp'].toString();
-                                  print('The XSP value is saved in the Dealer Screen: ${loginController.xsp.value}');
                                   Get.to(() => ProductsScreen(
                                     xcus: dashboardController.foundDealerList[index]['xcus'].toString(),
                                     xOrg: dashboardController.foundDealerList[index]['xorg'].toString(),

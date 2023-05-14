@@ -162,7 +162,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         endColor: Colors.lightBlue,
                                         width: 8.0,
                                       ),
-                                      child: Center(child: Text('50000 BDT', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
+                                      child: Center(child: Text('50000 Tk.', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
                                     ),
                                   ),
                                 ),
@@ -186,7 +186,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         width: 8.0,
                                       ),
                                       child: Center(
-                                          child: Text('25000 BDT', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
+                                          child: Text('25000 Tk.', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
                                     ),
                                   ),
                                 ),

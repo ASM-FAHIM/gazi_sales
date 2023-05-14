@@ -413,7 +413,7 @@ class DatabaseRepo{
     }
   }
 
-  //Method for only inserting accessories to cartAccories table
+//Method for only inserting accessories to cartAccories table
   Future<void> additionalAccessoriesInsert(String xitem, String zid, String masteritem, String qty) async{
     var dbClient = await conn.db;
     try{
@@ -435,10 +435,6 @@ class DatabaseRepo{
 
       } else {
         // Combination of zid and xmasteritem does not exist, insert a new row
-        print("Inserted into cartAccessoriesTable AccItem: $xitem");
-        print("Inserted into cartAccessoriesTable MainItem: $masteritem");
-        print("Inserted into cartAccessoriesTable Qty: $qty");
-        print("Inserted into cartAccessoriesTable Zid: $zid");
         var sqlResult = await dbClient.rawQuery('''
           INSERT INTO ${DBHelper.cartAccessoriesTable} (zid, xitem, accName, xqty, xunit, xmasteritem)
           VALUES (?, ?, (SELECT name FROM ${DBHelper.productAccessories} WHERE xitemaccessories = ? LIMIT 1),
@@ -455,8 +451,6 @@ class DatabaseRepo{
       print('There are some issues inserting/updating cartTable: $e');
     }
   }
-
-
 
   //for getting product wise accessories list from cart screen to cart accessories screen
   Future<List<Map<String, dynamic>>> getAccessories(String xitem) async {
@@ -616,6 +610,21 @@ class DatabaseRepo{
     try{
       cartHeaderDetails = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'",[cartId]);
       print('Product: $cartHeaderDetails');
+      print('Product details length: ${cartHeaderDetails.length}');
+    }catch(e){
+      print("There are some issues: $e");
+    }
+    return cartHeaderDetails;
+  }
+
+  //for uploading all cart details
+  Future getAllCartDetailsList(String cartId) async{
+    var dbClient = await conn.db;
+    List cartHeaderDetails = [];
+    try{
+      cartHeaderDetails = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ?",[cartId]);
+      print('Product: $cartHeaderDetails');
+      print('Product details length: ${cartHeaderDetails.length}');
     }catch(e){
       print("There are some issues: $e");
     }

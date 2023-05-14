@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/data_model/notificaiton_count/admin_count.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/cash_adv_notification.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/pending_voucher.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/sr_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -608,6 +609,88 @@ class _AdminNotificationState extends State<AdminNotification> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+              child: Container(
+                height: MediaQuery.of(context).size.width / 8,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: TextButton(
+                  // shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20.0)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CashAdvNotifScreen(
+                              xposition: widget.xposition,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                            )));
+                  },
+                  child: Text(
+                    "Cash adv Notifications",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.bakbakOne(
+                      fontSize: 18,
+                      color: Color(0xff064A76),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+              child: Container(
+                height: MediaQuery.of(context).size.width / 8,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: TextButton(
+                  // shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20.0)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CashAdvNotifScreen(
+                              xposition: widget.xposition,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                            )));
+                  },
+                  child: Text(
+                    "Cash adv Notifications",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.bakbakOne(
+                      fontSize: 18,
+                      color: Color(0xff064A76),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             // Padding(
             //   padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
             //   child: Container(
@@ -721,6 +804,47 @@ class _AdminNotificationState extends State<AdminNotification> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+                            builder: (context) => SO_notification(
+                              xposition: widget.xposition,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                            )));
+                  },
+                  child: Text(
+                    "Deposit Notification",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.bakbakOne(
+                      fontSize: 18,
+                      color: Color(0xff064A76),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            /*Padding(
+              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+              child: Container(
+                height: MediaQuery.of(context).size.width / 8,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: TextButton(
+                  // shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20.0)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
                             builder: (context) => DealerVisitList(
                               xposition: widget.xposition,
                               zemail: widget.zemail,
@@ -737,7 +861,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                   ),
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
       ),

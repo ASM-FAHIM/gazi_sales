@@ -72,6 +72,7 @@ class _CartAccessoriesScreenState extends State<CartAccessoriesScreen> {
         return cartController.isAccLoaded.value
             ? Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       margin: EdgeInsets.all(10.0),

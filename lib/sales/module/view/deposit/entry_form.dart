@@ -84,12 +84,12 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                   )
                 : SingleChildScrollView(
                   child: Container(
-              padding: const EdgeInsets.all(8),
+              // padding: const EdgeInsets.all(8),
               child: Column(
                   children: [
                     Container(
                       height: Dimensions.height650 + Dimensions.height20,
-                      margin: EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 10),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -98,7 +98,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -113,7 +113,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -128,7 +128,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -217,7 +217,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -239,9 +239,9 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                             Container(
                               height: Dimensions.height70,
                               width: double.maxFinite,
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -250,9 +250,9 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: DropdownButton(
-                                underline: SizedBox(), // to remove the default underline of DropdownButton
+                                underline: const SizedBox(), // to remove the default underline of DropdownButton
                                 iconSize: 30.0,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18.0,
                                   color: Colors.black,
                                 ),
@@ -271,13 +271,13 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 },
                                 hint: Obx(() => Text(
                                   depositController.paymentMod.value,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18.0,
                                   ),
                                 )),
                                 isExpanded: true, // to make the dropdown button span the full width of the container
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.arrow_drop_down,
                                   color: Colors.grey,
                                 ),
@@ -286,9 +286,9 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                             Container(
                               height: Dimensions.height70,
                               width: double.maxFinite,
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -297,9 +297,9 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
                               child: DropdownButton(
-                                underline: SizedBox(), // to remove the default underline of DropdownButton
+                                underline: const SizedBox(), // to remove the default underline of DropdownButton
                                 iconSize: 30.0,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18.0,
                                   color: Colors.black,
                                 ),
@@ -318,13 +318,13 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 },
                                 hint: Obx(() => Text(
                                   depositController.bankSelection.value,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18.0,
                                   ),
                                 )),
                                 isExpanded: true, // to make the dropdown button span the full width of the container
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.arrow_drop_down,
                                   color: Colors.grey,
                                 ),
@@ -335,7 +335,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -359,7 +359,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -383,7 +383,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -417,7 +417,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               width:double.maxFinite,
                               padding: const EdgeInsets.only(left: 10, right: 10),
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -443,6 +443,10 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                     Container(
                       height: Dimensions.height50,
                       width: Dimensions.height120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0)
+                      ),
+                      clipBehavior: Clip.hardEdge,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: AppColor.appBarColor
@@ -451,8 +455,6 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                           final String paymentNature = depositController.selectedOption.value;
                           final String bankName = depositController.bankSelection.value;
                           final String paymentType = depositController.paymentMod.value;
-                          print('============$bankName');
-                          print('============$paymentType');
                           depositController.depositSubmission(widget.cusId, bankName,paymentNature, paymentType);
                         },
                         child: depositController.isSubmitted.value

@@ -68,7 +68,6 @@ class CartTotal extends StatelessWidget {
                         primary: AppColor.appBarColor,
                       ),
                       onPressed: () async{
-                        print('The xsp value from dealer table is: ${loginController.xsp.value}');
                         showDialog(context: context, builder: (BuildContext context){
                           return ReusableAlert(cartController: cartController, xCus: xCus, xOrg: xOrg,);
                         });

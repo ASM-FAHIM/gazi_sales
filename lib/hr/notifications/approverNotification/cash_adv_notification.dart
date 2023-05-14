@@ -1,33 +1,33 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import '../../../conts_api_link.dart';
-import '../../../data_model/notification_model/admin_approver_model/pendingvoucher_model.dart';
-import 'details/pending_voucher_notification_details.dart';
-import 'details/voucher_details.dart';
+import '../../../data_model/notification_model/admin_approver_model/cash_adv_admin_model.dart';
+import 'details/cash_adv_details.dart';
 
-class Pending_voucher extends StatefulWidget {
-  Pending_voucher(
-      {required this.xposition,
-      required this.zemail,
-      required this.zid});
+class CashAdvNotifScreen extends StatefulWidget {
   String xposition;
   String zemail;
   String zid;
 
+  CashAdvNotifScreen({
+    required this.xposition,
+    required this.zemail,
+    required this.zid,
+    Key? key}) : super(key: key);
+
   @override
-  State<Pending_voucher> createState() => _Pending_voucherState();
+  State<CashAdvNotifScreen> createState() => _CashAdvNotifScreenState();
 }
 
-class _Pending_voucherState extends State<Pending_voucher> {
-  Future<List<PendingvoucherModel>>? futurePost;
+class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
+  Future<List<CashAdvNotificationModel>>? futurePost;
   String rejectNote = " ";
 
-  Future<List<PendingvoucherModel>> fetchPost() async {
+  Future<List<CashAdvNotificationModel>> fetchPost() async {
     var response = await http.post(
-      Uri.parse(ConstApiLink().pendingVoucherApi),
+      Uri.parse(ConstApiLink().cashAdvApi),
       body: jsonEncode(
         <String, String>{
           "zid": widget.zid,
@@ -40,8 +40,8 @@ class _Pending_voucherState extends State<Pending_voucher> {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<PendingvoucherModel>(
-              (json) => PendingvoucherModel.fromJson(json))
+          .map<CashAdvNotificationModel>(
+              (json) => CashAdvNotificationModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -67,7 +67,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
         ),
         title: Center(
           child: Text(
-            "Pending Voucher For Approval",
+            "Cash Adv. Approval",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -83,7 +83,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<PendingvoucherModel>>(
+        child: FutureBuilder<List<CashAdvNotificationModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -111,7 +111,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              " ${snapshot.data![index].xvoucher}",
+                                              " ${snapshot.data![index].xporeqnum}",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.bakbakOne(
                                                 fontSize: 18,
@@ -119,7 +119,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                               ),
                                             ),
                                             Text(
-                                              " ${snapshot.data![index].preparer}",
+                                              " ${snapshot.data![index].preparerName}",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.bakbakOne(
                                                 fontSize: 18,
@@ -127,7 +127,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                               ),
                                             ),
                                             Text(
-                                              " ${snapshot.data![index].designation}",
+                                              " ${snapshot.data![index].preparerXdesignation}",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.bakbakOne(
                                                 fontSize: 18,
@@ -144,8 +144,8 @@ class _Pending_voucherState extends State<Pending_voucher> {
                             CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Voucher Number :" +
-                                    "${snapshot.data![index].xvoucher}",
+                                "Requisition number :" +
+                                    "${snapshot.data![index].xporeqnum}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -159,129 +159,21 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                 ),
                               ),
                               Text(
-                                "Reference : ${snapshot.data![index].xref}",
+                                "Purchase type : ${snapshot.data![index].xtype}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "LC NO :" + "${snapshot.data![index].xlcno}",
+                                "Store code : ${snapshot.data![index].xtwh}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Plant/Project :" +
-                                    "${snapshot.data![index].xwh}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Description :" +
-                                    "${snapshot.data![index].xwhdec}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Cheque Number : ${snapshot.data![index].xchequeno}"
-                                    ,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Date : ${snapshot.data![index].xdatechq}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Bank : ${snapshot.data![index].xbank}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Bank Name : " + snapshot.data![index].bname,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Year : " +
-                                    snapshot.data![index].xyear.toString(),
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Period : " +
-                                    snapshot.data![index].xper.toString(),
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              /*Text(
-                                "Delivery Challan : " +
-                                    snapshot.data![index].,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),*/
-                              Text(
-                                "Status : ${snapshot.data![index].xstatusjv}" ,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Approval Status : ${snapshot.data![index].xstatus}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Long Description : ${snapshot.data![index].xlong}"
-                                    ,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Reviewer Name : " +
-                                    snapshot.data![index].signname,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Reviewer Designation : " +
-                                    snapshot.data![index].signdesignation,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Department : " +
-                                    snapshot.data![index].signdeptname,
+                                "Store name : ${snapshot.data![index].xtypeobj}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -296,14 +188,12 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Voucher_details_notification(
-                                                xvoucher: '${snapshot
-                                                    .data![index].xvoucher}',
+                                              CashAdvDetailsNotifiScreen(
+                                                reqNumber: snapshot.data![index].xporeqnum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatus: '${snapshot
-                                                    .data![index].xstatus}',
+                                                xstatusreq: snapshot.data![index].xstatus,
                                               )));
                                   debugPrint(result.toString());
                                   print(result);

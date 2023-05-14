@@ -1,51 +1,48 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
-import '../../../../data_model/notification_model/admin_approver_model/details/voucher_details_model.dart';
+import '../../../../conts_api_link.dart';
+import '../../../../data_model/notification_model/admin_approver_model/details/cash_adv_details_model.dart';
 import '../../../../sales/constant/app_constants.dart';
 
-class Voucher_details_notification extends StatefulWidget {
-  Voucher_details_notification(
-      {required this.xvoucher,
-        required this.zid,
-        required this.xposition,
-        required this.xstatus,
-        required this.zemail});
-
-  String xvoucher;
+class CashAdvDetailsNotifiScreen extends StatefulWidget {
+  String reqNumber;
   String zid;
   String xposition;
-  String xstatus;
+  String xstatusreq;
   String zemail;
+  CashAdvDetailsNotifiScreen({
+    required this.reqNumber,
+    required this.zid,
+    required this.xposition,
+    required this.xstatusreq,
+    required this.zemail
+    ,Key? key}) : super(key: key);
 
   @override
-  State<Voucher_details_notification> createState() =>
-      _Voucher_details_notificationState();
+  State<CashAdvDetailsNotifiScreen> createState() => _CashAdvDetailsNotifiScreenState();
 }
 
-class _Voucher_details_notificationState
-    extends State<Voucher_details_notification> {
-  Future<List<VoucherDetailsModel>>? futurePost;
+class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen> {
+  Future<List<CashAdvDetailsNotificationModel>>? futurePost;
   String rejectNote = " ";
 
-  Future<List<VoucherDetailsModel>> fetchPostdetails() async {
+  Future<List<CashAdvDetailsNotificationModel>> fetchPostdetails() async {
     var response = await http.post(
-        Uri.parse('http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherDetails.php'),
+        Uri.parse(ConstApiLink().cashAdvDetailsApi),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
-          "xvoucher": widget.xvoucher,
+          "xporeqnum": widget.reqNumber,
         }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<VoucherDetailsModel>(
-              (json) => VoucherDetailsModel.fromJson(json))
+          .map<CashAdvDetailsNotificationModel>(
+              (json) => CashAdvDetailsNotificationModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -87,7 +84,7 @@ class _Voucher_details_notificationState
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<VoucherDetailsModel>>(
+        child: FutureBuilder<List<CashAdvDetailsNotificationModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -111,7 +108,7 @@ class _Voucher_details_notificationState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${snapshot.data![index].xacc}",
+                                      "${snapshot.data![index].xitem}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -126,8 +123,8 @@ class _Voucher_details_notificationState
                                       ),
                                     ),
                                     Text(
-                                      "Sub Code : " +
-                                          snapshot.data![index].xsub,
+                                      "Quantity required : " +
+                                          snapshot.data![index].xqtyreq,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -135,24 +132,32 @@ class _Voucher_details_notificationState
                                     ),
                                     //
                                     Text(
-                                      "Sub description : " +
-                                          "${snapshot.data![index].subdesc}",
+                                      "Quantity approved : " +
+                                          "${snapshot.data![index].xqtyapv}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Debit: " +
-                                          "${snapshot.data![index].xdebit}",
+                                      "Unit: " +
+                                          "${snapshot.data![index].xunitpur}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Credit : " +
-                                          snapshot.data![index].xcredit,
+                                      "Rate : " +
+                                          snapshot.data![index].xrate,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Line amount : " +
+                                          snapshot.data![index].xlineamt,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -177,13 +182,13 @@ class _Voucher_details_notificationState
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherapproval.php'),
+                                  'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xvoucher": widget.xvoucher,
-                                "xstatus": widget.xstatus
+                                "xporeqnum": widget.reqNumber,
+                                "xstatusreq": widget.xstatusreq
                                 // "aprcs": "GRN Approval"
                               }));
 
@@ -273,7 +278,7 @@ class _Voucher_details_notificationState
                                               "zid": widget.zid,
                                               "user": widget.zemail,
                                               "xposition": widget.xposition,
-                                              "xvoucher": widget.xvoucher,
+                                              "xporeqnum": widget.reqNumber,
                                               "xnote": rejectNote
                                             }));
                                         print(response.statusCode);

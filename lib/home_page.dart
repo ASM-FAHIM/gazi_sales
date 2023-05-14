@@ -213,10 +213,8 @@ class _HomepageState extends State<Homepage> {
                   padding: const EdgeInsets.only(right: 10.0),
                   child: IconButton(
                     onPressed: () async{
-                      // await LoginRepo().deleteFromLoginTable();
-                      // await LoginRepo().deleteLoginStatusTable();
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          Login_page()), (Route<dynamic> route) => false);},
+                          const Login_page()), (Route<dynamic> route) => false);},
                     icon: const Icon(
                       Icons.logout,
                       color: Color(0xff074974),
@@ -231,10 +229,10 @@ class _HomepageState extends State<Homepage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.all(10.0),
-                        child: CircularProgressIndicator(color: AppColor.appBarColor,),
+                        margin: const EdgeInsets.all(10.0),
+                        child: const CircularProgressIndicator(color: AppColor.appBarColor,),
                       ),
-                      Text('Loading...'),
+                      const Text('Loading...'),
                     ],
                   ),
                 )
@@ -305,7 +303,7 @@ class _HomepageState extends State<Homepage> {
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.bakbakOne(
                                     fontSize: 15,
-                                    color: Color(0xff074974),
+                                    color: const Color(0xff074974),
                                   ),
                                 ),
                               ),
@@ -315,7 +313,7 @@ class _HomepageState extends State<Homepage> {
                                 style: GoogleFonts.bakbakOne(
                                   // //fontWeight: FontWeight.bold,
                                   fontSize: 15,
-                                  color: Color(0xff074974),
+                                  color: const Color(0xff074974),
                                 ),
                               ),
                             ],
@@ -338,13 +336,13 @@ class _HomepageState extends State<Homepage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -364,7 +362,7 @@ class _HomepageState extends State<Homepage> {
                                 spreadRadius: 1,
                                 blurRadius: 5,
                                 offset:
-                                    Offset(0, 3), // changes position of shadow
+                                    const Offset(0, 3), // changes position of shadow
                               ),
                             ],
                           ),
@@ -413,7 +411,7 @@ class _HomepageState extends State<Homepage> {
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 15,
-                                        color: Color(0xff074974),
+                                        color: const Color(0xff074974),
                                       ),
                                     )
                                   ],
@@ -438,7 +436,7 @@ class _HomepageState extends State<Homepage> {
                                 spreadRadius: 1,
                                 blurRadius: 5,
                                 offset:
-                                Offset(0, 3), // changes position of shadow
+                                const Offset(0, 3), // changes position of shadow
                               ),
                             ],
                           ),
@@ -449,33 +447,26 @@ class _HomepageState extends State<Homepage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => BusinessScreen()));
+                                      builder: (context) => const BusinessScreen()));
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // const Icon(FontAwesomeIcons.fileAlt,
-                                //   size: 60,
-                                //   color: Color(0xff4AA0EC),
-                                // ),
-
-                                Image(
+                                const Image(
                                   image: AssetImage('assets/images/payslip.png'),
                                   height: 60,
                                   width: 60,
                                 ),
-
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
-
                                 Text(
                                   "Sales",
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.bakbakOne(
                                     fontSize: 15,
-                                    color: Color(0xff074974),
+                                    color: const Color(0xff074974),
                                   ),
                                 )
                               ],
