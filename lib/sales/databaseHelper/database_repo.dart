@@ -427,26 +427,36 @@ class DatabaseRepo{
       if (existingRow.isNotEmpty) {
         var result = await dbClient.rawQuery('''
           UPDATE ${DBHelper.cartAccessoriesTable}
-          SET xqty = ?
+          SET xqty = xqty +1
            WHERE zid = ? AND xmasteritem = ? AND xitem = ?
-            ''', [qty, zid, masteritem, xitem]);
+            ''', [ zid, masteritem, xitem]);
         print("Updated Successfully into cartAccessoriesTable table: -------------$result");
         // Combination of zid and xmasteritem already exists, update the quantity
 
       } else {
         // Combination of zid and xmasteritem does not exist, insert a new row
-        var result = await dbClient.rawQuery('''
-        INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
-        SELECT zid, xitemaccessories, name, ?, xunit, ?
-        FROM ${DBHelper.productAccessories}
-        WHERE xitemaccessories = ? and zid =? and xitem = ?
-      ''', [qty, xitem, zid, masteritem]);
-        print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+        print("Inserted into cartAccessoriesTable AccItem: $xitem");
+        print("Inserted into cartAccessoriesTable MainItem: $masteritem");
+        print("Inserted into cartAccessoriesTable Qty: $qty");
+        print("Inserted into cartAccessoriesTable Zid: $zid");
+        var sqlResult = await dbClient.rawQuery('''
+          INSERT INTO ${DBHelper.cartAccessoriesTable} (zid, xitem, accName, xqty, xunit, xmasteritem)
+          VALUES (?, ?, (SELECT name FROM ${DBHelper.productAccessories} WHERE xitemaccessories = ? LIMIT 1),
+                  ?, (SELECT xunit FROM ${DBHelper.productAccessories} WHERE xitemaccessories = ? LIMIT 1), ?)
+        ''', [zid, xitem, xitem, qty, xitem, masteritem]);
+
+        if (sqlResult != -1) {
+          print("Inserted Successfully into cartAccessoriesTable: $sqlResult");
+        } else {
+          print("Failed to insert into cartAccessoriesTable");
+        }
       }
     } catch(e){
       print('There are some issues inserting/updating cartTable: $e');
     }
   }
+
+
 
   //for getting product wise accessories list from cart screen to cart accessories screen
   Future<List<Map<String, dynamic>>> getAccessories(String xitem) async {
