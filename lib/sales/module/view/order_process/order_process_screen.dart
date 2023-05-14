@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/view/order_process/product_list_screen.dart';
+import 'package:gazi_sales_app/sales/module/view/order_process/product_type_selection_screen.dart';
 import 'package:get/get.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
@@ -20,7 +21,6 @@ class _OrderScreenState extends State<OrderScreen> {
   LoginController loginController = Get.find<LoginController>();
   TextEditingController name = TextEditingController();
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -35,11 +35,11 @@ class _OrderScreenState extends State<OrderScreen> {
         appBar: AppBar(
           backgroundColor: AppColor.appBarColor,
           leading: GestureDetector(
-            onTap: () async{
-              Get.back();
-              await dashboardController.getVisitedDealerList();
-              await dashboardController.countDealerVisitTable();
-            },
+              onTap: () async {
+                Get.back();
+                await dashboardController.getDashboardValues();
+                // await dashboardController.countDealerVisitTable();
+              },
               child: const Icon(
                 Icons.arrow_back_outlined,
                 size: 25,
@@ -49,168 +49,149 @@ class _OrderScreenState extends State<OrderScreen> {
             color: AppColor.defWhite,
             size: 25,
           ),
-          actions: [
-            Container(
-              width: Dimensions.height70 + Dimensions.height45,
-              child: DropdownButtonFormField(
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder( //<-- SEE HERE
-                    borderSide: BorderSide(color: Colors.black, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder( //<-- SEE HERE
-                    borderSide: BorderSide(color: Colors.black, width: 1),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                dropdownColor: AppColor.defWhite,
-                items: <String>[
-                  "Tank",
-                  "Toy",
-                ].map<DropdownMenuItem<String>>(
-                      (String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                      ),
-                    );
-                  },
-                ).toList(),
-                onChanged: (value) {
-                  loginController.selectedOption.value = value.toString();
-                },
-                hint: Obx(() => Text(
-                  loginController.selectedOption.value,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15.0,
-                  ),
-                )),
-                isExpanded: true, // to make the dropdown button span the full width of the container
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.grey,
-                ),
-              ),
-            )
-          ],
         ),
-        body: Obx((){
+        body: Obx(() {
           return dashboardController.isLoading1.value
               ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(10.0),
-                      child: const CircularProgressIndicator(
-                        color: AppColor.appBarColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10.0),
+                        child: const CircularProgressIndicator(
+                          color: AppColor.appBarColor,
+                        ),
                       ),
-                    ),
-                    const Text('Loading...')
-                  ],
-                ),
-              )
-              : Container(
-              margin: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: name,
-                    decoration: const InputDecoration(
-                        hintText: 'Search by name',
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.search)
-                    ),
-                    onChanged: (value) => dashboardController.runFilter(value),
+                      const Text('Loading...')
+                    ],
                   ),
-                  Obx((){
-                    return Expanded(
-                      child: dashboardController.isLoading5.value
-                        ? Center(
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(10.0),
-                                child: CircularProgressIndicator(
-                                  color: AppColor.appBarColor,
-                                ),
-                              ),
-                              Text('Loading...')
-                            ],
-                          ),
-                        )
-                        : ListView.builder(
-                        itemCount: dashboardController.foundDealerList.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 5, bottom: 5),
-                            child: SizedBox(
-                              height: Dimensions.height50 + Dimensions.height20,
-                              child: ListTile(
-                                onTap: () {
-                                  Get.to(() => ProductsScreen(
-                                    xcus: dashboardController.foundDealerList[index]['xcus'].toString(),
-                                    xOrg: dashboardController.foundDealerList[index]['xorg'].toString(),
-                                    xterritory: dashboardController.foundDealerList[index]['xterritory'].toString(),
-                                    xgcus: dashboardController.foundDealerList[index]['xgcus'].toString(),
-                                  ));
-                                },
-                                tileColor: AppColor.appBarColor,
-                                title: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    BigText(
-                                      text: dashboardController.foundDealerList[index]['xorg'].toString(),
-                                      size: 14,
-                                      color: AppColor.defWhite,
-                                    )
-                                  ],
-                                ),
-                                subtitle: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            SmallText(
-                                              text: dashboardController.foundDealerList[index]['xcus'],
-                                              size: 12,
-                                            ),
-                                            Container(
-                                              height: 50,
-                                              width: Dimensions.height150,
-                                              child:  SmallText(
-                                                text: dashboardController.foundDealerList[index]['xphone'],
-                                                size: 10,
-                                              ),
-                                            )
-                                          ],
+                )
+              : Container(
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: name,
+                        decoration: const InputDecoration(
+                            hintText: 'Search by name',
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.search)),
+                        onChanged: (value) =>
+                            dashboardController.runFilter(value),
+                      ),
+                      Obx(() {
+                        return Expanded(
+                          child: dashboardController.isLoading5.value
+                              ? Center(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.all(10.0),
+                                        child: CircularProgressIndicator(
+                                          color: AppColor.appBarColor,
                                         ),
-                                        Container(
-                                          height: 60,
-                                          width: Dimensions.height150,
-                                          child: SmallText(
-                                            text: dashboardController.foundDealerList[index]['xmadd'],
-                                            size: 8,
+                                      ),
+                                      Text('Loading...')
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: dashboardController
+                                      .foundDealerList.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: SizedBox(
+                                        height: Dimensions.height50 +
+                                            Dimensions.height20,
+                                        child: ListTile(
+                                          onTap: () {
+                                            Get.to(
+                                                () => ProductTypeSelectScreen(
+                                                      xCus: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xcus'],
+                                                      xOrg: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xorg'],
+                                                      xGcus: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xgcus'],
+                                                      xTerritory: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xterritory'],
+                                                    ));
+                                          },
+                                          tileColor: AppColor.appBarColor,
+                                          title: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              BigText(
+                                                text: dashboardController
+                                                    .foundDealerList[index]
+                                                        ['xorg']
+                                                    .toString(),
+                                                size: 14,
+                                                color: AppColor.defWhite,
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                  );
-                })
-              ],
-            ),
-          );
+                                          subtitle: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SmallText(
+                                                        text: dashboardController
+                                                                .foundDealerList[
+                                                            index]['xcus'],
+                                                        size: 12,
+                                                      ),
+                                                      Container(
+                                                        height: 50,
+                                                        width: Dimensions
+                                                            .height150,
+                                                        child: SmallText(
+                                                          text: dashboardController
+                                                                  .foundDealerList[
+                                                              index]['xphone'],
+                                                          size: 10,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    height: 60,
+                                                    width: Dimensions.height150,
+                                                    child: SmallText(
+                                                      text: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xmadd'],
+                                                      size: 8,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                        );
+                      })
+                    ],
+                  ),
+                );
         }),
       ),
     );
@@ -257,8 +238,6 @@ SmallText(text: dashboardController.list[index]['xterritory'], size: 14,),
 ),
 );
 })*/
-
-
 
 ///main
 /*Obx((){

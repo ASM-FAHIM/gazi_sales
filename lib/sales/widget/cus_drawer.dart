@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/widget/small_text.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../../screen/login_page.dart';
 import '../constant/colors.dart';
 import '../constant/dimensions.dart';
 import '../module/controller/login_controller.dart';
@@ -9,7 +11,6 @@ import '../module/view/dashboard_screen.dart';
 import '../module/view/deposit/deposi_entry_screen.dart';
 import '../module/view/gift_promo_screen.dart';
 import '../module/view/history/order_history_screen.dart';
-import '../module/view/incentive_collect/dealer_list.dart';
 import '../module/view/notifications/notification_screen.dart';
 import '../module/view/order_process/order_process_screen.dart';
 import '../module/view/sro_summary/sro_screen.dart';
@@ -36,9 +37,7 @@ class CusDrawer extends StatelessWidget {
           Container(
             width: _width,
             height: _height / 3.3,
-            decoration: const BoxDecoration(
-              color: AppColor.appBarColor
-            ),
+            decoration: const BoxDecoration(color: AppColor.appBarColor),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -64,8 +63,14 @@ class CusDrawer extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      BigText(text: loginController.xName.value, color: Colors.white,),
-                      SmallText(text: loginController.xtso.value, color: Colors.white,),
+                      BigText(
+                        text: loginController.xName.value,
+                        color: Colors.white,
+                      ),
+                      SmallText(
+                        text: loginController.xtso.value,
+                        color: Colors.white,
+                      ),
                     ],
                   ),
                 )
@@ -77,14 +82,14 @@ class CusDrawer extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: Container(
-                decoration: const BoxDecoration(
-                ),
+                decoration: const BoxDecoration(),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Column(
                     children: <Widget>[
                       ListTile(
-                        visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: 0),
                         onTap: () {
                           Get.back();
                           Get.back();
@@ -96,11 +101,15 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Home', size: 20,),
+                        title: SmallText(
+                          text: 'Home',
+                          size: 20,
+                        ),
                       ),
                       const CusDivider(),
                       ListTile(
-                        visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: 0),
                         onTap: () {
                           Get.back();
                           Get.to(() => DashboardScreen());
@@ -110,26 +119,32 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Dashboard', size: 20,),
+                        title: SmallText(
+                          text: 'Dashboard',
+                          size: 20,
+                        ),
                       ),
-                     if(loginController.xrole.value == 'SRO')...[
-                       const CusDivider(),
-                       ListTile(
-                         visualDensity: VisualDensity(horizontal: 0, vertical: 0),
-                         onTap: () {
-                           Get.back();
-                           Get.to(() => SROScreen());
-                         },
-                         leading: const Icon(
-                           MdiIcons.monitorDashboard,
-                           color: AppColor.appBarColor,
-                           size: 25,
-                         ),
-                         title: SmallText(text: 'TSO List', size: 20,),
-                       ),
-                     ]else...[
-
-                     ],
+                      if (loginController.xrole.value == 'SRO') ...[
+                        const CusDivider(),
+                        ListTile(
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: 0),
+                          onTap: () {
+                            Get.back();
+                            Get.to(() => SROScreen());
+                          },
+                          leading: const Icon(
+                            MdiIcons.monitorDashboard,
+                            color: AppColor.appBarColor,
+                            size: 25,
+                          ),
+                          title: SmallText(
+                            text: 'TSO List',
+                            size: 20,
+                          ),
+                        ),
+                      ] else
+                        ...[],
                       const CusDivider(),
                       ListTile(
                         onTap: () {
@@ -141,11 +156,15 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Deposit entry', size: 20,),
+                        title: SmallText(
+                          text: 'Deposit entry',
+                          size: 20,
+                        ),
                       ),
                       const CusDivider(),
                       ListTile(
-                        visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: 0),
                         onTap: () {
                           Get.back();
                           Get.to(() => OrderScreen());
@@ -155,11 +174,15 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Order Process', size: 20,),
+                        title: SmallText(
+                          text: 'Order Process',
+                          size: 20,
+                        ),
                       ),
                       const CusDivider(),
                       ListTile(
-                        visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: 0),
                         onTap: () {
                           Get.back();
                           Get.to(() => OrderHistoryScreen());
@@ -169,7 +192,10 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Order History', size: 20,),
+                        title: SmallText(
+                          text: 'Order History',
+                          size: 20,
+                        ),
                       ),
                       const CusDivider(),
                       ListTile(
@@ -182,7 +208,10 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Gift & Promo', size: 20,),
+                        title: SmallText(
+                          text: 'Gift & Promo',
+                          size: 20,
+                        ),
                       ),
                       const CusDivider(),
                       ListTile(
@@ -195,7 +224,10 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Work note', size: 20,),
+                        title: SmallText(
+                          text: 'Work note',
+                          size: 20,
+                        ),
                       ),
                       const CusDivider(),
                       ListTile(
@@ -208,7 +240,10 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Notifications', size: 20,),
+                        title: SmallText(
+                          text: 'Notifications',
+                          size: 20,
+                        ),
                       ),
                       /*const CusDivider(),
                       ListTile(
@@ -238,7 +273,7 @@ class CusDrawer extends StatelessWidget {
                           title: SmallText(text: 'Incentive', size: 20,),
                         ),
                       ]else...[],*/
-                      const CusDivider(),
+                      /*const CusDivider(),
                       ListTile(
                         onTap: () {
                           Get.back();
@@ -250,8 +285,8 @@ class CusDrawer extends StatelessWidget {
                           size: 25,
                         ),
                         title: SmallText(text: 'Incentive', size: 20,),
-                      ),
-                      /*const CusDivider(),
+                      ),*/
+                      const CusDivider(),
                       ListTile(
                         onTap: () {
                           Get.offAll(() => Login_page());
@@ -261,9 +296,12 @@ class CusDrawer extends StatelessWidget {
                           color: AppColor.appBarColor,
                           size: 25,
                         ),
-                        title: SmallText(text: 'Logout', size: 20,),
+                        title: SmallText(
+                          text: 'Logout',
+                          size: 20,
+                        ),
                       ),
-                      const CusDivider(),*/
+                      const CusDivider(),
                     ],
                   ),
                 ),
