@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/widget/date_container.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -130,6 +131,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: Center(
                     child: Column(
                       children: [
+                        DateContainer(),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -149,8 +154,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            dashboardController
-                                                .dashBoardValues[0]["target"],
+                                            "${dashboardController.dashBoardValues[0]["target"]} Tk.",
                                             style: GoogleFonts.roboto(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -189,9 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            dashboardController
-                                                    .dashBoardValues[0]
-                                                ["achievement"],
+                                            "${dashboardController.dashBoardValues[0]["achievement"]} Tk.",
                                             style: GoogleFonts.roboto(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -235,7 +237,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
                                       height: 100,
