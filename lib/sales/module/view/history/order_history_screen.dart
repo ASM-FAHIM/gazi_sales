@@ -121,7 +121,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                             ),
                           ),
                           Container(
-                            height: 80,
+                            height: 100,
                             width: double.maxFinite,
                             padding: EdgeInsets.only(top: 10,left: 10, right: 10),
                             child: Column(
@@ -130,7 +130,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(cartHeader['zid']== 300210 ?'United Lube Oil' : 'United Lube Trading',
+                                    Text('${cartHeader['xorg']}',
                                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black)),
                                     Text('${cartHeader['createdAt']}',
                                         style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black))

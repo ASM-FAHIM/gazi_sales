@@ -160,7 +160,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 ),
                               ),
                             ),
-                            /*Container(
+                            Container(
                               height: Dimensions.height70,
                               width: double.maxFinite,
                               padding: EdgeInsets.only(left: 10, right: 10),
@@ -182,8 +182,8 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 ),
                                 items: <String>[
                                   "Imp",
-                                  "Tank",
                                   "Roto",
+                                  "Tank",
                                   "Toy",
                                 ].map<DropdownMenuItem<String>>(
                                       (String value) {
@@ -191,6 +191,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                       value: value,
                                       child: Text(
                                         value,
+                                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                       ),
                                     );
                                   },
@@ -211,7 +212,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   color: Colors.grey,
                                 ),
                               ),
-                            ),*/
+                            ),
                             Container(
                               height: Dimensions.height70,
                               width:double.maxFinite,

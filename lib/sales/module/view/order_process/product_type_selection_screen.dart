@@ -57,7 +57,7 @@ class _ProductTypeSelectScreenState extends State<ProductTypeSelectScreen> {
         ),
       ),
       body: Obx(() {
-        return dashboardController.isPNFetched.value
+        return dashboardController.isPNatureloaded.value
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
