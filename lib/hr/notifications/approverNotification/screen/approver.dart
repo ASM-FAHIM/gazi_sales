@@ -520,7 +520,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                                 )));
                   },
                   child: Text(
-                    "Cs Notifications",
+                    "CS Notifications",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.bakbakOne(
                       fontSize: 18,
@@ -561,7 +561,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                                 )));
                   },
                   child: Text(
-                    "Sr Notifications",
+                    "SR Notifications",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.bakbakOne(
                       fontSize: 18,
@@ -612,7 +612,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                 ),
               ),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
                 height: MediaQuery.of(context).size.width / 8,
@@ -652,7 +652,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                   ),
                 ),
               ),
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
