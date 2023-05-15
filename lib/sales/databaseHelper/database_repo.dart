@@ -124,19 +124,19 @@ class DatabaseRepo{
     List productList = [];
     try{
       if(dealerType == 'Dealer'){
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature FROM ${DBHelper.productTable}');
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature FROM ${DBHelper.productTable} where xpnature = "Tank"' );
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
         }
       }else if(dealerType == 'Corporate'){
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xrate as totrate, xpnature FROM ${DBHelper.productTable}');
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xrate as totrate, xpnature FROM ${DBHelper.productTable} where xpnature = "Tank"');
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
         }
       }else{
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xmrp as totrate, xpnature FROM ${DBHelper.productTable}');
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xmrp as totrate, xpnature FROM ${DBHelper.productTable} where xpnature = "Tank"');
         for(var products in maps){
           productList.add(products);
           print('Product List from repo : $productList');
