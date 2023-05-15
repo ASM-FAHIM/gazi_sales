@@ -56,32 +56,33 @@ class _HomepageState extends State<Homepage> {
   late String xsid;
   late String supname;
 
-  getUserdata()async{
+  getUserdata() async {
     setState(() {
       isLoading = true;
     });
     final conn = DBHelper.dbHelper;
     var dbclient = await conn.db;
-    List<Map> result = await dbclient!.rawQuery("SELECT * FROM ${DBHelper.loginTable} where zemail = ${widget.zemail} LIMIT 1");
+    List<Map> result = await dbclient!.rawQuery(
+        "SELECT * FROM ${DBHelper.loginTable} where zemail = ${widget.zemail} LIMIT 1");
     // await dbclient.close();
     print('===========$result');
     Map firstRow = result[0];
 
     setState(() {
-      xname= firstRow['xname'];
-      xstaff= firstRow['xstaff'];
-      xdeptname= firstRow['xdeptname'];
-      xposition= firstRow['xposition'];
-      zemail= firstRow['zemail'];
-      xpassword= firstRow['xpassword'];
-      xdesignation= firstRow['xdesignation'];
-      xsid= firstRow['xsid'];
-      xempbank= firstRow['xempbank'];
-      xacc= firstRow['xacc'];
-      xsex= firstRow['xsex'];
-      xempcategory= firstRow['xempcategory'];
-      supname= firstRow['supname'];
-      xrole= firstRow['xrole'];
+      xname = firstRow['xname'];
+      xstaff = firstRow['xstaff'];
+      xdeptname = firstRow['xdeptname'];
+      xposition = firstRow['xposition'];
+      zemail = firstRow['zemail'];
+      xpassword = firstRow['xpassword'];
+      xdesignation = firstRow['xdesignation'];
+      xsid = firstRow['xsid'];
+      xempbank = firstRow['xempbank'];
+      xacc = firstRow['xacc'];
+      xsex = firstRow['xsex'];
+      xempcategory = firstRow['xempcategory'];
+      supname = firstRow['supname'];
+      xrole = firstRow['xrole'];
       isLoading = false;
     });
 
@@ -89,8 +90,8 @@ class _HomepageState extends State<Homepage> {
     loginController.xName.value = xname;
     loginController.xstaff.value = xstaff;
 
-    print('all'+ firstRow.toString());
-    print('zemail'+ firstRow['zemail']);
+    print('all' + firstRow.toString());
+    print('zemail' + firstRow['zemail']);
     print(xposition);
   }
 
@@ -183,7 +184,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-      getUserdata();
+    getUserdata();
   }
 
   @override
@@ -212,9 +213,12 @@ class _HomepageState extends State<Homepage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: IconButton(
-                    onPressed: () async{
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          const Login_page()), (Route<dynamic> route) => false);},
+                    onPressed: () async {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const Login_page()),
+                          (Route<dynamic> route) => false);
+                    },
                     icon: const Icon(
                       Icons.logout,
                       color: Color(0xff074974),
@@ -225,255 +229,269 @@ class _HomepageState extends State<Homepage> {
             ),
             body: isLoading
                 ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(10.0),
-                        child: const CircularProgressIndicator(color: AppColor.appBarColor,),
-                      ),
-                      const Text('Loading...'),
-                    ],
-                  ),
-                )
-                :SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        if (xsex == 'Male') ...[
-                          const CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.white,
-                            backgroundImage: AssetImage('assets/images/male.png'),
-                          ),
-                        ] else if (xsex == 'Female') ...[
-                          const CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.white,
-                            backgroundImage: AssetImage('assets/images/female.png'),
-                          ),
-                        ] else ...[
-                          const CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.white,
-                            backgroundImage: AssetImage('assets/images/male.png'),
-                          ),
-                        ],
-                        const SizedBox(
-                          width: 20,
-                        ),
                         Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1.5,
-                                child: Text(
-                                  "${xname}",
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.visible,
-                                  style: GoogleFonts.bakbakOne(
-                                    fontSize: 20,
-                                    color: const Color(0xff074974),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1.5,
-                                child: Text(
-                                  "${xposition}",
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.visible,
-                                  style: GoogleFonts.bakbakOne(
-                                    fontSize: 20,
-                                    color: const Color(0xff074974),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1.5,
-                                child: Text(
-                                  " ${xdesignation}",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.bakbakOne(
-                                    fontSize: 15,
-                                    color: const Color(0xff074974),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                " ${xempcategory}",
-                                textAlign: TextAlign.justify,
-                                style: GoogleFonts.bakbakOne(
-                                  // //fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: const Color(0xff074974),
-                                ),
-                              ),
-                            ],
+                          margin: const EdgeInsets.all(10.0),
+                          child: const CircularProgressIndicator(
+                            color: AppColor.appBarColor,
                           ),
                         ),
+                        const Text('Loading...'),
                       ],
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                    child: Container(
-                      //height: MediaQuery.of(context).size.width/2,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  )
+                : SingleChildScrollView(
+                    child: Column(
                       children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Container(
-                          height: MediaQuery.of(context).size.width / 2.5,
-                          width: MediaQuery.of(context).size.width / 2.65,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset:
-                                    const Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: TextButton(
-                            // shape: RoundedRectangleBorder(
-                            //   borderRadius: BorderRadius.circular(20.0),
-                            // ),
-                            onPressed: () async {
-                              setState(
-                                () {
-                                  notificationTime = DateTime.now();
-                                },
-                              );
-                              print(notificationTime);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Get_zid(
-                                      zemail: zemail,
-                                      xposition: xposition,
-                                      xrole: xrole,
-                                  )
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              if (xsex == 'Male') ...[
+                                const CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage:
+                                      AssetImage('assets/images/male.png'),
                                 ),
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                              ] else if (xsex == 'Female') ...[
+                                const CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage:
+                                      AssetImage('assets/images/female.png'),
+                                ),
+                              ] else ...[
+                                const CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage:
+                                      AssetImage('assets/images/male.png'),
+                                ),
+                              ],
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Container(
+                                child: Column(
                                   children: [
-                                    const Image(
-                                      image: AssetImage(
-                                          'assets/images/notification.png'),
-                                      height: 60,
-                                      width: 60,
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.5,
+                                      child: Text(
+                                        "${xname}",
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.visible,
+                                        style: GoogleFonts.bakbakOne(
+                                          fontSize: 20,
+                                          color: const Color(0xff074974),
+                                        ),
+                                      ),
                                     ),
-                                    const SizedBox(
-                                      height: 20,
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.5,
+                                      child: Text(
+                                        "${xposition}",
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.visible,
+                                        style: GoogleFonts.bakbakOne(
+                                          fontSize: 20,
+                                          color: const Color(0xff074974),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.5,
+                                      child: Text(
+                                        " ${xdesignation}",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.bakbakOne(
+                                          fontSize: 15,
+                                          color: const Color(0xff074974),
+                                        ),
+                                      ),
                                     ),
                                     Text(
-                                      "Notification",
-                                      textAlign: TextAlign.center,
+                                      " ${xempcategory}",
+                                      textAlign: TextAlign.justify,
                                       style: GoogleFonts.bakbakOne(
+                                        // //fontWeight: FontWeight.bold,
                                         fontSize: 15,
                                         color: const Color(0xff074974),
                                       ),
-                                    )
+                                    ),
                                   ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20.0, right: 20, left: 20),
+                          child: Container(
+                            //height: MediaQuery.of(context).size.width/2,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
                                 ),
                               ],
                             ),
                           ),
                         ),
                         const SizedBox(
-                          width: 20,
+                          height: 10,
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.width / 2.5,
-                          width: MediaQuery.of(context).size.width / 2.65,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            //border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset:
-                                const Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: TextButton(
-                            // shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(20.0)),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const BusinessScreen()));
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Image(
-                                  image: AssetImage('assets/images/payslip.png'),
-                                  height: 60,
-                                  width: 60,
+                        Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: MediaQuery.of(context).size.width / 2.5,
+                                width: MediaQuery.of(context).size.width / 2.65,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "Sales",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.bakbakOne(
-                                    fontSize: 15,
-                                    color: const Color(0xff074974),
+                                child: TextButton(
+                                  // shape: RoundedRectangleBorder(
+                                  //   borderRadius: BorderRadius.circular(20.0),
+                                  // ),
+                                  onPressed: () async {
+                                    setState(
+                                      () {
+                                        notificationTime = DateTime.now();
+                                      },
+                                    );
+                                    print(notificationTime);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Get_zid(
+                                                zemail: zemail,
+                                                xposition: xposition,
+                                                xrole: xrole,
+                                                xstaff: xstaff,
+                                              )),
+                                    );
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Image(
+                                            image: AssetImage(
+                                                'assets/images/notification.png'),
+                                            height: 60,
+                                            width: 60,
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            "Notification",
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 15,
+                                              color: const Color(0xff074974),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        /*Container(
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.width / 2.5,
+                                width: MediaQuery.of(context).size.width / 2.65,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  //border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: TextButton(
+                                  // shape: RoundedRectangleBorder(
+                                  //     borderRadius: BorderRadius.circular(20.0)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const BusinessScreen()));
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Image(
+                                        image: AssetImage(
+                                            'assets/images/payslip.png'),
+                                        height: 60,
+                                        width: 60,
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        "Sales",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.bakbakOne(
+                                          fontSize: 15,
+                                          color: const Color(0xff074974),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              /*Container(
                           height: MediaQuery.of(context).size.width / 2.5,
                           width: MediaQuery.of(context).size.width / 2.65,
                           decoration: BoxDecoration(
@@ -535,10 +553,10 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),*/
-                      ],
-                    ),
-                  ),
-                  /*Padding(
+                            ],
+                          ),
+                        ),
+                        /*Padding(
                     padding: const EdgeInsets.only(
                         left: 30.0, right: 30.0, bottom: 30.0),
                     child: Row(
@@ -601,7 +619,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),
-                        *//*Container(
+                        */ /*Container(
                           height: MediaQuery.of(context).size.width / 2.5,
                           width: MediaQuery.of(context).size.width / 2.65,
                           decoration: BoxDecoration(
@@ -668,7 +686,7 @@ class _HomepageState extends State<Homepage> {
                         ),
                         SizedBox(
                           width: 20,
-                        ),*//*
+                        ),*/ /*
                         //absence approval part
                         // Container(
                         //   height: MediaQuery.of(context).size.width / 2.5,
@@ -783,7 +801,7 @@ class _HomepageState extends State<Homepage> {
                         //     ),
                         //   ),
                         // ),
-                        *//*Container(
+                        */ /*Container(
                           height: MediaQuery.of(context).size.width / 2.5,
                           width: MediaQuery.of(context).size.width / 2.65,
                           decoration: BoxDecoration(
@@ -847,12 +865,12 @@ class _HomepageState extends State<Homepage> {
                               ],
                             ),
                           ),
-                        ),*//*
+                        ),*/ /*
                       ],
                     ),
                   ),*/
 
-                  /*Container(
+                        /*Container(
                     height: MediaQuery.of(context).size.width / 2.5,
                     width: MediaQuery.of(context).size.width / 2.65,
                     decoration: BoxDecoration(
@@ -909,16 +927,12 @@ class _HomepageState extends State<Homepage> {
                       ),
                     ),
                   ),*/
-
-
-                ],
-              ),
-            ),
+                      ],
+                    ),
+                  ),
           ),
         ),
       ),
     );
   }
 }
-
-

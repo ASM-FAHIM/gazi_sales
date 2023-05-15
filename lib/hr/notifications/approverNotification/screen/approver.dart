@@ -4,9 +4,11 @@ import 'package:gazi_sales_app/data_model/notificaiton_count/admin_count.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/cash_adv_notification.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/pending_voucher.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/sr_notification.dart';
+import 'package:gazi_sales_app/sales/module/view/notifications/deposit_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../cs_notification.dart';
+import '../deposit_notification.dart';
 import '../po_notification.dart';
 import '../sro_wise-TSO_List.dart';
 import '../so_notification.dart';
@@ -14,19 +16,19 @@ import '../so_notification.dart';
 class AdminNotification extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
-  AdminNotification(
-      {required this.xposition,
-      required this.zemail,
-      required this.zid,
-      required this.xrole,
-      //required this.loginModel
-      });
+  AdminNotification({
+    required this.xposition,
+    required this.zemail,
+    required this.zid,
+    required this.xStaff,
+    //required this.loginModel
+  });
   String xposition;
 /*  String xstaff90;
   String xstaff210;*/
   String zemail;
   String zid;
-  String xrole;
+  String xStaff;
   //LoginModel loginModel;
 
   @override
@@ -469,11 +471,12 @@ class _AdminNotificationState extends State<AdminNotification> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PO_WO_approval_NotificationList(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                            builder: (context) =>
+                                PO_WO_approval_NotificationList(
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                )));
                   },
                   child: Text(
                     "PO/WO Notifications",
@@ -511,10 +514,10 @@ class _AdminNotificationState extends State<AdminNotification> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CS_notification(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                )));
                   },
                   child: Text(
                     "Cs Notifications",
@@ -552,10 +555,10 @@ class _AdminNotificationState extends State<AdminNotification> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SR_notification(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                )));
                   },
                   child: Text(
                     "Sr Notifications",
@@ -593,10 +596,10 @@ class _AdminNotificationState extends State<AdminNotification> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Pending_voucher(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                )));
                   },
                   child: Text(
                     "Voucher Notifications",
@@ -634,10 +637,10 @@ class _AdminNotificationState extends State<AdminNotification> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CashAdvNotifScreen(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                )));
                   },
                   child: Text(
                     "Cash adv Notifications",
@@ -675,10 +678,10 @@ class _AdminNotificationState extends State<AdminNotification> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CashAdvNotifScreen(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                )));
                   },
                   child: Text(
                     "Cash adv Notifications",
@@ -764,10 +767,11 @@ class _AdminNotificationState extends State<AdminNotification> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SO_notification(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                  xStaff: widget.xStaff,
+                                )));
                   },
                   child: Text(
                     "Sales Order",
@@ -804,11 +808,11 @@ class _AdminNotificationState extends State<AdminNotification> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SO_notification(
-                              xposition: widget.xposition,
-                              zemail: widget.zemail,
-                              zid: widget.zid,
-                            )));
+                            builder: (context) => DepositNotifiScreen(
+                                  xposition: widget.xposition,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
+                                )));
                   },
                   child: Text(
                     "Deposit Notification",

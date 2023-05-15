@@ -8,16 +8,14 @@ import '../hr/notifications/approverNotification/screen/approver.dart';
 
 class Get_zid extends StatefulWidget {
   Get_zid(
-      {
-        required this.zemail,
-        //required this.loginModel,
-        required this.xposition,
-        required this.xrole,
-        // required this.xstaff
-      });
+      {required this.zemail,
+      //required this.loginModel,
+      required this.xposition,
+      required this.xrole,
+      required this.xstaff});
   String zemail;
   // LoginModel loginModel;
-  // String xstaff;
+  String xstaff;
   String xposition;
   String xrole;
 
@@ -31,8 +29,8 @@ class _Get_zidState extends State<Get_zid> {
   AppConstants appConstants = AppConstants();
 
   Future<List<ZidModel>> fetchPost() async {
-    var response =
-    await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/zid.php?zemail=${widget.zemail}'));
+    var response = await http.get(Uri.parse(
+        'http://${AppConstants.baseurl}/gazi/zid.php?zemail=${widget.zemail}'));
 
     print(response.body);
 
@@ -127,14 +125,11 @@ class _Get_zidState extends State<Get_zid> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AdminNotification(
-                                    xposition:
-                                    widget.xposition,
-                                    zemail: widget.zemail,
-                                    zid: (snapshot.data![index].zid).toString(),
-                                    xrole: widget.xrole,
-                                  )
-                              )
-                          );
+                                      xposition: widget.xposition,
+                                      zemail: widget.zemail,
+                                      zid: (snapshot.data![index].zid)
+                                          .toString(),
+                                      xStaff: widget.xstaff)));
                         },
                         child: Column(
                           //mainAxisSize: MainAxisSize.min,
