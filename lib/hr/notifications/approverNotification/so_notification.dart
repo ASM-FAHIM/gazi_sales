@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import '../../../conts_api_link.dart';
 import '../../../data_model/notification_model/admin_approver_model/so_admin_model.dart';
 import '../../../sales/constant/app_constants.dart';
 import 'details/so_notification_details.dart';
@@ -11,10 +12,13 @@ class SO_notification extends StatefulWidget {
   SO_notification(
       {required this.xposition,
       required this.zemail,
-      required this.zid});
+      required this.zid,
+      required this.xStaff});
+
   String xposition;
   String zemail;
   String zid;
+  String xStaff;
 
   @override
   State<SO_notification> createState() => _SO_notificationState();
@@ -26,10 +30,9 @@ class _SO_notificationState extends State<SO_notification> {
   AppConstants appConstants = AppConstants();
 
   Future<List<SoModel>> fetchPost() async {
-    var response = await http.post(Uri.parse('http://${AppConstants.baseurl}/salesforce/PendingSalesOrder.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
+    var response = await http.post(Uri.parse(ConstApiLink().soApi),
+        body: jsonEncode(
+            <String, String>{"zid": widget.zid, "xstaff": widget.xStaff}));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -74,7 +77,7 @@ class _SO_notificationState extends State<SO_notification> {
         backgroundColor: Colors.white,
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(10),
         child: FutureBuilder<List<SoModel>>(
           future: futurePost,
           builder: (context, snapshot) {
@@ -99,7 +102,7 @@ class _SO_notificationState extends State<SO_notification> {
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width /
-                                          1.6,
+                                          1.5,
                                       child: Column(
                                         children: [
                                           Text(
@@ -110,7 +113,7 @@ class _SO_notificationState extends State<SO_notification> {
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].xtsoname}",
+                                            "${snapshot.data![index].tsoName}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
@@ -125,51 +128,21 @@ class _SO_notificationState extends State<SO_notification> {
                             ),
                             children: <Widget>[
                               Text(
-                                "Business: " + " ${snapshot.data![index].org}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),Text(
-                                "SO NO: " + " ${snapshot.data![index].xsonumber}",
+                                "SO Date: ${snapshot.data![index].xdate}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
-                                "SO Date: " +
-                                    " ${snapshot.data![index].xdate}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              // Text(
-                              //   "Store Name:" +
-                              //       "${snapshot.data![index].}",
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              Text(
-                                "Dealer Name: " +
-                                    snapshot.data![index].cusname,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "SO Status: " +
-                                    "${snapshot.data![index].xstatusso}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
+                              Container(
+                                height: 30,
+                                child: Text(
+                                  "Dealer name: ${snapshot.data![index].cusname}",
+                                  style: GoogleFonts.bakbakOne(
+                                    fontSize: 18,
+                                    //color: Color(0xff074974),
+                                  ),
                                 ),
                               ),
                               Text(
@@ -181,59 +154,13 @@ class _SO_notificationState extends State<SO_notification> {
                                 ),
                               ),
                               Text(
-                                "TSO: " + "${snapshot.data![index].xtso}",
+                                "SO Status: " +
+                                    "${snapshot.data![index].statusName}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
-                                "TSO Name: " +
-                                    "${snapshot.data![index].xtsoname}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              // Text(
-                              //   "Credit Limit: " + "${snapshot.data![index].credit}",
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              // Text(
-                              //   "Credit Used: " +
-                              //       "${snapshot.data![index].crused}",
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              // Text(
-                              //   "Credit Availability: " +
-                              //       "${snapshot.data![index].creditchk}",
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              Text(
-                                "Total SO Value: " +
-                                    "${snapshot.data![index].xtotamt}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              /*Text(
-                                "Long Description: " +
-                                    "${snapshot.data![index].xlong}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),*/
                               TextButton(
                                 style: TextButton.styleFrom(
                                   primary: Colors.lightBlueAccent,
@@ -244,12 +171,13 @@ class _SO_notificationState extends State<SO_notification> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               SO_details_notification(
-                                                xtornum: snapshot.data![index].xsonumber,
-                                                zid: "${snapshot.data![index].zid}",
+                                                xtornum: snapshot
+                                                    .data![index].xsonumber,
+                                                zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatustor: snapshot.data![index].xstatusso,
-                                                totalAmount: snapshot.data![index].xtotamt,
+                                                xstatustor: snapshot
+                                                    .data![index].xstatus,
                                               )));
                                   if (result.toString() == "approval") {
                                     debugPrint("pressed");

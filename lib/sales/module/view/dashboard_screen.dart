@@ -17,6 +17,7 @@ import 'notifications/notification_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key? key}) : super(key: key);
+
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
@@ -30,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   File? pickedFile;
   String authImage = '';
   ImagePicker imagePicker = ImagePicker();
+
 /*
   Future postUploadImg(File imageFile) async {
     final request = http.MultipartRequest('POST',
@@ -120,35 +122,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Obx(() => dashboardController.isVisitDealerFound.value
-              ? CircularProgressIndicator()
+          child: Obx(() => dashboardController.isValueFound.value
+              ? const CircularProgressIndicator()
               : Container(
-                  margin:
-                      EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                  margin: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: 10, right: 10),
                   child: Center(
                     child: Column(
                       children: [
-                        /* Obx(() => Container(
-                        height: 50,
-                        width: 200,
-                        child: ElevatedButton(
-                          onPressed: () async{
-                            // dashboardController.checkFunction();
-                            showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (context) {
-                                  return bottomSheet(context);
-                                });
-                          },
-                          style: ElevatedButton.styleFrom(primary: Colors.green, elevation: 5),
-                          child: dashboardController.givingAtt.value
-                              ? Center(child: CircularProgressIndicator(color: Colors.white,),)
-                              : const Text('Check In'),
-                        ),
-                      ),
-                      ),
-                      SizedBox(height: 20,),*/
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -168,7 +149,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            '50000 Tk.',
+                                            dashboardController
+                                                .dashBoardValues[0]["target"],
                                             style: GoogleFonts.roboto(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -178,7 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
@@ -207,7 +189,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            '25000 Tk.',
+                                            dashboardController
+                                                    .dashBoardValues[0]
+                                                ["achievement"],
                                             style: GoogleFonts.roboto(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -217,7 +201,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
@@ -232,37 +216,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ],
                         ),
-                        /*     SizedBox(height: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BigText(text: 'Monthly Sales Chart : '),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width:  MediaQuery.of(context).size.width / 1.10,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 30),
-                        child: charts.BarChart(
-                          series,
-                          animate: true,
-                        ),
-                      )
-                    ],
-                  ),*/
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(text: 'Daily Shop visit :', size: 14),
-                                SizedBox(
+                                BigText(
+                                    text: 'Total monthly orders :', size: 14),
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Row(
@@ -270,8 +238,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
-                                      height: 70,
-                                      width: 90,
+                                      height: 100,
+                                      width: 180,
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(20.0),
@@ -281,7 +249,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 1,
                                             blurRadius: 2,
-                                            offset: Offset(1,
+                                            offset: const Offset(1,
                                                 1), // changes position of shadow
                                           ),
                                         ],
@@ -291,14 +259,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Shops',
+                                            'Sales orders',
                                             style: GoogleFonts.roboto(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey),
                                           ),
                                           Text(
-                                            '150',
+                                            dashboardController
+                                                .dashBoardValues[0]["totalSO"],
                                             style: GoogleFonts.roboto(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
@@ -307,12 +276,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Container(
-                                      height: 70,
-                                      width: 90,
+                                      height: 100,
+                                      width: 180,
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(20.0),
@@ -322,7 +291,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 1,
                                             blurRadius: 2,
-                                            offset: Offset(1,
+                                            offset: const Offset(1,
                                                 1), // changes position of shadow
                                           ),
                                         ],
@@ -332,57 +301,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Visited',
+                                            'Total Deposits',
                                             style: GoogleFonts.roboto(
-                                                fontSize: 16,
+                                                fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey),
                                           ),
                                           Text(
-                                            '70',
+                                            dashboardController
+                                                    .dashBoardValues[0]
+                                                ["totalDPnum"],
                                             style: GoogleFonts.roboto(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      height: 70,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            offset: Offset(1,
-                                                1), // changes position of shadow
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Remaining',
-                                            style: GoogleFonts.roboto(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey),
-                                          ),
-                                          Text(
-                                            '80',
-                                            style: GoogleFonts.roboto(
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey),
                                           ),
@@ -393,14 +323,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 )
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Column(
+                            /*Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 BigText(text: 'Monthly Shop visit :', size: 14),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Row(
@@ -419,7 +349,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 1,
                                             blurRadius: 2,
-                                            offset: Offset(1,
+                                            offset: const Offset(1,
                                                 1), // changes position of shadow
                                           ),
                                         ],
@@ -445,7 +375,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Container(
@@ -460,7 +390,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 1,
                                             blurRadius: 2,
-                                            offset: Offset(1,
+                                            offset: const Offset(1,
                                                 1), // changes position of shadow
                                           ),
                                         ],
@@ -486,7 +416,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Container(
@@ -501,7 +431,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 1,
                                             blurRadius: 2,
-                                            offset: Offset(1,
+                                            offset: const Offset(1,
                                                 1), // changes position of shadow
                                           ),
                                         ],
@@ -530,7 +460,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ],
                                 ),
                               ],
-                            ),
+                            ),*/
                             /*SizedBox(height: 20,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -615,10 +545,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               )
                             ],
                           ),*/
-                            SizedBox(
-                              height: 20,
-                            ),
-                            BigText(text: 'Today\'s visit :', size: 14),
+                            /*BigText(text: 'Today\'s visit :', size: 14),
                             Container(
                               height: 320,
                               decoration: BoxDecoration(
@@ -675,7 +602,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         );
                                       },
                                     ),
-                            )
+                            )*/
                           ],
                         ),
                       ],
@@ -788,6 +715,7 @@ class LeadOpContainer extends StatelessWidget {
   String name;
   String loNumber;
   Color? color;
+
   LeadOpContainer(
       {Key? key,
       this.color = Colors.deepOrangeAccent,
@@ -808,7 +736,7 @@ class LeadOpContainer extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 2,
-            offset: Offset(1, 1), // changes position of shadow
+            offset: const Offset(1, 1), // changes position of shadow
           ),
         ],
       ),

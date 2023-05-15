@@ -857,18 +857,20 @@ class DashboardController extends GetxController {
 
   //get visited dealer list
   //for getting cart_List from cart table
-  List visitedDealer = [];
-  RxBool isVisitDealerFound = false.obs;
+  // List visitedDealer = [];
+  List dashBoardValues = [];
+  RxBool isValueFound = false.obs;
 
   Future getDashboardValues() async {
     try {
       // await countDealerVisitTable();
       // await checkMonthlyTarget();
-      isVisitDealerFound(true);
-      visitedDealer = await LoginRepo().getTsoInfo(loginController.zID.value);
-      isVisitDealerFound(false);
-      print(visitedDealer);
+      isValueFound(true);
+      dashBoardValues = await LoginRepo().getTsoInfo(loginController.zID.value);
+      isValueFound(false);
+      print(dashBoardValues);
     } catch (error) {
+      isValueFound(false);
       print('There are some issue: $error');
     }
   }
