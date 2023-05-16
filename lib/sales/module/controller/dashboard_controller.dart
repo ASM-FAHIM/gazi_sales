@@ -26,7 +26,8 @@ class DashboardController extends GetxController {
   LoginController loginController = Get.find<LoginController>();
   AppConstants appConstants = AppConstants();
   RxBool isLoading = false.obs;
-  var authPicPath = "".obs;
+
+/*  var authPicPath = "".obs;
   var dealerWisePicPath = "".obs;
   var checkOutPicPath = "".obs;
   var dealerWiseOutPicPath = "".obs;
@@ -238,7 +239,7 @@ class DashboardController extends GetxController {
             break;
           case InternetConnectionStatus.disconnected:
             // ignore: avoid_print
-            /*Map<String, dynamic> dealerVisitInfo = {
+            */ /*Map<String, dynamic> dealerVisitInfo = {
               "tsoId" : loginController.xsp.value,
               "dealerName": dVisitName,
               "xidsup": loginController.xsid.value,
@@ -248,7 +249,7 @@ class DashboardController extends GetxController {
               "Longitude" : loginController.curntLong.value.toString(),
               "location" : loginController.addressInOut.value.toString(),
               "ImagePath" : outImagePath,
-            };*/
+            };*/ /*
             // LoginRepo().insertToDealerVisitTable(dealerVisitInfo);
             print('You are disconnected from the internet.');
             isOutDone(false);
@@ -266,7 +267,7 @@ class DashboardController extends GetxController {
     await listener.cancel();
   }
 
-/*  RxBool givingAtt = false.obs;
+*/ /*  RxBool givingAtt = false.obs;
   //giving Checked In and Checked Out
   Future<void> checkFunction(String imagePath) async{
     try{
@@ -296,7 +297,7 @@ class DashboardController extends GetxController {
       print('Fail to give attendance because of : $e');
     }
     givingAtt(false);
-  }*/
+  }*/ /*
 
   //for exit the app
   Future<bool?> showWarningContext(BuildContext context) async => showDialog(
@@ -376,7 +377,7 @@ class DashboardController extends GetxController {
             )
           ],
         ),
-      );
+      );*/
 
   ///dealer fetch and insert to local db
   List<DealerModel> dealersList = [];
@@ -384,20 +385,18 @@ class DashboardController extends GetxController {
   Future<Object> getDealerInfo() async {
     try {
       isLoading(true);
-      //new dealer api for petronas http://${AppConstants.baseurl}/salesforce/dealerinfo.php?user=1000
       var response = await http.get(Uri.parse(
           'http://${AppConstants.baseurl}/gazi/salesforce/dealerinfo.php?xstaff=${loginController.xstaff.value}'));
       if (response.statusCode == 200) {
         dealersList = dealerModelFromJson(response.body);
-        await dropDealerTable();
-        await (json.decode(response.body) as List).map((dealer) {
-          DatabaseRepo().addDealer(DealerModel.fromJson(dealer));
-        }).toList();
+        await Future.wait((json.decode(response.body) as List).map((dealer) {
+          return DatabaseRepo().addDealer(DealerModel.fromJson(dealer));
+        }).toList());
         isLoading(false);
         return 'Success';
       } else {
         isLoading(false);
-        print("There is an Error ${response.statusCode}");
+        print("There is an Error getting dealer:  ${response.statusCode}");
         return response.statusCode;
       }
     } catch (e) {
@@ -491,7 +490,6 @@ class DashboardController extends GetxController {
   //product nature fetch from server
   RxBool isPNFetched = false.obs;
   List<ProductNatureModel> pNatureList = [];
-
   Future<Object> insertIntoProductNature() async {
     try {
       isPNFetched(true);
@@ -499,21 +497,19 @@ class DashboardController extends GetxController {
           'http://${AppConstants.baseurl}/gazi/salesforce/productNature.php?zid=${loginController.zID.value}&tso=${loginController.xtso.value}'));
       if (response.statusCode == 200) {
         pNatureList = productNatureModelFromJson(response.body);
-        await dropProductNatureTable();
-        await (json.decode(response.body) as List).map((pNatures) {
-          DatabaseRepo()
+        await Future.wait((json.decode(response.body) as List).map((pNatures) {
+          return DatabaseRepo()
               .insertProductNature(ProductNatureModel.fromJson(pNatures));
-        }).toList();
+        }).toList());
         isPNFetched(false);
         return 'Product nature inserted to pnature table Successfully';
       } else {
         isPNFetched(false);
-        print(
-            "There is an Error getting p nature :------------------ ${response.statusCode}");
+        print("There is an Error getting p nature: ${response.statusCode}");
         return response.statusCode;
       }
     } catch (e) {
-      print("Something went wrong fetching product List:  $e");
+      print("Something went wrong $e");
       return isPNFetched(false);
     }
   }
@@ -545,21 +541,21 @@ class DashboardController extends GetxController {
           'http://${AppConstants.baseurl}/gazi/salesforce/productlist.php'));
       if (response.statusCode == 200) {
         productsList = productModelFromJson(response.body);
-        await dropProductTable();
-        await (json.decode(response.body) as List).map((product) {
-          DatabaseRepo().addProduct(ProductModel.fromJson(product));
-        }).toList();
+        await Future.wait(
+          (json.decode(response.body) as List).map((product) async {
+            await DatabaseRepo().addProduct(ProductModel.fromJson(product));
+          }).toList(),
+        );
         isLoading3(false);
         return 'Product fetched Successfully';
       } else {
+        print(
+            "There is an Error getting product:------------------ ${response.statusCode}");
         isLoading3(false);
-        print("There is an Error:------------------ ${response.statusCode}");
         return response.statusCode;
       }
     } catch (e) {
       print("Something went wrong fetching product List:  $e");
-      print(
-          "Something went wrong fetching product List:  ${'http://${AppConstants.baseurl}/salesforce/productlist.php'}");
       return isLoading3(false);
     }
   }
@@ -662,16 +658,17 @@ class DashboardController extends GetxController {
       if (response.statusCode == 200) {
         productsAccessoriesList =
             productAccessoriesModelFromJson(response.body);
-        await dropProductAccessoriesTable();
-        await (json.decode(response.body) as List).map((productAccessories) {
-          DatabaseRepo().addProductAccessories(
+        await Future.wait(
+            (json.decode(response.body) as List).map((productAccessories) {
+          return DatabaseRepo().addProductAccessories(
               ProductAccessoriesModel.fromJson(productAccessories));
-        }).toList();
+        }).toList());
         isPALoaded(false);
         return 'Product fetched Successfully';
       } else {
         isPALoaded(false);
-        print("There is an Error:------------------ ${response.statusCode}");
+        print(
+            "There is an Error getting accessories:------------------ ${response.statusCode}");
         return response.statusCode;
       }
     } catch (e) {
@@ -689,7 +686,6 @@ class DashboardController extends GetxController {
   ///cus wise product
   RxBool isLoading4 = false.obs;
   List<CaCusPriceModel> caCusPriceList = [];
-
   Future<Object> getCusWiseProduct() async {
     try {
       isLoading4(true);
@@ -697,17 +693,16 @@ class DashboardController extends GetxController {
           'http://${AppConstants.baseurl}/gazi/salesforce/CUSwiseProductList.php'));
       if (response.statusCode == 200) {
         caCusPriceList = caCusPriceModelFromJson(response.body);
-        await dropCaCusPriceTable();
-        print('============previous cacustable deleted=============');
-        await (json.decode(response.body) as List).map((caCusPrice) {
-          DatabaseRepo()
+        await Future.wait(
+            (json.decode(response.body) as List).map((caCusPrice) {
+          return DatabaseRepo()
               .addIntoCaCusPrice(CaCusPriceModel.fromJson(caCusPrice));
-        }).toList();
+        }).toList());
         isLoading4(false);
         return 'CusWiseProduct fetched Successfully';
       } else {
         isLoading4(false);
-        print("There is an Error ${response.statusCode}");
+        print("There is an Error getting caCus price: ${response.statusCode}");
         return response.statusCode;
       }
     } catch (e) {
@@ -752,37 +747,33 @@ class DashboardController extends GetxController {
   RxBool isLoading7 = false.obs;
   List<PromoModel> addPromoList = [];
 
-  Future<Object> asyncFunction() async {
+  int? executionTime;
+
+  Future<void> asyncFunction() async {
+    isLoading7(true);
+    DateTime startTime = DateTime.now();
     try {
-      isLoading7(true);
       await getDealerInfo();
-      await insertIntoProductNature();
       await getProductInfo();
       await getProductAccessoriesInfo();
+      await insertIntoProductNature();
       await getCusWiseProduct();
-      //await dropCaCusPriceTable();
+      Get.snackbar(
+        'Success',
+        'Successfully fetched data',
+        backgroundColor: AppColor.defWhite,
+        duration: const Duration(seconds: 1),
+      );
       isLoading7(false);
-      Get.snackbar('Success', 'Successfully fetched data',
-          backgroundColor: AppColor.defWhite,
-          duration: const Duration(seconds: 1));
-      return 'All Data fetched Successfully';
-      /*await getGiftItems();
-      var responsePromoItems = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/promotion.php'));
-      if(responsePromoItems.statusCode == 200){
-        addPromoList = promoModelFromJson(responsePromoItems.body);
-        await (json.decode(responsePromoItems.body) as List).map((promoItems) {
-          DatabaseRepo().addPromotionItem(PromoModel.fromJson(promoItems));
-        }).toList();
-        isLoading7(false);
-        return 'PromoItem fetched Successfully';
-      }else{
-        isLoading7(false);
-        print("There is an Error ${responsePromoItems.statusCode}");
-        return responsePromoItems.statusCode;
-      }*/
     } catch (e) {
       print("Something went wrong $e");
-      return isLoading7(false);
+      isLoading7(false);
+      // handle the error accordingly
+    } finally {
+      DateTime endTime = DateTime.now();
+      executionTime = endTime.difference(startTime).inMilliseconds;
+      print('Execution time: $executionTime ms');
+      isLoading7(false);
     }
   }
 

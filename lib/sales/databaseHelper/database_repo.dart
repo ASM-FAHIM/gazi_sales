@@ -15,9 +15,22 @@ class DatabaseRepo {
     var dbClient = await conn.db;
     int result = 0;
     try {
-      result =
-          await dbClient!.insert(DBHelper.dealerTable, dealerModel.toJson());
-      print("-------------$result");
+      // Check if the dealer already exists in the local storage
+      var existingDealers = await dbClient!.query(
+        DBHelper.dealerTable,
+        where: 'xcus = ?',
+        whereArgs: [dealerModel.xcus],
+      );
+
+      if (existingDealers.isEmpty) {
+        // Dealer does not exist, proceed with insertion
+        result =
+            await dbClient.insert(DBHelper.dealerTable, dealerModel.toJson());
+        print("New dealer inserted: $result");
+      } else {
+        // Dealer already exists, skip insertion
+        print("Dealer already exists: ${dealerModel.xcus}");
+      }
     } catch (e) {
       print('There are some issues: $e');
     }
@@ -103,11 +116,24 @@ class DatabaseRepo {
     var dbClient = await conn.db;
     int result = 0;
     try {
-      result = await dbClient!
-          .insert(DBHelper.productNature, productNatureModel.toJson());
-      print("-------------$result");
+      // Check if the product nature already exists in the local storage
+      var existingProductNature = await dbClient!.query(
+        DBHelper.productNature,
+        where: 'xcode = ?',
+        whereArgs: [productNatureModel.xcode],
+      );
+
+      if (existingProductNature.isEmpty) {
+        // Product nature does not exist, proceed with insertion
+        result = await dbClient.insert(
+            DBHelper.productNature, productNatureModel.toJson());
+        print("New product nature inserted: $result");
+      } else {
+        // Product nature already exists, skip insertion
+        print("Product nature already exists: ${productNatureModel.xcode}");
+      }
     } catch (e) {
-      print('There are some issues inserting product: $e');
+      print('There are some issues inserting product nature: $e');
     }
     return result;
   }
@@ -141,9 +167,22 @@ class DatabaseRepo {
     var dbClient = await conn.db;
     int result = 0;
     try {
-      result =
-          await dbClient!.insert(DBHelper.productTable, productModel.toJson());
-      print("-------------$result");
+      // Check if the product already exists in the local storage
+      var existingProducts = await dbClient!.query(
+        DBHelper.productTable,
+        where: 'xitem = ?',
+        whereArgs: [productModel.xitem],
+      );
+
+      if (existingProducts.isEmpty) {
+        // Product does not exist, proceed with insertion
+        result =
+            await dbClient.insert(DBHelper.productTable, productModel.toJson());
+        print("New product inserted: $result");
+      } else {
+        // Product already exists, skip insertion
+        print("Product already exists: ${productModel.xitem}");
+      }
     } catch (e) {
       print('There are some issues inserting product: $e');
     }
@@ -224,17 +263,31 @@ class DatabaseRepo {
 
   ///Product-Accessories Tbale Section
 
-  //for product table CRUD
+  //for product accessories table CRUD
   Future<int> addProductAccessories(
       ProductAccessoriesModel productAccessoriesModel) async {
     var dbClient = await conn.db;
     int result = 0;
     try {
-      result = await dbClient!.insert(
-          DBHelper.productAccessories, productAccessoriesModel.toJson());
-      print("-------------$result");
+      // Check if the product accessories entry already exists in the local storage
+      var existingEntries = await dbClient!.query(
+        DBHelper.productAccessories,
+        where: 'xitemaccessories = ?',
+        whereArgs: [productAccessoriesModel.xitemaccessories],
+      );
+
+      if (existingEntries.isEmpty) {
+        // Product accessories entry does not exist, proceed with insertion
+        result = await dbClient.insert(
+            DBHelper.productAccessories, productAccessoriesModel.toJson());
+        print("New product accessories entry inserted: $result");
+      } else {
+        // Product accessories entry already exists, skip insertion
+        print(
+            "Product accessories entry already exists: ${productAccessoriesModel.xitemaccessories}");
+      }
     } catch (e) {
-      print('There are some issues inserting product accessories table : $e');
+      print('There are some issues inserting product accessories table: $e');
     }
     return result;
   }
@@ -889,14 +942,26 @@ class DatabaseRepo {
   }
 
   ///Special Table caItemTable repo
-
   Future<int> addIntoCaCusPrice(CaCusPriceModel caCusPriceModel) async {
     var dbClient = await conn.db;
     int result = 0;
     try {
-      result =
-          await dbClient!.insert(DBHelper.caCusPrice, caCusPriceModel.toJson());
-      print("-------------$result");
+      // Check if the xitem already exists in the local storage
+      var existingCaCusPrice = await dbClient!.query(
+        DBHelper.caCusPrice,
+        where: 'xitem = ? AND xcus =?',
+        whereArgs: [caCusPriceModel.xitem, caCusPriceModel.xcus],
+      );
+
+      if (existingCaCusPrice.isEmpty) {
+        // xitem does not exist, proceed with insertion
+        result = await dbClient.insert(
+            DBHelper.caCusPrice, caCusPriceModel.toJson());
+        print("New caCusPrice inserted: $result");
+      } else {
+        // xitem already exists, skip insertion
+        print("caCusPrice already exists: ${caCusPriceModel.xitem}");
+      }
     } catch (e) {
       print('There are some issues: $e');
     }

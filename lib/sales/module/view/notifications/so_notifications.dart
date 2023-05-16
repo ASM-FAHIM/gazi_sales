@@ -21,8 +21,8 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    notifyController.fetchSoNotification(loginController.xstaff.value);
     super.initState();
+    notifyController.fetchSoNotification(loginController.xstaff.value);
   }
 
   @override
@@ -39,8 +39,11 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
               Icons.arrow_back_outlined,
               size: 25,
             )),
-        title: BigText(text: "Sales order notification", color: AppColor.defWhite, size: 25,),
-
+        title: BigText(
+          text: "Sales order notification",
+          color: AppColor.defWhite,
+          size: 25,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -55,14 +58,15 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                       children: [
                         Container(
                           margin: EdgeInsets.all(10.0),
-                          child: CircularProgressIndicator(color: AppColor.appBarColor,),
+                          child: CircularProgressIndicator(
+                            color: AppColor.appBarColor,
+                          ),
                         ),
                         Text('Loading...'),
                       ],
                     ),
                   );
-                }
-                else {
+                } else {
                   return ListView.builder(
                       itemCount: notifyController.notifyList.length,
                       itemBuilder: (context, index) {
@@ -78,7 +82,8 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 10,
-                                offset: Offset(2, 2), // changes position of shadow
+                                offset:
+                                    Offset(2, 2), // changes position of shadow
                               ),
                             ],
                           ),
@@ -88,40 +93,72 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                                 height: Dimensions.height50,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: notifyController.changeColor(notifyController.notifyList[index].xstatusso),
+                                  color: notifyController.changeColor(
+                                      notifyController
+                                          .notifyList[index].xstatusso),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20.0),
-                                      topRight: Radius.circular(20.0)
-                                  ),
+                                      topRight: Radius.circular(20.0)),
                                 ),
                                 alignment: Alignment.center,
-                                child: BigText(text: notifyController.notifyList[index].xstatusso, color: Colors.white,),
+                                child: BigText(
+                                  text: notifyController
+                                      .notifyList[index].xstatusso,
+                                  color: Colors.white,
+                                ),
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 5),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-                                          SmallText(text: notifyController.notifyList[index].xdate, size: 12, color: AppColor.defRed,),
+                                          SmallText(
+                                            text: notifyController
+                                                .notifyList[index].xdate,
+                                            size: 12,
+                                            color: AppColor.defRed,
+                                          ),
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          BigText(text: notifyController.notifyList[index].cusname, size: 20,),
+                                          BigText(
+                                            text: notifyController
+                                                .notifyList[index].cusname,
+                                            size: 20,
+                                          ),
                                         ],
                                       ),
-                                      SizedBox(height: 15,),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          SmallText(text: 'So No : ${notifyController.notifyList[index].xsonumber}', size: 16),
-                                          SmallText(text: 'Customer Id : ${notifyController.notifyList[index].xcus}', size: 16),
-                                          SmallText(text: 'Territory : ${notifyController.notifyList[index].xterritory} BDT', size: 16, color: AppColor.defRed,),
+                                          SmallText(
+                                              text:
+                                                  'So No : ${notifyController.notifyList[index].xsonumber}',
+                                              size: 16),
+                                          SmallText(
+                                              text:
+                                                  'Customer Id : ${notifyController.notifyList[index].xcus}',
+                                              size: 16),
+                                          SmallText(
+                                            text:
+                                                'Territory : ${notifyController.notifyList[index].xterritory}',
+                                            size: 16,
+                                            color: AppColor.defRed,
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -131,8 +168,7 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                             ],
                           ),
                         );
-                      }
-                  );
+                      });
                 }
               }),
             )

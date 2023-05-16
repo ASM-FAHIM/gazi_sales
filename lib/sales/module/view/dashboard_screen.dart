@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
 import '../../widget/big_text.dart';
 import '../../widget/cus_drawer.dart';
 import 'package:get/get.dart';
@@ -143,8 +144,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 children: [
                                   Center(
                                     child: SizedBox(
-                                      width: 150.0,
-                                      height: 130.0,
+                                      width: Dimensions.height150,
+                                      height: Dimensions.height150,
                                       child: CustomPaint(
                                         painter: CircleProgress(
                                           progress: _progress3,
@@ -182,8 +183,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 children: [
                                   Center(
                                     child: SizedBox(
-                                      width: 150.0,
-                                      height: 130.0,
+                                      width: Dimensions.height150,
+                                      height: Dimensions.height150,
                                       child: CustomPaint(
                                         painter: CircleProgress(
                                           progress: _progress4,
@@ -240,9 +241,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
-                                      height: 100,
-                                      width: 180,
+                                      height: Dimensions.height120 -
+                                          Dimensions.height20,
+                                      width: Dimensions.height150,
                                       decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black),
                                         borderRadius:
                                             BorderRadius.circular(20.0),
                                         color: Colors.white,
@@ -250,7 +253,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           BoxShadow(
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 1,
-                                            blurRadius: 2,
+                                            blurRadius: 1,
                                             offset: const Offset(1,
                                                 1), // changes position of shadow
                                           ),
@@ -282,9 +285,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       width: 20,
                                     ),
                                     Container(
-                                      height: 100,
-                                      width: 180,
+                                      height: Dimensions.height120 -
+                                          Dimensions.height20,
+                                      width: Dimensions.height150,
                                       decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black),
                                         borderRadius:
                                             BorderRadius.circular(20.0),
                                         color: Colors.white,
@@ -292,7 +297,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           BoxShadow(
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 1,
-                                            blurRadius: 2,
+                                            blurRadius: 1,
                                             offset: const Offset(1,
                                                 1), // changes position of shadow
                                           ),

@@ -336,7 +336,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-  //bottom sheet
+/*  //bottom sheet
   Widget checkInBottomSheet(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
@@ -469,7 +469,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         authDealerWiseOutImage, widget.xOrg);
     print('================${pickedFile}');
     print('================${authDealerWiseOutImage}');
-  }
+  }*/
 }
 
 /*Expanded(
