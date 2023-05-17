@@ -17,6 +17,7 @@ class SR_details_notification extends StatefulWidget {
       required this.xstatustor,
       required this.zemail,
       required this.xstaff});
+
   String xtornum;
   String zid;
   String xposition;
@@ -31,13 +32,18 @@ class SR_details_notification extends StatefulWidget {
 
 class _SR_details_notificationState extends State<SR_details_notification> {
   Future<List<SrDetailsModel>>? futurePost;
-  String rejectNote = " ";
+
+  //String rejectNote = " ";
+  TextEditingController rejectNote = TextEditingController();
 
   Future<List<SrDetailsModel>> fetchPostdetails() async {
+    print('zid: ${widget.zid}-----------xtornum: ${widget.xtornum}');
     var response = await http.post(Uri.parse(ConstApiLink().srDetailsApi),
-        body: jsonEncode(<String, String>{"xtornum": widget.xtornum}));
+        body: jsonEncode(
+            <String, String>{"zid": widget.zid, "xtornum": widget.xtornum}));
 
     if (response.statusCode == 200) {
+      print('sr details: ${response.body}');
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
@@ -107,14 +113,14 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${snapshot.data![index].xtornum}",
+                                      "${snapshot.data![index].xitem}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
-                                        //color: Color(0xff074974),
+                                        color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "${snapshot.data![index].xitem}",
+                                      "${snapshot.data![index].xdesc}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -172,15 +178,6 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                     ),
                                     //
                                     Text(
-                                      "Part No: " +
-                                          "${snapshot.data![index].xqty ?? ""}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    //
-                                    Text(
                                       "Quantity Required: " +
                                           snapshot.data![index].xqtyreq,
                                       style: GoogleFonts.bakbakOne(
@@ -191,20 +188,12 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                     //
                                     Text(
                                       "Available Qty: " +
-                                          snapshot.data![index].xqty,
+                                          snapshot.data![index].xdphqty,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    //
-                                    // Text(
-                                    //   "Justification:" + snapshot.data![index].xlong,
-                                    //   style: GoogleFonts.bakbakOne(
-                                    //     fontSize: 18,
-                                    //     //color: Color(0xff074974),
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -219,7 +208,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         // color: Colors.green,
                         onPressed: () async {
@@ -240,22 +229,20 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                               snackPosition: SnackPosition.BOTTOM);
 
                           Navigator.pop(context, "approval");
-
-                          // setState(() {
-                          //   snapshot.data!.removeAt(index);
-                          // });
-
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -275,7 +262,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                             color: Colors.black,
                                           ),
                                           onChanged: (input) {
-                                            rejectNote = input;
+                                            rejectNote.text = input;
                                           },
                                           validator: (input) {
                                             if (input!.isEmpty) {
@@ -284,9 +271,9 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                           },
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left:
-                                                    20), // add padding to adjust text
+                                            contentPadding:
+                                                EdgeInsets.only(left: 20),
+                                            // add padding to adjust text
                                             isDense: false,
 
                                             hintStyle: GoogleFonts.bakbakOne(
@@ -308,37 +295,47 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        primary: Color(0xff064A76),
+                                        backgroundColor: Color(0xff064A76),
                                       ),
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
-                                        //
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                ConstApiLink().srRejectApi),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "wh": "0",
-                                              "xtornum": widget.xtornum,
-                                              "xnote1": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-                                        Navigator.pop(context);
-                                        debugPrint(rejectNote.toString());
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
+                                        if (rejectNote.text.isEmpty) {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  ConstApiLink().srRejectApi),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "wh": "0",
+                                                "xtornum": widget.xtornum,
+                                                "xnote1": rejectNote.text
+                                              }));
+                                          print(response.statusCode);
+                                          print(response.body);
+                                          Navigator.pop(context);
+                                          debugPrint(rejectNote.toString());
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
 
-                                        //ager page a back korbo
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
-
+                                          //ager page a back korbo
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                         //   setState(() {
                                         //     snapshot.data!.removeAt(index);
                                         //   });
@@ -355,7 +352,10 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -363,7 +363,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

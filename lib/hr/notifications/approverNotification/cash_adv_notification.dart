@@ -11,11 +11,12 @@ class CashAdvNotifScreen extends StatefulWidget {
   String zemail;
   String zid;
 
-  CashAdvNotifScreen({
-    required this.xposition,
-    required this.zemail,
-    required this.zid,
-    Key? key}) : super(key: key);
+  CashAdvNotifScreen(
+      {required this.xposition,
+      required this.zemail,
+      required this.zid,
+      Key? key})
+      : super(key: key);
 
   @override
   State<CashAdvNotifScreen> createState() => _CashAdvNotifScreenState();
@@ -101,14 +102,15 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                               children: [
                                 Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
                                         width:
-                                        MediaQuery.of(context).size.width /
-                                            2.2,
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               " ${snapshot.data![index].xporeqnum}",
@@ -141,7 +143,7 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                               ],
                             ),
                             expandedCrossAxisAlignment:
-                            CrossAxisAlignment.start,
+                                CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
                                 "Requisition number :" +
@@ -181,19 +183,20 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    primary:Colors.lightBlueAccent
-                                ),
+                                    primary: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               CashAdvDetailsNotifiScreen(
-                                                reqNumber: snapshot.data![index].xporeqnum,
+                                                reqNumber: snapshot
+                                                    .data![index].xporeqnum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatusreq: snapshot.data![index].xstatus,
+                                                xstatusreq: snapshot
+                                                    .data![index].xstatus,
                                               )));
                                   debugPrint(result.toString());
                                   print(result);

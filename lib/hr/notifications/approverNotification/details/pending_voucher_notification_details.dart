@@ -31,7 +31,8 @@ class Pending_Voucher_details_notification extends StatefulWidget {
 class _Pending_Voucher_details_notificationState
     extends State<Pending_Voucher_details_notification> {
   Future<List<PendingVoucherDetailsModel>>? futurePost;
-  String rejectNote = " ";
+  // String rejectNote = " ";
+  TextEditingController rejectNote = TextEditingController();
 
   Future<List<PendingVoucherDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
@@ -202,7 +203,7 @@ class _Pending_Voucher_details_notificationState
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         // color: Colors.green,
                         onPressed: () async {
@@ -228,14 +229,17 @@ class _Pending_Voucher_details_notificationState
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -255,7 +259,7 @@ class _Pending_Voucher_details_notificationState
                                             color: Colors.black,
                                           ),
                                           onChanged: (input) {
-                                            rejectNote = input;
+                                            rejectNote.text = input;
                                           },
                                           validator: (input) {
                                             if (input!.isEmpty) {
@@ -293,30 +297,41 @@ class _Pending_Voucher_details_notificationState
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote.text.isEmpty) {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(ConstApiLink()
+                                                  .pendingVoucherRejectApi),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "wh": "0",
+                                                "xvoucher": widget.xvoucher,
+                                                "xnote": rejectNote.text
+                                              }));
 
-                                        var response = await http.post(
-                                            Uri.parse(ConstApiLink()
-                                                .pendingVoucherRejectApi),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "wh": "0",
-                                              "xvoucher": widget.xvoucher,
-                                              "xnote": rejectNote
-                                            }));
+                                          print(response.statusCode);
+                                          print(response.body);
 
-                                        print(response.statusCode);
-                                        print(response.body);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
 
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
@@ -330,7 +345,10 @@ class _Pending_Voucher_details_notificationState
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )

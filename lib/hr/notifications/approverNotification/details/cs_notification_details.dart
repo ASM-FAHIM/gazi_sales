@@ -16,6 +16,7 @@ class CS_details_notification extends StatefulWidget {
       required this.xposition,
       required this.xstatusreq,
       required this.zemail});
+
   String xporeqnum;
   String zid;
   String xposition;
@@ -29,10 +30,14 @@ class CS_details_notification extends StatefulWidget {
 
 class _CS_details_notificationState extends State<CS_details_notification> {
   Future<List<CsDetailsModel>>? futurePost;
-  String rejectNote = " ";
+
+  //String rejectNote = " ";
+  TextEditingController rejectNote = TextEditingController();
 
   Future<List<CsDetailsModel>> fetchPostdetails() async {
-    var response = await http.post(Uri.parse("http://${AppConstants.baseurl}/GAZI/Notification/CS/cs_Details.php"),
+    var response = await http.post(
+        Uri.parse(
+            "http://${AppConstants.baseurl}/GAZI/Notification/CS/cs_Details.php"),
         body: jsonEncode(<String, String>{
           "xporeqnum": widget.xporeqnum,
           "zid": widget.zid
@@ -108,8 +113,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Item : " +
-                                          (snapshot.data![index].xitem),
+                                      "Item : " + (snapshot.data![index].xitem),
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
@@ -117,7 +121,8 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                       ),
                                     ),
                                     Text(
-                                      "Specification : " + snapshot.data![index].productName,
+                                      "Specification : " +
+                                          snapshot.data![index].productName,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
@@ -125,15 +130,15 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                       ),
                                     ),
                                     Text(
-                                      "Qty : " +
-                                          snapshot.data![index].xqtyreq,
+                                      "Qty : " + snapshot.data![index].xqtyreq,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Unit : " + snapshot.data![index].xunitpur,
+                                      "Unit : " +
+                                          snapshot.data![index].xunitpur,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -153,12 +158,13 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         //color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse("http://${AppConstants.baseurl}/GAZI/Notification/CS/csapprove.php"),
+                              Uri.parse(
+                                  "http://${AppConstants.baseurl}/GAZI/Notification/CS/csapprove.php"),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -181,14 +187,17 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -208,18 +217,18 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                             color: Colors.black,
                                           ),
                                           onChanged: (input) {
-                                            rejectNote = input;
+                                            rejectNote.text = input;
                                           },
-                                          validator: (input) {
-                                            if (input!.isEmpty) {
-                                              return "Please Write Reject Note";
-                                            }
-                                          },
+                                          // validator: (input) {
+                                          //   if (input!.isEmpty) {
+                                          //     return "Please Write Reject Note";
+                                          //   }
+                                          // },
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left:
-                                                    20), // add padding to adjust text
+                                            contentPadding:
+                                                EdgeInsets.only(left: 20),
+                                            // add padding to adjust text
                                             isDense: false,
 
                                             hintStyle: GoogleFonts.bakbakOne(
@@ -246,25 +255,38 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote.text.isEmpty) {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  "http://${AppConstants.baseurl}/GAZI/Notification/CS/csreject.php"),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xporeqnum":
+                                                    widget.xporeqnum.toString(),
+                                                "xnote": rejectNote.text,
+                                              }));
+                                          debugPrint(response.body);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
 
-                                        var response = await http.post(
-                                            Uri.parse("http://${AppConstants.baseurl}/GAZI/Notification/CS/csreject.php"),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xporeqnum": widget.xporeqnum.toString(),
-                                              "xnote": rejectNote,
-                                            }));
-                                        debugPrint(response.body);
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
 
                                         // setState(() {
                                         //   snapshot.data!.removeAt(index);
@@ -282,7 +304,10 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )

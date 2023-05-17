@@ -23,12 +23,15 @@ class AdminNotification extends StatefulWidget {
     required this.xStaff,
     //required this.loginModel
   });
+
   String xposition;
+
 /*  String xstaff90;
   String xstaff210;*/
   String zemail;
   String zid;
   String xStaff;
+
   //LoginModel loginModel;
 
   @override
@@ -558,6 +561,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                                   xposition: widget.xposition,
                                   zemail: widget.zemail,
                                   zid: widget.zid,
+                                  xstaff: widget.xStaff,
                                 )));
                   },
                   child: Text(
@@ -684,7 +688,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                                 )));
                   },
                   child: Text(
-                    "Cash adv Notifications",
+                    "Cash Adv. Notifications",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.bakbakOne(
                       fontSize: 18,

@@ -161,14 +161,15 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    Text(
-                                      "Unit of Measure: " +
-                                          "${snapshot.data![index].xqtypor}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
+                                    //xunitsel
+                                    // Text(
+                                    //   "Unit of Measure: " +
+                                    //       "${snapshot.data![index].}",
+                                    //   style: GoogleFonts.bakbakOne(
+                                    //     fontSize: 18,
+                                    //     //color: Color(0xff074974),
+                                    //   ),
+                                    // ),
                                     Text(
                                       "Required Qty: " +
                                           snapshot.data![index].xqtyreq,
@@ -194,7 +195,7 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                       ),
                                     ),
                                     Text(
-                                      "Line Amount with VAT: " +
+                                      "Line Amount: " +
                                           "${snapshot.data![index].xlineamt ?? " "}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,

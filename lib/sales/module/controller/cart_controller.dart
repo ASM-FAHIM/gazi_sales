@@ -128,6 +128,7 @@ class CartController extends GetxController {
   RxInt totalClick = 0.obs;
   final totalPrice = 0.0.obs;
   final totalPackQty = 0.0.obs;
+
   void totalClicked() {
     try {
       int totalQty = 0;
@@ -174,6 +175,7 @@ class CartController extends GetxController {
   //get all cart accessories list from product accessories table
   List<Map<String, dynamic>> allAccList = [];
   RxBool isAllAccLoaded = false.obs;
+
   Future<void> getAllAccessoriesList() async {
     try {
       isAllAccLoaded(true);
@@ -197,6 +199,7 @@ class CartController extends GetxController {
   //search function for accessories
   RxBool isSearched = false.obs;
   List foundAccList = [];
+
   // RxBool enableDealerList = false.obs;
   void runFilterForAccessories(String keyword) async {
     try {
@@ -257,6 +260,7 @@ class CartController extends GetxController {
 // method for accessories update from cart screeen
   List<Map<String, dynamic>> cartScreenAcc = [];
   RxBool isCartAccLoaded = false.obs;
+
   Future<void> updateFromCartScreenAcc(String productCode, int qty) async {
     try {
       isCartAccLoaded(true);
@@ -274,6 +278,7 @@ class CartController extends GetxController {
   RxDouble curntLong = 0.0.obs;
   RxDouble curntLat = 0.0.obs;
   Position? position;
+
   Future<Position> getGeoLocationPosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -307,6 +312,7 @@ class CartController extends GetxController {
   //for getting CartId and Insert it to the cart Table as well as Cart_details Table
   RxInt cartTableMax = 0.obs;
   RxBool saving = false.obs;
+
   Future<void> insertToCart(String cusId, String xOrg, String status) async {
     try {
       saving(true);
@@ -377,6 +383,7 @@ class CartController extends GetxController {
   //for getting cart_List from cart table
   List listCartHeader = [];
   RxBool isLoading = false.obs;
+
   Future getCartHeaderList() async {
     try {
       isLoading(true);
@@ -390,6 +397,7 @@ class CartController extends GetxController {
   //for getting cart_List from cart table
   List listCartHeaderDetails = [];
   RxBool isLoading1 = false.obs;
+
   Future<void> getCartHeaderDetailsList(String cartId) async {
     try {
       isLoading1(true);
@@ -404,6 +412,7 @@ class CartController extends GetxController {
   //for getting cart accessories List from cart details table
   List listCartAccessoriesDetails = [];
   RxBool isAccLoad = false.obs;
+
   Future<void> getCarHisAccList(String cartId, String productId) async {
     try {
       isAccLoad(true);
@@ -419,6 +428,7 @@ class CartController extends GetxController {
   //for getting cart_List from cart table
   List listCartHeaderForSync = [];
   RxBool isLoadingForSync = false.obs;
+
   Future getCartHeaderListForSync() async {
     try {
       isLoadingForSync(true);
@@ -432,6 +442,7 @@ class CartController extends GetxController {
   //for getting cart_List from cart table
   List listCartHeaderDetailsForSync = [];
   RxBool isLoadingForDetails = false.obs;
+
   Future<void> getCartHeaderDetailsListForSync(String cartId) async {
     try {
       isLoadingForDetails(true);
@@ -446,6 +457,7 @@ class CartController extends GetxController {
 
   //for getting All cart details _List from cart table
   List allCartDetails = [];
+
   Future<void> allCartHeaderDetails(String cartId) async {
     try {
       allCartDetails = await DatabaseRepo().getAllCartDetailsList(cartId);
@@ -457,6 +469,7 @@ class CartController extends GetxController {
 
   //for place order button
   RxBool isPlaced = false.obs;
+
   Future<void> saveOrder(String cusId, String xOrg, String status) async {
     isPlaced(true);
     await getGeoLocationPosition();
@@ -466,6 +479,7 @@ class CartController extends GetxController {
 
   //for uploading cartHeader and details to-gather
   RxBool isUploading = false.obs;
+
   Future<void> uploadCartOrder() async {
     try {
       final StreamSubscription<InternetConnectionStatus> listener =
@@ -478,7 +492,7 @@ class CartController extends GetxController {
             isUploading(true);
             await getCartHeaderList();
             if (listCartHeader.isEmpty) {
-              Get.snackbar('Warning!', 'Your cart history is empty',
+              Get.snackbar('Warning!', 'Your have no order to upload',
                   backgroundColor: Colors.red,
                   colorText: Colors.white,
                   duration: const Duration(seconds: 1));
@@ -543,7 +557,7 @@ class CartController extends GetxController {
               await LoginRepo().deleteFromLoginTable();
               await LoginRepo().deleteLoginStatusTable();
               await getCartHeaderList();
-              Get.snackbar('Successful', 'File uploaded successfully',
+              Get.snackbar('Successful', 'All orders uploaded successfully',
                   backgroundColor: Colors.white,
                   duration: const Duration(seconds: 1));
               isUploading(false);
@@ -569,6 +583,7 @@ class CartController extends GetxController {
 
   //instant order
   RxBool isSync = false.obs;
+
   Future<void> placeOrder(
       String cusId, String xOrg, BuildContext context) async {
     try {
@@ -656,6 +671,7 @@ class CartController extends GetxController {
 
   //for single cart wise upload segments
   List idWiseCartHeader = [];
+
   Future getIdWiseCartHeaderList(String cartId) async {
     try {
       idWiseCartHeader = await DatabaseRepo().getIDWiseCartHeader(cartId);
@@ -666,6 +682,7 @@ class CartController extends GetxController {
 
   //for getting cart_List from cart table
   List idWiseCartHeaderDetails = [];
+
   Future<void> getIdWiseCartDetailsList(String cartId) async {
     try {
       idWiseCartHeaderDetails =
@@ -687,6 +704,7 @@ class CartController extends GetxController {
   }
 
   RxBool isCartUploaded = false.obs;
+
   Future<void> singleCartUpload(String cartID) async {
     try {
       final StreamSubscription<InternetConnectionStatus> listener =
@@ -749,7 +767,13 @@ class CartController extends GetxController {
                 'http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
             if (updateSO.statusCode == 200) {
               print('Successfully updated----${updateSO.statusCode}');
-              Get.snackbar('Successful', 'Cart uploaded successfully',
+              Get.snackbar('Successful',
+                  '${idWiseCartHeader[0]['xorg']} order upload successfully',
+                  messageText: Text(
+                    '${idWiseCartHeader[0]['xorg']} order upload successfully',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  maxWidth: double.infinity,
                   backgroundColor: Colors.white,
                   duration: const Duration(seconds: 1));
               isLoading(false);
@@ -782,6 +806,7 @@ class CartController extends GetxController {
 
   //update cartdetails
   TextEditingController quantity = TextEditingController();
+
   Future<void> updateItemWiseCartDetails(String cartID, String itemCode,
       String qty, String price, String zId) async {
     try {
@@ -798,6 +823,7 @@ class CartController extends GetxController {
 
   //update cart hist acc screen
   TextEditingController accQty = TextEditingController();
+
   Future<void> updateFromAccHisScreen(String accCode, String cartID, String qty,
       String zId, String productId) async {
     try {

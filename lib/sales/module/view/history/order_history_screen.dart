@@ -39,182 +39,267 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 Icons.arrow_back_outlined,
                 size: 25,
               )),
-          title: BigText(text: "Order History", color: AppColor.defWhite, size: 25,),
+          title: BigText(
+            text: "Order History",
+            color: AppColor.defWhite,
+            size: 25,
+          ),
           actions: [
             Obx(() => GestureDetector(
                 onTap: () {
                   cartController.uploadCartOrder();
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(right: 20),
+                  padding: const EdgeInsets.only(right: 20),
                   child: cartController.isUploading.value
                       ? const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColor.defWhite,),)
+                          child: CircularProgressIndicator(
+                            color: AppColor.defWhite,
+                          ),
+                        )
                       : const Icon(
-                    MdiIcons.upload,
-                    size: 30,
-                  ),
-                ))
-            ),
+                          MdiIcons.upload,
+                          size: 30,
+                        ),
+                ))),
           ],
         ),
         body: Container(
-          margin: EdgeInsets.only(left: 5, right: 5, top: 10),
+          margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
           child: Obx(() => cartController.isLoading.value
               ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(10.0),
-                      child: CircularProgressIndicator(color: AppColor.appBarColor,),
-                    ),
-                    Text('Loading...'),
-                  ],
-                ),
-              )
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10.0),
+                        child: const CircularProgressIndicator(
+                          color: AppColor.appBarColor,
+                        ),
+                      ),
+                      const Text('Loading...'),
+                    ],
+                  ),
+                )
               : ListView.builder(
-                itemCount: cartController.listCartHeader.length,
-                itemBuilder: (context, index) {
-                  var cartHeader = cartController.listCartHeader[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)
+                  itemCount: cartController.listCartHeader.length,
+                  itemBuilder: (context, index) {
+                    var cartHeader = cartController.listCartHeader[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: double.maxFinite,
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              decoration: const BoxDecoration(
+                                  color: Color(0xff14AAA2),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20.0),
+                                    topRight: Radius.circular(20.0),
+                                  )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 150,
+                                    child: Text(
+                                      '${cartHeader['cartID']}',
+                                      //overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SmallText(
+                                        text:
+                                            '${cartHeader['total'].toStringAsFixed(2)}',
+                                        size: 18,
+                                        color: AppColor.defWhite,
+                                      ),
+                                      const Icon(
+                                        MdiIcons.currencyBdt,
+                                        color: AppColor.defWhite,
+                                        size: 22,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 100,
+                              width: double.maxFinite,
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 10, right: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${cartHeader['xorg']}',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black)),
+                                      Text('${cartHeader['createdAt']}',
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black))
+                                    ],
+                                  ),
+                                  Text('Territory: ${cartHeader['xterritory']}',
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black)),
+                                  Text('Division: ${cartHeader['xdivision']}',
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black)),
+                                  Text('${cartHeader['xcus']}',
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black)),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 50,
+                              width: double.maxFinite,
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20.0),
+                                bottomRight: Radius.circular(20.0),
+                              )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: AppColor.defRed,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return ReusableAlert(
+                                              cartController: cartController,
+                                              cartID: cartHeader['cartID'],
+                                            );
+                                          });
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SmallText(
+                                          text: 'Delete',
+                                          size: 15,
+                                          color: Colors.white,
+                                        ),
+                                        const Icon(
+                                          MdiIcons.delete,
+                                          color: Colors.white,
+                                          size: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.teal,
+                                    ),
+                                    onPressed: () {
+                                      cartController.getCartHeaderDetailsList(
+                                          '${cartHeader['cartID']}');
+                                      Get.to(() => HistoryDetails(
+                                          cartId: '${cartHeader['cartID']}'));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SmallText(
+                                          text: 'Details',
+                                          size: 15,
+                                          color: Colors.white,
+                                        ),
+                                        const Icon(
+                                          MdiIcons.arrowRightBold,
+                                          color: Colors.white,
+                                          size: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.lightBlue,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return UploadSingleCartAlert(
+                                              cartController: cartController,
+                                              cartID: cartHeader['cartID'],
+                                            );
+                                          });
+                                    },
+                                    child: cartController.isLoading.value
+                                        ? const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SmallText(
+                                                text: 'Upload',
+                                                size: 15,
+                                                color: Colors.white,
+                                              ),
+                                              const Icon(
+                                                MdiIcons.upload,
+                                                color: Colors.white,
+                                                size: 20,
+                                              )
+                                            ],
+                                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 50,
-                            width: double.maxFinite,
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            decoration: const BoxDecoration(
-                              color: Color(0xff14AAA2),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0),
-                              )
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 150,
-                                  child: Text(
-                                    '${cartHeader['cartID']}',
-                                    //overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
-                                  ),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    SmallText(text: '${cartHeader['total'].toStringAsFixed(2)}', size: 18, color: AppColor.defWhite,),
-                                    const Icon(MdiIcons.currencyBdt, color: AppColor.defWhite, size: 22,),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: 100,
-                            width: double.maxFinite,
-                            padding: EdgeInsets.only(top: 10,left: 10, right: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('${cartHeader['xorg']}',
-                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black)),
-                                    Text('${cartHeader['createdAt']}',
-                                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black))
-                                  ],
-                                ),
-                                Text('${cartHeader['xorg']}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black)),
-                                Text('${cartHeader['xcus']}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black)),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: 50,
-                            width: double.maxFinite,
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20.0),
-                                  bottomRight: Radius.circular(20.0),
-                                )
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: AppColor.defRed,),
-                                  onPressed: (){
-                                    showDialog(context: context, builder: (BuildContext context){
-                                      return ReusableAlert(cartController: cartController,cartID: cartHeader['cartID'],);
-                                    });
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SmallText(text: 'Delete', size: 15,color: Colors.white,),
-                                      Icon(MdiIcons.delete,color: Colors.white, size: 20, )
-                                    ],
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.teal,),
-                                  onPressed: (){
-                                    cartController.getCartHeaderDetailsList('${cartHeader['cartID']}');
-                                    Get.to(() => HistoryDetails(cartId: '${cartHeader['cartID']}'));
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SmallText(text: 'Details', size: 15,color: Colors.white,),
-                                      Icon(MdiIcons.arrowRightBold,color: Colors.white, size: 20, )
-                                    ],
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.lightBlue,),
-                                  onPressed: (){
-                                    showDialog(context: context, builder: (BuildContext context){
-                                      return UploadSingleCartAlert(cartController: cartController,cartID: cartHeader['cartID'],);
-                                    });
-                                  },
-                                  child: cartController.isLoading.value
-                                      ? const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,),
-                                      )
-                                      : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SmallText(text: 'Upload', size: 15,color: Colors.white,),
-                                      Icon(MdiIcons.upload,color: Colors.white, size: 20, )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-              )),
+                    );
+                  })),
         ),
       ),
     );
@@ -227,7 +312,6 @@ class ReusableAlert extends StatelessWidget {
     Key? key,
     required this.cartController,
     required this.cartID,
-
   }) : super(key: key);
 
   final CartController cartController;
@@ -277,7 +361,7 @@ class ReusableAlert extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          onPressed: () async{
+          onPressed: () async {
             await cartController.deleteFromItemWiseCart(cartID);
             Navigator.pop(context);
           },
@@ -293,7 +377,6 @@ class UploadSingleCartAlert extends StatelessWidget {
     Key? key,
     required this.cartController,
     required this.cartID,
-
   }) : super(key: key);
 
   final CartController cartController;
@@ -343,7 +426,7 @@ class UploadSingleCartAlert extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          onPressed: () async{
+          onPressed: () async {
             Navigator.pop(context);
             await cartController.singleCartUpload(cartID);
           },

@@ -75,7 +75,7 @@ class ConstApiLink {
   final String csDetailsApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/CS/cs_Details.php';
   final String srDetailsApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/srdetails.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/sr/srDetails.php';
   final String pendingVoucherDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingVoucherDetails.php';
   final String cashAdvDetailsApi =

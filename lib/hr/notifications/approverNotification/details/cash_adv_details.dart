@@ -13,25 +13,30 @@ class CashAdvDetailsNotifiScreen extends StatefulWidget {
   String xposition;
   String xstatusreq;
   String zemail;
-  CashAdvDetailsNotifiScreen({
-    required this.reqNumber,
-    required this.zid,
-    required this.xposition,
-    required this.xstatusreq,
-    required this.zemail
-    ,Key? key}) : super(key: key);
+
+  CashAdvDetailsNotifiScreen(
+      {required this.reqNumber,
+      required this.zid,
+      required this.xposition,
+      required this.xstatusreq,
+      required this.zemail,
+      Key? key})
+      : super(key: key);
 
   @override
-  State<CashAdvDetailsNotifiScreen> createState() => _CashAdvDetailsNotifiScreenState();
+  State<CashAdvDetailsNotifiScreen> createState() =>
+      _CashAdvDetailsNotifiScreenState();
 }
 
-class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen> {
+class _CashAdvDetailsNotifiScreenState
+    extends State<CashAdvDetailsNotifiScreen> {
   Future<List<CashAdvDetailsNotificationModel>>? futurePost;
-  String rejectNote = " ";
+
+  //String rejectNote = " ";
+  TextEditingController rejectNote = TextEditingController();
 
   Future<List<CashAdvDetailsNotificationModel>> fetchPostdetails() async {
-    var response = await http.post(
-        Uri.parse(ConstApiLink().cashAdvDetailsApi),
+    var response = await http.post(Uri.parse(ConstApiLink().cashAdvDetailsApi),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xporeqnum": widget.reqNumber,
@@ -148,8 +153,7 @@ class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen>
                                       ),
                                     ),
                                     Text(
-                                      "Rate : " +
-                                          snapshot.data![index].xrate,
+                                      "Rate : " + snapshot.data![index].xrate,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -176,9 +180,8 @@ class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
@@ -206,15 +209,17 @@ class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen>
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.red
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -232,7 +237,7 @@ class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen>
                                             color: Colors.black,
                                           ),
                                           onChanged: (input) {
-                                            rejectNote = input;
+                                            rejectNote.text = input;
                                           },
                                           // validator: (input) {
                                           //   if (input!.isEmpty) {
@@ -242,7 +247,7 @@ class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen>
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
-                                            EdgeInsets.only(left: 20),
+                                                EdgeInsets.only(left: 20),
                                             // add padding to adjust text
                                             isDense: false,
 
@@ -265,34 +270,43 @@ class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen>
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor:Color(0xff064A76)
-                                      ),
-
+                                          primary: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote.text.isEmpty) {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherreject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xporeqnum": widget.reqNumber,
+                                                "xnote": rejectNote.text
+                                              }));
+                                          print(response.statusCode);
+                                          print(response.body);
+                                          print(rejectNote);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherreject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xporeqnum": widget.reqNumber,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-                                        print(rejectNote);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
 
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                            SnackPosition.BOTTOM);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
@@ -306,7 +320,10 @@ class _CashAdvDetailsNotifiScreenState extends State<CashAdvDetailsNotifiScreen>
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )

@@ -27,99 +27,126 @@ class CartTotal extends StatelessWidget {
     print('=======${cartController.addedProducts.length}');
     print('=======${cartController.addedProducts}');
     return SingleChildScrollView(
-      child: Obx(() =>
-      cartController.addedProducts.isEmpty
-          ? Container()
-          : Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.only(right: 30),
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Icon(MdiIcons.currencyBdt, size: 22, color: Colors.red,),
-                    BigText(text: '${cartController.totalPrice.value.toStringAsFixed(2)}', size: 22, color: Colors.red,),
-                  ],
-                ),
-              ),
-              SizedBox(height:  20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Obx(
+        () => cartController.addedProducts.isEmpty
+            ? Container()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    height: Dimensions.height50,
-                    width:  Dimensions.height150 - Dimensions.height20,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.grey, //New
-                              blurRadius: 5,
-                              offset: Offset(0, 0)
-                          )
-                        ]
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: AppColor.appBarColor,
-                      ),
-                      onPressed: () async{
-                        showDialog(context: context, builder: (BuildContext context){
-                          return ReusableAlert(cartController: cartController, xCus: xCus, xOrg: xOrg,);
-                        });
-                      },
-                      child:  cartController.isSync.value
-                          ? const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,),
-                      )
-                          : BigText(text: 'Place order', color: AppColor.defWhite,),
+                    padding: EdgeInsets.only(right: 30),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Icon(
+                          MdiIcons.currencyBdt,
+                          size: 22,
+                          color: Colors.red,
+                        ),
+                        BigText(
+                          text:
+                              '${cartController.totalPrice.value.toStringAsFixed(2)}',
+                          size: 22,
+                          color: Colors.red,
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 20,),
-
-                  Container(
-                    height: Dimensions.height50,
-                    width:  Dimensions.height150 - Dimensions.height10,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.grey, //New
-                              blurRadius: 5,
-                              offset: Offset(0, 0)
-                          )
-                        ]
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                    child: ElevatedButton(
-                      onPressed: () async{
-                        //print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                        await cartController.saveOrder(xCus, xOrg, 'Open');
-                      },
-                      style: ElevatedButton.styleFrom(primary: AppColor.appBarColor,),
-                      child: cartController.isPlaced.value
-                          ? const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,),
-                          )
-                          : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          BigText(text: 'Save order', color: AppColor.defWhite,),
-                          SizedBox(width: 10,),
-                        ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        height: Dimensions.height50,
+                        width: Dimensions.height150 - Dimensions.height20,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.grey, //New
+                                  blurRadius: 5,
+                                  offset: Offset(0, 0))
+                            ]),
+                        clipBehavior: Clip.hardEdge,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColor.appBarColor,
+                          ),
+                          onPressed: () async {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ReusableAlert(
+                                    cartController: cartController,
+                                    xCus: xCus,
+                                    xOrg: xOrg,
+                                  );
+                                });
+                          },
+                          child: cartController.isSync.value
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : BigText(
+                                  text: 'Place order',
+                                  color: AppColor.defWhite,
+                                ),
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        height: Dimensions.height50,
+                        width: Dimensions.height150 - Dimensions.height10,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.grey, //New
+                                  blurRadius: 5,
+                                  offset: Offset(0, 0))
+                            ]),
+                        clipBehavior: Clip.hardEdge,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            //print('The xsp value from dealer table is: ${loginController.xsp.value}');
+                            await cartController.saveOrder(xCus, xOrg, 'Open');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColor.appBarColor,
+                          ),
+                          child: cartController.isPlaced.value
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    BigText(
+                                      text: 'Save order',
+                                      color: AppColor.defWhite,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
+                                ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),),
+      ),
     );
   }
 }
@@ -180,7 +207,7 @@ class ReusableAlert extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          onPressed: () async{
+          onPressed: () async {
             Navigator.pop(context);
             await cartController.placeOrder(xCus, xOrg, context);
           },

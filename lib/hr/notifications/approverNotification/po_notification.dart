@@ -12,9 +12,8 @@ class PO_WO_approval_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
   PO_WO_approval_NotificationList(
-      {required this.xposition,
-      required this.zemail,
-      required this.zid});
+      {required this.xposition, required this.zemail, required this.zid});
+
   String xposition;
   String zemail;
   String zid;
@@ -30,14 +29,12 @@ class _PO_WO_approval_NotificationListState
   String rejectNote = " ";
   List<PoAdminModel>? dataLength;
   Future<List<PoAdminModel>>? futurePost;
+
   Future<List<PoAdminModel>> fetchPost() async {
     var response = await http.post(
       Uri.parse(ConstApiLink().poWoApi),
       body: jsonEncode(
-        <String, String>{
-          "zid": widget.zid,
-          "xposition": widget.xposition
-        },
+        <String, String>{"zid": widget.zid, "xposition": widget.xposition},
       ),
     );
     print(ConstApiLink().poWoApi);
@@ -110,7 +107,8 @@ class _PO_WO_approval_NotificationListState
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "${snapshot.data![index].xpornum}",
@@ -167,8 +165,7 @@ class _PO_WO_approval_NotificationListState
                                 ),
                               ),
                               Text(
-                                "PO Number: " +
-                                    snapshot.data![index].xporeqnum,
+                                "PO Number: " + snapshot.data![index].xporeqnum,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -191,8 +188,7 @@ class _PO_WO_approval_NotificationListState
                                 ),
                               ),
                               Text(
-                                "PO Value: " +
-                                    snapshot.data![index].povalue,
+                                "PO Value: " + snapshot.data![index].povalue,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),

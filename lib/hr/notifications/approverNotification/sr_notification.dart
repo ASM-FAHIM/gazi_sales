@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/details/sr_details.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,10 +12,13 @@ class SR_notification extends StatefulWidget {
   SR_notification(
       {required this.xposition,
       required this.zemail,
-      required this.zid});
+      required this.zid,
+      required this.xstaff});
+
   String xposition;
   String zemail;
   String zid;
+  String xstaff;
 
   @override
   State<SR_notification> createState() => _SR_notificationState();
@@ -22,7 +26,9 @@ class SR_notification extends StatefulWidget {
 
 class _SR_notificationState extends State<SR_notification> {
   Future<List<SrNotiModel>>? futurePost;
-  String rejectNote = " ";
+
+  //String rejectNote = " ";
+  TextEditingController rejectNote = TextEditingController();
 
   Future<List<SrNotiModel>> fetchPost() async {
     var response = await http.post(Uri.parse(ConstApiLink().srApi),
@@ -90,7 +96,8 @@ class _SR_notificationState extends State<SR_notification> {
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 6.0, left: 10),
                           child: ExpansionTile(
-                            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -99,7 +106,7 @@ class _SR_notificationState extends State<SR_notification> {
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width /
-                                          1.5,
+                                          1.6,
                                       child: Text(
                                         "${snapshot.data![index].requisition}",
                                         style: GoogleFonts.bakbakOne(
@@ -153,13 +160,41 @@ class _SR_notificationState extends State<SR_notification> {
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Row(
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                    primary: Colors.lightBlueAccent),
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SR_details_notification(
+                                                xtornum: snapshot
+                                                    .data![index].requisition,
+                                                zid: widget.zid,
+                                                xposition: widget.xposition,
+                                                zemail: widget.zemail,
+                                                xstatustor: snapshot
+                                                    .data![index].xstatustor,
+                                                xstaff: widget.xstaff,
+                                              )));
+                                  debugPrint(result.toString());
+                                  print(result);
+                                  if (result.toString() == "approval") {
+                                    debugPrint("pressed");
+                                    setState(() {
+                                      snapshot.data!.removeAt(index);
+                                    });
+                                  }
+                                },
+                                child: Center(child: Text("Details")),
+                              ),
+                              /*Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                        primary: Colors.green
-                                    ),
+                                        backgroundColor: Colors.green),
                                     onPressed: () async {
                                       var response = await http.post(
                                           Uri.parse(
@@ -190,15 +225,17 @@ class _SR_notificationState extends State<SR_notification> {
                                       print(response.statusCode);
                                       print(response.body);
                                     },
-                                    child: Text("Approve"),
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 50,
                                   ),
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                        primary: Colors.red
-                                    ),
+                                        backgroundColor: Colors.red),
                                     onPressed: () {
                                       showDialog(
                                           context: context,
@@ -211,13 +248,13 @@ class _SR_notificationState extends State<SR_notification> {
                                                     //height: MediaQuery.of(context).size.height/6,
                                                     child: TextFormField(
                                                       style:
-                                                      GoogleFonts.bakbakOne(
+                                                          GoogleFonts.bakbakOne(
                                                         //fontWeight: FontWeight.bold,
                                                         fontSize: 18,
                                                         color: Colors.black,
                                                       ),
                                                       onChanged: (input) {
-                                                        rejectNote = input;
+                                                        rejectNote.text = input;
                                                       },
                                                       validator: (input) {
                                                         if (input!.isEmpty) {
@@ -225,13 +262,13 @@ class _SR_notificationState extends State<SR_notification> {
                                                         }
                                                       },
                                                       scrollPadding:
-                                                      EdgeInsets.all(20),
+                                                          EdgeInsets.all(20),
                                                       decoration:
-                                                      InputDecoration(
+                                                          InputDecoration(
                                                         contentPadding:
-                                                        EdgeInsets.only(
-                                                            left:
-                                                            20), // add padding to adjust text
+                                                            EdgeInsets.only(
+                                                                left:
+                                                                    20), // add padding to adjust text
                                                         isDense: false,
 
                                                         hintStyle: GoogleFonts
@@ -241,14 +278,14 @@ class _SR_notificationState extends State<SR_notification> {
                                                           color: Colors.black,
                                                         ),
                                                         labelText:
-                                                        "Reject Note",
+                                                            "Reject Note",
                                                         labelStyle: GoogleFonts
                                                             .bakbakOne(
                                                           fontSize: 18,
                                                           color: Colors.black,
                                                         ),
                                                         border:
-                                                        OutlineInputBorder(),
+                                                            OutlineInputBorder(),
                                                       ),
                                                     ),
                                                   ),
@@ -257,51 +294,75 @@ class _SR_notificationState extends State<SR_notification> {
                                               actions: [
                                                 TextButton(
                                                   style: TextButton.styleFrom(
-                                                      primary: Color(0xff064A76)
-                                                  ),
+                                                      backgroundColor:
+                                                          Color(0xff064A76)),
                                                   onPressed: () async {
-                                                    var response = await http.post(
-                                                        Uri.parse(
-                                                            'http://${AppConstants.baseurl}/GAZI/Notification/sr/srreject.php'),
-                                                        body: jsonEncode(<
-                                                            String, String>{
-                                                          // "zid": snapshot.data![index].zid.toString(),
-                                                          "zid": widget.zid,
-                                                          "user": widget.zemail,
-                                                          "xposition":
-                                                          widget.xposition,
-                                                          "xtornum": snapshot
-                                                              .data![index]
+                                                    if (rejectNote
+                                                        .text.isEmpty) {
+                                                      Navigator.pop(context);
+                                                      print(
+                                                          'response code: Empty field');
+                                                      Get.snackbar('Warning!',
+                                                          'Please enter reject note',
+                                                          backgroundColor:
+                                                              Colors.redAccent,
+                                                          colorText:
+                                                              Colors.white,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .BOTTOM);
+                                                    } else {
+                                                      var response =
+                                                          await http.post(
+                                                              Uri.parse(
+                                                                  'http://${AppConstants.baseurl}/GAZI/Notification/sr/srreject.php'),
+                                                              body: jsonEncode(<
+                                                                  String,
+                                                                  String>{
+                                                                // "zid": snapshot.data![index].zid.toString(),
+                                                                "zid":
+                                                                    widget.zid,
+                                                                "user": widget
+                                                                    .zemail,
+                                                                "xposition": widget
+                                                                    .xposition,
+                                                                "xtornum": snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .requisition
+                                                                    .toString(),
+                                                                "wh": "0",
+                                                                "xnote":
+                                                                    rejectNote
+                                                                        .text,
+                                                              }));
+                                                      print(response.body);
+
+                                                      print("Rejected " +
+                                                          snapshot.data![index]
                                                               .requisition
-                                                              .toString(),
-                                                          "wh": "0",
-                                                          "xnote": rejectNote,
-                                                        }));
-                                                    print(response.body);
+                                                              .toString());
+                                                      Navigator.pop(context);
+                                                      setState(() {
+                                                        snapshot.data!
+                                                            .removeAt(index);
+                                                      });
 
-                                                    print("Rejected " +
-                                                        snapshot.data![index]
-                                                            .requisition
-                                                            .toString());
-                                                    Navigator.pop(context);
-                                                    setState(() {
-                                                      snapshot.data!
-                                                          .removeAt(index);
-                                                    });
-
-                                                    Get.snackbar(
-                                                        'Message', 'Rejected',
-                                                        backgroundColor:
-                                                        Color(0XFF8CA6DB),
-                                                        colorText: Colors.white,
-                                                        snackPosition:
-                                                        SnackPosition
-                                                            .BOTTOM);
+                                                      Get.snackbar(
+                                                          'Message', 'Rejected',
+                                                          backgroundColor:
+                                                              Color(0XFF8CA6DB),
+                                                          colorText:
+                                                              Colors.white,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .BOTTOM);
+                                                    }
                                                   },
                                                   child: Text(
                                                     "Reject",
                                                     style:
-                                                    GoogleFonts.bakbakOne(
+                                                        GoogleFonts.bakbakOne(
                                                       color: Colors.white,
                                                     ),
                                                   ),
@@ -311,10 +372,13 @@ class _SR_notificationState extends State<SR_notification> {
                                             );
                                           });
                                     },
-                                    child: Text("Reject"),
+                                    child: Text(
+                                      "Reject",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ],
-                              )
+                              )*/
                             ],
                           ),
                         ),

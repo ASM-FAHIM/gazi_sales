@@ -12,11 +12,12 @@ class DepositNotifiScreen extends StatefulWidget {
   String zemail;
   String zid;
 
-  DepositNotifiScreen({
-    required this.xposition,
-    required this.zemail,
-    required this.zid,
-    Key? key}) : super(key: key);
+  DepositNotifiScreen(
+      {required this.xposition,
+      required this.zemail,
+      required this.zid,
+      Key? key})
+      : super(key: key);
 
   @override
   State<DepositNotifiScreen> createState() => _DepositNotifiScreenState();
@@ -68,7 +69,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
         ),
         title: Center(
           child: Text(
-            "Pending Voucher For Approval",
+            "Deposit Notifications",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -102,14 +103,15 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                               children: [
                                 Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
                                         width:
-                                        MediaQuery.of(context).size.width /
-                                            2.2,
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               " ${snapshot.data![index].xdepositnum}",
@@ -134,7 +136,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                               ],
                             ),
                             expandedCrossAxisAlignment:
-                            CrossAxisAlignment.start,
+                                CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
                                 "Deposit number :" +
@@ -199,7 +201,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                 },
                                 child: Center(child: Text("Details")),
                               ),*/
-                               Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   TextButton(
@@ -213,11 +215,15 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                           body: jsonEncode(<String, String>{
                                             "zid": widget.zid,
                                             "user": widget.zemail,
-                                            "xposition":widget.xposition,
-                                            "xdepositnum": snapshot.data![index].xdepositnum,
-                                            "xbank": snapshot.data![index].xbank,
-                                            "xbranch":snapshot.data![index].xbranch,
-                                            "xstatusreq": snapshot.data![index].xstatus
+                                            "xposition": widget.xposition,
+                                            "xdepositnum": snapshot
+                                                .data![index].xdepositnum,
+                                            "xbank":
+                                                snapshot.data![index].xbank,
+                                            "xbranch":
+                                                snapshot.data![index].xbranch,
+                                            "xstatusreq":
+                                                snapshot.data![index].xstatus
                                           }));
 
                                       Get.snackbar('Message', 'Approved',
@@ -253,7 +259,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                     //height: MediaQuery.of(context).size.height/6,
                                                     child: TextFormField(
                                                       style:
-                                                      GoogleFonts.bakbakOne(
+                                                          GoogleFonts.bakbakOne(
                                                         //fontWeight: FontWeight.bold,
                                                         fontSize: 18,
                                                         color: Colors.black,
@@ -267,13 +273,13 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                         }
                                                       },
                                                       scrollPadding:
-                                                      EdgeInsets.all(20),
+                                                          EdgeInsets.all(20),
                                                       decoration:
-                                                      InputDecoration(
+                                                          InputDecoration(
                                                         contentPadding:
-                                                        EdgeInsets.only(
-                                                            left:
-                                                            20), // add padding to adjust text
+                                                            EdgeInsets.only(
+                                                                left:
+                                                                    20), // add padding to adjust text
                                                         isDense: false,
 
                                                         hintStyle: GoogleFonts
@@ -283,14 +289,14 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                           color: Colors.black,
                                                         ),
                                                         labelText:
-                                                        "Reject Note",
+                                                            "Reject Note",
                                                         labelStyle: GoogleFonts
                                                             .bakbakOne(
                                                           fontSize: 18,
                                                           color: Colors.black,
                                                         ),
                                                         border:
-                                                        OutlineInputBorder(),
+                                                            OutlineInputBorder(),
                                                       ),
                                                     ),
                                                   ),
@@ -299,7 +305,8 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                               actions: [
                                                 TextButton(
                                                   style: TextButton.styleFrom(
-                                                    backgroundColor: Color(0xff064A76),
+                                                    backgroundColor:
+                                                        Color(0xff064A76),
                                                   ),
                                                   onPressed: () async {
                                                     //http://$api/ughcm/adminapprove/poreject.php
@@ -307,11 +314,16 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                     var response = await http.post(
                                                         Uri.parse(
                                                             'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
-                                                        body: jsonEncode(<String, String>{
+                                                        body: jsonEncode(<
+                                                            String, String>{
                                                           "zid": widget.zid,
                                                           "user": widget.zemail,
-                                                          "xposition": widget.xposition,
-                                                          "xdepositnum": snapshot.data![index].xdepositnum,
+                                                          "xposition":
+                                                              widget.xposition,
+                                                          "xdepositnum":
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .xdepositnum,
                                                           "xnote": rejectNote
                                                         }));
                                                     print(response.body);
@@ -319,11 +331,11 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                     Get.snackbar(
                                                         'Message', 'Rejected',
                                                         backgroundColor:
-                                                        Color(0XFF8CA6DB),
+                                                            Color(0XFF8CA6DB),
                                                         colorText: Colors.white,
                                                         snackPosition:
-                                                        SnackPosition
-                                                            .BOTTOM);
+                                                            SnackPosition
+                                                                .BOTTOM);
 
                                                     setState(() {
                                                       snapshot.data!
@@ -333,7 +345,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                   child: Text(
                                                     "Reject",
                                                     style:
-                                                    GoogleFonts.bakbakOne(
+                                                        GoogleFonts.bakbakOne(
                                                       color: Colors.white,
                                                     ),
                                                   ),
@@ -366,4 +378,3 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
     );
   }
 }
-

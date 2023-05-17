@@ -16,6 +16,7 @@ class PO_details_notification extends StatefulWidget {
       required this.xposition,
       required this.xstatus,
       required this.zemail});
+
   String xpornum;
   String zid;
   String xposition;
@@ -29,16 +30,15 @@ class PO_details_notification extends StatefulWidget {
 
 class _PO_details_notificationState extends State<PO_details_notification> {
   Future<List<PoDetailsModel>>? futurePost;
-  String rejectNote = " ";
+
+  //String rejectNote = " ";
+  TextEditingController rejectNote = TextEditingController();
 
   Future<List<PoDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
       Uri.parse(ConstApiLink().poWoDetailsApi),
       body: jsonEncode(
-        <String, String>{
-          "xporeqnum": widget.xpornum,
-          "zid": widget.zid
-        },
+        <String, String>{"xporeqnum": widget.xpornum, "zid": widget.zid},
       ),
     );
 
@@ -202,7 +202,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         onPressed: () async {
                           var response = await http.post(
@@ -231,14 +231,17 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         onPressed: () {
                           showDialog(
@@ -257,7 +260,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                             color: Colors.black,
                                           ),
                                           onChanged: (input) {
-                                            rejectNote = input;
+                                            rejectNote.text = input;
                                           },
                                           // validator: (input) {
                                           //   if (input!.isEmpty) {
@@ -267,7 +270,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
-                                            EdgeInsets.only(left: 20),
+                                                EdgeInsets.only(left: 20),
                                             // add padding to adjust text
                                             isDense: false,
 
@@ -290,32 +293,41 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        primary: Color(0xff064A76),
+                                        backgroundColor: Color(0xff064A76),
                                       ),
                                       onPressed: () async {
-                                        //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote.text.isEmpty) {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/GAZI/Notification/po_wo/PO_Reject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xpornum": widget.xpornum,
+                                                "xnote": rejectNote.text
+                                              }));
+                                          print('response code: $rejectNote');
+                                          print('response code: $response');
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://${AppConstants.baseurl}/GAZI/Notification/po_wo/PO_Reject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xpornum": widget.xpornum,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-                                        print(rejectNote);
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                            SnackPosition.BOTTOM);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
@@ -329,7 +341,10 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
