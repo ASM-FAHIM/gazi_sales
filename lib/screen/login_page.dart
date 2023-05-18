@@ -31,6 +31,7 @@ class _Login_pageState extends State<Login_page> {
   String xpassword = "";
   bool _obsecureText = true;
   bool isLoading = false;
+
   void toggle() {
     setState(() {
       _obsecureText = !_obsecureText;
@@ -43,10 +44,11 @@ class _Login_pageState extends State<Login_page> {
   TextEditingController passController = TextEditingController();
   late Box _box;
   late LoginModel data;
+
   submitData(String zemail, String xpassword) async {
     print("Go online");
-    var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/loginapi.php?zemail=$zemail&xpassword=$xpassword'));
-    //print(ConstApiLink().loginApi);
+    var response = await http.get(Uri.parse(
+        'http://${AppConstants.baseurl}/gazi/loginapi.php?zemail=$zemail&xpassword=$xpassword'));
     data = loginModelFromJson(response.body);
     print('response body : ${response.body}');
     if (response.statusCode == 404) {
@@ -95,8 +97,8 @@ class _Login_pageState extends State<Login_page> {
               content: Text(
                 "Wrong Password",
                 style: TextStyle(
-                  // color:Color(0xffE75A29)
-                ),
+                    // color:Color(0xffE75A29)
+                    ),
               ),
               scrollable: true,
             );
@@ -109,8 +111,11 @@ class _Login_pageState extends State<Login_page> {
       setState(() {
         isLoading = false;
       });
-      saveLoginData(zemail,xpassword).whenComplete(() => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Homepage(isConnected: isConnected, zemail: userController.text))));
+      saveLoginData(zemail, xpassword).whenComplete(() => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Homepage(
+                  isConnected: isConnected, zemail: userController.text))));
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => Homepage(isConnected: isConnected, zemail: userController.text)));
     }
@@ -119,8 +124,8 @@ class _Login_pageState extends State<Login_page> {
   //save login data to login table
   saveLoginData(String zemail, String xpassword) async {
     await LoginRepo().updateLoginStatus();
-    var response =
-    await http.get(Uri.parse('http://${AppConstants.baseurl}/gazi/loginapi_offline.php?zemail=$zemail&xpassword=$xpassword'));
+    var response = await http.get(Uri.parse(
+        'http://${AppConstants.baseurl}/gazi/loginapi_offline.php?zemail=$zemail&xpassword=$xpassword'));
     return (json.decode(response.body) as List).map((user) {
       print('Inserting $user');
       LoginRepo().insertToLoginTable(OfflineLoginModel.fromJson(user));
@@ -128,108 +133,80 @@ class _Login_pageState extends State<Login_page> {
         isLoading = false;
       });
     }).toList();
-
-
   }
 
   //login repo
   String loginState = '';
-  Future loginStatus() async{
+
+  Future loginStatus() async {
     loginState = await LoginRepo().getLoginStatus();
     print('=============$loginState');
   }
 
   //internet Connection Check
   bool isConnected = true;
+
   Future<void> internetCheck() async {
-
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         title: Text(
-    //           "Warning",
-    //           style: TextStyle(
-    //               fontSize: 20,
-    //               color: Color(0xffC85E2D),
-    //               fontWeight: FontWeight.bold),
-    //         ),
-    //         content: Text(
-    //           "Wrong Username or Password",
-    //           style: TextStyle(
-    //             // color:Color(0xffE75A29)
-    //           ),
-    //         ),
-    //         scrollable: true,
-    //       );
-    //     });
-
     final StreamSubscription<InternetConnectionStatus> listener =
-    InternetConnectionChecker().onStatusChange.listen(
-          (InternetConnectionStatus status) async {
+        InternetConnectionChecker().onStatusChange.listen(
+      (InternetConnectionStatus status) async {
         switch (status) {
           case InternetConnectionStatus.connected:
             setState(() {
               isConnected = true;
             });
             //Navigator.pop(context);
-            print("Conn Status"+ isConnected.toString());
+            print("Conn Status" + isConnected.toString());
             break;
           case InternetConnectionStatus.disconnected:
             setState(() {
               isConnected = false;
             });
             //Navigator.pop(context);
-            print("Conn Status"+ isConnected.toString());
+            print("Conn Status" + isConnected.toString());
             break;
         }
       },
     );
-
-
 
     // close listener after 30 seconds, so the program doesn't run forever
     await Future<void>.delayed(const Duration(seconds: 30));
     await listener.cancel();
   }
 
-
-
-
-
   //login route
-  loginFunction(){
-    if(loginState == 'Null' || isConnected == true){
+  loginFunction() {
+    if (loginState == 'Null' || isConnected == true) {
+      setState(() {
+        isLoading = false;
+      });
       submitData(userController.text, passController.text);
-    }else if(isConnected == false){
-      //offline function need to create
+    } else if (isConnected == false) {
+      setState(() {
+        isLoading = false;
+      });
       offline_go_homepage();
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   //offline route
   offline_go_homepage() async {
-    print("offline");
-
     final conn = DBHelper.dbHelper;
     var dbclient = await conn.db;
-    List<Map> result = await dbclient!.rawQuery("SELECT * FROM ${DBHelper.loginTable} where zemail = ${userController.text} LIMIT 1");
+    List<Map> result = await dbclient!.rawQuery(
+        "SELECT * FROM ${DBHelper.loginTable} where zemail = ${userController.text} LIMIT 1");
     // await dbclient.close();
-    print('===========$result');
     Map firstRow = result[0];
-
-    print('all'+ firstRow.toString());
-    print('zemail'+ firstRow['zemail']);
-
-
-    if (firstRow['zemail'] == userController.text && firstRow['xpassword']== passController.text) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Homepage(isConnected: isConnected, zemail: userController.text,)));
-    }
-    else {
+    if (firstRow['zemail'] == userController.text &&
+        firstRow['xpassword'] == passController.text) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Homepage(
+                    isConnected: isConnected,
+                    zemail: userController.text,
+                  )));
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -247,6 +224,7 @@ class _Login_pageState extends State<Login_page> {
   }
 
   Future<List<LoginModel>>? futurePost;
+
   @override
   void initState() {
     super.initState();
@@ -254,7 +232,6 @@ class _Login_pageState extends State<Login_page> {
     createBox();
     internetCheck();
     loginStatus();
-
   }
 
   //hive createBox function
@@ -327,8 +304,8 @@ class _Login_pageState extends State<Login_page> {
                       },
                       scrollPadding: EdgeInsets.all(20),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(
-                            left: 20), // add padding to adjust text
+                        contentPadding: const EdgeInsets.only(left: 20),
+                        // add padding to adjust text
                         isDense: false,
                         labelText: "User Name",
                         labelStyle: GoogleFonts.bakbakOne(
@@ -360,7 +337,8 @@ class _Login_pageState extends State<Login_page> {
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(
                           left: 20,
-                        ), // add padding to adjust text
+                        ),
+                        // add padding to adjust text
                         isDense: true,
                         labelText: "Password",
                         labelStyle: GoogleFonts.bakbakOne(
@@ -416,40 +394,30 @@ class _Login_pageState extends State<Login_page> {
                   height: 20,
                 ),
                 GestureDetector(
-                  //elevation: 5,
-                  // style: ElevatedButton.styleFrom(
-                  //   primary: Colors.white,
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(80.0),
-                  //   ),
-                  // ),
-
                   onTap: () {
                     setState(
                       () {
                         isLoading = true;
                       },
                     );
-                    if (userController.text == '') {
-                      print("User Invalid");
-                      Get.snackbar('Error', 'User Invalid',
-                          backgroundColor: Color(0XFF8CA6DB),
-                          colorText: Colors.white,
-                          snackPosition: SnackPosition.BOTTOM);
-                      setState(() {
-                        isLoading = false;
-                      });
-                    } else {
-                      loginFunction();
-                      // submitData(userController.text, passController.text);
-                    }
-                    login();
+                    Future.delayed(Duration(seconds: 2), () {
+                      if (userController.text == '' ||
+                          passController.text == '') {
+                        print("User Invalid");
+                        Get.snackbar('Error', 'User Invalid',
+                            backgroundColor: Color(0XFF8CA6DB),
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.BOTTOM);
+                        setState(() {
+                          isLoading = false;
+                        });
+                      } else {
+                        loginFunction();
+                        login();
+                        // submitData(userController.text, passController.text);
+                      }
+                    });
                   },
-                  //shape: RoundedRectangleBorder(
-                    //borderRadius: BorderRadius.circular(80.0),
-                  //),
-                  //textColor: Colors.white,
-                  //padding: const EdgeInsets.all(0),
                   child: Container(
                     alignment: Alignment.center,
                     height: 50.0,
