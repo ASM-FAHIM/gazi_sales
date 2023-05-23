@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
@@ -16,6 +15,7 @@ class DepositController extends GetxController {
   RxString dropDownValue = ''.obs;
   List<Map<String, dynamic>> dealerList = [];
   RxBool isLoading = false.obs;
+
   Future getDealerList() async {
     try {
       isLoading(true);
@@ -34,6 +34,7 @@ class DepositController extends GetxController {
 
   //search mechanism for any name
   RxString searchQuery = ''.obs;
+
   List<Map<String, dynamic>> get filteredDeals {
     if (searchQuery.value.isEmpty) {
       return dealerList;
@@ -58,6 +59,7 @@ class DepositController extends GetxController {
   }
 
   RxBool isAllLoaded = false.obs;
+
   Future<void> fetchAll() async {
     try {
       isAllLoaded(true);
@@ -74,6 +76,7 @@ class DepositController extends GetxController {
   RxString bankSelection = 'Bank name'.obs;
   RxBool isLoading1 = false.obs;
   final bankList = <BankListModel>[].obs;
+
   Future<void> getBankNames() async {
     try {
       isLoading1(true);
@@ -102,6 +105,7 @@ class DepositController extends GetxController {
   RxString paymentMod = 'Mode of payment'.obs;
   RxBool isLoading2 = false.obs;
   final paymentList = <PaymentModeModel>[].obs;
+
   Future<void> getPaymentType() async {
     try {
       isLoading2(true);
@@ -131,6 +135,7 @@ class DepositController extends GetxController {
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
   final date = DateTime.now().toString().obs;
+
   updateDate(DateTime dateTime) {
     date.value = dateTime.toString();
   }
@@ -145,6 +150,7 @@ class DepositController extends GetxController {
   //generate random deposit number
   // Define the custom ID string
   RxString depositNumber = ''.obs;
+
   Future<void> generateDPNumber() async {
     var response = await http.get(Uri.parse(
         'http://${AppConstants.baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID.value}'));
@@ -176,6 +182,8 @@ class DepositController extends GetxController {
   }
 
   RxBool isSubmitted = false.obs;
+  RxBool isEmptyField = false.obs;
+
   Future<void> depositSubmission(String cusId, String bankName,
       String paymentNature, String paymentType) async {
     try {
@@ -184,6 +192,7 @@ class DepositController extends GetxController {
           paymentType == 'Mode of Payment' ||
           selectedOption.value == 'Type') {
         isSubmitted(false);
+        isEmptyField(true);
         Get.snackbar('Warning!',
             'Please fill up amount or bank name or payment type or customer bank or chck no or invoice type',
             backgroundColor: Colors.red,
@@ -218,6 +227,7 @@ class DepositController extends GetxController {
             }));
         if (response.statusCode == 200) {
           isSubmitted(false);
+          isEmptyField(false);
           clearFields();
           Get.snackbar('Successful', 'Deposit submitted successfylly',
               backgroundColor: Colors.white,
@@ -225,6 +235,8 @@ class DepositController extends GetxController {
           print('successfully depositted');
         } else {
           isSubmitted(false);
+
+          isEmptyField(false);
           Get.snackbar('Warning!', 'There are some issue occurred',
               backgroundColor: Colors.red,
               colorText: Colors.white,
@@ -234,6 +246,8 @@ class DepositController extends GetxController {
       }
     } catch (e) {
       isSubmitted(false);
+
+      isEmptyField(false);
       Get.snackbar('Warning!', 'Something went wrong while submit data',
           backgroundColor: Colors.red,
           colorText: Colors.white,
@@ -245,6 +259,7 @@ class DepositController extends GetxController {
   void clearFields() {
     amount.clear();
     depositBranch.clear();
+    selectedOption.value = 'Invoice type';
     paymentMod.value = 'Mode of payment';
     bankSelection.value = 'Bank name';
     cusBank.clear();

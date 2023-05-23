@@ -372,6 +372,7 @@ class CartController extends GetxController {
       saving(false);
       Get.back();
       Get.back();
+      Get.back();
       Get.snackbar('Successful', 'Order added successfully',
           backgroundColor: Colors.white, duration: const Duration(seconds: 2));
     } catch (error) {

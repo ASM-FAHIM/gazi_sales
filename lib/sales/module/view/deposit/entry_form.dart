@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gazi_sales_app/sales/constant/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
 import '../../controller/deposit_controller.dart';
@@ -66,6 +67,21 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
           color: AppColor.defWhite,
           size: 25,
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(
+                onPressed: () {
+                  Get.back();
+                  Get.back();
+                },
+                icon: const Icon(
+                  MdiIcons.homeCircle,
+                  color: AppColor.defWhite,
+                  size: 35,
+                )),
+          )
+        ],
       ),
       body: Obx(() {
         return depositController.isAllLoaded.value
@@ -142,8 +158,16 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     left: 10, top: 10, right: 10),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
+                                    color:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? Colors.red
+                                            : Colors.grey,
+                                    width:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? 2.0
+                                            : 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
@@ -184,22 +208,31 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               Container(
                                 height: Dimensions.height70,
                                 width: double.maxFinite,
-                                padding: EdgeInsets.only(left: 10, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 alignment: Alignment.centerLeft,
                                 margin: const EdgeInsets.only(
                                     left: 10, top: 10, right: 10),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
+                                    color:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? Colors.red
+                                            : Colors.grey,
+                                    width:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? 2.0
+                                            : 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
                                 child: DropdownButton(
-                                  underline: SizedBox(),
+                                  underline: const SizedBox(),
                                   // to remove the default underline of DropdownButton
                                   iconSize: 30.0,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18.0,
                                     color: Colors.black,
                                   ),
@@ -214,7 +247,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                         value: value,
                                         child: Text(
                                           value,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.w500),
                                         ),
@@ -227,7 +260,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   },
                                   hint: Obx(() => Text(
                                         depositController.selectedOption.value,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 18.0,
@@ -235,7 +268,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                       )),
                                   isExpanded: true,
                                   // to make the dropdown button span the full width of the container
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.arrow_drop_down,
                                     color: Colors.grey,
                                   ),
@@ -251,33 +284,16 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     left: 10, top: 10, right: 10),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: TextFormField(
-                                  controller: depositController.depositBranch,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Enter deposit branch'),
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
+                                    color:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? Colors.red
+                                            : Colors.grey,
+                                    width:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? 2.0
+                                            : 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
@@ -330,8 +346,16 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     left: 10, top: 10, right: 10),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
+                                    color:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? Colors.red
+                                            : Colors.grey,
+                                    width:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? 2.0
+                                            : 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
@@ -371,6 +395,31 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   icon: const Icon(
                                     Icons.arrow_drop_down,
                                     color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: Dimensions.height70,
+                                width: double.maxFinite,
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(
+                                    left: 10, top: 10, right: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: TextFormField(
+                                  controller: depositController.depositBranch,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Enter deposit branch'),
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
                                   ),
                                 ),
                               ),
