@@ -125,7 +125,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         body: SingleChildScrollView(
           child: Obx(() => dashboardController.isValueFound.value
-              ? const CircularProgressIndicator()
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10.0),
+                        child: CircularProgressIndicator(
+                          color: AppColor.appBarColor,
+                        ),
+                      ),
+                      const Text('Loading...'),
+                    ],
+                  ),
+                )
               : Container(
                   margin: const EdgeInsets.only(
                       top: 10, bottom: 10, left: 10, right: 10),

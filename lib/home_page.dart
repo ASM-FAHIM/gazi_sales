@@ -68,7 +68,7 @@ class _HomepageState extends State<Homepage> {
     final conn = DBHelper.dbHelper;
     var dbclient = await conn.db;
     List<Map> result = await dbclient!.rawQuery(
-        "SELECT * FROM ${DBHelper.loginTable} where zemail = ${widget.zemail} LIMIT 1");
+        "SELECT * FROM ${DBHelper.loginTable} where zemail = '${widget.zemail}' LIMIT 1");
     // await dbclient.close();
     print('===========$result');
     Map firstRow = result[0];
