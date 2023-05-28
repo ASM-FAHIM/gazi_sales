@@ -24,46 +24,43 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColor.appBarColor,
-          leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: const Icon(
-              Icons.arrow_back_outlined,
+          appBar: AppBar(
+            backgroundColor: AppColor.appBarColor,
+            leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+                size: 25,
+              ),
+            ),
+            title: BigText(
+              text: 'Your Cart',
+              color: AppColor.defWhite,
               size: 25,
             ),
+            actions: [],
           ),
-          title: BigText(
-            text: 'Your Cart',
-            color: AppColor.defWhite,
-            size: 25,
-          ),
-          actions: [
-
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: cartController.addedProducts.isEmpty
-              ? const Center(
-                child: NoDataPage(
-                  text: 'No products added yet !',
-                ),
-              )
-              : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CartProducts(),
-                  CartTotal(
-                    xCus: xcus,
-                    xOrg: xOrg,
-                    xterritory: xterritory,
+          body: SingleChildScrollView(
+            child: cartController.addedProducts.isEmpty
+                ? const Center(
+                    child: NoDataPage(
+                      text: 'No products added yet !',
+                    ),
                   )
-                ],
-          ),
-        )
-      ),
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CartProducts(),
+                      CartTotal(
+                        xCus: xcus,
+                        xOrg: xOrg,
+                        xterritory: xterritory,
+                      )
+                    ],
+                  ),
+          )),
     );
   }
 }

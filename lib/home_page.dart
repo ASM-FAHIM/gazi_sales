@@ -342,7 +342,7 @@ class _HomepageState extends State<Homepage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 20.0, right: 20, left: 20),
+                              top: 20.0, right: 20, left: 20, bottom: 20),
                           child: Container(
                             //height: MediaQuery.of(context).size.width/2,
                             width: MediaQuery.of(context).size.width,
@@ -361,304 +361,94 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         Padding(
-                          padding: const EdgeInsets.all(30.0),
+                          padding: const EdgeInsets.all(15.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
-                                height: MediaQuery.of(context).size.width / 2.5,
-                                width: MediaQuery.of(context).size.width / 2.65,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 5,
-                                      offset: const Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: TextButton(
-                                  // shape: RoundedRectangleBorder(
-                                  //   borderRadius: BorderRadius.circular(20.0),
-                                  // ),
-                                  onPressed: () async {
-                                    setState(
-                                      () {
-                                        notificationTime = DateTime.now();
-                                      },
-                                    );
-                                    print(notificationTime);
-                                    Navigator.push(
+                              home_page_buttons(
+                                imageName: 'assets/images/notification.png',
+                                buttonName: 'Notification',
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      notificationTime = DateTime.now();
+                                    },
+                                  );
+                                  print(notificationTime);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Get_zid(
+                                              zemail: zemail,
+                                              xposition: xposition,
+                                              xrole: xrole,
+                                              xstaff: xstaff,
+                                            )),
+                                  );
+                                },
+                              ),
+                              home_page_buttons(
+                                imageName: 'assets/images/attendance.png',
+                                buttonName: 'Attendance',
+                                onPressed: () {
+                                  Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Get_zid(
-                                                zemail: zemail,
-                                                xposition: xposition,
-                                                xrole: xrole,
+                                          builder: (context) => AttendanceField(
                                                 xstaff: xstaff,
-                                              )),
-                                    );
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Image(
-                                            image: AssetImage(
-                                                'assets/images/notification.png'),
-                                            height: 60,
-                                            width: 60,
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            "Notification",
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.bakbakOne(
-                                              fontSize: 15,
-                                              color: const Color(0xff074974),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.width / 2.5,
-                                width: MediaQuery.of(context).size.width / 2.65,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  //border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: TextButton(
-                                  // shape: RoundedRectangleBorder(
-                                  //     borderRadius: BorderRadius.circular(20.0)),
-                                  onPressed: () async {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AttendanceField(
-                                                  xstaff: xstaff,
-                                                  xposition: xposition,
-                                                  xsid: xsid,
-                                                )));
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      // const Icon(FontAwesomeIcons.clipboardCheck,
-                                      //   size: 60,
-                                      //   color: Color(0xff4AA0EC),
-                                      // ),
-
-                                      const Image(
-                                        image: AssetImage(
-                                            'assets/images/attendance.png'),
-                                        height: 60,
-                                        width: 60,
-                                      ),
-
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-
-                                      Text(
-                                        "Attendance",
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.bakbakOne(
-                                          fontSize: 15,
-                                          color: Color(0xff074974),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                                xposition: xposition,
+                                                xsid: xsid,
+                                              )));
+                                },
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         Padding(
-                          padding: const EdgeInsets.all(30.0),
+                          padding: const EdgeInsets.all(15.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
-                                height: MediaQuery.of(context).size.width / 2.5,
-                                width: MediaQuery.of(context).size.width / 2.65,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  //border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: TextButton(
-                                  // shape: RoundedRectangleBorder(
-                                  //     borderRadius: BorderRadius.circular(20.0)),
-                                  onPressed: () async {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Leave_page(
-                                                  xposition: xposition,
-                                                  xstaff: xstaff,
-                                                  xsid: xsid,
-                                                  xbalance: xbalance,
-                                                  xname: xname,
-                                                  supname: supname,
-                                                )));
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      // const Icon(FontAwesomeIcons.calendarPlus,
-                                      //   size: 60,
-                                      //   color: Color(0xff4AA0EC),
-                                      // ),
-
-                                      Image(
-                                        image: AssetImage(
-                                            'assets/images/leavetour.png'),
-                                        height: 60,
-                                        width: 60,
-                                      ),
-
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-
-                                      Text(
-                                        "Leave and Tour",
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.bakbakOne(
-                                          fontSize: 15,
-                                          color: Color(0xff074974),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                              home_page_buttons(
+                                imageName: 'assets/images/leavetour.png',
+                                buttonName: 'Leave and Tour',
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Leave_page(
+                                                xposition: xposition,
+                                                xstaff: xstaff,
+                                                xsid: xsid,
+                                                xbalance: xbalance,
+                                                xname: xname,
+                                                supname: supname,
+                                              )));
+                                },
                               ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.width / 2.5,
-                                width: MediaQuery.of(context).size.width / 2.65,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  //border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: TextButton(
-                                  // shape: RoundedRectangleBorder(
-                                  //     borderRadius: BorderRadius.circular(20.0)),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Payslip_page(
-                                                  xname: xname,
-                                                  xempbank: xempbank,
-                                                  xacc: xacc,
-                                                  xstaff: xstaff,
-                                                  xdesignation: xdesignation,
-                                                )));
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      // const Icon(FontAwesomeIcons.fileAlt,
-                                      //   size: 60,
-                                      //   color: Color(0xff4AA0EC),
-                                      // ),
-
-                                      Image(
-                                        image: AssetImage(
-                                            'assets/images/payslip.png'),
-                                        height: 60,
-                                        width: 60,
-                                      ),
-
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-
-                                      Text(
-                                        "Pay Slip",
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.bakbakOne(
-                                          fontSize: 15,
-                                          color: Color(0xff074974),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                              home_page_buttons(
+                                imageName: 'assets/images/payslip.png',
+                                buttonName: 'Pay Slip',
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Payslip_page(
+                                                xname: xname,
+                                                xempbank: xempbank,
+                                                xacc: xacc,
+                                                xstaff: xstaff,
+                                                xdesignation: xdesignation,
+                                              )));
+                                },
                               ),
                             ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              top: 20.0, right: 20, left: 20),
+                          padding: EdgeInsets.only(
+                              top: 10, left: 30, right: 30, bottom: 10),
                           child: Container(
                             height: MediaQuery.of(context).size.width / 2.5,
                             width: double.maxFinite,
@@ -676,9 +466,8 @@ class _HomepageState extends State<Homepage> {
                                 ),
                               ],
                             ),
+                            clipBehavior: Clip.hardEdge,
                             child: TextButton(
-                              // shape: RoundedRectangleBorder(
-                              //     borderRadius: BorderRadius.circular(20.0)),
                               onPressed: () {
                                 Navigator.push(
                                     context,
@@ -692,7 +481,7 @@ class _HomepageState extends State<Homepage> {
                                 children: [
                                   const Image(
                                     image:
-                                        AssetImage('assets/images/payslip.png'),
+                                        AssetImage('assets/images/sales.png'),
                                     height: 60,
                                     width: 60,
                                   ),
@@ -716,6 +505,71 @@ class _HomepageState extends State<Homepage> {
                     ),
                   ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class home_page_buttons extends StatelessWidget {
+  String buttonName;
+  String imageName;
+  VoidCallback onPressed;
+
+  home_page_buttons({
+    required this.imageName,
+    required this.buttonName,
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 2.5,
+      width: MediaQuery.of(context).size.width / 2.65,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: TextButton(
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage(imageName),
+                  height: 60,
+                  width: 60,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  buttonName,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.bakbakOne(
+                    fontSize: 15,
+                    color: const Color(0xff074974),
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

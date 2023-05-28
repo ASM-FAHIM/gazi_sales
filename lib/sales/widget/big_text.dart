@@ -25,7 +25,7 @@ class BigText extends StatelessWidget {
       text,
       maxLines: 1,
       overflow: overflow,
-      style: GoogleFonts.amaranth(
+      style: GoogleFonts.manrope(
         // fontFamily: 'Roboto',
         color: color,
         fontWeight: FontWeight.w600,
