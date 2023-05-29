@@ -41,7 +41,8 @@ class DepositController extends GetxController {
       return dealerList;
     } else {
       return dealerList
-          .where((dealer) => dealer["xorg"]
+          .where((dealer) =>
+          dealer["xorg"]
               .toLowerCase()
               .contains(searchQuery.value.toLowerCase()))
           .toList();
@@ -64,9 +65,18 @@ class DepositController extends GetxController {
   Future<void> fetchAll() async {
     try {
       isAllLoaded(true);
+      print('=================${isAllLoaded.value}=================');
+      /*Future.delayed(Duration(seconds: 2), () async {
+        await getBankNames();
+        await getPaymentType();
+
+        isAllLoaded(false);
+        print('=================${isAllLoaded.value}=================');
+      });*/
       await getBankNames();
       await getPaymentType();
       isAllLoaded(false);
+      print('=================${isAllLoaded.value}=================');
     } catch (e) {
       isAllLoaded(false);
       print('There is an error occured fetching all data: $e');
@@ -82,8 +92,8 @@ class DepositController extends GetxController {
     try {
       bankLoaded(true);
       bankList =
-          await DepositRepo().getFromBankTable(loginController.zID.value);
-      print('bank name List : ${bankList.length}');
+      await DepositRepo().getFromBankTable(loginController.zID.value);
+      print('bank name List : ${bankList}');
       bankLoaded(false);
     } catch (error) {
       bankLoaded(false);
@@ -100,7 +110,7 @@ class DepositController extends GetxController {
     try {
       isLoading2(true);
       paymentList =
-          await DepositRepo().getFromPaymentTable(loginController.zID.value);
+      await DepositRepo().getFromPaymentTable(loginController.zID.value);
       print('bank name List : ${paymentList.length}');
       isLoading2(false);
       print('List of payment types: $paymentList');
@@ -114,7 +124,10 @@ class DepositController extends GetxController {
 
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
-  final date = DateTime.now().toString().obs;
+  final date = DateTime
+      .now()
+      .toString()
+      .obs;
 
   updateDate(DateTime dateTime) {
     date.value = dateTime.toString();
@@ -133,7 +146,9 @@ class DepositController extends GetxController {
 
   Future<void> generateDPNumber() async {
     var response = await http.get(Uri.parse(
-        'http://${AppConstants.baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID.value}'));
+        'http://${AppConstants
+            .baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID
+            .value}'));
     if (response.statusCode == 200) {
       DepositNumModel? data = depositNumModelFromJson(response.body);
       print('Deposit number : ${data.dPnum}');
@@ -161,6 +176,50 @@ class DepositController extends GetxController {
     }
   }
 
+  //For Inserting to DepositTable
+  RxBool saving = false.obs;
+  RxInt depositTableMax = 0.obs;
+
+  Future<void> insertToDeposit(String cusId, String xOrg, String status) async {
+    try {
+      saving(true);
+      depositTableMax.value = await DepositRepo().getDepositID();
+      var depositID = 'DP-00${(depositTableMax + 1)}';
+      Map<String, dynamic> depositInsert = {
+        "zid": loginController.zID.value,
+        "depositID": depositID,
+        "zauserid": loginController.xposition.value,
+        "xcus": cusId,
+        "xtso": loginController.xtso.value,
+        "xdivision": loginController.xDivision.value,
+        "xamount": int.parse(amount.text),
+        "xbank": bankSelection.value,
+        "xbranch": depositBranch.text,
+        "xnote": note.text,
+        "xpreparer": loginController.xstaff.value,
+        "xdm": loginController.xDM.value,
+        "xterritory": loginController.xterritory.value,
+        "xzm": loginController.xZM.value,
+        "xzone": loginController.xZone.value,
+        "xarnature": selectedOption.value,
+        "xpaymenttype": paymentMod.value,
+        "xcusbank": cusBank.text,
+        "xchequeno": chkRefNo.text
+      };
+
+      await DepositRepo().depositInsert(depositInsert);
+
+      print('Deposit added Successfully');
+      Get.snackbar('Successful', 'Deposit added successfully',
+          backgroundColor: Colors.white, duration: const Duration(seconds: 2));
+      saving(false);
+    } catch (error) {
+      saving(false);
+      print('There are some issue: $error');
+    }
+  }
+
+
   RxBool isSubmitted = false.obs;
   RxBool isEmptyField = false.obs;
 
@@ -183,7 +242,8 @@ class DepositController extends GetxController {
         await generateDPNumber();
         var response = await http.post(
             Uri.parse(
-                'http://${AppConstants.baseurl}/gazi/deposit/depositInsert.php'),
+                'http://${AppConstants
+                    .baseurl}/gazi/deposit/depositInsert.php'),
             body: jsonEncode(<String, dynamic>{
               "zid": loginController.zID.value,
               "zauserid": loginController.xposition.value,

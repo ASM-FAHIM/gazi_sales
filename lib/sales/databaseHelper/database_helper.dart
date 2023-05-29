@@ -269,6 +269,7 @@ class DBHelper {
       await db.execute("""
         CREATE TABLE $depositTable (
           id INTEGER PRIMARY KEY,
+          depositID VARCHAR(20),
           zid VARCHAR(10),
           zauserid VARCHAR(150),
           xterritory VARCHAR(150),
@@ -278,7 +279,6 @@ class DBHelper {
           xdivision VARCHAR(150),
           xzm VARCHAR(150),
           xzone VARCHAR(150),
-          xdepositnum VARCHAR(150),
           xcus VARCHAR(150),
           xcusname VARCHAR(150),
           xamount VARCHAR(150),

@@ -50,532 +50,538 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.appBarColor,
-        leading: GestureDetector(
-          onTap: () {
-            // depositController.clearDealerList();
-            Get.back();
-          },
-          child: const Icon(
-            Icons.arrow_back_outlined,
-            size: 25,
+          appBar: AppBar(
+            backgroundColor: AppColor.appBarColor,
+            leading: GestureDetector(
+              onTap: () {
+                // depositController.clearDealerList();
+                Get.back();
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+                size: 25,
+              ),
+            ),
+            title: BigText(
+              text: "Entry form",
+              color: AppColor.defWhite,
+              size: 25,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                    onPressed: () {
+                      Get.back();
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      MdiIcons.homeCircle,
+                      color: AppColor.defWhite,
+                      size: 35,
+                    )),
+              )
+            ],
           ),
-        ),
-        title: BigText(
-          text: "Entry form",
-          color: AppColor.defWhite,
-          size: 25,
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-                onPressed: () {
-                  Get.back();
-                  Get.back();
-                },
-                icon: const Icon(
-                  MdiIcons.homeCircle,
-                  color: AppColor.defWhite,
-                  size: 35,
-                )),
-          )
-        ],
-      ),
-      body: Obx(() {
-        return depositController.isAllLoaded.value
-            ? Center(
+          body: Obx(() {
+            return depositController.isAllLoaded.value
+                ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: const CircularProgressIndicator(
+                      color: AppColor.appBarColor,
+                    ),
+                  ),
+                  const Text('Loading...')
+                ],
+              ),
+            )
+                : SingleChildScrollView(
+              child: Container(
+                // padding: const EdgeInsets.all(8),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: const EdgeInsets.all(10.0),
-                      child: const CircularProgressIndicator(
-                        color: AppColor.appBarColor,
+                      height: Dimensions.height650 + Dimensions.height20,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: BigText(
+                                text: 'Customer name: ${widget.cusName}',
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: BigText(
+                                text: 'Customer ID: ${widget.cusId}',
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? 2.0
+                                      : 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: TextFormField(
+                                controller: depositController.amount,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'^0')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'-')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'\.')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r',')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'\+')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'\*')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'/')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'=')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'%')),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r' ')),
+                                ],
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Please enter amount',
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? 2.0
+                                      : 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: DropdownButton(
+                                underline: const SizedBox(),
+                                // to remove the default underline of DropdownButton
+                                iconSize: 30.0,
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black,
+                                ),
+                                items: <String>[
+                                  "Imp",
+                                  "Roto",
+                                  "Tanks",
+                                  "Toys",
+                                ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                                onChanged: (value) {
+                                  depositController.selectedOption.value =
+                                      value.toString();
+                                },
+                                hint: Obx(() =>
+                                    Text(
+                                      depositController.selectedOption.value,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0,
+                                      ),
+                                    )),
+                                isExpanded: true,
+                                // to make the dropdown button span the full width of the container
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? 2.0
+                                      : 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: DropdownButton(
+                                underline: const SizedBox(),
+                                // to remove the default underline of DropdownButton
+                                iconSize: 30.0,
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black,
+                                ),
+                                items: depositController.paymentList
+                                    .map<DropdownMenuItem<String>>(
+                                        (dynamic mode) {
+                                      return DropdownMenuItem<String>(
+                                        value: mode['xcode'] as String,
+                                        child: Text(mode['xcode'] as String),
+                                      );
+                                    }).toList(),
+                                onChanged: (value) {
+                                  depositController.paymentMod.value =
+                                  value as String;
+                                },
+                                hint: Obx(() =>
+                                    Text(
+                                      depositController.paymentMod.value,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0,
+                                      ),
+                                    )),
+                                isExpanded: true,
+                                // to make the dropdown button span the full width of the container
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width:
+                                  depositController.isEmptyField.value ==
+                                      true
+                                      ? 2.0
+                                      : 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: DropdownButton(
+                                underline: const SizedBox(),
+                                // to remove the default underline of DropdownButton
+                                iconSize: 30.0,
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black,
+                                ),
+                                items: depositController.bankList
+                                    .map<DropdownMenuItem<String>>(
+                                        (dynamic bank) {
+                                      return DropdownMenuItem<String>(
+                                        value: bank['xname'] as String,
+                                        child: Text(bank['xname'] as String),
+                                      );
+                                    }).toList(),
+                                onChanged: (value) {
+                                  depositController.bankSelection.value =
+                                  value as String;
+                                },
+                                hint: Obx(() =>
+                                    Text(
+                                      depositController.bankSelection.value,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0,
+                                      ),
+                                    )),
+                                isExpanded: true,
+                                // to make the dropdown button span the full width of the container
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: TextFormField(
+                                controller: depositController.depositBranch,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Enter deposit branch'),
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: TextFormField(
+                                controller: depositController.cusBank,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Enter customer bank'),
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: TextFormField(
+                                controller: depositController.chkRefNo,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Enter check/Ref. No'),
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Obx(
+                                    () =>
+                                    TextField(
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Enter Date',
+                                      ),
+                                      onTap: () async {
+                                        final selectedDate = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1900),
+                                          lastDate: DateTime(2100),
+                                        );
+
+                                        if (selectedDate != null) {
+                                          depositController
+                                              .updateDate(selectedDate);
+                                        }
+                                      },
+                                      readOnly: true,
+                                      controller: TextEditingController(
+                                          text: DateFormat.yMMMd().format(
+                                              DateTime.parse(
+                                                  depositController.date
+                                                      .value))),
+                                    ),
+                              ),
+                            ),
+                            Container(
+                              height: Dimensions.height70,
+                              width: double.maxFinite,
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                  left: 10, top: 10, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: TextFormField(
+                                controller: depositController.note,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Enter note'),
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const Text('Loading...')
+                    Container(
+                      height: Dimensions.height50,
+                      width: Dimensions.height120,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      clipBehavior: Clip.hardEdge,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: AppColor.appBarColor),
+                        onPressed: () {
+                          final String paymentNature =
+                              depositController.selectedOption.value;
+                          final String bankName =
+                              depositController.bankSelection.value;
+                          final String paymentType =
+                              depositController.paymentMod.value;
+                          depositController.insertToDeposit(
+                              widget.cusId, widget.cusName, 'Open');
+                          // depositController.depositSubmission(widget.cusId,
+                          //     bankName, paymentNature, paymentType);
+                        },
+                        child: depositController.isSubmitted.value
+                            ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                            : BigText(
+                          text: 'Submit',
+                          color: AppColor.defWhite,
+
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              )
-            : SingleChildScrollView(
-                child: Container(
-                  // padding: const EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: Dimensions.height650 + Dimensions.height20,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: BigText(
-                                  text: 'Customer name: ${widget.cusName}',
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: BigText(
-                                  text: 'Customer ID: ${widget.cusId}',
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.grey,
-                                    width:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? 2.0
-                                            : 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: TextFormField(
-                                  controller: depositController.amount,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'^0')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'-')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'\.')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r',')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'\+')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'\*')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'/')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'=')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r'%')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp(r' ')),
-                                  ],
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Please enter amount',
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.grey,
-                                    width:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? 2.0
-                                            : 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: DropdownButton(
-                                  underline: const SizedBox(),
-                                  // to remove the default underline of DropdownButton
-                                  iconSize: 30.0,
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.black,
-                                  ),
-                                  items: <String>[
-                                    "Imp",
-                                    "Roto",
-                                    "Tanks",
-                                    "Toys",
-                                  ].map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
-                                  onChanged: (value) {
-                                    depositController.selectedOption.value =
-                                        value.toString();
-                                  },
-                                  hint: Obx(() => Text(
-                                        depositController.selectedOption.value,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18.0,
-                                        ),
-                                      )),
-                                  isExpanded: true,
-                                  // to make the dropdown button span the full width of the container
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.grey,
-                                    width:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? 2.0
-                                            : 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: DropdownButton(
-                                  underline: const SizedBox(),
-                                  // to remove the default underline of DropdownButton
-                                  iconSize: 30.0,
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.black,
-                                  ),
-                                  items: depositController.paymentList
-                                      .map<DropdownMenuItem<String>>(
-                                          (dynamic payments) {
-                                    return DropdownMenuItem<String>(
-                                      value: payments['xcode'],
-                                      child: Text(payments['xcode']),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    depositController.paymentMod.value =
-                                        value as String;
-                                  },
-                                  value: depositController.paymentMod.value,
-                                  hint: Obx(() => Text(
-                                        depositController.paymentMod.value,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18.0,
-                                        ),
-                                      )),
-                                  isExpanded: true,
-                                  // to make the dropdown button span the full width of the container
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? Colors.red
-                                            : Colors.grey,
-                                    width:
-                                        depositController.isEmptyField.value ==
-                                                true
-                                            ? 2.0
-                                            : 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: DropdownButton(
-                                  underline: const SizedBox(),
-                                  // to remove the default underline of DropdownButton
-                                  iconSize: 30.0,
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.black,
-                                  ),
-                                  items: depositController.bankList
-                                      .map<DropdownMenuItem<String>>(
-                                          (dynamic bank) {
-                                    return DropdownMenuItem<String>(
-                                      value: bank['xname'] as String,
-                                      child: Text(bank['xname'] as String),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    depositController.bankSelection.value =
-                                        value as String;
-                                  },
-                                  value: depositController.bankSelection.value,
-                                  hint: Obx(() => Text(
-                                        depositController.bankSelection.value,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18.0,
-                                        ),
-                                      )),
-                                  isExpanded: true,
-                                  // to make the dropdown button span the full width of the container
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: TextFormField(
-                                  controller: depositController.depositBranch,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Enter deposit branch'),
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: TextFormField(
-                                  controller: depositController.cusBank,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Enter customer bank'),
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: TextFormField(
-                                  controller: depositController.chkRefNo,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Enter check/Ref. No'),
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: Obx(
-                                  () => TextField(
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Enter Date',
-                                    ),
-                                    onTap: () async {
-                                      final selectedDate = await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(1900),
-                                        lastDate: DateTime(2100),
-                                      );
-
-                                      if (selectedDate != null) {
-                                        depositController
-                                            .updateDate(selectedDate);
-                                      }
-                                    },
-                                    readOnly: true,
-                                    controller: TextEditingController(
-                                        text: DateFormat.yMMMd().format(
-                                            DateTime.parse(
-                                                depositController.date.value))),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: Dimensions.height70,
-                                width: double.maxFinite,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: TextFormField(
-                                  controller: depositController.note,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Enter note'),
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: Dimensions.height50,
-                        width: Dimensions.height120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        clipBehavior: Clip.hardEdge,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: AppColor.appBarColor),
-                          onPressed: () {
-                            final String paymentNature =
-                                depositController.selectedOption.value;
-                            final String bankName =
-                                depositController.bankSelection.value;
-                            final String paymentType =
-                                depositController.paymentMod.value;
-                            depositController.depositSubmission(widget.cusId,
-                                bankName, paymentNature, paymentType);
-                          },
-                          child: depositController.isSubmitted.value
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : BigText(
-                                  text: 'Submit',
-                                  color: AppColor.defWhite,
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-      }),
-    ));
+              ),
+            );
+          }),
+        ));
   }
 }

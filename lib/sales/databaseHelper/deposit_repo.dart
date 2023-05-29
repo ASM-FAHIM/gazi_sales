@@ -182,20 +182,46 @@ class DepositRepo {
   //get from banktable
   Future<List> getFromPaymentTable(String zid) async {
     var dbClient = await conn.db;
-    List bankList = [];
+    List paymentList = [];
     try {
       List<Map<String, dynamic>> maps = await dbClient!.query(
-        DBHelper.bankTable,
+        DBHelper.paymentTable,
         where: 'zid=?',
         whereArgs: [zid],
         orderBy: 'id desc',
       );
       for (var banks in maps) {
-        bankList.add(banks);
+        paymentList.add(banks);
       }
     } catch (e) {
       print("There are some issues getting products : $e");
     }
-    return bankList;
+    return paymentList;
+  }
+
+  //For inserting into Deposit table
+  Future<int> depositInsert(Map<String, dynamic> data) async {
+    var dbClient = await conn.db;
+    int result = 0;
+    try {
+      result = await dbClient!.insert(DBHelper.depositTable, data);
+      print("Inserted Successfully in header table: -------------$result");
+    } catch (e) {
+      print('There are some issues inserting cartTable: $e');
+    }
+    return result;
+  }
+
+  //Getting Deposit ID
+  Future<int> getDepositID() async {
+    var dbClient = await conn.db;
+    List depositID = [];
+    try {
+      depositID = await dbClient!.rawQuery(
+          'SELECT COUNT(*) as depositID from ${DBHelper.depositTable} order by id desc');
+    } catch (e) {
+      print("There are some issues: $e");
+    }
+    return depositID.isEmpty ? 0 : depositID[0]['depositID'];
   }
 }
