@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../data_model/leave_tour_model.dart';
 import 'dart:convert';
-
 import '../data_model/smallapi/availavleLeaveModel.dart';
 import 'leave_tour_apply.dart';
 
@@ -19,17 +18,19 @@ class Leave_page extends StatefulWidget {
       required this.xbalance,
       required this.xname,
       required this.supname});
+
   String xposition;
   String xstaff;
   dynamic xsid;
   String xbalance;
   String xname;
   dynamic supname;
-  //LoginModel xsid;
+//LoginModel xsid;
 }
 
 class _Leave_pageState extends State<Leave_page> {
   Future<List<LeaveandTourModel>>? futurePost;
+
   //after apply then see the history
   Future<List<LeaveandTourModel>> fetchPost() async {
     var response = await http.post(
@@ -53,9 +54,11 @@ class _Leave_pageState extends State<Leave_page> {
   }
 
   Future<List<AvailebleLeaveModel>>? availableleave;
+
   Future<List<AvailebleLeaveModel>> fetchavailableleave() async {
     var response = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leavetype.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leavetype.php'),
         body: jsonEncode(<String, String>{"xstaff": widget.xstaff}));
 
     print(response.body);

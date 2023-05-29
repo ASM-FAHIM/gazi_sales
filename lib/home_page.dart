@@ -5,6 +5,7 @@ import 'package:gazi_sales_app/sales/constant/colors.dart';
 import 'package:gazi_sales_app/sales/databaseHelper/database_helper.dart';
 import 'package:gazi_sales_app/sales/module/controller/login_controller.dart';
 import 'package:gazi_sales_app/sales/module/view/business_screen.dart';
+import 'package:gazi_sales_app/sales/widget/big_text.dart';
 import 'package:gazi_sales_app/screen/login_page.dart';
 import 'package:gazi_sales_app/screen/zid_screen.dart';
 import 'package:geocoding/geocoding.dart';
@@ -206,14 +207,13 @@ class _HomepageState extends State<Homepage> {
           },
           child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.white,
-              leading: const Text(""),
-              title: Center(
-                child: Image.asset(
-                  'assets/images/logo/100000.png',
-                  fit: BoxFit.cover,
-                  height: 50,
-                ),
+              backgroundColor: AppColor.defWhite,
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: BigText(
+                text: "HCM & Sales",
+                color: Color(0xff074974),
+                size: 25,
               ),
               actions: [
                 Padding(
@@ -458,9 +458,9 @@ class _HomepageState extends State<Homepage> {
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: AppColor.appBarColor.withOpacity(0.5),
                                   spreadRadius: 1,
-                                  blurRadius: 5,
+                                  blurRadius: 2,
                                   offset: const Offset(
                                       0, 3), // changes position of shadow
                                 ),
@@ -533,9 +533,9 @@ class home_page_buttons extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: AppColor.appBarColor.withOpacity(0.5),
             spreadRadius: 1,
-            blurRadius: 5,
+            blurRadius: 2,
             offset: const Offset(0, 3), // changes position of shadow
           ),
         ],

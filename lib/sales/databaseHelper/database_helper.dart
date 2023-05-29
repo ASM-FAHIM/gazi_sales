@@ -26,6 +26,12 @@ class DBHelper {
   static const giftAndPromotion = 'giftAndPromotion';
   static const workNoteTable = 'workNote';
   static const dealerVisitTable = 'dealerVisitTable';
+
+  //deposit entry tables
+  static const bankTable = 'bankTable';
+  static const paymentTable = 'paymentTable';
+  static const invoiceTable = 'invoiceTable';
+  static const depositTable = 'depositTable';
   static final _version = 1;
   static Database? _db;
 
@@ -244,6 +250,47 @@ class DBHelper {
           Longitude VARCHAR(150),
           location VARCHAR(150),
           ImagePath VARCHAR(150)
+          )""");
+      await db.execute("""
+        CREATE TABLE $bankTable (
+          id INTEGER PRIMARY KEY,
+          zid VARCHAR(100),
+          xbank VARCHAR(100),
+          xname VARCHAR(100),
+          xbranch VARCHAR(100),
+          xbacc VARCHAR(100),
+          xacc VARCHAR(100),
+          )""");
+      await db.execute("""
+        CREATE TABLE $paymentTable (
+          id INTEGER PRIMARY KEY,
+          zid VARCHAR(100),
+          xcode VARCHAR(100),
+          )""");
+      await db.execute("""
+        CREATE TABLE $depositTable (
+          id INTEGER PRIMARY KEY,
+          zid VARCHAR(150),
+          zauserid VARCHAR(150),
+          xterritory VARCHAR(150),
+          xtso VARCHAR(150),
+          xpreparer VARCHAR(150),
+          xdm VARCHAR(150),
+          xdivision VARCHAR(150),
+          xzm VARCHAR(150),
+          xzone VARCHAR(150),
+          xdepositnum VARCHAR(150),
+          xcus VARCHAR(150),
+          xcusname VARCHAR(150),
+          xamount VARCHAR(150),
+          xarnature VARCHAR(150),
+          xpaymenttype VARCHAR(150),
+          xbank VARCHAR(150),
+          xbranch VARCHAR(150),
+          xcusbank VARCHAR(150),
+          xchequeno VARCHAR(150),
+          xdate VARCHAR(150),
+          xnote VARCHAR(150),
           )""");
     }, onUpgrade: (Database db, int oldversion, int newversion) async {
       if (oldversion < newversion) {

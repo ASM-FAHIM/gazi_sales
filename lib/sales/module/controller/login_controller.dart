@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/databaseHelper/deposit_repo.dart';
+import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -54,6 +56,7 @@ class LoginController extends GetxController {
             UserWiseBusinessModel.fromJson(businessInfo));
       }).toList();
       print('Business information : $businessList');
+      await insertToBankTable();
       isDataLoaded(false);
     } catch (e) {
       isDataLoaded(false);
@@ -294,5 +297,47 @@ class LoginController extends GetxController {
     Placemark place = placeMarks[1];
     addressInOut.value = '${place.name}, ${place.locality}, ${place.country}';
     print('My exact location is : $addressInOut');
+  }
+
+  //user wise business inserted into database
+  RxBool isBankFetched = false.obs;
+  List<BankListModel> bankList = [];
+
+  Future<void> insertToBankTable() async {
+    try {
+      isBankFetched(true);
+      var response = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/deposit/bankList.php'));
+      if (response.statusCode == 200) {
+        bankList = bankListModelFromJson(response.body);
+        await Future.wait((json.decode(response.body) as List).map((bankNames) {
+          return DepositRepo()
+              .insertIntoBankTable(BankListModel.fromJson(bankNames));
+        }).toList());
+        isBankFetched(false);
+        print('Bank names : $bankList');
+      } else {
+        isBankFetched(false);
+        print("There is an Error getting p nature: ${response.statusCode}");
+      }
+    } catch (e) {
+      isBankFetched(false);
+      print('Failed to insert business: $e');
+    }
+  }
+
+  RxBool bankLoaded = false.obs;
+  List bankNames = [];
+
+  Future<void> getBankNames() async {
+    try {
+      bankLoaded(true);
+      bankNames = await DepositRepo().getFromBankTable(zID.value);
+      bankLoaded(false);
+      print('bank name List : $bankNames');
+    } catch (error) {
+      bankLoaded(false);
+      print('There are some issue: $error');
+    }
   }
 }

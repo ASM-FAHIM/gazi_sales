@@ -490,6 +490,7 @@ class DashboardController extends GetxController {
   //product nature fetch from server
   RxBool isPNFetched = false.obs;
   List<ProductNatureModel> pNatureList = [];
+
   Future<Object> insertIntoProductNature() async {
     try {
       isPNFetched(true);
@@ -686,6 +687,7 @@ class DashboardController extends GetxController {
   ///cus wise product
   RxBool isLoading4 = false.obs;
   List<CaCusPriceModel> caCusPriceList = [];
+
   Future<Object> getCusWiseProduct() async {
     try {
       isLoading4(true);
