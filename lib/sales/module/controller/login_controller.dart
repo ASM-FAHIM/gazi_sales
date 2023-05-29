@@ -56,7 +56,6 @@ class LoginController extends GetxController {
             UserWiseBusinessModel.fromJson(businessInfo));
       }).toList();
       print('Business information : $businessList');
-      await insertToBankTable();
       isDataLoaded(false);
     } catch (e) {
       isDataLoaded(false);
@@ -184,6 +183,7 @@ class LoginController extends GetxController {
             backgroundColor: Colors.white,
             duration: const Duration(seconds: 1));
         //fetch tsoInfo from login method
+        await insertToBankTable();
         await loginMethod();
         isFetched(false);
         return 'Territory list fetched Successfully';
@@ -308,21 +308,22 @@ class LoginController extends GetxController {
       isBankFetched(true);
       var response = await http.get(Uri.parse(
           'http://${AppConstants.baseurl}/gazi/deposit/bankList.php'));
+      print('list of banks: ${response.body}');
       if (response.statusCode == 200) {
         bankList = bankListModelFromJson(response.body);
-        await Future.wait((json.decode(response.body) as List).map((bankNames) {
-          return DepositRepo()
-              .insertIntoBankTable(BankListModel.fromJson(bankNames));
+        print('list of banks: ${response.body}');
+        await Future.wait(bankList.map((bank) {
+          return DepositRepo().insertIntoBankTable(bank);
         }).toList());
         isBankFetched(false);
-        print('Bank names : $bankList');
+        print('Bank names: $bankList');
       } else {
         isBankFetched(false);
-        print("There is an Error getting p nature: ${response.statusCode}");
+        print("There is an Error getting banks: ${response.statusCode}");
       }
     } catch (e) {
       isBankFetched(false);
-      print('Failed to insert business: $e');
+      print('Failed to insert banks: $e');
     }
   }
 

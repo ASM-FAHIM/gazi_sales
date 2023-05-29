@@ -53,12 +53,33 @@ class LoginRepo {
   Future<int> insertToLoginTable(OfflineLoginModel loginModel) async {
     var dbClient = await conn.db;
     int result = 0;
+
     try {
-      result = await dbClient!.insert(DBHelper.loginTable, loginModel.toJson());
+      var existingRecords = await dbClient!.query(
+        DBHelper.loginTable,
+        where: 'zemail = ?',
+        whereArgs: [loginModel.zemail], // Specify the column to check against
+      );
+
+      if (existingRecords.isNotEmpty) {
+        // Value already exists in the table, perform an update instead
+        result = await dbClient.update(
+          DBHelper.loginTable,
+          loginModel.toJson(),
+          where: 'zemail = ?', // Specify the column to update
+          whereArgs: [loginModel.zemail],
+        );
+      } else {
+        // Value doesn't exist, perform an insert
+        result =
+            await dbClient.insert(DBHelper.loginTable, loginModel.toJson());
+      }
+
       print("-------------$result");
     } catch (e) {
       print('There are some issues: $e');
     }
+
     return result;
   }
 

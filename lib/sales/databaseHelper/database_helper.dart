@@ -254,23 +254,22 @@ class DBHelper {
       await db.execute("""
         CREATE TABLE $bankTable (
           id INTEGER PRIMARY KEY,
-          zid VARCHAR(100),
+          zid VARCHAR(10),
           xbank VARCHAR(100),
           xname VARCHAR(100),
-          xbranch VARCHAR(100),
           xbacc VARCHAR(100),
-          xacc VARCHAR(100),
+          xacc VARCHAR(100)
           )""");
       await db.execute("""
         CREATE TABLE $paymentTable (
           id INTEGER PRIMARY KEY,
-          zid VARCHAR(100),
-          xcode VARCHAR(100),
+          zid VARCHAR(10),
+          xcode VARCHAR(100)
           )""");
       await db.execute("""
         CREATE TABLE $depositTable (
           id INTEGER PRIMARY KEY,
-          zid VARCHAR(150),
+          zid VARCHAR(10),
           zauserid VARCHAR(150),
           xterritory VARCHAR(150),
           xtso VARCHAR(150),
@@ -290,7 +289,7 @@ class DBHelper {
           xcusbank VARCHAR(150),
           xchequeno VARCHAR(150),
           xdate VARCHAR(150),
-          xnote VARCHAR(150),
+          xnote VARCHAR(150)
           )""");
     }, onUpgrade: (Database db, int oldversion, int newversion) async {
       if (oldversion < newversion) {

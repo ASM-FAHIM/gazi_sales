@@ -12,20 +12,21 @@ String bankListModelToJson(List<BankListModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class BankListModel {
-  int id;
-  int zid;
+  int? id;
+  String zid;
   String xbank;
   String xname;
-  String xbranch;
+
+  // String xbranch;
   String xbacc;
   String xacc;
 
   BankListModel({
-    required this.id,
+    this.id,
     required this.zid,
     required this.xbank,
     required this.xname,
-    required this.xbranch,
+    // required this.xbranch,
     required this.xbacc,
     required this.xacc,
   });
@@ -35,7 +36,7 @@ class BankListModel {
         zid: json["zid"],
         xbank: json["xbank"],
         xname: json["xname"],
-        xbranch: json["xbranch"],
+        // xbranch: json["xbranch"],
         xbacc: json["xbacc"],
         xacc: json["xacc"],
       );
@@ -45,7 +46,7 @@ class BankListModel {
         "zid": zid,
         "xbank": xbank,
         "xname": xname,
-        "xbranch": xbranch,
+        // "xbranch": xbranch,
         "xbacc": xbacc,
         "xacc": xacc,
       };
