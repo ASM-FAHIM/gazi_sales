@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../constant/app_constants.dart';
 import '../../databaseHelper/database_repo.dart';
+import '../../databaseHelper/deposit_repo.dart';
 import '../model/deposit_number_model.dart';
 import '../model/payment_model_model.dart';
 import 'login_controller.dart';
@@ -74,56 +75,35 @@ class DepositController extends GetxController {
 
   /// bank lists
   RxString bankSelection = 'Bank name'.obs;
-  RxBool isLoading1 = false.obs;
-  final bankList = <BankListModel>[].obs;
+  RxBool bankLoaded = false.obs;
+  List bankList = [];
 
   Future<void> getBankNames() async {
     try {
-      isLoading1(true);
-      //new dealer api for petronas http://${AppConstants.baseurl}/salesforce/dealerinfo.php?user=1000
-      var response = await http.get(Uri.parse(
-          'http://${AppConstants.baseurl}/gazi/deposit/bankList.php?zid=${loginController.zID.value}'));
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        final bankNames = <BankListModel>[];
-        for (var bankList in jsonData) {
-          bankNames.add(BankListModel.fromJson(bankList));
-        }
-        bankList.assignAll(bankNames);
-        isLoading1(false);
-        print('List of banks: $bankList');
-      } else {
-        isLoading1(false);
-        print("There is an Error ${response.statusCode}");
-      }
-    } catch (e) {
-      print("Something went wrong in bank list $e");
+      bankLoaded(true);
+      bankList =
+          await DepositRepo().getFromBankTable(loginController.zID.value);
+      print('bank name List : ${bankList.length}');
+      bankLoaded(false);
+    } catch (error) {
+      bankLoaded(false);
+      print('There are some issue: $error');
     }
   }
 
   /// bank lists
   RxString paymentMod = 'Mode of payment'.obs;
   RxBool isLoading2 = false.obs;
-  final paymentList = <PaymentModeModel>[].obs;
+  List paymentList = [];
 
   Future<void> getPaymentType() async {
     try {
       isLoading2(true);
-      var response = await http.get(Uri.parse(
-          'http://${AppConstants.baseurl}/gazi/deposit/paymentMode.php?zid=${loginController.zID.value}'));
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        final payments = <PaymentModeModel>[];
-        for (var paymentList in jsonData) {
-          payments.add(PaymentModeModel.fromJson(paymentList));
-        }
-        paymentList.assignAll(payments);
-        isLoading2(false);
-        print('List of payment types: $paymentList');
-      } else {
-        isLoading2(false);
-        print("There is an Error ${response.statusCode}");
-      }
+      paymentList =
+          await DepositRepo().getFromPaymentTable(loginController.zID.value);
+      print('bank name List : ${paymentList.length}');
+      isLoading2(false);
+      print('List of payment types: $paymentList');
     } catch (e) {
       print("Something went wrong in payment types $e");
     }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/databaseHelper/deposit_repo.dart';
 import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
+import 'package:gazi_sales_app/sales/module/model/payment_model_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -184,6 +185,7 @@ class LoginController extends GetxController {
             duration: const Duration(seconds: 1));
         //fetch tsoInfo from login method
         await insertToBankTable();
+        await insertToPaymentTable();
         await loginMethod();
         isFetched(false);
         return 'Territory list fetched Successfully';
@@ -299,7 +301,7 @@ class LoginController extends GetxController {
     print('My exact location is : $addressInOut');
   }
 
-  //user wise business inserted into database
+  //Bank list inserted into database
   RxBool isBankFetched = false.obs;
   List<BankListModel> bankList = [];
 
@@ -327,7 +329,35 @@ class LoginController extends GetxController {
     }
   }
 
-  RxBool bankLoaded = false.obs;
+  //payment method inserted into database
+  RxBool isPaymentFetched = false.obs;
+  List<PaymentModeModel> paymentList = [];
+
+  Future<void> insertToPaymentTable() async {
+    try {
+      isBankFetched(true);
+      var response = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/deposit/paymentMode.php'));
+      print('list of payment methods: ${response.body}');
+      if (response.statusCode == 200) {
+        paymentList = paymentModeModelFromJson(response.body);
+        print('list of payment methods: ${response.body}');
+        await Future.wait(paymentList.map((modOfPayment) {
+          return DepositRepo().insertIntoPaymentTable(modOfPayment);
+        }).toList());
+        isBankFetched(false);
+        print('Payment modes : $paymentList');
+      } else {
+        isBankFetched(false);
+        print("There is an Error getting banks: ${response.statusCode}");
+      }
+    } catch (e) {
+      isBankFetched(false);
+      print('Failed to insert banks: $e');
+    }
+  }
+
+/*  RxBool bankLoaded = false.obs;
   List bankNames = [];
 
   Future<void> getBankNames() async {
@@ -340,5 +370,5 @@ class LoginController extends GetxController {
       bankLoaded(false);
       print('There are some issue: $error');
     }
-  }
+  }*/
 }

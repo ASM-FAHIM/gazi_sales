@@ -239,8 +239,8 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   items: <String>[
                                     "Imp",
                                     "Roto",
-                                    "Tank",
-                                    "Toy",
+                                    "Tanks",
+                                    "Toys",
                                   ].map<DropdownMenuItem<String>>(
                                     (String value) {
                                       return DropdownMenuItem<String>(
@@ -306,20 +306,18 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     color: Colors.black,
                                   ),
                                   items: depositController.paymentList
-                                      .map<DropdownMenuItem<PaymentModeModel>>(
-                                    (PaymentModeModel value) {
-                                      return DropdownMenuItem<PaymentModeModel>(
-                                        value: value,
-                                        child: Text(value.xcode),
-                                      );
-                                    },
-                                  ).toList(),
+                                      .map<DropdownMenuItem<String>>(
+                                          (dynamic payments) {
+                                    return DropdownMenuItem<String>(
+                                      value: payments['xcode'],
+                                      child: Text(payments['xcode']),
+                                    );
+                                  }).toList(),
                                   onChanged: (value) {
-                                    if (value is PaymentModeModel) {
-                                      depositController.paymentMod.value =
-                                          value.xcode;
-                                    }
+                                    depositController.paymentMod.value =
+                                        value as String;
                                   },
+                                  value: depositController.paymentMod.value,
                                   hint: Obx(() => Text(
                                         depositController.paymentMod.value,
                                         style: const TextStyle(
@@ -368,20 +366,18 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     color: Colors.black,
                                   ),
                                   items: depositController.bankList
-                                      .map<DropdownMenuItem<BankListModel>>(
-                                    (BankListModel value) {
-                                      return DropdownMenuItem<BankListModel>(
-                                        value: value,
-                                        child: Text(value.xname),
-                                      );
-                                    },
-                                  ).toList(),
+                                      .map<DropdownMenuItem<String>>(
+                                          (dynamic bank) {
+                                    return DropdownMenuItem<String>(
+                                      value: bank['xname'] as String,
+                                      child: Text(bank['xname'] as String),
+                                    );
+                                  }).toList(),
                                   onChanged: (value) {
-                                    if (value is BankListModel) {
-                                      depositController.bankSelection.value =
-                                          value.xname;
-                                    }
+                                    depositController.bankSelection.value =
+                                        value as String;
                                   },
+                                  value: depositController.bankSelection.value,
                                   hint: Obx(() => Text(
                                         depositController.bankSelection.value,
                                         style: const TextStyle(
