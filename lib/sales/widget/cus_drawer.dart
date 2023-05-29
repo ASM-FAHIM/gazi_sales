@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/widget/small_text.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import '../../screen/login_page.dart';
 import '../constant/colors.dart';
 import '../constant/dimensions.dart';
@@ -10,7 +9,7 @@ import '../module/controller/login_controller.dart';
 import '../module/view/dashboard_screen.dart';
 import '../module/view/deposit/deposi_entry_screen.dart';
 import '../module/view/gift_promo_screen.dart';
-import '../module/view/history/order_history_screen.dart';
+import '../module/view/history/history_screen.dart';
 import '../module/view/notifications/notification_screen.dart';
 import '../module/view/order_process/order_process_screen.dart';
 import '../module/view/sro_summary/sro_screen.dart';
@@ -185,7 +184,7 @@ class CusDrawer extends StatelessWidget {
                             VisualDensity(horizontal: 0, vertical: 0),
                         onTap: () {
                           Get.back();
-                          Get.to(() => OrderHistoryScreen());
+                          Get.to(() => HistoryScreen());
                         },
                         leading: const Icon(
                           MdiIcons.history,
@@ -193,7 +192,7 @@ class CusDrawer extends StatelessWidget {
                           size: 25,
                         ),
                         title: SmallText(
-                          text: 'Order History',
+                          text: 'History',
                           size: 20,
                         ),
                       ),
