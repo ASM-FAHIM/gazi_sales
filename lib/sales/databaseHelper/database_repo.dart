@@ -127,18 +127,34 @@ class DatabaseRepo {
       // Check if the product nature already exists in the local storage
       var existingProductNature = await dbClient!.query(
         DBHelper.productNature,
-        where: 'xcode = ?',
-        whereArgs: [productNatureModel.xcode],
+        where: 'zid = ? AND xcode = ?',
+        whereArgs: [
+          productNatureModel.zid,
+          productNatureModel.xcode,
+        ],
       );
 
       if (existingProductNature.isEmpty) {
         // Product nature does not exist, proceed with insertion
         result = await dbClient.insert(
-            DBHelper.productNature, productNatureModel.toJson());
+          DBHelper.productNature,
+          productNatureModel.toJson(),
+        );
         print("New product nature inserted: $result");
       } else {
-        // Product nature already exists, skip insertion
-        print("Product nature already exists: ${productNatureModel.xcode}");
+        // Product nature already exists, perform update
+        result = await dbClient.update(
+          DBHelper.productNature,
+          {
+            'xlong': productNatureModel.xlong,
+          },
+          where: 'zid = ? AND xcode = ?',
+          whereArgs: [
+            productNatureModel.zid,
+            productNatureModel.xcode,
+          ],
+        );
+        print("Product nature updated: $result");
       }
     } catch (e) {
       print('There are some issues inserting product nature: $e');
