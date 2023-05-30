@@ -25,8 +25,12 @@ class DepositRepo {
 
         if (existingRecord.isNotEmpty) {
           result = await dbClient.update(
-            DBHelper.bankTable,
-            bankData.toJson(),
+            DBHelper.bankTable,{
+            'xname': bankData.xname,
+            'xbacc': bankData.xbacc,
+            'xacc': bankData.xacc,
+          },
+
             where: 'xbank = ? AND zid=? AND id=?',
             whereArgs: [
               bankData.xbank,
@@ -120,8 +124,9 @@ class DepositRepo {
         );
         if (existingRecord.isNotEmpty) {
           result = await dbClient.update(
-            DBHelper.paymentTable,
-            payment.toJson(),
+            DBHelper.paymentTable, {
+              'xcode': payment.xcode,
+          },
             where: 'zid = ? AND xcode = ? AND id = ?',
             whereArgs: [
               payment.zid,

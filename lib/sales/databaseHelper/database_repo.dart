@@ -11,7 +11,7 @@ class DatabaseRepo {
   DBHelper dbHelper = DBHelper();
 
   ///Dealer Table Section
-  Future<int> addDealer(DealerModel dealerModel) async {
+  /*Future<int> addDealer(DealerModel dealerModel) async {
     var dbClient = await conn.db;
     int result = 0;
     try {
@@ -35,20 +35,54 @@ class DatabaseRepo {
       print('There are some issues: $e');
     }
     return result;
-  }
-
-  Future<int?> updateDealer(DealerModel dealerModel) async {
+  }*/
+  Future<int> addDealer(DealerModel dealerModel) async {
     var dbClient = await conn.db;
-    int? result;
+    int result = 0;
     try {
-      result = await dbClient!.update(
-          DBHelper.dealerTable, dealerModel.toJson(),
-          where: "id=?", whereArgs: [dealerModel.id]);
+      // Check if the dealer already exists in the local storage
+      var existingDealers = await dbClient!.query(
+        DBHelper.dealerTable,
+        where: 'zid = ? AND xcus = ?',
+        whereArgs: [dealerModel.zid, dealerModel.xcus],
+      );
+
+      if (existingDealers.isEmpty) {
+        // Dealer does not exist, proceed with insertion
+        result = await dbClient.insert(DBHelper.dealerTable, dealerModel.toJson());
+        print("New dealer inserted: $result");
+      } else {
+        // Dealer already exists, perform update
+        result = await dbClient.update(
+          DBHelper.dealerTable,
+          {
+            'xorg': dealerModel.xorg,
+            'xphone': dealerModel.xphone,
+            'xmadd': dealerModel.xmadd,
+            'xgcus': dealerModel.xgcus,
+            'xterritory': dealerModel.xterritory,
+            'xcontact': dealerModel.xcontact,
+            'xmobile': dealerModel.xmobile,
+            'xtso': dealerModel.xtso,
+            'xzone': dealerModel.xzone,
+            'xzm': dealerModel.xzm,
+            'xdivision': dealerModel.xdivision,
+            'xdm': dealerModel.xdm,
+            'xthana': dealerModel.xthana,
+            'xdistrict': dealerModel.xdistrict,
+          },
+          where: 'zid = ? AND xcus = ?',
+          whereArgs: [dealerModel.zid, dealerModel.xcus],
+        );
+        print("Dealer updated: $result");
+      }
     } catch (e) {
       print('There are some issues: $e');
     }
     return result;
   }
+
+
 
   /*Future getDealer() async{
     var dbClient = await conn.db;
@@ -163,7 +197,7 @@ class DatabaseRepo {
   }
 
   //for product table CRUD
-  Future<int> addProduct(ProductModel productModel) async {
+/*  Future<int> addProduct(ProductModel productModel) async {
     var dbClient = await conn.db;
     int result = 0;
     try {
@@ -187,20 +221,57 @@ class DatabaseRepo {
       print('There are some issues inserting product: $e');
     }
     return result;
-  }
+  }*/
 
-  Future<int?> updateProduct(ProductModel productModel) async {
+  Future<int> addProduct(ProductModel productModel) async {
     var dbClient = await conn.db;
-    int? result;
+    int result = 0;
     try {
-      result = await dbClient!.update(
-          DBHelper.productTable, productModel.toJson(),
-          where: "id=?", whereArgs: [productModel.id]);
+      // Check if the product already exists in the local storage
+      var existingProducts = await dbClient!.query(
+        DBHelper.productTable,
+        where: 'zid = ? AND xitem = ?',
+        whereArgs: [productModel.zid, productModel.xitem],
+      );
+
+      if (existingProducts.isEmpty) {
+        // Product does not exist, proceed with insertion
+        result = await dbClient.insert(DBHelper.productTable, productModel.toJson());
+        print("New product inserted: $result");
+      } else {
+        // Product already exists, perform update
+        result = await dbClient.update(
+          DBHelper.productTable,
+          {
+            'xdesc': productModel.xdesc,
+            'xrate': productModel.xrate,
+            'xdealerp': productModel.xdealerp,
+            'xmrp': productModel.xmrp,
+            'xcolor': productModel.xcolor,
+            'color': productModel.color,
+            'xdisc': productModel.xdisc,
+            'xcapacity': productModel.xcapacity,
+            'xunit': productModel.xunit,
+            'xunitsel': productModel.xunitsel,
+            'xcatitem': productModel.xcatitem,
+            'xstype': productModel.xstype,
+            'stype': productModel.stype,
+            'xpnature': productModel.xpnature,
+            'xdateeff': productModel.xdateeff,
+            'xdateexp': productModel.xdateexp,
+          },
+          where: 'zid = ? AND xitem = ?',
+          whereArgs: [productModel.zid, productModel.xitem],
+        );
+        print("Product updated: $result");
+      }
     } catch (e) {
-      print('There are some issues updating products: $e');
+      print('There are some issues inserting product: $e');
     }
     return result;
   }
+
+
 
   Future getProduct(String dealerType, String pNature) async {
     print("product natures are: $pNature");
@@ -264,8 +335,7 @@ class DatabaseRepo {
   ///Product-Accessories Tbale Section
 
   //for product accessories table CRUD
-  Future<int> addProductAccessories(
-      ProductAccessoriesModel productAccessoriesModel) async {
+  /*Future<int> addProductAccessories(ProductAccessoriesModel productAccessoriesModel) async {
     var dbClient = await conn.db;
     int result = 0;
     try {
@@ -290,21 +360,54 @@ class DatabaseRepo {
       print('There are some issues inserting product accessories table: $e');
     }
     return result;
+  }*/
+  Future<int> addProductAccessories(ProductAccessoriesModel productAccessoriesModel) async {
+    var dbClient = await conn.db;
+    int result = 0;
+    try {
+      // Check if the product accessories entry already exists in the local storage
+      var existingEntries = await dbClient!.query(
+        DBHelper.productAccessories,
+        where: 'zid = ? AND xitemaccessories = ? AND xitem = ?',
+        whereArgs: [
+          productAccessoriesModel.zid,
+          productAccessoriesModel.xitemaccessories,
+          productAccessoriesModel.xitem,
+        ],
+      );
+
+      if (existingEntries.isEmpty) {
+        // Product accessories entry does not exist, proceed with insertion
+        result = await dbClient.insert(
+          DBHelper.productAccessories,
+          productAccessoriesModel.toJson(),
+        );
+        print("New product accessories entry inserted: $result");
+      } else {
+        // Product accessories entry already exists, perform update
+        result = await dbClient.update(
+          DBHelper.productAccessories,
+          {
+            'name': productAccessoriesModel.name,
+            'xunit': productAccessoriesModel.xunit,
+            'xqty': productAccessoriesModel.xqty,
+          },
+          where: 'zid = ? AND xitemaccessories = ? AND xitem = ?',
+          whereArgs: [
+            productAccessoriesModel.zid,
+            productAccessoriesModel.xitemaccessories,
+            productAccessoriesModel.xitem,
+          ],
+        );
+        print("Product accessories entry updated: $result");
+      }
+    } catch (e) {
+      print('There are some issues inserting product accessories table: $e');
+    }
+    return result;
   }
 
-  /*Future getProduct(String dealerType) async{
-    var dbClient = await conn.db;
-    List productList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.query(DBHelper.productTable);
-      for(var products in maps){
-        productList.add(products);
-      }
-    }catch(e){
-      print("There are some issues getting products : $e");
-    }
-    return productList;
-  }*/
+
 
   Future getProductAccessories() async {
     var dbClient = await conn.db;
