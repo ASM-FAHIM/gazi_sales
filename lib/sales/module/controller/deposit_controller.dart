@@ -172,49 +172,71 @@ class DepositController extends GetxController {
 
   //For Inserting to DepositTable
   RxBool saving = false.obs;
+  RxBool isEmptyField = false.obs;
   RxInt depositTableMax = 0.obs;
 
-  Future<void> insertToDeposit(String cusId, String xOrg, String status) async {
+  Future<void> insertToDeposit(String cusId, String xOrg, String status,
+      String bankName, String paymentType) async {
     try {
-      saving(true);
-      depositTableMax.value = await DepositRepo().getDepositID();
-      var depositID = 'DP-00${(depositTableMax + 1)}';
-      Map<String, dynamic> depositInsert = {
-        "zid": loginController.zID.value,
-        "depositID": depositID,
-        "zauserid": loginController.xposition.value,
-        "xcus": cusId,
-        "xtso": loginController.xtso.value,
-        "xdivision": loginController.xDivision.value,
-        "xamount": int.parse(amount.text),
-        "xbank": bankSelection.value,
-        "xbranch": depositBranch.text,
-        "xnote": note.text,
-        "xpreparer": loginController.xstaff.value,
-        "xdm": loginController.xDM.value,
-        "xterritory": loginController.xterritory.value,
-        "xzm": loginController.xZM.value,
-        "xzone": loginController.xZone.value,
-        "xarnature": selectedOption.value,
-        "xpaymenttype": paymentMod.value,
-        "xcusbank": cusBank.text,
-        "xchequeno": chkRefNo.text
-      };
+      if (amount.text.isEmpty ||
+          bankName == 'Bank name' ||
+          paymentType == 'Mode of Payment' ||
+          selectedOption.value == 'Type') {
+        saving(false);
+        isEmptyField(true);
+        Get.snackbar('Warning!',
+            'Please fill up amount or bank name or payment type or customer bank or chck no or invoice type',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 3));
+      } else {
+        saving(true);
+        depositTableMax.value = await DepositRepo().getDepositID();
+        var depositID = 'DP-00${(depositTableMax + 1)}';
+        Map<String, dynamic> depositInsert = {
+          "zid": loginController.zID.value,
+          "depositID": depositID,
+          "zauserid": loginController.xposition.value,
+          "xcus": cusId,
+          "xtso": loginController.xtso.value,
+          "xdivision": loginController.xDivision.value,
+          "xamount": int.parse(amount.text),
+          "xbank": bankSelection.value,
+          "xbranch": depositBranch.text,
+          "xnote": note.text,
+          "xpreparer": loginController.xstaff.value,
+          "xdm": loginController.xDM.value,
+          "xterritory": loginController.xterritory.value,
+          "xzm": loginController.xZM.value,
+          "xzone": loginController.xZone.value,
+          "xarnature": selectedOption.value,
+          "xpaymenttype": paymentMod.value,
+          "xcusbank": cusBank.text,
+          "xchequeno": chkRefNo.text,
+          "xdate": date.value,
+        };
 
-      await DepositRepo().depositInsert(depositInsert);
-
-      print('Deposit added Successfully');
-      Get.snackbar('Successful', 'Deposit added successfully',
-          backgroundColor: Colors.white, duration: const Duration(seconds: 2));
+        await DepositRepo().depositInsert(depositInsert);
+        clearFields();
+        print('Deposit added Successfully');
+        Get.snackbar('Successful', 'Deposit added successfully',
+            backgroundColor: Colors.white,
+            duration: const Duration(seconds: 2));
+        saving(false);
+        isEmptyField(false);
+      }
+    } catch (e) {
       saving(false);
-    } catch (error) {
-      saving(false);
-      print('There are some issue: $error');
+      isEmptyField(false);
+      Get.snackbar('Warning!', 'Something went wrong while submit data',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 1));
+      print("Something went wrong while submit data $e");
     }
   }
 
   RxBool isSubmitted = false.obs;
-  RxBool isEmptyField = false.obs;
 
   Future<void> depositSubmission(String cusId, String bankName,
       String paymentNature, String paymentType) async {
@@ -277,7 +299,6 @@ class DepositController extends GetxController {
       }
     } catch (e) {
       isSubmitted(false);
-
       isEmptyField(false);
       Get.snackbar('Warning!', 'Something went wrong while submit data',
           backgroundColor: Colors.red,
