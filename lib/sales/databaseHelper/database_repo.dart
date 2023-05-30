@@ -11,31 +11,6 @@ class DatabaseRepo {
   DBHelper dbHelper = DBHelper();
 
   ///Dealer Table Section
-  /*Future<int> addDealer(DealerModel dealerModel) async {
-    var dbClient = await conn.db;
-    int result = 0;
-    try {
-      // Check if the dealer already exists in the local storage
-      var existingDealers = await dbClient!.query(
-        DBHelper.dealerTable,
-        where: 'xcus = ?',
-        whereArgs: [dealerModel.xcus],
-      );
-
-      if (existingDealers.isEmpty) {
-        // Dealer does not exist, proceed with insertion
-        result =
-            await dbClient.insert(DBHelper.dealerTable, dealerModel.toJson());
-        print("New dealer inserted: $result");
-      } else {
-        // Dealer already exists, skip insertion
-        print("Dealer already exists: ${dealerModel.xcus}");
-      }
-    } catch (e) {
-      print('There are some issues: $e');
-    }
-    return result;
-  }*/
   Future<int> addDealer(DealerModel dealerModel) async {
     var dbClient = await conn.db;
     int result = 0;
@@ -49,7 +24,8 @@ class DatabaseRepo {
 
       if (existingDealers.isEmpty) {
         // Dealer does not exist, proceed with insertion
-        result = await dbClient.insert(DBHelper.dealerTable, dealerModel.toJson());
+        result =
+            await dbClient.insert(DBHelper.dealerTable, dealerModel.toJson());
         print("New dealer inserted: $result");
       } else {
         // Dealer already exists, perform update
@@ -81,8 +57,6 @@ class DatabaseRepo {
     }
     return result;
   }
-
-
 
   /*Future getDealer() async{
     var dbClient = await conn.db;
@@ -197,32 +171,6 @@ class DatabaseRepo {
   }
 
   //for product table CRUD
-/*  Future<int> addProduct(ProductModel productModel) async {
-    var dbClient = await conn.db;
-    int result = 0;
-    try {
-      // Check if the product already exists in the local storage
-      var existingProducts = await dbClient!.query(
-        DBHelper.productTable,
-        where: 'xitem = ?',
-        whereArgs: [productModel.xitem],
-      );
-
-      if (existingProducts.isEmpty) {
-        // Product does not exist, proceed with insertion
-        result =
-            await dbClient.insert(DBHelper.productTable, productModel.toJson());
-        print("New product inserted: $result");
-      } else {
-        // Product already exists, skip insertion
-        print("Product already exists: ${productModel.xitem}");
-      }
-    } catch (e) {
-      print('There are some issues inserting product: $e');
-    }
-    return result;
-  }*/
-
   Future<int> addProduct(ProductModel productModel) async {
     var dbClient = await conn.db;
     int result = 0;
@@ -236,7 +184,8 @@ class DatabaseRepo {
 
       if (existingProducts.isEmpty) {
         // Product does not exist, proceed with insertion
-        result = await dbClient.insert(DBHelper.productTable, productModel.toJson());
+        result =
+            await dbClient.insert(DBHelper.productTable, productModel.toJson());
         print("New product inserted: $result");
       } else {
         // Product already exists, perform update
@@ -270,8 +219,6 @@ class DatabaseRepo {
     }
     return result;
   }
-
-
 
   Future getProduct(String dealerType, String pNature) async {
     print("product natures are: $pNature");
@@ -361,7 +308,8 @@ class DatabaseRepo {
     }
     return result;
   }*/
-  Future<int> addProductAccessories(ProductAccessoriesModel productAccessoriesModel) async {
+  Future<int> addProductAccessories(
+      ProductAccessoriesModel productAccessoriesModel) async {
     var dbClient = await conn.db;
     int result = 0;
     try {
@@ -406,8 +354,6 @@ class DatabaseRepo {
     }
     return result;
   }
-
-
 
   Future getProductAccessories() async {
     var dbClient = await conn.db;
