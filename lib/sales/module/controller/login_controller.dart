@@ -180,14 +180,14 @@ class LoginController extends GetxController {
           LoginRepo().insertToTerritoryTable(
               TerritoryListModel.fromJson(territoryList));
         }).toList();
-        Get.snackbar('Success', 'Data Fetched successfully',
-            backgroundColor: Colors.white,
-            duration: const Duration(seconds: 1));
         //fetch tsoInfo from login method
         await insertToBankTable();
         await insertToPaymentTable();
         await loginMethod();
         isFetched(false);
+        Get.snackbar('Success', 'Data Fetched successfully',
+            backgroundColor: Colors.white,
+            duration: const Duration(seconds: 1));
         return 'Territory list fetched Successfully';
       } else {
         Get.snackbar('Error', 'Something went wrong',

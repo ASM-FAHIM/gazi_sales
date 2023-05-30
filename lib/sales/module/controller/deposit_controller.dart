@@ -41,8 +41,7 @@ class DepositController extends GetxController {
       return dealerList;
     } else {
       return dealerList
-          .where((dealer) =>
-          dealer["xorg"]
+          .where((dealer) => dealer["xorg"]
               .toLowerCase()
               .contains(searchQuery.value.toLowerCase()))
           .toList();
@@ -92,7 +91,7 @@ class DepositController extends GetxController {
     try {
       bankLoaded(true);
       bankList =
-      await DepositRepo().getFromBankTable(loginController.zID.value);
+          await DepositRepo().getFromBankTable(loginController.zID.value);
       print('bank name List : ${bankList}');
       bankLoaded(false);
     } catch (error) {
@@ -110,7 +109,7 @@ class DepositController extends GetxController {
     try {
       isLoading2(true);
       paymentList =
-      await DepositRepo().getFromPaymentTable(loginController.zID.value);
+          await DepositRepo().getFromPaymentTable(loginController.zID.value);
       print('bank name List : ${paymentList.length}');
       isLoading2(false);
       print('List of payment types: $paymentList');
@@ -124,10 +123,7 @@ class DepositController extends GetxController {
 
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
-  final date = DateTime
-      .now()
-      .toString()
-      .obs;
+  final date = DateTime.now().toString().obs;
 
   updateDate(DateTime dateTime) {
     date.value = dateTime.toString();
@@ -146,9 +142,7 @@ class DepositController extends GetxController {
 
   Future<void> generateDPNumber() async {
     var response = await http.get(Uri.parse(
-        'http://${AppConstants
-            .baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID
-            .value}'));
+        'http://${AppConstants.baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID.value}'));
     if (response.statusCode == 200) {
       DepositNumModel? data = depositNumModelFromJson(response.body);
       print('Deposit number : ${data.dPnum}');
@@ -219,7 +213,6 @@ class DepositController extends GetxController {
     }
   }
 
-
   RxBool isSubmitted = false.obs;
   RxBool isEmptyField = false.obs;
 
@@ -242,8 +235,7 @@ class DepositController extends GetxController {
         await generateDPNumber();
         var response = await http.post(
             Uri.parse(
-                'http://${AppConstants
-                    .baseurl}/gazi/deposit/depositInsert.php'),
+                'http://${AppConstants.baseurl}/gazi/deposit/depositInsert.php'),
             body: jsonEncode(<String, dynamic>{
               "zid": loginController.zID.value,
               "zauserid": loginController.xposition.value,
@@ -275,7 +267,6 @@ class DepositController extends GetxController {
           print('successfully depositted');
         } else {
           isSubmitted(false);
-
           isEmptyField(false);
           Get.snackbar('Warning!', 'There are some issue occurred',
               backgroundColor: Colors.red,
