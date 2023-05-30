@@ -1,47 +1,49 @@
-import 'dart:convert';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/details/sr_details.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:get/get.dart';
 import '../../../conts_api_link.dart';
-import '../../../data_model/notification_model/admin_approver_model/sr_admin_model.dart';
-import '../../../sales/constant/app_constants.dart';
+import '../../../data_model/notification_model/admin_approver_model/deposit_admin_model.dart';
 
-class SR_notification extends StatefulWidget {
-  SR_notification(
-      {required this.xposition,
-      required this.zemail,
-      required this.zid,
-      required this.xstaff});
-
+class DepositNotifiScreen extends StatefulWidget {
   String xposition;
   String zemail;
   String zid;
-  String xstaff;
+
+  DepositNotifiScreen(
+      {required this.xposition,
+      required this.zemail,
+      required this.zid,
+      Key? key})
+      : super(key: key);
 
   @override
-  State<SR_notification> createState() => _SR_notificationState();
+  State<DepositNotifiScreen> createState() => _DepositNotifiScreenState();
 }
 
-class _SR_notificationState extends State<SR_notification> {
-  Future<List<SrNotiModel>>? futurePost;
+class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
+  Future<List<DepositNotificationModel>>? futurePost;
+  String rejectNote = " ";
 
-  //String rejectNote = " ";
-  TextEditingController rejectNote = TextEditingController();
-
-  Future<List<SrNotiModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().srApi),
-        body: jsonEncode(<String, String>{
+  Future<List<DepositNotificationModel>> fetchPost() async {
+    var response = await http.post(
+      Uri.parse(ConstApiLink().depositApi),
+      body: jsonEncode(
+        <String, String>{
           "zid": widget.zid,
-          "xposition": widget.xposition
-        }));
-
+          "xposition": widget.xposition,
+        },
+      ),
+    );
+    // print(response.body);
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<SrNotiModel>((json) => SrNotiModel.fromJson(json))
+          .map<DepositNotificationModel>(
+              (json) => DepositNotificationModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -67,7 +69,7 @@ class _SR_notificationState extends State<SR_notification> {
         ),
         title: Center(
           child: Text(
-            "Pending SR For Approval",
+            "Deposit Notifications",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -83,7 +85,7 @@ class _SR_notificationState extends State<SR_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<SrNotiModel>>(
+        child: FutureBuilder<List<DepositNotificationModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -96,87 +98,97 @@ class _SR_notificationState extends State<SR_notification> {
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 6.0, left: 10),
                           child: ExpansionTile(
-                            expandedCrossAxisAlignment:
-                                CrossAxisAlignment.start,
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          1.6,
-                                      child: Text(
-                                        "${snapshot.data![index].requisition}",
-                                        style: GoogleFonts.bakbakOne(
-                                          fontSize: 18,
-                                          //color: Color(0xff074974),
-                                        ),
-                                      ),
-                                    ),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              " ${snapshot.data![index].xdepositnum}",
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.bakbakOne(
+                                                fontSize: 18,
+                                                //color: Color(0xff074974),
+                                              ),
+                                            ),
+                                            Text(
+                                              " ${snapshot.data![index].preparerName}",
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.bakbakOne(
+                                                fontSize: 18,
+                                                //color: Color(0xff074974),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                   ],
                                 ),
                               ],
                             ),
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "SR Date: " + snapshot.data![index].xdate,
+                                "Deposit number :" +
+                                    "${snapshot.data![index].xdepositnum}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Business ID:" +
-                                    " ${snapshot.data![index].zid}",
-                                textAlign: TextAlign.center,
+                                "Date : " + "${snapshot.data![index].xdate}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Store name : ${snapshot.data![index].twhdesc}",
-                                textAlign: TextAlign.center,
+                                "Customer name : ${snapshot.data![index].cusname}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Requisition number :  ${snapshot.data![index].requisition}",
-                                textAlign: TextAlign.center,
+                                "Bank : ${snapshot.data![index].xbank}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Status:" +
-                                    "${snapshot.data![index].xstatustor}",
+                                "Amount : ${snapshot.data![index].xamount}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              TextButton(
+                              /*TextButton(
                                 style: TextButton.styleFrom(
-                                    primary: Colors.lightBlueAccent),
+                                    primary:Colors.lightBlueAccent
+                                ),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              SR_details_notification(
-                                                xtornum: snapshot
-                                                    .data![index].requisition,
+                                              CashAdvDetailsNotifiScreen(
+                                                reqNumber: snapshot.data![index].xporeqnum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatustor: snapshot
-                                                    .data![index].xstatustor,
-                                                xstaff: widget.xstaff,
+                                                xstatusreq: snapshot.data![index].xstatusreq,
                                               )));
                                   debugPrint(result.toString());
                                   print(result);
@@ -188,29 +200,30 @@ class _SR_notificationState extends State<SR_notification> {
                                   }
                                 },
                                 child: Center(child: Text("Details")),
-                              ),
-                              /*Row(
+                              ),*/
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                        backgroundColor: Colors.green),
+                                      backgroundColor: Colors.green,
+                                    ),
                                     onPressed: () async {
                                       var response = await http.post(
                                           Uri.parse(
-                                              'http://${AppConstants.baseurl}/GAZI/Notification/sr/srapprove.php'),
+                                              'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
                                           body: jsonEncode(<String, String>{
-                                            // "zid":snapshot.data![index].zid.toString(),
                                             "zid": widget.zid,
                                             "user": widget.zemail,
                                             "xposition": widget.xposition,
-                                            "xtornum": snapshot
-                                                .data![index].requisition
-                                                .toString(),
-                                            "ypd": "0",
-                                            "xstatustor": snapshot
-                                                .data![index].xstatustor
-                                                .toString(),
+                                            "xdepositnum": snapshot
+                                                .data![index].xdepositnum,
+                                            "xbank":
+                                                snapshot.data![index].xbank,
+                                            "xbranch":
+                                                snapshot.data![index].xbranch,
+                                            "xstatusreq":
+                                                snapshot.data![index].xstatus
                                           }));
 
                                       Get.snackbar('Message', 'Approved',
@@ -225,17 +238,15 @@ class _SR_notificationState extends State<SR_notification> {
                                       print(response.statusCode);
                                       print(response.body);
                                     },
-                                    child: Text(
-                                      "Approve",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                    child: Text("Approve"),
                                   ),
                                   SizedBox(
                                     width: 50,
                                   ),
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                        backgroundColor: Colors.red),
+                                      backgroundColor: Colors.redAccent,
+                                    ),
                                     onPressed: () {
                                       showDialog(
                                           context: context,
@@ -254,7 +265,7 @@ class _SR_notificationState extends State<SR_notification> {
                                                         color: Colors.black,
                                                       ),
                                                       onChanged: (input) {
-                                                        rejectNote.text = input;
+                                                        rejectNote = input;
                                                       },
                                                       validator: (input) {
                                                         if (input!.isEmpty) {
@@ -294,70 +305,42 @@ class _SR_notificationState extends State<SR_notification> {
                                               actions: [
                                                 TextButton(
                                                   style: TextButton.styleFrom(
-                                                      backgroundColor:
-                                                          Color(0xff064A76)),
+                                                    backgroundColor:
+                                                        Color(0xff064A76),
+                                                  ),
                                                   onPressed: () async {
-                                                    if (rejectNote
-                                                        .text.isEmpty) {
-                                                      Navigator.pop(context);
-                                                      print(
-                                                          'response code: Empty field');
-                                                      Get.snackbar('Warning!',
-                                                          'Please enter reject note',
-                                                          backgroundColor:
-                                                              Colors.redAccent,
-                                                          colorText:
-                                                              Colors.white,
-                                                          snackPosition:
-                                                              SnackPosition
-                                                                  .BOTTOM);
-                                                    } else {
-                                                      var response =
-                                                          await http.post(
-                                                              Uri.parse(
-                                                                  'http://${AppConstants.baseurl}/GAZI/Notification/sr/srreject.php'),
-                                                              body: jsonEncode(<
-                                                                  String,
-                                                                  String>{
-                                                                // "zid": snapshot.data![index].zid.toString(),
-                                                                "zid":
-                                                                    widget.zid,
-                                                                "user": widget
-                                                                    .zemail,
-                                                                "xposition": widget
-                                                                    .xposition,
-                                                                "xtornum": snapshot
-                                                                    .data![
-                                                                        index]
-                                                                    .requisition
-                                                                    .toString(),
-                                                                "wh": "0",
-                                                                "xnote":
-                                                                    rejectNote
-                                                                        .text,
-                                                              }));
-                                                      print(response.body);
+                                                    //http://$api/ughcm/adminapprove/poreject.php
 
-                                                      print("Rejected " +
-                                                          snapshot.data![index]
-                                                              .requisition
-                                                              .toString());
-                                                      Navigator.pop(context);
-                                                      setState(() {
-                                                        snapshot.data!
-                                                            .removeAt(index);
-                                                      });
+                                                    var response = await http.post(
+                                                        Uri.parse(
+                                                            'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
+                                                        body: jsonEncode(<
+                                                            String, String>{
+                                                          "zid": widget.zid,
+                                                          "user": widget.zemail,
+                                                          "xposition":
+                                                              widget.xposition,
+                                                          "xdepositnum":
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .xdepositnum,
+                                                          "xnote": rejectNote
+                                                        }));
+                                                    print(response.body);
+                                                    Navigator.pop(context);
+                                                    Get.snackbar(
+                                                        'Message', 'Rejected',
+                                                        backgroundColor:
+                                                            Color(0XFF8CA6DB),
+                                                        colorText: Colors.white,
+                                                        snackPosition:
+                                                            SnackPosition
+                                                                .BOTTOM);
 
-                                                      Get.snackbar(
-                                                          'Message', 'Rejected',
-                                                          backgroundColor:
-                                                              Color(0XFF8CA6DB),
-                                                          colorText:
-                                                              Colors.white,
-                                                          snackPosition:
-                                                              SnackPosition
-                                                                  .BOTTOM);
-                                                    }
+                                                    setState(() {
+                                                      snapshot.data!
+                                                          .removeAt(index);
+                                                    });
                                                   },
                                                   child: Text(
                                                     "Reject",
@@ -372,13 +355,10 @@ class _SR_notificationState extends State<SR_notification> {
                                             );
                                           });
                                     },
-                                    child: Text(
-                                      "Reject",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                    child: Text("Reject"),
                                   ),
                                 ],
-                              )*/
+                              )
                             ],
                           ),
                         ),

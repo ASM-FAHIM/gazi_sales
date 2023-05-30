@@ -11,9 +11,8 @@ import 'details/cs_notification_details.dart';
 
 class CS_notification extends StatefulWidget {
   CS_notification(
-      {required this.xposition,
-      required this.zemail,
-      required this.zid});
+      {required this.xposition, required this.zemail, required this.zid});
+
   String xposition;
   String zemail;
   String zid;
@@ -26,10 +25,12 @@ class _CS_notificationState extends State<CS_notification> {
   Future<List<CsModel>>? futurePost;
   String rejectNote = " ";
   AppConstants appConstants = AppConstants();
+
   Future<List<CsModel>> fetchPost() async {
     print('=============${widget.zid}');
     print('=============${widget.xposition}');
-    var response = await http.post(Uri.parse('http://${AppConstants.baseurl}/GAZI/Notification/CS/cs.php'),
+    var response = await http.post(
+        Uri.parse('http://${AppConstants.baseurl}/GAZI/Notification/CS/cs.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition
@@ -122,7 +123,8 @@ class _CS_notificationState extends State<CS_notification> {
                             ),
                             children: <Widget>[
                               Text(
-                                "Requisition Number: " + snapshot.data![index].requisition,
+                                "Requisition Number: " +
+                                    snapshot.data![index].requisition,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -166,11 +168,13 @@ class _CS_notificationState extends State<CS_notification> {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           CS_details_notification(
-                                        xporeqnum: snapshot.data![index].requisition,
+                                        xporeqnum:
+                                            snapshot.data![index].requisition,
                                         zid: widget.zid,
                                         xposition: widget.xposition,
                                         zemail: widget.zemail,
-                                        xstatusreq: snapshot.data![index].xstatusreq,
+                                        xstatusreq:
+                                            snapshot.data![index].xstatusreq,
                                       ),
                                     ),
                                   );

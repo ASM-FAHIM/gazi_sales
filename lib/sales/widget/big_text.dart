@@ -25,10 +25,10 @@ class BigText extends StatelessWidget {
       text,
       maxLines: 1,
       overflow: overflow,
-      style: GoogleFonts.roboto(
+      style: GoogleFonts.manrope(
         // fontFamily: 'Roboto',
         color: color,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
         fontSize: size == 0 ? Dimensions.fontBigS20 : size,
       ),
     );

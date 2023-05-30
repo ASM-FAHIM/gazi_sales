@@ -47,7 +47,7 @@ class _DepositEntryScreenState extends State<DepositEntryScreen> {
           color: AppColor.defWhite,
           size: 25,
         ),
-        actions: [
+        /*actions: [
         Container(
           width: Dimensions.height70 + Dimensions.height45,
           child: DropdownButtonFormField(
@@ -92,7 +92,7 @@ class _DepositEntryScreenState extends State<DepositEntryScreen> {
             ),
           ),
         )
-      ],
+      ],*/
       ),
       body: Obx((){
         return depositController.isLoading.value

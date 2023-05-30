@@ -1,9 +1,8 @@
 import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 
 class ConstApiLink {
-  
   AppConstants appConstants = AppConstants();
-  
+
   // final String loginApi =
   //     'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/loginapi.php';
   final String loginApi =
@@ -18,8 +17,12 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/GAZI/Notification/sr/sr.php';
   final String pendingVoucherApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/voucher/pendingVoucher.php';
+  final String cashAdvApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/Cash_Adv/cash_adv.php';
+  final String depositApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit.php';
   final String pendingSPRApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/spr.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/spr/spr_notification.php';
   final String pendingSpotPurchaseAdvanceApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/spotpurchaseadvance.php';
   final String grnApi =
@@ -28,7 +31,7 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/sqclist.php';
   final String prnApi = 'has no data';
   final String soApi =
-      'http://${AppConstants.baseurl}/salesforce/PendingSalesOrder.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/so/so.php';
   final String dealerVisitApi =
       'http://${AppConstants.baseurl}/salesforce/TSO_Daily_Visit.php?id=972';
   final String dcApi =
@@ -52,6 +55,7 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/special_rate.php';
   final String specialBonusAPi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/special_bonus.php';
+
   // final String pendingSupplierApi =
   //     'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingBatch.php';
   final String moneyreqapproval =
@@ -71,9 +75,11 @@ class ConstApiLink {
   final String csDetailsApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/CS/cs_Details.php';
   final String srDetailsApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/srdetails.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/sr/srDetails.php';
   final String pendingVoucherDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingVoucherDetails.php';
+  final String cashAdvDetailsApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/Cash_Adv/cashAdv_details.php';
   final String pendingSPRDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/sprdetails.php';
   final String pendingSpotPurchaseAdvanceDetails = 'Has no data for test';
@@ -83,7 +89,7 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/sqcdetails.php';
   final String prnDetailsApi = 'has no data';
   final String soDetailsApi =
-      'http://${AppConstants.baseurl}/salesforce/PendingSalesOrderdetails.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/so/soDetails.php';
   final String dcDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/dcdetails.php';
   final String doDetailsApi =
@@ -108,6 +114,11 @@ class ConstApiLink {
   final String poRejectApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/poreject.php';
 
+  final String cashAdvApproveApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/cash_Approve.php';
+  final String cashAdvRejectApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/cash_Reject.php';
+
   final String csApproveApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/CS/csapprove.php';
   final String csRejectApi =
@@ -117,6 +128,11 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/GAZI/Notification/sr/srapprove.php';
   final String srRejectApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/sr/srreject.php';
+
+  final String depositApproveApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php';
+  final String depositRejectApi =
+      'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Reject.php';
 
   final String pendingVoucherApproveApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingVoucherapproval.php';
@@ -148,9 +164,9 @@ class ConstApiLink {
   final String prnRejectApi = 'has no data';
 
   final String soApproveApi =
-      'http://${AppConstants.baseurl}/salesforce/PendingSalesOrderapprove.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/so/soApprove.php';
   final String soRejectApi =
-      'http://${AppConstants.baseurl}/salesforce/PendingSalesOrderreject.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/so/soReject.php';
 
   final String dcApproveApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/dcapprove.php';
@@ -246,7 +262,6 @@ class ConstApiLink {
   final String absEpmRejectApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/absentreject.php';
 
-
   //User absent,late,early,leave Notifications api
   final String uLateEpmApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/HR/employeenotification/early.php';
@@ -256,7 +271,6 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/HR/employeenotification/early.php';
   final String uAbsEpmApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/HR/employeenotification/early.php';
-
 }
 
 //terms and conditions details screen a approve and reject button ta check kora lagbe.

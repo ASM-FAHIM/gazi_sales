@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/controller/cart_controller.dart';
+import 'package:gazi_sales_app/sales/module/view/order_process/additional_acc_screen.dart';
 import 'package:gazi_sales_app/sales/widget/small_text.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,11 +50,29 @@ class _CartAccessoriesScreenState extends State<CartAccessoriesScreen> {
           color: AppColor.defWhite,
           size: 25,
         ),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: AppColor.appBarColor
+            ),
+              onPressed: (){
+              Get.to(()=> AdditionAccScreen(productCode: widget.productCode,));
+              },
+              child: Row(
+                children: [
+                  BigText(text: 'Add', color: Colors.white,),
+                  SizedBox(width: 5,),
+                  Icon(MdiIcons.plusCircle, color: Colors.white,)
+                ],
+              )
+          ),
+        ],
       ),
       body: Obx((){
         return cartController.isAccLoaded.value
             ? Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       margin: EdgeInsets.all(10.0),
@@ -122,7 +141,7 @@ class _CartAccessoriesScreenState extends State<CartAccessoriesScreen> {
                               ),
                             ),
                             Container(
-                              width: 170,
+                              width: Dimensions.height150 + Dimensions.height20 ,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,

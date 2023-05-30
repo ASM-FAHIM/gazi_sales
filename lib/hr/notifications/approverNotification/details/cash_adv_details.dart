@@ -1,52 +1,53 @@
 import 'dart:convert';
-import '../../../../conts_api_link.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../data_model/notification_model/admin_approver_model/details/po_wo_details_model.dart';
+import '../../../../conts_api_link.dart';
+import '../../../../data_model/notification_model/admin_approver_model/details/cash_adv_details_model.dart';
 import '../../../../sales/constant/app_constants.dart';
 
-class PO_details_notification extends StatefulWidget {
-  PO_details_notification(
-      {required this.xpornum,
-      required this.zid,
-      required this.xposition,
-      required this.xstatus,
-      required this.zemail});
-
-  String xpornum;
+class CashAdvDetailsNotifiScreen extends StatefulWidget {
+  String reqNumber;
   String zid;
   String xposition;
-  String xstatus;
+  String xstatusreq;
   String zemail;
 
+  CashAdvDetailsNotifiScreen(
+      {required this.reqNumber,
+      required this.zid,
+      required this.xposition,
+      required this.xstatusreq,
+      required this.zemail,
+      Key? key})
+      : super(key: key);
+
   @override
-  State<PO_details_notification> createState() =>
-      _PO_details_notificationState();
+  State<CashAdvDetailsNotifiScreen> createState() =>
+      _CashAdvDetailsNotifiScreenState();
 }
 
-class _PO_details_notificationState extends State<PO_details_notification> {
-  Future<List<PoDetailsModel>>? futurePost;
+class _CashAdvDetailsNotifiScreenState
+    extends State<CashAdvDetailsNotifiScreen> {
+  Future<List<CashAdvDetailsNotificationModel>>? futurePost;
 
   //String rejectNote = " ";
   TextEditingController rejectNote = TextEditingController();
 
-  Future<List<PoDetailsModel>> fetchPostdetails() async {
-    var response = await http.post(
-      Uri.parse(ConstApiLink().poWoDetailsApi),
-      body: jsonEncode(
-        <String, String>{"xporeqnum": widget.xpornum, "zid": widget.zid},
-      ),
-    );
+  Future<List<CashAdvDetailsNotificationModel>> fetchPostdetails() async {
+    var response = await http.post(Uri.parse(ConstApiLink().cashAdvDetailsApi),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xporeqnum": widget.reqNumber,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<PoDetailsModel>((json) => PoDetailsModel.fromJson(json))
+          .map<CashAdvDetailsNotificationModel>(
+              (json) => CashAdvDetailsNotificationModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -72,7 +73,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
         ),
         title: Center(
           child: Text(
-            "PO Details",
+            "Voucher Details",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -88,7 +89,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<PoDetailsModel>>(
+        child: FutureBuilder<List<CashAdvDetailsNotificationModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -108,6 +109,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -126,23 +128,24 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                       ),
                                     ),
                                     Text(
-                                      "Specification : " +
-                                          snapshot.data![index].xspecification,
+                                      "Quantity required : " +
+                                          snapshot.data![index].xqtyreq,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    //
+                                    Text(
+                                      "Quantity approved : " +
+                                          "${snapshot.data![index].xqtyapv}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Quantity : " +
-                                          "${snapshot.data![index].xqtypur}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Purchase Unit : " +
+                                      "Unit: " +
                                           "${snapshot.data![index].xunitpur}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
@@ -157,32 +160,8 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                       ),
                                     ),
                                     Text(
-                                      "Line Amount : " +
+                                      "Line amount : " +
                                           snapshot.data![index].xlineamt,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "VAT rate : " +
-                                          snapshot.data![index].povatrate,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Po Value : " +
-                                          snapshot.data![index].povalue,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "GRN Rate : " +
-                                          snapshot.data![index].xrategrn,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -201,20 +180,19 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.green,
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/GAZI/Notification/po_wo/PO_Approve.php'),
+                                  'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xpornum": widget.xpornum,
-                                "xstatus": widget.xstatus,
-                                "aprcs": "",
+                                "xporeqnum": widget.reqNumber,
+                                "xstatusreq": widget.xstatusreq
+                                // "aprcs": "GRN Approval"
                               }));
 
                           Get.snackbar('Message', 'Approved',
@@ -240,9 +218,8 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -293,9 +270,9 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        backgroundColor: Color(0xff064A76),
-                                      ),
+                                          primary: Color(0xff064A76)),
                                       onPressed: () async {
+                                        //http://172.20.20.69/adminapprove/poreject.php
                                         if (rejectNote.text.isEmpty) {
                                           Navigator.pop(context);
                                           print('response code: Empty field');
@@ -308,16 +285,18 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  'http://${AppConstants.baseurl}/GAZI/Notification/po_wo/PO_Reject.php'),
+                                                  'http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherreject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
                                                 "xposition": widget.xposition,
-                                                "xpornum": widget.xpornum,
+                                                "xporeqnum": widget.reqNumber,
                                                 "xnote": rejectNote.text
                                               }));
-                                          print('response code: $rejectNote');
-                                          print('response code: $response');
+                                          print(response.statusCode);
+                                          print(response.body);
+                                          print(rejectNote);
+
                                           Get.snackbar('Message', 'Rejected',
                                               backgroundColor:
                                                   Color(0XFF8CA6DB),

@@ -12,6 +12,14 @@ String voucherDetailsModelToJson(List<VoucherDetailsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class VoucherDetailsModel {
+  int xrow;
+  String xacc;
+  String xdesc;
+  String xsub;
+  String subdesc;
+  String xdebit;
+  String xcredit;
+
   VoucherDetailsModel({
     required this.xrow,
     required this.xacc,
@@ -22,32 +30,24 @@ class VoucherDetailsModel {
     required this.xcredit,
   });
 
-  int xrow;
-  String xacc;
-  String xdesc;
-  String xsub;
-  dynamic subdesc;
-  String xdebit;
-  String xcredit;
-
   factory VoucherDetailsModel.fromJson(Map<String, dynamic> json) =>
       VoucherDetailsModel(
-        xrow: json["xrow"] ?? ' ',
-        xacc: json["xacc"] ?? ' ',
-        xdesc: json["xdesc"] ?? ' ',
-        xsub: json["xsub"] ?? ' ',
-        subdesc: json["subdesc"] ?? ' ',
-        xdebit: json["xdebit"] ?? ' ',
-        xcredit: json["xcredit"] ?? ' ',
+        xrow: json["xrow"],
+        xacc: json["xacc"],
+        xdesc: json["xdesc"],
+        xsub: json["xsub"],
+        subdesc: json["subdesc"],
+        xdebit: json["xdebit"],
+        xcredit: json["xcredit"],
       );
 
   Map<String, dynamic> toJson() => {
-    "xrow": xrow,
-    "xacc": xacc,
-    "xdesc": xdesc,
-    "xsub": xsub,
-    "subdesc": subdesc,
-    "xdebit": xdebit,
-    "xcredit": xcredit,
-  };
+        "xrow": xrow,
+        "xacc": xacc,
+        "xdesc": xdesc,
+        "xsub": xsub,
+        "subdesc": subdesc,
+        "xdebit": xdebit,
+        "xcredit": xcredit,
+      };
 }

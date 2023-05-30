@@ -10,9 +10,8 @@ import 'details/voucher_details.dart';
 
 class Pending_voucher extends StatefulWidget {
   Pending_voucher(
-      {required this.xposition,
-      required this.zemail,
-      required this.zid});
+      {required this.xposition, required this.zemail, required this.zid});
+
   String xposition;
   String zemail;
   String zid;
@@ -35,9 +34,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
         },
       ),
     );
-
     // print(response.body);
-
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
@@ -103,14 +100,15 @@ class _Pending_voucherState extends State<Pending_voucher> {
                               children: [
                                 Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
                                         width:
-                                        MediaQuery.of(context).size.width /
-                                            2.2,
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               " ${snapshot.data![index].xvoucher}",
@@ -143,7 +141,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                               ],
                             ),
                             expandedCrossAxisAlignment:
-                            CrossAxisAlignment.start,
+                                CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
                                 "Voucher Number :" +
@@ -191,8 +189,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                 ),
                               ),
                               Text(
-                                "Cheque Number : ${snapshot.data![index].xchequeno}"
-                                    ,
+                                "Cheque Number : ${snapshot.data![index].xchequeno}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -244,7 +241,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                 ),
                               ),*/
                               Text(
-                                "Status : ${snapshot.data![index].xstatusjv}" ,
+                                "Status : ${snapshot.data![index].xstatusjv}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -258,8 +255,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                 ),
                               ),
                               Text(
-                                "Long Description : ${snapshot.data![index].xlong}"
-                                    ,
+                                "Long Description : ${snapshot.data![index].xlong}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -291,21 +287,20 @@ class _Pending_voucherState extends State<Pending_voucher> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    primary:Colors.lightBlueAccent
-                                ),
+                                    primary: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               Voucher_details_notification(
-                                                xvoucher: '${snapshot
-                                                    .data![index].xvoucher}',
+                                                xvoucher:
+                                                    '${snapshot.data![index].xvoucher}',
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatus: '${snapshot
-                                                    .data![index].xstatus}',
+                                                xstatus:
+                                                    '${snapshot.data![index].xstatus}',
                                               )));
                                   debugPrint(result.toString());
                                   print(result);

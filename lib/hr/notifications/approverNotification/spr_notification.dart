@@ -133,13 +133,6 @@ class _SPR_notificationState extends State<SPR_notification> {
                                               //color: Color(0xff074974),
                                             ),
                                           ),
-                                          Text(
-                                            "${snapshot.data![index].deptname}",
-                                            style: GoogleFonts.bakbakOne(
-                                              fontSize: 18,
-                                              //color: Color(0xff074974),
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),
@@ -159,7 +152,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                               ),
                               Text(
                                 "SPR Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
+                                    " ${snapshot.data![index].xdate}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -168,7 +161,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                               ),
                               Text(
                                 "Required By Date: " +
-                                    "  ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdatereq.date).toString()))}",
+                                    "  ${snapshot.data![index].xdatereq}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -183,8 +176,8 @@ class _SPR_notificationState extends State<SPR_notification> {
                                 ),
                               ),
                               Text(
-                                "From Store Name: " +
-                                    "${snapshot.data![index].xfbrname ?? " "}",
+                                "Justification: " +
+                                    "${snapshot.data![index].xlong}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -198,8 +191,8 @@ class _SPR_notificationState extends State<SPR_notification> {
                                 ),
                               ),
                               Text(
-                                "Department Name: " +
-                                    "${snapshot.data![index].xregi}",
+                                "Priority: " +
+                                    "${snapshot.data![index].xpriority}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -208,22 +201,6 @@ class _SPR_notificationState extends State<SPR_notification> {
                               Text(
                                 "Justification: " +
                                     "${snapshot.data![index].xlong}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Justification: " +
-                                    "${snapshot.data![index].xlong}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "SPR Status: " +
-                                    "${snapshot.data![index].xstatustor}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -240,6 +217,14 @@ class _SPR_notificationState extends State<SPR_notification> {
                               Text(
                                 "Request to: " +
                                     "${snapshot.data![index].xreqtype}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "SPR Status: " +
+                                    "${snapshot.data![index].statusName}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),

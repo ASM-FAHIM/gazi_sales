@@ -9,10 +9,8 @@ import '../model/sroWiseTso_model.dart';
 import '../model/tsoWise_dealerVisit_model.dart';
 import '../model/tso_summary_model.dart';
 
-
 class NotifyController extends GetxController {
   AppConstants appConstants = AppConstants();
-
 
   // @override
   // void onInit() {
@@ -23,48 +21,56 @@ class NotifyController extends GetxController {
 
   var notifyList = <NotificationModel>[].obs;
   RxBool isLoading = false.obs;
+
   void fetchSoNotification(String staff) async {
     try {
       isLoading(true);
-      var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/gazi/salesforce/SO_notification.php?staff=$staff"));
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/salesforce/SO_notification.php?staff=$staff"));
       var notify = notificationModelFromJson(response.body);
+      print('So orders: ${response.body}');
       notifyList.assignAll(notify.map((e) => e));
     } finally {
       isLoading(false);
     }
   }
 
-  void clearSoList(){
+  void clearSoList() {
     notifyList.clear();
   }
 
   var depositNotifyList = <DepositNotificationModel>[].obs;
   RxBool isLoading1 = false.obs;
+
   void fetchDepositNotification(String staff) async {
     try {
       isLoading1(true);
-      var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/gazi/deposit/depositNotification.php?staff=$staff"));
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/deposit/depositNotification.php?staff=$staff"));
       var depoNotify = depositNotificationModelFromJson(response.body);
       depositNotifyList.assignAll(depoNotify.map((e) => e));
       print('length: ${depositNotifyList.length}');
-      for(int i = 0; i < depositNotifyList.length; i++){
+      for (int i = 0; i < depositNotifyList.length; i++) {
         print('Fetched notifications: ${depositNotifyList[i].xstatus}');
       }
     } finally {
       isLoading1(false);
     }
   }
-  void clearDepositList(){
+
+  void clearDepositList() {
     depositNotifyList.clear();
   }
 
   //srowise tso list
   var sroWiseTSOList = <SroWiseTsoModel>[].obs;
   RxBool isTsoFetched = false.obs;
+
   void fetchSROWiseTSO(String zID, String xStaff) async {
     try {
       isTsoFetched(true);
-      var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/salesforce/SROwiseTSO.php?zid=$zID&staff=$xStaff"));
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/salesforce/SROwiseTSO.php?zid=$zID&staff=$xStaff"));
       var sroWiseTSO = sroWiseTsoModelFromJson(response.body);
       sroWiseTSOList.assignAll(sroWiseTSO.map((e) => e));
     } finally {
@@ -75,19 +81,22 @@ class NotifyController extends GetxController {
   //specific tso summary
   RxBool isDataFetched = false.obs;
   TsoSummaryModel? tsoSummary;
+
   Future<void> getTsoSummary(String zID, String tsoId) async {
-    try{
+    try {
       isDataFetched(true);
       DateTime now = DateTime.now();
       String month = DateFormat.M().format(now);
       String year = DateFormat.y().format(now);
-      var response = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/SROwiseTSOdash.php?zid=$zID&tso=$tsoId&month_per=$month&xyear=$year'));
-      print('http://${AppConstants.baseurl}/salesforce/SROwiseTSOdash.php?zid=$zID&tso=$tsoId&month_per=$month&xyear=$year');
+      var response = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/salesforce/SROwiseTSOdash.php?zid=$zID&tso=$tsoId&month_per=$month&xyear=$year'));
+      print(
+          'http://${AppConstants.baseurl}/salesforce/SROwiseTSOdash.php?zid=$zID&tso=$tsoId&month_per=$month&xyear=$year');
       tsoSummary = tsoSummaryModelFromJson(response.body);
       await fetchTSOWiseDealerVisit(tsoId);
       isDataFetched(false);
       print('Tso information : $tsoSummary');
-    }catch(e){
+    } catch (e) {
       isDataFetched(false);
       print('There is a issue occured when tso Summary fetching: $e');
       print('There is a issue occured when tso Summary fetching: $e');
@@ -97,10 +106,12 @@ class NotifyController extends GetxController {
   //specific tso dealer visit List
   var tsoWiseDealerVisit = <TsoWiseDealerVistListModel>[].obs;
   RxBool isDealerVisitFetched = true.obs;
+
   Future<void> fetchTSOWiseDealerVisit(String tsoID) async {
     try {
       isDealerVisitFetched(true);
-      var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/salesforce/TSO_Dealer_visit.php?tso=$tsoID"));
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/salesforce/TSO_Dealer_visit.php?tso=$tsoID"));
       var tsoWiseDVisit = tsoWiseDealerVistListModelFromJson(response.body);
       tsoWiseDealerVisit.assignAll(tsoWiseDVisit.map((e) => e));
     } finally {
@@ -110,8 +121,8 @@ class NotifyController extends GetxController {
   }
 
   //switch case for color combination
-  changeColor(String statusdemo){
-    switch(statusdemo){
+  changeColor(String statusdemo) {
+    switch (statusdemo) {
       case "Applied":
         return Colors.blueAccent;
 
@@ -126,9 +137,7 @@ class NotifyController extends GetxController {
 
       default:
         return Colors.purple;
-
     }
-
   }
 }
 

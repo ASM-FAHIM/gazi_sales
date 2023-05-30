@@ -22,17 +22,20 @@ class DateContainer extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 1.2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: Colors.white
-          // gradient: const LinearGradient(
-          //     begin: Alignment.topCenter,
-          //     end: Alignment.bottomCenter,
-          //     colors: [
-          //       Color(0xff0AB8CE),
-          //       Color(0xff4E6B9E),
-          //     ]),
+          // color: Colors.blueAccent,
+          gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xff0AB8CE),
+                Color(0xff4E6B9E),
+              ]),
         ),
         child: Center(
-          child: BigText(text: date)
+          child: BigText(
+            text: date,
+            color: Colors.white,
+          ),
         ),
       ),
     );

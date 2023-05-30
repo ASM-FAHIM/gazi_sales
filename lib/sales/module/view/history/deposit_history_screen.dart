@@ -6,16 +6,15 @@ import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
 import '../../../widget/small_text.dart';
 import '../../controller/cart_controller.dart';
-import 'order_history_details.dart';
 
-class OrderHistoryScreen extends StatefulWidget {
-  const OrderHistoryScreen({Key? key}) : super(key: key);
+class DepositHistoryScreen extends StatefulWidget {
+  const DepositHistoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
+  State<DepositHistoryScreen> createState() => _DepositHistoryScreenState();
 }
 
-class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
+class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
   CartController cartController = Get.put(CartController());
 
   @override
@@ -40,7 +39,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 size: 25,
               )),
           title: BigText(
-            text: "Order History",
+            text: "Deposit History",
             color: AppColor.defWhite,
             size: 25,
           ),
@@ -233,10 +232,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                       primary: Colors.teal,
                                     ),
                                     onPressed: () {
-                                      cartController.getCartHeaderDetailsList(
-                                          '${cartHeader['cartID']}');
-                                      Get.to(() => HistoryDetails(
-                                          cartId: '${cartHeader['cartID']}'));
+                                      // cartController.getCartHeaderDetailsList(
+                                      //     '${cartHeader['cartID']}');
+                                      // Get.to(() => HistoryDetails(
+                                      //     cartId: '${cartHeader['cartID']}'));
                                     },
                                     child: Row(
                                       mainAxisAlignment:

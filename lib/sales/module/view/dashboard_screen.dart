@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/widget/date_container.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../constant/colors.dart';
+import '../../constant/dimensions.dart';
 import '../../widget/big_text.dart';
 import '../../widget/cus_drawer.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,7 @@ import 'notifications/notification_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key? key}) : super(key: key);
+
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
@@ -30,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   File? pickedFile;
   String authImage = '';
   ImagePicker imagePicker = ImagePicker();
+
 /*
   Future postUploadImg(File imageFile) async {
     final request = http.MultipartRequest('POST',
@@ -58,7 +62,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     // dashboardController.getVisitedDealerList();
+    dashboardController.getDashboardValues();
   }
 
   @override
@@ -90,25 +94,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     Get.to(() => const NotificationScreen());
                   },
-                  icon: const Icon(MdiIcons.bellRing,),),
-                Obx(() => IconButton(
-                  onPressed: () {
-                    dashboardController.asyncFunction();
-                    //dashboardController.getProductInfo();
-                  },
-                  icon: dashboardController.isLoading7.value
-                      ? const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.defWhite,
-                        ),
-                      )
-                      : const Icon(
-                      MdiIcons.syncIcon,
-                    size: 30,
-                    ),
+                  icon: const Icon(
+                    MdiIcons.bellRing,
+                  ),
+                ),
+                Obx(
+                  () => IconButton(
+                    onPressed: () {
+                      dashboardController.asyncFunction();
+                      //dashboardController.getProductInfo();
+                    },
+                    icon: dashboardController.isLoading7.value
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: AppColor.defWhite,
+                            ),
+                          )
+                        : const Icon(
+                            MdiIcons.syncIcon,
+                            size: 30,
+                          ),
                   ),
                 )
               ],
@@ -116,277 +124,364 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Obx(() =>
-              dashboardController.isVisitDealerFound.value
-              ? CircularProgressIndicator()
-              : Container(
-                margin: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-                child: Center(
+          child: Obx(() => dashboardController.isValueFound.value
+              ? Center(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                     /* Obx(() => Container(
-                        height: 50,
-                        width: 200,
-                        child: ElevatedButton(
-                          onPressed: () async{
-                            // dashboardController.checkFunction();
-                            showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (context) {
-                                  return bottomSheet(context);
-                                });
-                          },
-                          style: ElevatedButton.styleFrom(primary: Colors.green, elevation: 5),
-                          child: dashboardController.givingAtt.value
-                              ? Center(child: CircularProgressIndicator(color: Colors.white,),)
-                              : const Text('Check In'),
-                        ),
-                      ),
-                      ),
-                      SizedBox(height: 20,),*/
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Center(
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: SizedBox(
-                                    width: 150.0,
-                                    height: 130.0,
-                                    child: CustomPaint(
-                                      painter: CircleProgress(
-                                        progress: _progress3,
-                                        startColor: Colors.lightBlueAccent,
-                                        endColor: Colors.lightBlue,
-                                        width: 8.0,
-                                      ),
-                                      child: Center(child: Text('50000 BDT', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text('Monthly target', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black),),
-                              ],
-                            ),
-                          ),
-                          Center(
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: SizedBox(
-                                    width: 150.0,
-                                    height: 130.0,
-                                    child: CustomPaint(
-                                      painter: CircleProgress(
-                                        progress: _progress4,
-                                        startColor: Colors.lightGreen,
-                                        endColor: Colors.green,
-                                        width: 8.0,
-                                      ),
-                                      child: Center(
-                                          child: Text('25000 BDT', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),),),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text('Monthly achievement', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black),),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                 /*     SizedBox(height: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BigText(text: 'Monthly Sales Chart : '),
                       Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width:  MediaQuery.of(context).size.width / 1.10,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 30),
-                        child: charts.BarChart(
-                          series,
-                          animate: true,
+                        margin: const EdgeInsets.all(10.0),
+                        child: CircularProgressIndicator(
+                          color: AppColor.appBarColor,
                         ),
-                      )
+                      ),
+                      const Text('Loading...'),
                     ],
-                  ),*/
-                      SizedBox(height: 10,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 20,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              BigText(text: 'Daily Shop visit :',size: 14 ),
-                              SizedBox(height: 20,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  ),
+                )
+              : Container(
+                  margin: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: 10, right: 10),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        DateContainer(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Center(
+                              child: Column(
                                 children: [
-                                  Container(
-                                    height: 70,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          offset: Offset(1, 1), // changes position of shadow
+                                  Center(
+                                    child: SizedBox(
+                                      width: Dimensions.height150,
+                                      height: Dimensions.height150,
+                                      child: CustomPaint(
+                                        painter: CircleProgress(
+                                          progress: _progress3,
+                                          startColor: Colors.lightBlueAccent,
+                                          endColor: Colors.lightBlue,
+                                          width: 8.0,
                                         ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Shops', style: GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('150', style: GoogleFonts.roboto(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      ],
+                                        child: Center(
+                                          child: Text(
+                                            "${dashboardController.dashBoardValues[0]["target"]} Tk.",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(width: 20,),
-                                  Container(
-                                    height: 70,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          offset: Offset(1, 1), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Visited', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('70', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      ],
-                                    ),
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                  SizedBox(width: 20,),
-                                  Container(
-                                    height: 70,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          offset: Offset(1, 1), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Remaining', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('80', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 20,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              BigText(text: 'Monthly Shop visit :',size: 14 ),
-                              SizedBox(height: 20,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    height: 70,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          offset: Offset(1, 1), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Shops', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('700', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 20,),
-                                  Container(
-                                    height: 70,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          offset: Offset(1, 1), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Visited', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('0', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 20,),
-                                  Container(
-                                    height: 70,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          offset: Offset(1, 1), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Remaining', style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        Text('700', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      ],
-                                    ),
+                                  Text(
+                                    'Monthly target',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          /*SizedBox(height: 20,),
+                            ),
+                            Center(
+                              child: Column(
+                                children: [
+                                  Center(
+                                    child: SizedBox(
+                                      width: Dimensions.height150,
+                                      height: Dimensions.height150,
+                                      child: CustomPaint(
+                                        painter: CircleProgress(
+                                          progress: _progress4,
+                                          startColor: Colors.lightGreen,
+                                          endColor: Colors.green,
+                                          width: 8.0,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "${dashboardController.dashBoardValues[0]["achievement"]} Tk.",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'Monthly achievement',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BigText(
+                                    text: 'Total monthly orders :', size: 14),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      height: Dimensions.height120 -
+                                          Dimensions.height20,
+                                      width: Dimensions.height150,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: const Offset(1,
+                                                1), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Sales orders',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                          Text(
+                                            dashboardController
+                                                .dashBoardValues[0]["totalSO"],
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Container(
+                                      height: Dimensions.height120 -
+                                          Dimensions.height20,
+                                      width: Dimensions.height150,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: const Offset(1,
+                                                1), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Total Deposits',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                          Text(
+                                            dashboardController
+                                                    .dashBoardValues[0]
+                                                ["totalDPnum"],
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            /*Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BigText(text: 'Monthly Shop visit :', size: 14),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      height: 70,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 2,
+                                            offset: const Offset(1,
+                                                1), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Shops',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '700',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Container(
+                                      height: 70,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 2,
+                                            offset: const Offset(1,
+                                                1), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Visited',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '0',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Container(
+                                      height: 70,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 2,
+                                            offset: const Offset(1,
+                                                1), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Remaining',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                          Text(
+                                            '700',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),*/
+                            /*SizedBox(height: 20,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -470,53 +565,70 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               )
                             ],
                           ),*/
-                          SizedBox(height: 20,),
-                          BigText(text: 'Today\'s visit :',size: 14 ),
-                          Container(
-                            height: 320,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: dashboardController.visitedDealer.isEmpty
-                                ? Center(child: const Text('Empty list', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),))
-                                : ListView.builder(
-                              itemCount: dashboardController.visitedDealer.length,
-                              itemBuilder: (context, index){
-                                return Card(
-                                  elevation: 2,
-                                  shape: RoundedRectangleBorder(
-                                      side: const BorderSide(
-                                        color: Colors.red,
-                                      ),
-                                      borderRadius: BorderRadius.circular(20.0)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            BigText(text: '${dashboardController.visitedDealer[index]["dealerName"]}', size: 16,),
-                                            SmallText(text: '${dashboardController.visitedDealer[index]["location"]}'),
-                                          ],
-                                        ),
-                                        BigText(text: '${dashboardController.visitedDealer[index]["xdate"]}', size: 12,),
-                                      ],
+                            /*BigText(text: 'Today\'s visit :', size: 14),
+                            Container(
+                              height: 320,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: dashboardController.visitedDealer.isEmpty
+                                  ? Center(
+                                      child: const Text(
+                                      'Empty list',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600),
+                                    ))
+                                  : ListView.builder(
+                                      itemCount: dashboardController
+                                          .visitedDealer.length,
+                                      itemBuilder: (context, index) {
+                                        return Card(
+                                          elevation: 2,
+                                          shape: RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                color: Colors.red,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    BigText(
+                                                      text:
+                                                          '${dashboardController.visitedDealer[index]["dealerName"]}',
+                                                      size: 16,
+                                                    ),
+                                                    SmallText(
+                                                        text:
+                                                            '${dashboardController.visitedDealer[index]["location"]}'),
+                                                  ],
+                                                ),
+                                                BigText(
+                                                  text:
+                                                      '${dashboardController.visitedDealer[index]["xdate"]}',
+                                                  size: 12,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                            )*/
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-          ),
+                )),
         ),
         /*floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.deepOrange,
@@ -528,7 +640,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
 
 /*  Widget bottomSheet(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -557,7 +668,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              *//*GestureDetector(
+              */ /*GestureDetector(
                 onTap: () {
                   debugPrint('Image clicked');
                   takePhoto(ImageSource.gallery);
@@ -579,7 +690,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               SizedBox(
                 width: 50,
-              ),*//*
+              ),*/ /*
               GestureDetector(
                 onTap: () {
                   debugPrint('Image clicked');
@@ -624,12 +735,13 @@ class LeadOpContainer extends StatelessWidget {
   String name;
   String loNumber;
   Color? color;
-  LeadOpContainer({
-    Key? key,
-    this.color = Colors.deepOrangeAccent,
-    required this.name,
-    required this.loNumber
-  }) : super(key: key);
+
+  LeadOpContainer(
+      {Key? key,
+      this.color = Colors.deepOrangeAccent,
+      required this.name,
+      required this.loNumber})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -644,21 +756,28 @@ class LeadOpContainer extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 2,
-            offset: Offset(1, 1), // changes position of shadow
+            offset: const Offset(1, 1), // changes position of shadow
           ),
         ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(name, style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),),
-          Text(loNumber, style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),),
+          Text(
+            name,
+            style: GoogleFonts.roboto(
+                fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
+          ),
+          Text(
+            loNumber,
+            style: GoogleFonts.roboto(
+                fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
+          ),
         ],
       ),
     );
   }
 }
-
 
 class CircleProgress extends CustomPainter {
   const CircleProgress({
@@ -666,8 +785,7 @@ class CircleProgress extends CustomPainter {
     required this.startColor,
     required this.endColor,
     required this.width,
-  })
-      : assert(progress != null),
+  })  : assert(progress != null),
         assert(startColor != null),
         assert(endColor != null),
         assert(width != null),
@@ -709,7 +827,7 @@ class CircleProgress extends CustomPainter {
 crossAxisAlignment: CrossAxisAlignment.start,
 children: [
 // DateContainer(),
-*//*dashboardController.isTargetFetched.value
+*/ /*dashboardController.isTargetFetched.value
                           ? Container()
                           : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -718,7 +836,7 @@ children: [
                           SizedBox(width: 20,),
                           LeadOpContainer(name: "Achievement", loNumber: "0", color: Colors.green,),
                         ],
-                      ),*//*
+                      ),*/ /*
 SizedBox(height: 20,),
 Column(
 crossAxisAlignment: CrossAxisAlignment.start,

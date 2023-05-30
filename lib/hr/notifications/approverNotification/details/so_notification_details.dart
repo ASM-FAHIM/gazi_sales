@@ -12,20 +12,19 @@ import '../../../../data_model/notification_model/admin_approver_model/details/s
 import '../../../../sales/constant/app_constants.dart';
 
 class SO_details_notification extends StatefulWidget {
-  SO_details_notification(
-      {required this.xtornum,
-      required this.zid,
-      required this.xposition,
-      required this.xstatustor,
-      required this.zemail,
-      required this.totalAmount,
-      });
+  SO_details_notification({
+    required this.xtornum,
+    required this.zid,
+    required this.xposition,
+    required this.xstatustor,
+    required this.zemail,
+  });
+
   String xtornum;
   String zid;
   String xposition;
   String xstatustor;
   String zemail;
-  String totalAmount;
 
   @override
   State<SO_details_notification> createState() =>
@@ -38,8 +37,9 @@ class _SO_details_notificationState extends State<SO_details_notification> {
   AppConstants appConstants = AppConstants();
 
   Future<List<SoDetailsModel>> fetchPostdetails() async {
-    var response = await http.post(Uri.parse('http://${AppConstants.baseurl}/salesforce/PendingSalesOrderdetails.php'),
-        body: jsonEncode(<String, String>{"xtornum": widget.xtornum}));
+    var response = await http.post(Uri.parse(ConstApiLink().soDetailsApi),
+        body: jsonEncode(
+            <String, String>{"zid": widget.zid, "xsonumber": widget.xtornum}));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -63,8 +63,8 @@ class _SO_details_notificationState extends State<SO_details_notification> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Color(0xff064A76),
+          icon: const Icon(Icons.arrow_back),
+          color: const Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -74,19 +74,19 @@ class _SO_details_notificationState extends State<SO_details_notification> {
             "Sales ordered item",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
-              color: Color(0xff074974),
+              color: const Color(0xff074974),
             ),
           ),
         ),
         actions: [
-          SizedBox(
+          const SizedBox(
             width: 20,
           )
         ],
         backgroundColor: Colors.white,
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: FutureBuilder<List<SoDetailsModel>>(
           future: futurePost,
           builder: (context, snapshot) {
@@ -106,17 +106,10 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                             //color: Color(0xff074974),
                           ),
                         ),
-                        Text(
-                          "Amount: ${widget.totalAmount}",
-                          style: GoogleFonts.bakbakOne(
-                            fontSize: 16,
-                            color: Colors.red,
-                          ),
-                        )
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Expanded(
@@ -126,7 +119,7 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (_, index) => Card(
                         child: Padding(
-                          padding: EdgeInsets.only(bottom: 6.0, left: 15),
+                          padding: const EdgeInsets.only(bottom: 6.0, left: 15),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -162,20 +155,21 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                     ),
                                     Text(
                                       "Description: " +
-                                          (snapshot.data![index].descr),
+                                          (snapshot.data![index].name),
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    Text(
-                                      "Unit of Measure: " +
-                                          "${snapshot.data![index].xunit}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
+                                    //xunitsel
+                                    // Text(
+                                    //   "Unit of Measure: " +
+                                    //       "${snapshot.data![index].}",
+                                    //   style: GoogleFonts.bakbakOne(
+                                    //     fontSize: 18,
+                                    //     //color: Color(0xff074974),
+                                    //   ),
+                                    // ),
                                     Text(
                                       "Required Qty: " +
                                           snapshot.data![index].xqtyreq,
@@ -184,7 +178,7 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                   /* Text(
+                                    /* Text(
                                       "Approved Qty: " +
                                           snapshot.data![index].xdphqty,
                                       style: GoogleFonts.bakbakOne(
@@ -194,14 +188,14 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                     ),*/
                                     Text(
                                       "Estimated Amount: " +
-                                          "${snapshot.data![index].xlineamt  ?? " "}",
+                                          "${snapshot.data![index].xlineamt ?? " "}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Line Amount with VAT: " +
+                                      "Line Amount: " +
                                           "${snapshot.data![index].xlineamt ?? " "}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
@@ -222,44 +216,39 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         //color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse('http://${AppConstants.baseurl}/salesforce/PendingSalesOrderapprove.php'),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/GAZI/Notification/so/soApprove.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xtornum": widget.xtornum.toString(),
-                                "ypd": "0",
-                                "xstatustor": widget.xstatustor.toString()
+                                "xsonumber": widget.xtornum.toString(),
+                                "xstatus": widget.xstatustor.toString()
                               }));
-                          print('zid: ${widget.zid}');
-                          print('user: ${widget.zemail}');
-                          print('xposition: ${widget.xposition}');
-                          print('xstatustor: ${widget.xstatustor}');
-
+                          print('approver sent $response');
                           Get.snackbar('Message', 'Approved',
-                              backgroundColor: Color(0XFF8CA6DB),
+                              backgroundColor: const Color(0XFF8CA6DB),
                               colorText: Colors.white,
                               snackPosition: SnackPosition.BOTTOM);
 
                           Navigator.pop(context, "approval");
-
-                          print(response.statusCode);
-                          print(response.body);
                         },
-                        child: Text("Approve", style: TextStyle(color: Colors.white),),
+                        child: const Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -286,11 +275,12 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                               return "Please Write Reject Note";
                                             }
                                           },
-                                          scrollPadding: EdgeInsets.all(20),
+                                          scrollPadding:
+                                              const EdgeInsets.all(20),
                                           decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left:
-                                                    20), // add padding to adjust text
+                                            contentPadding:
+                                                const EdgeInsets.only(left: 20),
+                                            // add padding to adjust text
                                             isDense: false,
 
                                             hintStyle: GoogleFonts.bakbakOne(
@@ -303,7 +293,7 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                               fontSize: 18,
                                               color: Colors.black,
                                             ),
-                                            border: OutlineInputBorder(),
+                                            border: const OutlineInputBorder(),
                                           ),
                                         ),
                                       ),
@@ -312,32 +302,28 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        backgroundColor: Color(0xff064A76),
+                                        backgroundColor:
+                                            const Color(0xff064A76),
                                       ),
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
 
                                         var response = await http.post(
-                                            Uri.parse('http://${AppConstants.baseurl}/salesforce/PendingSalesOrderreject.php'),
+                                            Uri.parse(
+                                                'http://${AppConstants.baseurl}/GAZI/Notification/so/soReject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
                                               "xposition": widget.xposition,
-                                              "wh": "0",
-                                              "xtornum": widget.xtornum,
-                                              "xnote1": rejectNote
+                                              "xsonumber": widget.xtornum,
+                                              "xnote": rejectNote
                                             }));
-                                        print('zid: ${widget.zid}');
-                                        print('user: ${widget.zemail}');
-                                        print('xposition: ${widget.xposition}');
-                                        print('xnote1: ${rejectNote}');
-
                                         print(response.statusCode);
-                                        print(response.body);
 
                                         Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
+                                            backgroundColor:
+                                                const Color(0XFF8CA6DB),
                                             colorText: Colors.white,
                                             snackPosition:
                                                 SnackPosition.BOTTOM);
@@ -357,14 +343,17 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject",style: TextStyle(color: Colors.white),),
+                        child: const Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
                 ],
               );
             } else {
-              return Center(
+              return const Center(
                 child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }

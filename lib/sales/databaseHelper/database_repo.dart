@@ -3,31 +3,48 @@ import '../module/model/dealer_model.dart';
 import '../module/model/gift_promo_model.dart';
 import '../module/model/product_accessories_model.dart';
 import '../module/model/product_model.dart';
+import '../module/model/product_nature_model.dart';
 import 'database_helper.dart';
 
-class DatabaseRepo{
+class DatabaseRepo {
   final conn = DBHelper.dbHelper;
   DBHelper dbHelper = DBHelper();
 
   ///Dealer Table Section
-  Future<int> addDealer(DealerModel dealerModel) async{
+  Future<int> addDealer(DealerModel dealerModel) async {
     var dbClient = await conn.db;
     int result = 0;
-    try{
-      result = await dbClient!.insert(DBHelper.dealerTable, dealerModel.toJson());
-      print("-------------$result");
-    }catch(e){
+    try {
+      // Check if the dealer already exists in the local storage
+      var existingDealers = await dbClient!.query(
+        DBHelper.dealerTable,
+        where: 'xcus = ?',
+        whereArgs: [dealerModel.xcus],
+      );
+
+      if (existingDealers.isEmpty) {
+        // Dealer does not exist, proceed with insertion
+        result =
+            await dbClient.insert(DBHelper.dealerTable, dealerModel.toJson());
+        print("New dealer inserted: $result");
+      } else {
+        // Dealer already exists, skip insertion
+        print("Dealer already exists: ${dealerModel.xcus}");
+      }
+    } catch (e) {
       print('There are some issues: $e');
     }
     return result;
   }
 
-  Future<int?> updateDealer(DealerModel dealerModel) async{
+  Future<int?> updateDealer(DealerModel dealerModel) async {
     var dbClient = await conn.db;
     int? result;
-    try{
-      result = await dbClient!.update(DBHelper.dealerTable, dealerModel.toJson(), where: "id=?", whereArgs: [dealerModel.id]);
-    }catch(e){
+    try {
+      result = await dbClient!.update(
+          DBHelper.dealerTable, dealerModel.toJson(),
+          where: "id=?", whereArgs: [dealerModel.id]);
+    } catch (e) {
       print('There are some issues: $e');
     }
     return result;
@@ -47,19 +64,18 @@ class DatabaseRepo{
     return dealerList;
   }*/
 
-  Future getDealer(String xterritory, String zid) async{
+  Future getDealer(String xterritory, String zid) async {
     var dbClient = await conn.db;
     List dealerList = [];
-    try{
+    try {
       List<Map<String, dynamic>> maps = await dbClient!.query(
           DBHelper.dealerTable,
           where: "xterritory=? AND zid=?",
-          whereArgs: [xterritory, zid]
-      );
-      for(var dealers in maps){
+          whereArgs: [xterritory, zid]);
+      for (var dealers in maps) {
         dealerList.add(dealers);
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues: $e");
     }
     return dealerList;
@@ -69,13 +85,14 @@ class DatabaseRepo{
     // Open the connection to the database
     var dbClient = await conn.db;
     List<Map<String, dynamic>> dealerNameList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.query(DBHelper.dealerTable, where: 'xorg=?', whereArgs: [name]);
-      for(var dealers in maps){
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!
+          .query(DBHelper.dealerTable, where: 'xorg=?', whereArgs: [name]);
+      for (var dealers in maps) {
         dealerNameList.add(dealers);
       }
       return dealerNameList;
-    }catch(e){
+    } catch (e) {
       print("There are some issues: $e");
     }
     return dealerNameList;
@@ -94,66 +111,136 @@ class DatabaseRepo{
 
   ///Product Tbale Section
 
-  //for product table CRUD
-  Future<int> addProduct(ProductModel productModel) async{
+  //insert product nature
+  Future<int> insertProductNature(ProductNatureModel productNatureModel) async {
     var dbClient = await conn.db;
     int result = 0;
-    try{
-      result = await dbClient!.insert(DBHelper.productTable, productModel.toJson());
-      print("-------------$result");
-    }catch(e){
+    try {
+      // Check if the product nature already exists in the local storage
+      var existingProductNature = await dbClient!.query(
+        DBHelper.productNature,
+        where: 'xcode = ?',
+        whereArgs: [productNatureModel.xcode],
+      );
+
+      if (existingProductNature.isEmpty) {
+        // Product nature does not exist, proceed with insertion
+        result = await dbClient.insert(
+            DBHelper.productNature, productNatureModel.toJson());
+        print("New product nature inserted: $result");
+      } else {
+        // Product nature already exists, skip insertion
+        print("Product nature already exists: ${productNatureModel.xcode}");
+      }
+    } catch (e) {
+      print('There are some issues inserting product nature: $e');
+    }
+    return result;
+  }
+
+  //get product natures from product nature table
+  Future getProductNature() async {
+    var dbClient = await conn.db;
+    List productNatureList = [];
+    try {
+      List<Map<String, dynamic>> maps =
+          await dbClient!.query(DBHelper.productNature);
+      for (var productNatures in maps) {
+        productNatureList.add(productNatures);
+        print('Product nature list from repo : $productNatureList');
+      }
+    } catch (e) {
+      print("There are some issues getting products nature : $e");
+    }
+    return productNatureList;
+  }
+
+  //drop table product nature
+  Future<void> dropProductNatureTable() async {
+    var dbClient = await conn.db;
+    dbClient!.delete(DBHelper.productNature);
+    print("Product nature table deleted successfully");
+  }
+
+  //for product table CRUD
+  Future<int> addProduct(ProductModel productModel) async {
+    var dbClient = await conn.db;
+    int result = 0;
+    try {
+      // Check if the product already exists in the local storage
+      var existingProducts = await dbClient!.query(
+        DBHelper.productTable,
+        where: 'xitem = ?',
+        whereArgs: [productModel.xitem],
+      );
+
+      if (existingProducts.isEmpty) {
+        // Product does not exist, proceed with insertion
+        result =
+            await dbClient.insert(DBHelper.productTable, productModel.toJson());
+        print("New product inserted: $result");
+      } else {
+        // Product already exists, skip insertion
+        print("Product already exists: ${productModel.xitem}");
+      }
+    } catch (e) {
       print('There are some issues inserting product: $e');
     }
     return result;
   }
 
-
-  Future<int?> updateProduct(ProductModel productModel) async{
+  Future<int?> updateProduct(ProductModel productModel) async {
     var dbClient = await conn.db;
     int? result;
-    try{
-      result = await dbClient!.update(DBHelper.productTable, productModel.toJson(), where: "id=?", whereArgs: [productModel.id]);
-    }catch(e){
+    try {
+      result = await dbClient!.update(
+          DBHelper.productTable, productModel.toJson(),
+          where: "id=?", whereArgs: [productModel.id]);
+    } catch (e) {
       print('There are some issues updating products: $e');
     }
     return result;
   }
 
-  Future getProduct(String dealerType) async{
+  Future getProduct(String dealerType, String pNature) async {
+    print("product natures are: $pNature");
     var dbClient = await conn.db;
     List productList = [];
-    try{
-      if(dealerType == 'Dealer'){
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature FROM ${DBHelper.productTable}');
-        for(var products in maps){
+    try {
+      if (dealerType == 'Dealer') {
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+            "SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+        for (var products in maps) {
           productList.add(products);
           print('Product List from repo : $productList');
         }
-      }else if(dealerType == 'Corporate'){
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xrate as totrate, xpnature FROM ${DBHelper.productTable}');
-        for(var products in maps){
+      } else if (dealerType == 'Corporate') {
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+            "SELECT xitem, xdesc, xunit,color, xrate as totrate, xpnature FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+        for (var products in maps) {
           productList.add(products);
           print('Product List from repo : $productList');
         }
-      }else{
-        List<Map<String, dynamic>> maps = await dbClient!.rawQuery('SELECT xitem, xdesc, xunit,color, xmrp as totrate, xpnature FROM ${DBHelper.productTable}');
-        for(var products in maps){
+      } else {
+        List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+            "SELECT xitem, xdesc, xunit,color, xmrp as totrate, xpnature FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+        for (var products in maps) {
           productList.add(products);
           print('Product List from repo : $productList');
         }
       }
-
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     return productList;
   }
 
   Map<String, dynamic>? _product;
-  Future getSpecificProductsInfo(String xitem) async{
+
+  Future getSpecificProductsInfo(String xitem) async {
     var dbClient = await conn.db;
     List productList = [];
-    try{
+    try {
       productList = await dbClient!.query(
         DBHelper.productTable,
         where: 'xitem = ?',
@@ -162,7 +249,7 @@ class DatabaseRepo{
       _product = productList.first;
       print('Product: $_product');
       return _product;
-    }catch(e){
+    } catch (e) {
       print("There are some issues: $e");
     }
     return productList;
@@ -174,18 +261,33 @@ class DatabaseRepo{
     print("Table deleted successfully");
   }
 
-
   ///Product-Accessories Tbale Section
 
-  //for product table CRUD
-  Future<int> addProductAccessories(ProductAccessoriesModel productAccessoriesModel) async{
+  //for product accessories table CRUD
+  Future<int> addProductAccessories(
+      ProductAccessoriesModel productAccessoriesModel) async {
     var dbClient = await conn.db;
     int result = 0;
-    try{
-      result = await dbClient!.insert(DBHelper.productAccessories, productAccessoriesModel.toJson());
-      print("-------------$result");
-    }catch(e){
-      print('There are some issues inserting product accessories table : $e');
+    try {
+      // Check if the product accessories entry already exists in the local storage
+      var existingEntries = await dbClient!.query(
+        DBHelper.productAccessories,
+        where: 'xitemaccessories = ?',
+        whereArgs: [productAccessoriesModel.xitemaccessories],
+      );
+
+      if (existingEntries.isEmpty) {
+        // Product accessories entry does not exist, proceed with insertion
+        result = await dbClient.insert(
+            DBHelper.productAccessories, productAccessoriesModel.toJson());
+        print("New product accessories entry inserted: $result");
+      } else {
+        // Product accessories entry already exists, skip insertion
+        print(
+            "Product accessories entry already exists: ${productAccessoriesModel.xitemaccessories}");
+      }
+    } catch (e) {
+      print('There are some issues inserting product accessories table: $e');
     }
     return result;
   }
@@ -204,16 +306,17 @@ class DatabaseRepo{
     return productList;
   }*/
 
-  Future getProductAccessories() async{
+  Future getProductAccessories() async {
     var dbClient = await conn.db;
     List productAccessoriesList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.query(DBHelper.productAccessories);
-      for(var productAcs in maps){
+    try {
+      List<Map<String, dynamic>> maps =
+          await dbClient!.query(DBHelper.productAccessories);
+      for (var productAcs in maps) {
         productAccessoriesList.add(productAcs);
         print('Product List from repo : $productAccessoriesList');
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     return productAccessoriesList;
@@ -228,63 +331,63 @@ class DatabaseRepo{
   ///Cart table Section
 
   //For inserting into cart table and cart_details table
-  Future<int> cartInsert(Map<String, dynamic> data ) async{
+  Future<int> cartInsert(Map<String, dynamic> data) async {
     var dbClient = await conn.db;
     int result = 0;
-    try{
+    try {
       result = await dbClient!.insert(DBHelper.cartTable, data);
       print("Inserted Successfully in header table: -------------$result");
-    }catch(e){
+    } catch (e) {
       print('There are some issues inserting cartTable: $e');
     }
     return result;
   }
 
   //first need cartId for insert value in details table
-  Future<int> getCartID() async{
+  Future<int> getCartID() async {
     var dbClient = await conn.db;
     List cartId = [];
-    try{
-      cartId = await dbClient!.rawQuery('SELECT COUNT(*) as cartID from ${DBHelper.cartTable} order by id desc');
-    }catch(e){
+    try {
+      cartId = await dbClient!.rawQuery(
+          'SELECT COUNT(*) as cartID from ${DBHelper.cartTable} order by id desc');
+    } catch (e) {
       print("There are some issues: $e");
     }
     return cartId.isEmpty ? 0 : cartId[0]['cartID'];
   }
 
   //inserting cart_details table
-  Future<int> cartDetailsInsert(Map<String, dynamic> data ) async{
+  Future<int> cartDetailsInsert(Map<String, dynamic> data) async {
     print('Called from cartDetailsInsert');
     var dbClient = await conn.db;
     int result = 0;
-    try{
+    try {
       result = await dbClient!.insert(DBHelper.cartDetailsTable, data);
       // print("Inserted Successfully in details table : -------------$result");
-    }catch(e){
+    } catch (e) {
       print('There are some issues inserting product: $e');
     }
     return result;
   }
 
-
-  Future<void> cartTableAccInsert(String xitem, String zid, String cartID ) async{
+  Future<void> cartTableAccInsert(
+      String xitem, String zid, String cartID) async {
     print('Called from cartTableAccInsert');
     var dbClient = await conn.db;
     int result = 0;
-    try{
+    try {
       var result = await dbClient!.rawQuery('''
         INSERT INTO ${DBHelper.cartDetailsTable} (zid,  cartID, xitem,  xdesc, xunit,  xrate, xqty, subTotal, yes_no, xmasteritem)
         SELECT zid, ?, xitem, accName, xunit, 0, xqty, 0,'Yes',  ? 
         FROM ${DBHelper.cartAccessoriesTable}
         WHERE xmasteritem = ? and zid =?
-      ''', [cartID,xitem, xitem, zid]);
-       print("Inserted Successfully in details table : -------------$result");
-    }catch(e){
-      print('There are some issues inserting product from accessoories table to cart details table: $e');
+      ''', [cartID, xitem, xitem, zid]);
+      print("Inserted Successfully in details table : -------------$result");
+    } catch (e) {
+      print(
+          'There are some issues inserting product from accessoories table to cart details table: $e');
     }
   }
-
-
 
   /*zid INTEGER,
       cartID VARCHAR(150) NOT NULL,
@@ -298,15 +401,16 @@ class DatabaseRepo{
   xmasteritem VARCHAR(20),*/
 
   //cartHeaderInfo
-  Future getCartHeader() async{
+  Future getCartHeader() async {
     var dbClient = await conn.db;
     List cartList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Open' order by id desc");
-      for(var products in maps){
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+          "SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Open' order by id desc");
+      for (var products in maps) {
         cartList.add(products);
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     // print("All cart product from Header: $cartList");
@@ -314,15 +418,16 @@ class DatabaseRepo{
   }
 
   //cartHeaderInfo only for sync
-  Future getCartHeaderForSync() async{
+  Future getCartHeaderForSync() async {
     var dbClient = await conn.db;
     List cartListForSync = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Applied' order by id desc");
-      for(var cartSync in maps){
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+          "SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Applied' order by id desc");
+      for (var cartSync in maps) {
         cartListForSync.add(cartSync);
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     // print("All cart product from Header: $cartList");
@@ -340,26 +445,30 @@ class DatabaseRepo{
   Future<void> deleteItemWiseCartHeader(String cartId) async {
     await deleteItemWiseCartDetails(cartId);
     var dbClient = await conn.db;
-    await dbClient!.rawQuery('DELETE FROM ${DBHelper.cartTable} WHERE cartId = ?', [cartId]);
+    await dbClient!.rawQuery(
+        'DELETE FROM ${DBHelper.cartTable} WHERE cartId = ?', [cartId]);
   }
+
   //delete item wise cart
   Future<void> deleteItemWiseCartDetails(String cartId) async {
     var dbClient = await conn.db;
-    await dbClient!.rawQuery('DELETE FROM ${DBHelper.cartDetailsTable} WHERE cartId = ?', [cartId]);
+    await dbClient!.rawQuery(
+        'DELETE FROM ${DBHelper.cartDetailsTable} WHERE cartId = ?', [cartId]);
   }
-
 
   //delete cart header Table using cartID
   Future<void> dropSyncedCartID(String cartId) async {
     var dbClient = await conn.db;
-    dbClient!.delete(DBHelper.cartTable, where: "cartId =?", whereArgs: [cartId]);
+    dbClient!
+        .delete(DBHelper.cartTable, where: "cartId =?", whereArgs: [cartId]);
     print("Table deleted successfully");
   }
 
   //delete cart details info
   Future<void> dropCartDetailsTable(String cartId) async {
     var dbClient = await conn.db;
-    await dbClient!.rawQuery('DELETE FROM ${DBHelper.cartDetailsTable} WHERE cartId = ?', [cartId]);
+    await dbClient!.rawQuery(
+        'DELETE FROM ${DBHelper.cartDetailsTable} WHERE cartId = ?', [cartId]);
   }
 
   //delete cart details info table
@@ -369,9 +478,9 @@ class DatabaseRepo{
   }
 
   //For inserting into cartAccessories table
-  Future<void> cartAccessoriesInsert(String xitem, String zid) async{
+  Future<void> cartAccessoriesInsert(String xitem, String zid) async {
     var dbClient = await conn.db;
-    try{
+    try {
       var existingRow = await dbClient!.rawQuery('''
       SELECT * FROM ${DBHelper.cartAccessoriesTable}
       WHERE zid = ? AND xmasteritem = ?
@@ -380,23 +489,27 @@ class DatabaseRepo{
       print("length of row: ${existingRow.length}");
 
       if (existingRow.isNotEmpty) {
-        for(int i = 0; i< existingRow.length; i++){
+        for (int i = 0; i < existingRow.length; i++) {
           var productAcc = await dbClient.rawQuery('''
           SELECT CAST(xqty AS INTEGER) as xqty FROM ${DBHelper.productAccessories}
           WHERE zid = ? AND xitemaccessories = ? AND xitem = ?
         ''', [zid, existingRow[i]['xitem'], xitem]);
-          print('Searched from PA Table = ${int.parse(productAcc[0]['xqty'].toString())}') ;
-          print('Searched from CA Table = ${(existingRow[i]['xqty'] as double)}') ;
+          print(
+              'Searched from PA Table = ${int.parse(productAcc[0]['xqty'].toString())}');
+          print(
+              'Searched from CA Table = ${(existingRow[i]['xqty'] as double)}');
 
           var founded = productAcc[0]['xqty'] as int;
-          var newQty = (existingRow[i]['xqty'] as double) + founded ; // cast to int before adding 1
+          var newQty = (existingRow[i]['xqty'] as double) +
+              founded; // cast to int before adding 1
           print("newQty: -------------$newQty");
           var result = await dbClient.rawQuery('''
           UPDATE ${DBHelper.cartAccessoriesTable}
           SET xqty = ?
            WHERE zid = ? AND xmasteritem = ? AND xitem = ?
             ''', [newQty, zid, xitem, existingRow[i]['xitem']]);
-          print("Updated Successfully into cartAccessoriesTable table: -------------$result");
+          print(
+              "Updated Successfully into cartAccessoriesTable table: -------------$result");
         }
         // Combination of zid and xmasteritem already exists, update the quantity
 
@@ -408,48 +521,56 @@ class DatabaseRepo{
         FROM ${DBHelper.productAccessories}
         WHERE xitem = ? and zid =?
       ''', [xitem, zid]);
-        print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+        print(
+            "Inserted Successfully into cartAccessoriesTable table: -------------$result");
       }
-    } catch(e){
+    } catch (e) {
       print('There are some issues inserting/updating cartTable: $e');
     }
   }
-  //Method for only inserting accessories to cartAccories table
 
-  Future<void> additionalAccessoriesInsert(String xitem, String zid, String masteritem, String qty) async{
+//Method for only inserting accessories to cartAccories table
+  Future<void> additionalAccessoriesInsert(
+      String xitem, String zid, String masteritem, String qty) async {
     var dbClient = await conn.db;
-    try{
+    try {
       var existingRow = await dbClient!.rawQuery('''
       SELECT * FROM ${DBHelper.cartAccessoriesTable}
       WHERE zid = ? AND xmasteritem = ? AND xitem = ?
       ''', [zid, masteritem, xitem]);
 
-      print("length of row: ${existingRow.length}");
+      print("length of row of new added item acc: ${existingRow.length}");
 
       if (existingRow.isNotEmpty) {
         var result = await dbClient.rawQuery('''
           UPDATE ${DBHelper.cartAccessoriesTable}
-          SET xqty = ?
+          SET xqty = xqty +1
            WHERE zid = ? AND xmasteritem = ? AND xitem = ?
-            ''', [qty, zid, masteritem, xitem]);
-        print("Updated Successfully into cartAccessoriesTable table: -------------$result");
+            ''', [zid, masteritem, xitem]);
+        print(
+            "Updated Successfully into cartAccessoriesTable table: -------------$result");
         // Combination of zid and xmasteritem already exists, update the quantity
 
       } else {
         // Combination of zid and xmasteritem does not exist, insert a new row
-        var result = await dbClient.rawQuery('''
-        INSERT INTO ${DBHelper.cartAccessoriesTable} (zid,  xitem, accName, xqty, xunit, xmasteritem)
-        SELECT zid, ?, name, ?, xunit, ?
-        FROM ${DBHelper.productAccessories}
-        WHERE xitem = ? and zid =?
-      ''', [xitem, qty, masteritem, xitem, zid]);
-        print("Inserted Successfully into cartAccessoriesTable table: -------------$result");
+        var sqlResult = await dbClient.rawQuery('''
+          INSERT INTO ${DBHelper.cartAccessoriesTable} (zid, xitem, accName, xqty, xunit, xmasteritem)
+          VALUES (?, ?, (SELECT name FROM ${DBHelper.productAccessories} WHERE xitemaccessories = ? LIMIT 1),
+                  ?, (SELECT xunit FROM ${DBHelper.productAccessories} WHERE xitemaccessories = ? LIMIT 1), ?)
+        ''', [zid, xitem, xitem, qty, xitem, masteritem]);
+
+        if (sqlResult != -1) {
+          print("Inserted Successfully into cartAccessoriesTable: $sqlResult");
+        } else {
+          print("Failed to insert into cartAccessoriesTable");
+        }
       }
-    } catch(e){
+    } catch (e) {
       print('There are some issues inserting/updating cartTable: $e');
     }
   }
 
+  //for getting product wise accessories list from cart screen to cart accessories screen
   Future<List<Map<String, dynamic>>> getAccessories(String xitem) async {
     var dbClient = await conn.db;
     try {
@@ -458,34 +579,34 @@ class DatabaseRepo{
       FROM ${DBHelper.cartAccessoriesTable}
       WHERE xmasteritem = ?
     ''', [xitem]);
-      print('Accessories List = $acccItem') ;
+      print('Accessories List = $acccItem');
       return acccItem;
-    } catch(e) {
+    } catch (e) {
       print('There are some issues for getting cartAccessoriesTable: $e');
       return [];
     }
   }
-
 
   //Method for getting all Accessories list
   Future<List<Map<String, dynamic>>> getAllAccessoriesList(String zid) async {
     var dbClient = await conn.db;
     try {
       var accList = await dbClient!.rawQuery('''
-      SELECT zid, xitem, accName, xunit, xqty, xmasteritem  
-      FROM ${DBHelper.cartAccessoriesTable}
+      SELECT DISTINCT xitemaccessories, name, xunit, xqty
+      FROM productAccessories
       WHERE zid = ?
     ''', [zid]);
-      print('Accessories List = $accList') ;
+      print('Accessories List = $accList');
       return accList;
-    } catch(e) {
+    } catch (e) {
       print('There are some issues for getting accessories list: $e');
       return [];
     }
   }
 
   //Update Accessories for inside accessories page
-  Future<void> updateAccessories(String xitem, String xmasteritem, int qtyChange) async {
+  Future<void> updateAccessories(
+      String xitem, String xmasteritem, int qtyChange) async {
     var dbClient = await conn.db;
     try {
       var result = await dbClient!.rawQuery('''
@@ -510,25 +631,25 @@ class DatabaseRepo{
           ''', [xmasteritem, xitem]);
         print('Accessory deleted');
       }
-
-    } catch(e) {
+    } catch (e) {
       print('There are some issues for getting cartAccessoriesTable: $e');
     }
   }
 
   //update accessories from cart page
-  Future<void> updateFromCartScreenAccessories(String zid,String xmasteritem, int qtyChange) async {
+  Future<void> updateFromCartScreenAccessories(
+      String zid, String xmasteritem, int qtyChange) async {
     var dbClient = await conn.db;
     print('Qty from cart screen: $qtyChange');
-    try{
-      if (qtyChange==0) {
+    try {
+      if (qtyChange == 0) {
         print("the updated qty : $qtyChange");
         await dbClient!.rawQuery('''
           DELETE FROM ${DBHelper.cartAccessoriesTable}
           WHERE xmasteritem = ?
           ''', [xmasteritem]);
         print('Accessory deleted');
-      }else{
+      } else {
         var existingRow = await dbClient!.rawQuery('''
         SELECT * FROM ${DBHelper.cartAccessoriesTable}
         WHERE xmasteritem = ?
@@ -537,7 +658,7 @@ class DatabaseRepo{
         print("length of row: ${existingRow.length}");
 
         if (existingRow.isNotEmpty) {
-          for(int i = 0; i< existingRow.length; i++){
+          for (int i = 0; i < existingRow.length; i++) {
             // cast to int before adding 1
             var qtyFromPA = await dbClient.rawQuery('''
              SELECT CAST(xqty AS INTEGER) as xqty FROM ${DBHelper.productAccessories}
@@ -551,16 +672,15 @@ class DatabaseRepo{
           UPDATE ${DBHelper.cartAccessoriesTable}
           SET xqty = ? * ?
            WHERE xmasteritem = ? AND xitem = ?
-            ''', [qty,qtyChange,xmasteritem, existingRow[i]['xitem']]);
-            print("Updated Successfully into cartAccessoriesTable table: -------------$result");
-
-
+            ''', [qty, qtyChange, xmasteritem, existingRow[i]['xitem']]);
+            print(
+                "Updated Successfully into cartAccessoriesTable table: -------------$result");
           }
           // Combination of zid and xmasteritem already exists, update the quantity
 
         }
       }
-    } catch(e){
+    } catch (e) {
       print('There are some issues inserting/updating cartTable: $e');
     }
   }
@@ -572,7 +692,7 @@ class DatabaseRepo{
       DELETE FROM ${DBHelper.cartAccessoriesTable}
       ''');
       return true;
-    } catch(e) {
+    } catch (e) {
       print('There are some issues for deleting accessory: $e');
       return false;
     }
@@ -594,29 +714,50 @@ class DatabaseRepo{
     return singleHeader;
   }*/
 
-  Future updateCartHeaderTable(String cartId) async{
+  Future updateCartHeaderTable(String cartId) async {
     var dbClient = await conn.db;
-    dbClient!.rawQuery("UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied' WHERE cartID = ?",[cartId]);
+    dbClient!.rawQuery(
+        "UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied' WHERE cartID = ?",
+        [cartId]);
     print(getCartHeader());
   }
 
-  Future getCartHeaderDetails(String cartId) async{
+  Future getCartHeaderDetails(String cartId) async {
     var dbClient = await conn.db;
     List cartHeaderDetails = [];
-    try{
-      cartHeaderDetails = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'",[cartId]);
+    try {
+      cartHeaderDetails = await dbClient!.rawQuery(
+          "Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'",
+          [cartId]);
       print('Product: $cartHeaderDetails');
-    }catch(e){
+      print('Product details length: ${cartHeaderDetails.length}');
+    } catch (e) {
+      print("There are some issues: $e");
+    }
+    return cartHeaderDetails;
+  }
+
+  //for uploading all cart details
+  Future getAllCartDetailsList(String cartId) async {
+    var dbClient = await conn.db;
+    List cartHeaderDetails = [];
+    try {
+      cartHeaderDetails = await dbClient!.rawQuery(
+          "Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ?",
+          [cartId]);
+      print('Product: $cartHeaderDetails');
+      print('Product details length: ${cartHeaderDetails.length}');
+    } catch (e) {
       print("There are some issues: $e");
     }
     return cartHeaderDetails;
   }
 
   //for place order purpose
-  Future getCartHeaderDetailsForSync(String cartId) async{
+  Future getCartHeaderDetailsForSync(String cartId) async {
     var dbClient = await conn.db;
     List cartHeaderDetailsForSync = [];
-    try{
+    try {
       cartHeaderDetailsForSync = await dbClient!.query(
         DBHelper.cartDetailsTable,
         where: 'cartId = ?',
@@ -624,48 +765,50 @@ class DatabaseRepo{
         orderBy: 'cartId DESC',
       );
       print('Product: $cartHeaderDetailsForSync');
-    }catch(e){
+    } catch (e) {
       print("There are some issues: $e");
     }
     return cartHeaderDetailsForSync;
   }
 
   //for history accessories list from history accessories screen
-  Future getCartHistoryAccessories(String cartId,String productID) async{
+  Future getCartHistoryAccessories(String cartId, String productID) async {
     var dbClient = await conn.db;
     List cartHistoryAccessories = [];
-    try{
-      cartHistoryAccessories = await dbClient!.rawQuery("Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'Yes' AND xmasteritem = ?",[cartId, productID]);
+    try {
+      cartHistoryAccessories = await dbClient!.rawQuery(
+          "Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'Yes' AND xmasteritem = ?",
+          [cartId, productID]);
       print('Product: $cartHistoryAccessories');
-    }catch(e){
+    } catch (e) {
       print("There are some issues: $e");
     }
     return cartHistoryAccessories;
   }
 
-
   //for update item details wise cart details acc qty by pressing eidt button from cart details screen
-  Future updateCartHistoryAccessories(String zid,String xmasteritem, int qtyChange, String cartID) async{
+  Future updateCartHistoryAccessories(
+      String zid, String xmasteritem, int qtyChange, String cartID) async {
     var dbClient = await conn.db;
     print('Qty from cart screen: $qtyChange');
-    try{
-      if (qtyChange==0) {
+    try {
+      if (qtyChange == 0) {
         print("the updated qty : $qtyChange");
         await dbClient!.rawQuery('''
           DELETE FROM ${DBHelper.cartDetailsTable}
           WHERE xmasteritem = ? AND cartID = ? AND zid = ?
           ''', [xmasteritem, cartID, zid]);
         print('Accessory deleted');
-      }else{
+      } else {
         var existingRow = await dbClient!.rawQuery('''
         SELECT * FROM ${DBHelper.cartDetailsTable}
         WHERE xmasteritem = ? AND cartID = ? AND zid = ? AND yes_no = 'Yes'
-        ''', [xmasteritem,cartID, zid]);
+        ''', [xmasteritem, cartID, zid]);
 
         print("length of row: ${existingRow.length}");
 
         if (existingRow.isNotEmpty) {
-          for(int i = 0; i< existingRow.length; i++){
+          for (int i = 0; i < existingRow.length; i++) {
             // cast to int before adding 1
             var qtyFromPA = await dbClient.rawQuery('''
              SELECT CAST(xqty AS INTEGER) as xqty FROM ${DBHelper.productAccessories}
@@ -679,61 +822,69 @@ class DatabaseRepo{
           UPDATE ${DBHelper.cartDetailsTable}
           SET xqty = ? * ?
            WHERE xmasteritem = ? AND xitem = ? AND cartID = ? AND zid = ? AND yes_no = 'Yes'
-            ''', [qty,qtyChange,xmasteritem, existingRow[i]['xitem'], cartID, zid,]);
-            print("Updated Successfully into cartAccessoriesTable table: -------------$result");
-
+            ''', [
+              qty,
+              qtyChange,
+              xmasteritem,
+              existingRow[i]['xitem'],
+              cartID,
+              zid,
+            ]);
+            print(
+                "Updated Successfully into cartAccessoriesTable table: -------------$result");
           }
           // Combination of zid and xmasteritem already exists, update the quantity
 
         }
       }
-    } catch(e){
+    } catch (e) {
       print('There are some issues inserting/updating cartTable: $e');
     }
   }
 
-
   ///Order history calculation and all data related segments
-  Future updateCartDetailsTable(String cartID, String itemCode, String qty, String price) async{
+  Future updateCartDetailsTable(
+      String cartID, String itemCode, String qty, String price) async {
     var dbClient = await conn.db;
-    if(qty == '0'){
+    if (qty == '0') {
       await dbClient!.delete(
         DBHelper.cartDetailsTable,
         where: 'cartID = ? AND xitem = ?',
         whereArgs: [cartID, itemCode],
       );
-    }else{
+    } else {
       print('Price = $price');
       print('Quantity = $qty');
-      var total= double.parse(qty) * double.parse(price);
+      var total = double.parse(qty) * double.parse(price);
       print('Total = $total');
       dbClient!.rawQuery(
           "UPDATE ${DBHelper.cartDetailsTable} "
-              "SET xqty = ?,subTotal = ?"
-              " WHERE cartID = ? and xitem = ?", [qty,total,cartID,itemCode]);
+          "SET xqty = ?,subTotal = ?"
+          " WHERE cartID = ? and xitem = ?",
+          [qty, total, cartID, itemCode]);
 
       await updateCartHeader(cartID);
     }
   }
 
-
   //for edit from Accessories history screen
-  Future updateFromAccHistoryScreen(String cartID, String accCode, String qty, String zid) async{
+  Future updateFromAccHistoryScreen(
+      String cartID, String accCode, String qty, String zid) async {
     var dbClient = await conn.db;
     print("Quantity inside updateFromAccHistoryScreen: $qty");
-    if(qty == '0'){
+    if (qty == '0') {
       await dbClient!.rawQuery('''
           DELETE FROM ${DBHelper.cartDetailsTable}
           WHERE xitem = ? AND cartID = ? AND zid = ?
           ''', [accCode, cartID, zid]);
-    }else{
-
+    } else {
       print('Quantity = $qty');
 
       dbClient!.rawQuery(
           "UPDATE ${DBHelper.cartDetailsTable} "
-              "SET xqty = ?"
-              " WHERE cartID = ? and xitem = ?", [qty,cartID,accCode]);
+          "SET xqty = ?"
+          " WHERE cartID = ? and xitem = ?",
+          [qty, cartID, accCode]);
 
       //await updateCartHeader(cartID);
     }
@@ -756,136 +907,145 @@ class DatabaseRepo{
     );
   }
 
-
-  Future getIDWiseCartHeader(String cartId) async{
+  Future getIDWiseCartHeader(String cartId) async {
     var dbClient = await conn.db;
     List idWiseCartList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.query(
-          DBHelper.cartTable,
-          where: 'cartId = ?',
-          whereArgs: [cartId]
-      );
-      for(var idWiseCart in maps){
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!
+          .query(DBHelper.cartTable, where: 'cartId = ?', whereArgs: [cartId]);
+      for (var idWiseCart in maps) {
         idWiseCartList.add(idWiseCart);
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     // print("All cart product from Header: $cartList");
     return idWiseCartList;
   }
 
-
-  Future getIDWiseCartDetailsHeader(String cartId) async{
+  Future getIDWiseCartDetailsHeader(String cartId) async {
     var dbClient = await conn.db;
     List idWiseCartList = [];
-    try{
+    try {
       List<Map<String, dynamic>> maps = await dbClient!.query(
           DBHelper.cartDetailsTable,
           where: 'cartId = ?',
-          whereArgs: [cartId]
-      );
-      for(var idWiseCart in maps){
+          whereArgs: [cartId]);
+      for (var idWiseCart in maps) {
         idWiseCartList.add(idWiseCart);
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     // print("All cart product from Header: $cartList");
     return idWiseCartList;
   }
 
-
-
   ///Special Table caItemTable repo
-
-  Future<int> addIntoCaCusPrice(CaCusPriceModel caCusPriceModel) async{
+  Future<int> addIntoCaCusPrice(CaCusPriceModel caCusPriceModel) async {
     var dbClient = await conn.db;
     int result = 0;
-    try{
-      result = await dbClient!.insert(DBHelper.caCusPrice, caCusPriceModel.toJson());
-      print("-------------$result");
-    }catch(e){
+    try {
+      // Check if the xitem already exists in the local storage
+      var existingCaCusPrice = await dbClient!.query(
+        DBHelper.caCusPrice,
+        where: 'xitem = ? AND xcus =?',
+        whereArgs: [caCusPriceModel.xitem, caCusPriceModel.xcus],
+      );
+
+      if (existingCaCusPrice.isEmpty) {
+        // xitem does not exist, proceed with insertion
+        result = await dbClient.insert(
+            DBHelper.caCusPrice, caCusPriceModel.toJson());
+        print("New caCusPrice inserted: $result");
+      } else {
+        // xitem already exists, skip insertion
+        print("caCusPrice already exists: ${caCusPriceModel.xitem}");
+      }
+    } catch (e) {
       print('There are some issues: $e');
     }
     return result;
   }
-  Future getCusWisePrice() async{
+
+  Future getCusWisePrice() async {
     var dbClient = await conn.db;
     List cwpList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.caCusPrice}");
-      for(var cwpitems in maps){
+    try {
+      List<Map<String, dynamic>> maps =
+          await dbClient!.rawQuery("SELECT * FROM ${DBHelper.caCusPrice}");
+      for (var cwpitems in maps) {
         cwpList.add(cwpitems);
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     // print("All cart product from Header: $cartList");
     return cwpList;
   }
 
-  Future <void> deleteCaCusPriceTable() async{
+  Future<void> deleteCaCusPriceTable() async {
     var dbClient = await conn.db;
     dbClient!.delete(DBHelper.caCusPrice);
     print("Table caCusPrice deleted successfully");
   }
 
-  Future cuswiseprice(String cus, String xitem) async{
+  Future cuswiseprice(String cus, String xitem) async {
     var dbClient = await conn.db;
-    var price = dbClient!.rawQuery("select xrate from ${DBHelper.caCusPrice} where xcus = ?  and xitem =?", [cus,xitem]);
+    var price = dbClient!.rawQuery(
+        "select xrate from ${DBHelper.caCusPrice} where xcus = ?  and xitem =?",
+        [cus, xitem]);
     print("Got the product price:::::::$price");
     return price;
   }
 
-
   ///Gift and Promotion item repo
-  Future<int> addgiftItem(GiftModel giftModel) async{
+  Future<int> addgiftItem(GiftModel giftModel) async {
     var dbClient = await conn.db;
     int result = 0;
-    try{
-      result = await dbClient!.insert(DBHelper.giftAndPromotion, giftModel.toJson());
+    try {
+      result =
+          await dbClient!.insert(DBHelper.giftAndPromotion, giftModel.toJson());
       print("-------------$result");
-    }catch(e){
+    } catch (e) {
       print('There are some issues: $e');
     }
     return result;
   }
 
-  Future<int> addPromotionItem(PromoModel promoModel) async{
+  Future<int> addPromotionItem(PromoModel promoModel) async {
     var dbClient = await conn.db;
     int result = 0;
-    try{
-      result = await dbClient!.insert(DBHelper.giftAndPromotion, promoModel.toJson());
+    try {
+      result = await dbClient!
+          .insert(DBHelper.giftAndPromotion, promoModel.toJson());
       print("-------------$result");
-    }catch(e){
+    } catch (e) {
       print('There are some issues: $e');
     }
     return result;
   }
 
-  Future <void> deleteGiftPromoTable() async{
+  Future<void> deleteGiftPromoTable() async {
     var dbClient = await conn.db;
     dbClient!.delete(DBHelper.giftAndPromotion);
     print("Table deleted successfully");
   }
 
   //cartHeaderInfo
-  Future getGiftPromo() async{
+  Future getGiftPromo() async {
     var dbClient = await conn.db;
     List gpList = [];
-    try{
-      List<Map<String, dynamic>> maps = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftAndPromotion}");
-      for(var gpitems in maps){
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!
+          .rawQuery("SELECT * FROM ${DBHelper.giftAndPromotion}");
+      for (var gpitems in maps) {
         gpList.add(gpitems);
       }
-    }catch(e){
+    } catch (e) {
       print("There are some issues getting products : $e");
     }
     // print("All cart product from Header: $cartList");
     return gpList;
   }
-
-
 }

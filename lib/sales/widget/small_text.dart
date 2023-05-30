@@ -22,7 +22,7 @@ class SmallText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.roboto(
+      style: GoogleFonts.manrope(
         color: color,
         fontSize: size,
         fontWeight: FontWeight.w500,
