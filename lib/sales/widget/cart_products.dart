@@ -243,7 +243,7 @@ class CartProductsCard extends StatelessWidget {
                       clipBehavior: Clip.hardEdge,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.disColor,
+                          primary: AppColor.disColor,
                         ),
                         onPressed: () async {
                           //Route to next page
@@ -270,7 +270,7 @@ class CartProductsCard extends StatelessWidget {
                       clipBehavior: Clip.hardEdge,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.comColor,
+                          primary: AppColor.comColor,
                         ),
                         onPressed: () async {
                           //Route to next page

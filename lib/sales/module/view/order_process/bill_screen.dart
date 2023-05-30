@@ -86,7 +86,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                           clipBehavior: Clip.hardEdge,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.appBarColor,
+                              primary: AppColor.appBarColor,
                             ),
                             onPressed: () async {
                               /*Get.to(() => BillDetailsScreen());
@@ -133,7 +133,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                               // await cartController.saveOrder(xCus, xOrg, 'Open');
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.appBarColor,
+                              primary: AppColor.appBarColor,
                             ),
                             child: cartController.isPlaced.value
                                 ? const Center(
