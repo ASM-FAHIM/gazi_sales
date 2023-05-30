@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/dimensions.dart';
 import 'package:gazi_sales_app/sales/module/controller/deposit_controller.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
@@ -46,28 +48,26 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
             size: 25,
           ),
           actions: [
-            GestureDetector(
+            Obx(
+              () => GestureDetector(
                 onTap: () {
-                  // depositController.uploadCartOrder();
+                  depositController.depositSubmission();
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: const Icon(
-                    MdiIcons.upload,
-                    size: 30,
-                  ),
-                ))
-            /*Obx(() => GestureDetector(
-                onTap: () {
-                 // depositController.uploadCartOrder();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: const Icon(
+                  child: depositController.isSubmitted.value
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.defWhite,
+                          ),
+                        )
+                      : const Icon(
                           MdiIcons.upload,
                           size: 30,
                         ),
-                ))),*/
+                ),
+              ),
+            ),
           ],
         ),
         body: Container(
@@ -92,7 +92,7 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                   itemBuilder: (context, index) {
                     var openDepo = depositController.openDeposit[index];
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
@@ -101,10 +101,10 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              height: 50,
+                              height: Dimensions.height50,
                               width: double.maxFinite,
                               padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
+                                  const EdgeInsets.only(left: 15, right: 10),
                               decoration: const BoxDecoration(
                                   color: Color(0xff14AAA2),
                                   borderRadius: BorderRadius.only(
@@ -115,39 +115,61 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    width: 150,
-                                    child: Text(
-                                      '${openDepo['depositID']}',
-                                      //overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white),
+                                  Text(
+                                    'Deposit no : ${openDepo["id"]}',
+                                    //overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return ReusableAlert(
+                                              depositController:
+                                                  depositController,
+                                              depoID: openDepo["depositID"],
+                                            );
+                                          });
+                                    },
+                                    icon: const Icon(
+                                      MdiIcons.deleteCircle,
+                                      size: 30,
+                                      color: Colors.white,
                                     ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      SmallText(
-                                        text:
-                                            '${openDepo['xamount']} Tk.',
-                                        size: 18,
-                                        color: AppColor.defWhite,
-                                      ),
-                                    ],
-                                  ),
+                                  )
+                                  /*SmallText(
+                                    text: '${openDepo['xamount']} Tk.',
+                                    size: 18,
+                                    color: AppColor.defWhite,
+                                  ),*/
                                 ],
                               ),
                             ),
                             Container(
-                              height: 100,
+                              height: Dimensions.height120,
                               width: double.maxFinite,
                               padding: const EdgeInsets.only(
-                                  top: 10, left: 10, right: 10),
+                                  top: 5, left: 10, right: 6),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                          DateFormat('yMd').format(
+                                              DateTime.parse(
+                                                  openDepo['xdate'])),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black))
+                                    ],
+                                  ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -156,32 +178,32 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                                     children: [
                                       Text('${openDepo['xcusname']}',
                                           style: const TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black)),
-                                      Text('${openDepo['xcus']}',
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black)),
-                                      Text('${openDepo['xdate']}',
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black))
+                                      BigText(
+                                        text: '${openDepo['xamount']} Tk.',
+                                        color: Colors.red,
+                                      ),
                                     ],
                                   ),
-                                  Text('Invoice type: ${openDepo['xpnature']}',
+                                  Text('CUS ID: ${openDepo['xcus']}',
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
+                                          color: Colors.black)),
+                                  Text('Invoice type: ${openDepo['xarnature']}',
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
                                           color: Colors.black)),
                                   Text('Bank name: ${openDepo['xbank']}',
                                       style: const TextStyle(
                                           fontSize: 14,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w400,
                                           color: Colors.black)),
-                                  Text('Mode of payment: ${openDepo['xpaymenttype']}',
+                                  Text(
+                                      'Mode of payment: ${openDepo['xpaymenttype']}',
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -316,12 +338,12 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
 class ReusableAlert extends StatelessWidget {
   const ReusableAlert({
     Key? key,
-    required this.cartController,
-    required this.cartID,
+    required this.depositController,
+    required this.depoID,
   }) : super(key: key);
 
-  final CartController cartController;
-  final String cartID;
+  final DepositController depositController;
+  final String depoID;
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +359,7 @@ class ReusableAlert extends StatelessWidget {
         child: ListBody(
           children: <Widget>[
             Text(
-              'Do you want to delete cart?',
+              'Do you want to delete this deposit?',
               style: GoogleFonts.roboto(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -368,7 +390,7 @@ class ReusableAlert extends StatelessWidget {
             ),
           ),
           onPressed: () async {
-            await cartController.deleteFromItemWiseCart(cartID);
+            await depositController.deleteFromDeposit(depoID);
             Navigator.pop(context);
           },
         ),
@@ -377,7 +399,7 @@ class ReusableAlert extends StatelessWidget {
   }
 }
 
-//for upload single cart alert
+/*//for upload single cart alert
 class UploadSingleCartAlert extends StatelessWidget {
   const UploadSingleCartAlert({
     Key? key,
@@ -440,4 +462,4 @@ class UploadSingleCartAlert extends StatelessWidget {
       ],
     );
   }
-}
+}*/

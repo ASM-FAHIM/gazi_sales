@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/databaseHelper/deposit_repo.dart';
 import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
+import 'package:gazi_sales_app/sales/module/model/ca_cus_disc_model.dart';
 import 'package:gazi_sales_app/sales/module/model/payment_model_model.dart';
+import 'package:gazi_sales_app/sales/module/model/promo_details_model.dart';
+import 'package:gazi_sales_app/sales/module/model/promo_header_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -11,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import '../../constant/app_constants.dart';
+import '../../databaseHelper/gift_promo_repo.dart';
 import '../../databaseHelper/login_repo.dart';
 import '../model/login_model.dart';
 import '../model/tsolist_model.dart';
@@ -180,10 +184,13 @@ class LoginController extends GetxController {
           LoginRepo().insertToTerritoryTable(
               TerritoryListModel.fromJson(territoryList));
         }).toList();
-        //fetch tsoInfo from login method
+        //fetch tsoInfo from login method and additional data like gift and promo
+        await loginMethod();
         await insertToBankTable();
         await insertToPaymentTable();
-        await loginMethod();
+        await insertToPromoHeaderTable();
+        await insertToPromoDetailsTable();
+        await insertToCaCusDiscTable();
         isFetched(false);
         Get.snackbar('Success', 'Data Fetched successfully',
             backgroundColor: Colors.white,
@@ -354,6 +361,87 @@ class LoginController extends GetxController {
     } catch (e) {
       isBankFetched(false);
       print('Failed to insert banks: $e');
+    }
+  }
+
+  //Insert promo header into promoHeader Table
+  RxBool pHeader = false.obs;
+  List<PromoHeaderModel> promoHeaderList = [];
+
+  Future<void> insertToPromoHeaderTable() async {
+    try {
+      pHeader(true);
+      var response = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/salesforce/promotionHeader.php'));
+      if (response.statusCode == 200) {
+        promoHeaderList = promoHeaderModelFromJson(response.body);
+        print('list of promoHeaderList: ${response.body}');
+        await Future.wait(promoHeaderList.map((pHeader) {
+          return GiftPromoRepo().insertIntoPromoHeaderTable(pHeader);
+        }).toList());
+        pHeader(false);
+        print('promo header: $promoHeaderList');
+      } else {
+        pHeader(false);
+        print("There is an Error getting promo header: ${response.statusCode}");
+      }
+    } catch (e) {
+      pHeader(false);
+      print('Failed to insert promo header: $e');
+    }
+  }
+
+  //Insert promo header into promoHeader Table
+  RxBool pDetails = false.obs;
+  List<PromoDetailsrModel> promoDetailsList = [];
+
+  Future<void> insertToPromoDetailsTable() async {
+    try {
+      pDetails(true);
+      var response = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/salesforce/promotionDetails.php'));
+      if (response.statusCode == 200) {
+        promoDetailsList = promoDetailsrModelFromJson(response.body);
+        print('list of promoDetailsList: ${response.body}');
+        await Future.wait(promoDetailsList.map((pDetails) {
+          return GiftPromoRepo().insertIntoPromoDetailsTable(pDetails);
+        }).toList());
+        pDetails(false);
+        print('Promo details: $promoDetailsList');
+      } else {
+        pDetails(false);
+        print("There is an Error getting pro details: ${response.statusCode}");
+      }
+    } catch (e) {
+      pDetails(false);
+      print('Failed to insert promo details : $e');
+    }
+  }
+
+  //Insert into cacusdisc Table
+  RxBool caCusDisInserted = false.obs;
+  List<CaCusDiscModel> caCusDisList = [];
+
+  Future<void> insertToCaCusDiscTable() async {
+    try {
+      caCusDisInserted(true);
+      var response = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/salesforce/caCusDisc.php'));
+      if (response.statusCode == 200) {
+        caCusDisList = caCusDiscModelFromJson(response.body);
+        print('list of caCusDisList: ${response.body}');
+        await Future.wait(caCusDisList.map((cacusdisc) {
+          return GiftPromoRepo().insertIntoCaCusDiscTable(cacusdisc);
+        }).toList());
+        caCusDisInserted(false);
+        print('caCusDisList: $caCusDisList');
+      } else {
+        caCusDisInserted(false);
+        print("There is an Error getting caCusDisList: ${response.statusCode}");
+      }
+    } catch (e) {
+      caCusDisInserted(false);
+      print('Failed to insert caCusDisTable : $e');
     }
   }
 

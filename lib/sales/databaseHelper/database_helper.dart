@@ -24,6 +24,9 @@ class DBHelper {
   static const cartDetailsTable = 'cartDetailsTable';
   static const cartAccessoriesTable = 'cartAccessoriesTable';
   static const giftAndPromotion = 'giftAndPromotion';
+  static const promoHeader = 'promoHeader';
+  static const promoDetails = 'promoDetails';
+  static const caCusDisc = 'caCusDisc';
   static const workNoteTable = 'workNote';
   static const dealerVisitTable = 'dealerVisitTable';
 
@@ -133,13 +136,18 @@ class DBHelper {
           xrate VARCHAR(150), 
           xdealerp VARCHAR(150), 
           xmrp VARCHAR(150),
+          xcolor VARCHAR(150),
           color VARCHAR(150),
+          xdisc VARCHAR(150),
           xcapacity VARCHAR(150),
           xunit VARCHAR(150), 
           xunitsel VARCHAR(150), 
           xcatitem VARCHAR(150), 
           xstype VARCHAR(150), 
-          xpnature VARCHAR(150)
+          stype VARCHAR(150), 
+          xpnature VARCHAR(150),
+          xdateeff VARCHAR(150),
+          xdateexp VARCHAR(150)
           )""");
       await db.execute("""
         CREATE TABLE $productAccessories (
@@ -229,6 +237,39 @@ class DBHelper {
           xqtybonus2 VARCHAR(150),
           xqtybonus3 VARCHAR(150),
           xqtybonus4 VARCHAR(150)
+          )""");
+      await db.execute("""
+        CREATE TABLE $promoHeader (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          zid VARCHAR(10),          
+          xtrnnum VARCHAR(50),          
+          xstype VARCHAR(20),
+          xfdate VARCHAR(20),
+          xtdate VARCHAR(20),
+          xref VARCHAR(20)
+          )""");
+      await db.execute("""
+        CREATE TABLE $promoDetails (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          zid VARCHAR(10),          
+          xrow INTEGER,          
+          xtrnnum VARCHAR(50),
+          xstype VARCHAR(20),
+          xcolor VARCHAR(20),
+          xtype VARCHAR(20),
+          xfslab VARCHAR(20),
+          xtslab VARCHAR(20),
+          xamount VARCHAR(20)
+          )""");
+      await db.execute("""
+        CREATE TABLE $caCusDisc (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          zid VARCHAR(10),          
+          xcus VARCHAR(50),          
+          xitem VARCHAR(20),
+          xdisc VARCHAR(20),
+          xdateeff VARCHAR(20),
+          xdateexp VARCHAR(20)
           )""");
       await db.execute("""
         CREATE TABLE $workNoteTable (

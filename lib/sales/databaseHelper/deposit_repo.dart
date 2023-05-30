@@ -231,10 +231,28 @@ class DepositRepo {
     List openDeposit = [];
     try {
       openDeposit = await dbClient!.rawQuery(
-          'SELECT * from ${DBHelper.depositTable} where xstatus = "Open" and zid= $zID');
+          'SELECT * from ${DBHelper.depositTable} where xstatus = "Open" and zid=?',
+          [zID]);
     } catch (e) {
       print("There are some issues: $e");
     }
     return openDeposit;
+  }
+
+  //Updating status of cartTable
+  Future updateDepositStatus(String depositID) async {
+    var dbClient = await conn.db;
+    dbClient!.rawQuery(
+        "UPDATE ${DBHelper.depositTable} SET xstatus = 'Applied' WHERE depositID = ?",
+        [depositID]);
+  }
+
+  //Deleting single Deposit Number
+  Future singleDepositDelete(String depositID) async {
+    var dbClient = await conn.db;
+    dbClient!.rawQuery(
+        "DELETE from ${DBHelper.depositTable}  WHERE depositID = ?",
+        [depositID]);
+    print(getOpenDeposit("400080"));
   }
 }
