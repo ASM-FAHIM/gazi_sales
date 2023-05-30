@@ -48,7 +48,7 @@ class CartTotal extends StatelessWidget {
               clipBehavior: Clip.hardEdge,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColor.appBarColor,
+                  primary: AppColor.appBarColor,
                 ),
                 onPressed: cartController.addedProducts.isEmpty
                     ? null
@@ -108,7 +108,7 @@ class CartTotal extends StatelessWidget {
                       clipBehavior: Clip.hardEdge,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.appBarColor,
+                          primary: AppColor.appBarColor,
                         ),
                         onPressed: () async {
                           Get.to(() => BillDetailsScreen());
@@ -155,7 +155,7 @@ class CartTotal extends StatelessWidget {
                           await cartController.saveOrder(xCus, xOrg, 'Open');
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.appBarColor,
+                          primary: AppColor.appBarColor,
                         ),
                         child: cartController.isPlaced.value
                             ? const Center(

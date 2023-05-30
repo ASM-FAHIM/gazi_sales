@@ -207,7 +207,7 @@ class DepositRepo {
       result = await dbClient!.insert(DBHelper.depositTable, data);
       print("Inserted Successfully in header table: -------------$result");
     } catch (e) {
-      print('There are some issues inserting cartTable: $e');
+      print('There are some issues inserting DepositTable: $e');
     }
     return result;
   }
@@ -223,5 +223,18 @@ class DepositRepo {
       print("There are some issues: $e");
     }
     return depositID.isEmpty ? 0 : depositID[0]['depositID'];
+  }
+
+  //Getting Deposit List for showing in the Deposit History
+  Future<List> getOpenDeposit(String zID) async {
+    var dbClient = await conn.db;
+    List openDeposit = [];
+    try {
+      openDeposit = await dbClient!.rawQuery(
+          'SELECT * from ${DBHelper.depositTable} where xstatus = "Open" and zid= $zID');
+    } catch (e) {
+      print("There are some issues: $e");
+    }
+    return openDeposit;
   }
 }

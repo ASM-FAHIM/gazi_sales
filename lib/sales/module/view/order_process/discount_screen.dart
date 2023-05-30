@@ -224,7 +224,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                   clipBehavior: Clip.hardEdge,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.appBarColor,
+                      primary: AppColor.appBarColor,
                     ),
                     onPressed: () {
                       Get.back();

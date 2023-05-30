@@ -289,7 +289,8 @@ class DBHelper {
           xcusbank VARCHAR(150),
           xchequeno VARCHAR(150),
           xdate VARCHAR(150),
-          xnote VARCHAR(150)
+          xnote VARCHAR(150),
+          xstatus VARCHAR(150)
           )""");
     }, onUpgrade: (Database db, int oldversion, int newversion) async {
       if (oldversion < newversion) {
