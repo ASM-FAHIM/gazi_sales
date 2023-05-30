@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/module/controller/deposit_controller.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -15,13 +16,14 @@ class DepositHistoryScreen extends StatefulWidget {
 }
 
 class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
-  CartController cartController = Get.put(CartController());
+  //CartController cartController = Get.put(CartController());
+  DepositController depositController = Get.put(DepositController());
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    cartController.getCartHeaderList();
+    depositController.getOpenDeposit();
   }
 
   @override
@@ -44,28 +46,33 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
             size: 25,
           ),
           actions: [
-            Obx(() => GestureDetector(
+            GestureDetector(
                 onTap: () {
-                  cartController.uploadCartOrder();
+                  // depositController.uploadCartOrder();
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: cartController.isUploading.value
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: AppColor.defWhite,
-                          ),
-                        )
-                      : const Icon(
+                  child: const Icon(
+                    MdiIcons.upload,
+                    size: 30,
+                  ),
+                ))
+            /*Obx(() => GestureDetector(
+                onTap: () {
+                 // depositController.uploadCartOrder();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: const Icon(
                           MdiIcons.upload,
                           size: 30,
                         ),
-                ))),
+                ))),*/
           ],
         ),
         body: Container(
           margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
-          child: Obx(() => cartController.isLoading.value
+          child: Obx(() => depositController.isLoading4.value
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -81,9 +88,9 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                   ),
                 )
               : ListView.builder(
-                  itemCount: cartController.listCartHeader.length,
+                  itemCount: depositController.openDeposit.length,
                   itemBuilder: (context, index) {
-                    var cartHeader = cartController.listCartHeader[index];
+                    var openDepo = depositController.openDeposit[index];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
@@ -111,7 +118,7 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                                   Container(
                                     width: 150,
                                     child: Text(
-                                      '${cartHeader['cartID']}',
+                                      '${openDepo['depositID']}',
                                       //overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           fontSize: 16,
@@ -124,14 +131,9 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                                     children: [
                                       SmallText(
                                         text:
-                                            '${cartHeader['total'].toStringAsFixed(2)}',
+                                            '${openDepo['xamount']} Tk.',
                                         size: 18,
                                         color: AppColor.defWhite,
-                                      ),
-                                      const Icon(
-                                        MdiIcons.currencyBdt,
-                                        color: AppColor.defWhite,
-                                        size: 22,
                                       ),
                                     ],
                                   ),
@@ -152,29 +154,34 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('${cartHeader['xorg']}',
+                                      Text('${openDepo['xcusname']}',
                                           style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black)),
-                                      Text('${cartHeader['createdAt']}',
+                                      Text('${openDepo['xcus']}',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black)),
+                                      Text('${openDepo['xdate']}',
                                           style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black))
                                     ],
                                   ),
-                                  Text('Territory: ${cartHeader['xterritory']}',
+                                  Text('Invoice type: ${openDepo['xpnature']}',
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black)),
-                                  Text('Division: ${cartHeader['xdivision']}',
+                                  Text('Bank name: ${openDepo['xbank']}',
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black)),
-                                  Text('${cartHeader['xcus']}',
+                                  Text('Mode of payment: ${openDepo['xpaymenttype']}',
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
@@ -182,118 +189,118 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                                 ],
                               ),
                             ),
-                            Container(
-                              height: 50,
-                              width: double.maxFinite,
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20.0),
-                                bottomRight: Radius.circular(20.0),
-                              )),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: AppColor.defRed,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return ReusableAlert(
-                                              cartController: cartController,
-                                              cartID: cartHeader['cartID'],
-                                            );
-                                          });
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SmallText(
-                                          text: 'Delete',
-                                          size: 15,
-                                          color: Colors.white,
-                                        ),
-                                        const Icon(
-                                          MdiIcons.delete,
-                                          color: Colors.white,
-                                          size: 20,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.teal,
-                                    ),
-                                    onPressed: () {
-                                      // cartController.getCartHeaderDetailsList(
-                                      //     '${cartHeader['cartID']}');
-                                      // Get.to(() => HistoryDetails(
-                                      //     cartId: '${cartHeader['cartID']}'));
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SmallText(
-                                          text: 'Details',
-                                          size: 15,
-                                          color: Colors.white,
-                                        ),
-                                        const Icon(
-                                          MdiIcons.arrowRightBold,
-                                          color: Colors.white,
-                                          size: 20,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.lightBlue,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return UploadSingleCartAlert(
-                                              cartController: cartController,
-                                              cartID: cartHeader['cartID'],
-                                            );
-                                          });
-                                    },
-                                    child: cartController.isLoading.value
-                                        ? const Center(
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SmallText(
-                                                text: 'Upload',
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                              const Icon(
-                                                MdiIcons.upload,
-                                                color: Colors.white,
-                                                size: 20,
-                                              )
-                                            ],
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // Container(
+                            //   height: 50,
+                            //   width: double.maxFinite,
+                            //   padding:
+                            //       const EdgeInsets.only(left: 10, right: 10),
+                            //   decoration: const BoxDecoration(
+                            //       borderRadius: BorderRadius.only(
+                            //     bottomLeft: Radius.circular(20.0),
+                            //     bottomRight: Radius.circular(20.0),
+                            //   )),
+                            //   child: Row(
+                            //     mainAxisAlignment:
+                            //         MainAxisAlignment.spaceAround,
+                            //     children: [
+                            //       ElevatedButton(
+                            //         style: ElevatedButton.styleFrom(
+                            //           primary: AppColor.defRed,
+                            //         ),
+                            //         onPressed: () {
+                            //           showDialog(
+                            //               context: context,
+                            //               builder: (BuildContext context) {
+                            //                 return ReusableAlert(
+                            //                   cartController: cartController,
+                            //                   cartID: cartHeader['cartID'],
+                            //                 );
+                            //               });
+                            //         },
+                            //         child: Row(
+                            //           mainAxisAlignment:
+                            //               MainAxisAlignment.center,
+                            //           children: [
+                            //             SmallText(
+                            //               text: 'Delete',
+                            //               size: 15,
+                            //               color: Colors.white,
+                            //             ),
+                            //             const Icon(
+                            //               MdiIcons.delete,
+                            //               color: Colors.white,
+                            //               size: 20,
+                            //             )
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       ElevatedButton(
+                            //         style: ElevatedButton.styleFrom(
+                            //           primary: Colors.teal,
+                            //         ),
+                            //         onPressed: () {
+                            //           // cartController.getCartHeaderDetailsList(
+                            //           //     '${cartHeader['cartID']}');
+                            //           // Get.to(() => HistoryDetails(
+                            //           //     cartId: '${cartHeader['cartID']}'));
+                            //         },
+                            //         child: Row(
+                            //           mainAxisAlignment:
+                            //               MainAxisAlignment.center,
+                            //           children: [
+                            //             SmallText(
+                            //               text: 'Details',
+                            //               size: 15,
+                            //               color: Colors.white,
+                            //             ),
+                            //             const Icon(
+                            //               MdiIcons.arrowRightBold,
+                            //               color: Colors.white,
+                            //               size: 20,
+                            //             )
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       ElevatedButton(
+                            //         style: ElevatedButton.styleFrom(
+                            //           primary: Colors.lightBlue,
+                            //         ),
+                            //         onPressed: () {
+                            //           showDialog(
+                            //               context: context,
+                            //               builder: (BuildContext context) {
+                            //                 return UploadSingleCartAlert(
+                            //                   cartController: cartController,
+                            //                   cartID: cartHeader['cartID'],
+                            //                 );
+                            //               });
+                            //         },
+                            //         child: cartController.isLoading.value
+                            //             ? const Center(
+                            //                 child: CircularProgressIndicator(
+                            //                   color: Colors.white,
+                            //                 ),
+                            //               )
+                            //             : Row(
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.center,
+                            //                 children: [
+                            //                   SmallText(
+                            //                     text: 'Upload',
+                            //                     size: 15,
+                            //                     color: Colors.white,
+                            //                   ),
+                            //                   const Icon(
+                            //                     MdiIcons.upload,
+                            //                     color: Colors.white,
+                            //                     size: 20,
+                            //                   )
+                            //                 ],
+                            //               ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

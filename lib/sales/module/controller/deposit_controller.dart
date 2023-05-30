@@ -184,6 +184,7 @@ class DepositController extends GetxController {
         "depositID": depositID,
         "zauserid": loginController.xposition.value,
         "xcus": cusId,
+        "xcusname": xOrg,
         "xtso": loginController.xtso.value,
         "xdivision": loginController.xDivision.value,
         "xamount": int.parse(amount.text),
@@ -198,7 +199,9 @@ class DepositController extends GetxController {
         "xarnature": selectedOption.value,
         "xpaymenttype": paymentMod.value,
         "xcusbank": cusBank.text,
-        "xchequeno": chkRefNo.text
+        "xchequeno": chkRefNo.text,
+        "xdate": date.value,
+        "xstatus": status
       };
 
       await DepositRepo().depositInsert(depositInsert);
@@ -284,6 +287,23 @@ class DepositController extends GetxController {
           colorText: Colors.white,
           duration: const Duration(seconds: 1));
       print("Something went wrong while submit data $e");
+    }
+  }
+
+  //For getting Open deposit from DepositTable
+  RxBool isLoading4 = false.obs;
+  List openDeposit = [];
+
+  Future<void> getOpenDeposit() async {
+    try {
+      isLoading4(true);
+      openDeposit =
+      await DepositRepo().getOpenDeposit(loginController.zID.value);
+      print('Open deposit: ${openDeposit.length}');
+      isLoading4(false);
+      print('List of payment types: $openDeposit');
+    } catch (e) {
+      print("Something went wrong in payment types $e");
     }
   }
 
