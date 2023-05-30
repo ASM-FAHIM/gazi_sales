@@ -276,21 +276,7 @@ class DepositController extends GetxController {
               "xcusbank": openDeposit[i]["xcusbank"],
               "xchequeno": openDeposit[i]["xchequeno"]
             }));
-        print(
-            '${openDeposit[i]["zid"] + openDeposit[i]["zauserid"] +
-                "xdepositnum" + depositNumber.value + "xcus" +
-                openDeposit[i]["xcus"] + "xtso" + openDeposit[i]["xtso"] +
-                "xdivision" + openDeposit[i]["xdivision"] + "xamount" +
-                openDeposit[i]["xamount"] + "xbank" + openDeposit[i]["xbank"] +
-                "xbranch" + openDeposit[i]["xbranch"] + "xnote" +
-                openDeposit[i]["xnote"] + "xpreparer" +
-                openDeposit[i]["xpreparer"] + "xdm" + openDeposit[i]["xdm"] +
-                "xterritory" + openDeposit[i]["xterritory"] + "xzm" +
-                openDeposit[i]["xzm"] + "xzone" + openDeposit[i]["xzone"] +
-                "xarnature" + openDeposit[i]["xarnature"] + "xpaymenttype" +
-                openDeposit[i]["xpaymenttype"] + "xcusbank" +
-                openDeposit[i]["xcusbank"] + "xchequeno" +
-                openDeposit[i]["xchequeno"]}');
+
         if (response.statusCode == 200) {
           DepositRepo().updateDepositStatus(openDeposit[i]["depositID"]);
           print('successfully depositted');
