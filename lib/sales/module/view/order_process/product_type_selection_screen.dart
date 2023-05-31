@@ -11,11 +11,13 @@ class ProductTypeSelectScreen extends StatefulWidget {
   String xOrg;
   String xTerritory;
   String xGcus;
+  String delDisc;
   ProductTypeSelectScreen(
       {required this.xCus,
       required this.xOrg,
       required this.xTerritory,
       required this.xGcus,
+      required this.delDisc,
       Key? key})
       : super(key: key);
 
@@ -99,6 +101,7 @@ class _ProductTypeSelectScreenState extends State<ProductTypeSelectScreen> {
                                       xOrg: widget.xOrg,
                                       xterritory: widget.xTerritory,
                                       xgcus: widget.xGcus,
+                                      delDisc: widget.delDisc,
                                       xPNature: dashboardController
                                           .productNatureList[index]["xcode"],
                                     ));

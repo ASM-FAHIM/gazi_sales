@@ -13,12 +13,14 @@ class CartTotal extends StatelessWidget {
   String xCus;
   String xOrg;
   String xterritory;
+  String delDisc;
 
   CartTotal({
     Key? key,
     required this.xCus,
     required this.xOrg,
     required this.xterritory,
+    required this.delDisc,
   }) : super(key: key);
 
   @override
@@ -50,21 +52,20 @@ class CartTotal extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   primary: AppColor.appBarColor,
                 ),
-                onPressed: cartController.addedProducts.isEmpty
-                    ? null
-                    : () {
-                        Get.to(() => const BillDetailsScreen());
+                onPressed: () {
+                        cartController.insertToCart(xCus, xOrg, 'Applied', delDisc);
+                       // Get.to(() => const BillDetailsScreen());
                       },
-                child: cartController.isSync.value
+                child: Obx(() => cartController.saving.value
                     ? const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      )
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
                     : BigText(
-                        text: 'Process',
-                        color: AppColor.defWhite,
-                      ),
+                  text: 'Process',
+                  color: AppColor.defWhite,
+                )),
               ),
             ),
             /*Container(

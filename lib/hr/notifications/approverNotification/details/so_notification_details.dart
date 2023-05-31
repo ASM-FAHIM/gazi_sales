@@ -188,7 +188,7 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                     ),*/
                                     Text(
                                       "Estimated Amount: " +
-                                          "${snapshot.data![index].xlineamt ?? " "}",
+                                          "${snapshot.data![index].xlineamt}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -196,7 +196,7 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                     ),
                                     Text(
                                       "Line Amount: " +
-                                          "${snapshot.data![index].xlineamt ?? " "}",
+                                          "${snapshot.data![index].xlineamt}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),

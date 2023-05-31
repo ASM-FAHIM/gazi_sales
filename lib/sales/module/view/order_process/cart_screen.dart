@@ -12,12 +12,14 @@ class CartScreen extends StatelessWidget {
   String xcus;
   String xOrg;
   String xterritory;
+  String delDisc;
 
   CartScreen({
     Key? key,
     required this.xcus,
     required this.xOrg,
     required this.xterritory,
+    required this.delDisc,
   }) : super(key: key);
 
   @override
@@ -57,6 +59,7 @@ class CartScreen extends StatelessWidget {
                         xCus: xcus,
                         xOrg: xOrg,
                         xterritory: xterritory,
+                        delDisc: delDisc,
                       )
                     ],
                   ),

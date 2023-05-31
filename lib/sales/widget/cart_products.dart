@@ -247,7 +247,14 @@ class CartProductsCard extends StatelessWidget {
                         ),
                         onPressed: () async {
                           //Route to next page
-                          Get.to(() => const DiscountScreen());
+                          showDialog(context: context, builder: (BuildContext context){
+                            return ReusableAlert(
+                              cartController: controller,
+                              itemCode: xItem,
+                              xorg: pDesc,
+                            );
+                          });
+                          //Get.to(() => const DiscountScreen());
                         },
                         child: BigText(
                           text: 'Discount',
@@ -292,6 +299,125 @@ class CartProductsCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ReusableAlert extends StatelessWidget {
+  ReusableAlert({
+    Key? key,
+    required this.cartController,
+    required this.xorg,
+    required this.itemCode,
+
+  }) : super(key: key);
+
+  final CartController cartController;
+  final String xorg;
+  final String itemCode;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        'Additional discount',
+        style: GoogleFonts.urbanist(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            color: Colors.black54),
+      ),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text(
+              itemCode,
+              style: GoogleFonts.urbanist(
+                  fontSize: 14,
+                  fontWeight:
+                  FontWeight.w800,
+                  color: Colors.black54),
+            ),
+            Text(
+              xorg,
+              style: GoogleFonts.urbanist(
+                  fontSize: 14,
+                  fontWeight:
+                  FontWeight.w800,
+                  color: Colors.black54),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+                height: 45,
+                width: 100,
+                child: TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'-')),
+                    FilteringTextInputFormatter.deny(RegExp(r'\.')),
+                    FilteringTextInputFormatter.deny(RegExp(r',')),
+                    FilteringTextInputFormatter.deny(RegExp(r'\+')),
+                    FilteringTextInputFormatter.deny(RegExp(r'\*')),
+                    FilteringTextInputFormatter.deny(RegExp(r'/')),
+                    FilteringTextInputFormatter.deny(RegExp(r'=')),
+                    FilteringTextInputFormatter.deny(RegExp(r'%')),
+                    FilteringTextInputFormatter.deny(RegExp(r' ')),
+                  ],
+                  textAlign: TextAlign.center,
+                  controller: cartController.discount,
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (value) async{
+                    if(cartController.quantity.text.isEmpty){
+                      Navigator.pop(context);
+                    }else{
+                      //await cartController.updateItemWiseCartDetails(itemCode, cartController.quantity.text, price, zID);
+                      Navigator.pop(context);
+                    }
+                  },
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1.5, color: Colors.green,),
+                      borderRadius: BorderRadius.circular(5.5),
+                    ),
+                    border: OutlineInputBorder(),
+                    hintText: "Additional discount %",
+                    hintStyle: const TextStyle(color: Colors.grey, fontSize: 15,fontWeight: FontWeight.w600),
+                  ),
+                )),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            'Cancel',
+            style: GoogleFonts.roboto(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        TextButton(
+          child: Text(
+            'Add',
+            style: GoogleFonts.roboto(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          onPressed: () async{
+            if(cartController.quantity.text.isEmpty){
+              Navigator.pop(context);
+            }else{
+              //await cartController.updateItemWiseCartDetails(cartID, itemCode, cartController.quantity.text, price, zID);
+              Navigator.pop(context);
+            }
+          },
+        ),
+      ],
     );
   }
 }

@@ -170,7 +170,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                     //
                                     Text(
                                       "Description: "
-                                      "${snapshot.data![index].xdesc ?? "  "}",
+                                      "${snapshot.data![index].xdesc}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),

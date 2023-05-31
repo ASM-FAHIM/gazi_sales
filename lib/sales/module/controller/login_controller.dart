@@ -477,7 +477,7 @@ class LoginController extends GetxController {
     }
   }
 
-  //for getting cart_List from cart table
+/*  //for getting cart_List from cart table
   List listGiftPromo = [];
   RxBool listFetched = false.obs;
 
@@ -490,5 +490,5 @@ class LoginController extends GetxController {
     } catch (error) {
       print('There are some issue: $error');
     }
-  }
+  }*/
 }

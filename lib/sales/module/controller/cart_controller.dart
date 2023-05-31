@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import '../../databaseHelper/login_repo.dart';
 import '../model/so_model.dart';
+import '../view/order_process/bill_screen.dart';
 import 'login_controller.dart';
 
 class CartController extends GetxController {
@@ -50,7 +51,7 @@ class CartController extends GetxController {
   }
 
   Future<void> addToCart(
-      String productId, String pName, String pPrice, String xUnit) async {
+      String productId, String pName, String pPrice, String xUnit, String xDisc, String xcolor, String xstype, String xcapacity, String dateEff, String dateExp) async {
     try {
       await DatabaseRepo()
           .cartAccessoriesInsert(productId, loginController.zID.value);
@@ -65,10 +66,10 @@ class CartController extends GetxController {
           }
         }
         if (!flag) {
-          addedProducts.add([productId, '1', pName, pPrice, xUnit]);
+          addedProducts.add([productId, '1', pName, pPrice, xUnit, xDisc, xcolor, xstype, xcapacity, dateEff, dateExp]);
         }
       } else {
-        addedProducts.add([productId, '1', pName, pPrice, xUnit]);
+        addedProducts.add([productId, '1', pName, pPrice, xUnit, xDisc, xcolor, xstype, xcapacity, dateEff, dateExp]);
       }
       print('The selected products are: $addedProducts');
       totalClicked();
@@ -313,7 +314,7 @@ class CartController extends GetxController {
   RxInt cartTableMax = 0.obs;
   RxBool saving = false.obs;
 
-  Future<void> insertToCart(String cusId, String xOrg, String status) async {
+  Future<void> insertToCart(String cusId, String xOrg, String status, String delDisc) async {
     try {
       saving(true);
       cartTableMax.value = await DatabaseRepo().getCartID();
@@ -326,17 +327,17 @@ class CartController extends GetxController {
         'xorg': xOrg,
         'xterritory': loginController.xterritory.value,
         'total': totalPrice.toDouble(),
+        'xdisctype': '',
         'xfwh': 30, // need to check again
         'xdm': loginController.xDM.value,
         'xdivision': loginController.xDivision.value,
         'xzm': loginController.xZM.value,
         'xzone': loginController.xZone.value,
         'xpnature': loginController.xPNature.value, //need to check again
-        'lattitude': '$curntLat',
-        'longitude': '$curntLong',
+        'lattitude': ' ',
+        'longitude': ' ',
         'xstatus': status
       };
-
       await DatabaseRepo().cartInsert(cartInsert);
       for (int i = 0; i < addedProducts.length; i++) {
         print('Inside from for details');
@@ -356,8 +357,14 @@ class CartController extends GetxController {
           'xdesc': xDesc,
           'xunit': xunit,
           'xrate': itemPrice.toString(),
+          'xdisc': 0.0,
+          'xdiscamt': 0.0,
+          'xdiscad': 0.0,
+          'xdiscadamt': 0.0,
+          'xlineamt': 0.0,
           'xqty': qty.toString(),
           'subTotal': subTotal.toString(),
+          'giftStatus': '',
           'yes_no': 'No',
           'xmasteritem': xItem,
         };
@@ -366,15 +373,16 @@ class CartController extends GetxController {
         print('Calling cartTableAccInsert');
         await DatabaseRepo()
             .cartTableAccInsert(xItem, loginController.zID.value, cartID);
+
+        //process follow ZAB
+        await DatabaseRepo().processDiscount(loginController.zID.value, cartID, double.parse(delDisc), cusId, xItem, xDesc, xunit, qty.toInt());
       }
       print('Delete cart accessories table c cartTableAccInsert');
       await DatabaseRepo().deleteAccessory();
       saving(false);
-      Get.back();
-      Get.back();
-      Get.back();
       Get.snackbar('Successful', 'Order added successfully',
           backgroundColor: Colors.white, duration: const Duration(seconds: 2));
+      Get.to(() => BillDetailsScreen(cartId: cartID));
     } catch (error) {
       saving(false);
       print('There are some issue: $error');
@@ -468,15 +476,15 @@ class CartController extends GetxController {
     }
   }
 
-  //for place order button
+/*  //for place order button
   RxBool isPlaced = false.obs;
 
-  Future<void> saveOrder(String cusId, String xOrg, String status) async {
+  Future<void> saveOrder(String cusId, String xOrg, String status, String delDisc) async {
     isPlaced(true);
-    await getGeoLocationPosition();
-    await insertToCart(cusId, xOrg, status);
+    //await getGeoLocationPosition();
+    await insertToCart(cusId, xOrg, status, delDisc);
     isPlaced(false);
-  }
+  }*/
 
   //for uploading cartHeader and details to-gather
   RxBool isUploading = false.obs;
@@ -582,7 +590,7 @@ class CartController extends GetxController {
     }
   }
 
-  //instant order
+/*  //instant order
   RxBool isSync = false.obs;
 
   Future<void> placeOrder(
@@ -596,7 +604,7 @@ class CartController extends GetxController {
           case InternetConnectionStatus.connected:
             //code
             isSync(true);
-            await getGeoLocationPosition();
+            //await getGeoLocationPosition();
             await insertToCart(cusId, xOrg, 'Applied');
             await getCartHeaderListForSync();
             int i = (listCartHeaderForSync.length - 1);
@@ -668,7 +676,7 @@ class CartController extends GetxController {
     } catch (e) {
       print('Error occured $e');
     }
-  }
+  }*/
 
   //for single cart wise upload segments
   List idWiseCartHeader = [];
@@ -835,6 +843,29 @@ class CartController extends GetxController {
       accQty.clear();
     } catch (e) {
       print('Failed to execute the process: $e');
+    }
+  }
+
+  ///discount portion
+  TextEditingController discount = TextEditingController();
+  RxBool isValueLoaded = false.obs;
+  List listOfAddedProducts=[];
+  double totalAmount = 0.0;
+  double totalDiscount = 0.0;
+  Future getAddedProducts(String cartId) async{
+    try {
+      isValueLoaded(true);
+      listOfAddedProducts =
+      await DatabaseRepo().getCartIdWiseCartDetails(cartId);
+      print(listOfAddedProducts);
+      totalAmount = listOfAddedProducts.fold(0, (sum, product) => sum + product['subTotal']);
+      print("Total price is :$totalAmount");
+      totalDiscount = listOfAddedProducts.fold(0.0, (sum, product) => sum + (product['xdisc'] as double));
+      print("Total price is :$totalDiscount");
+      isValueLoaded(false);
+    } catch (error) {
+      isValueLoaded(false);
+      print('There are some issue: $error');
     }
   }
 }

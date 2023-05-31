@@ -109,18 +109,11 @@ class _OrderScreenState extends State<OrderScreen> {
                                           onTap: () {
                                             Get.to(
                                                 () => ProductTypeSelectScreen(
-                                                      xCus: dashboardController
-                                                              .foundDealerList[
-                                                          index]['xcus'],
-                                                      xOrg: dashboardController
-                                                              .foundDealerList[
-                                                          index]['xorg'],
-                                                      xGcus: dashboardController
-                                                              .foundDealerList[
-                                                          index]['xgcus'],
-                                                      xTerritory: dashboardController
-                                                              .foundDealerList[
-                                                          index]['xterritory'],
+                                                      xCus: dashboardController.foundDealerList[index]['xcus'],
+                                                      xOrg: dashboardController.foundDealerList[index]['xorg'],
+                                                      xGcus: dashboardController.foundDealerList[index]['xgcus'],
+                                                      xTerritory: dashboardController.foundDealerList[index]['xterritory'],
+                                                      delDisc: dashboardController.foundDealerList[index]['xdisc'],
                                                     ));
                                           },
                                           tileColor: AppColor.appBarColor,

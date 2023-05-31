@@ -3,12 +3,12 @@ import 'package:gazi_sales_app/sales/constant/dimensions.dart';
 import 'package:gazi_sales_app/sales/module/controller/cart_controller.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
 
 class BillDetailsScreen extends StatefulWidget {
-  const BillDetailsScreen({Key? key}) : super(key: key);
+  String cartId;
+  BillDetailsScreen({required this.cartId,Key? key}) : super(key: key);
 
   @override
   State<BillDetailsScreen> createState() => _BillDetailsScreenState();
@@ -16,6 +16,13 @@ class BillDetailsScreen extends StatefulWidget {
 
 class _BillDetailsScreenState extends State<BillDetailsScreen> {
   CartController cartController = Get.find<CartController>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    cartController.getAddedProducts(widget.cartId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +33,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
           leading: GestureDetector(
             onTap: () {
               Get.back();
+              cartController.listOfAddedProducts.clear();
             },
             child: const Icon(
               Icons.arrow_back_outlined,
@@ -39,33 +47,73 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
           ),
           actions: [],
         ),
-        body: Column(
+        body: Obx(()
+        => cartController.isValueLoaded.value
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10.0),
+                      child: const CircularProgressIndicator(
+                        color: AppColor.appBarColor,
+                      ),
+                    ),
+                    const Text('Loading...'),
+                  ],
+                ),
+              )
+            : Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: Dimensions.height650 - Dimensions.height150,
+              height: Dimensions.height650 - Dimensions.height70,
               child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: cartController.listOfAddedProducts.length,
                   itemBuilder: (context, index) {
                     return Container(
                       height: 50,
-                      child: Text("product info with price"),
+                      child: Column(
+                        children: [
+                          Text("${cartController.listOfAddedProducts[index]["xdesc"]}"),
+                          Text(" ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["subTotal"]}"),
+                        ],
+                      ),
                     );
                   }),
             ),
             Expanded(
               child: Container(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: EdgeInsets.only(right: 30),
                       alignment: Alignment.centerRight,
                       child: BigText(
-                        text: '250000 Tk.',
+                        text: 'Total amount = ${cartController.totalAmount} Tk.',
                         size: 22,
                         color: Colors.red,
                       ),
                     ),
+                    Container(
+                      padding: EdgeInsets.only(right: 30),
+                      alignment: Alignment.centerRight,
+                      child: BigText(
+                        text: 'Total discount = ${cartController.totalDiscount} %.',
+                        size: 22,
+                        color: Colors.red,
+                      ),
+                    ),
+                    /*Container(
+                      padding: EdgeInsets.only(right: 30),
+                      alignment: Alignment.centerRight,
+                      child: BigText(
+                        text: 'Discount amount = 2500 Tk.',
+                        size: 22,
+                        color: Colors.red,
+                      ),
+                    ),*/
                     SizedBox(
                       height: 20,
                     ),
@@ -89,8 +137,8 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                               primary: AppColor.appBarColor,
                             ),
                             onPressed: () async {
-                              /*Get.to(() => BillDetailsScreen());
-                            showDialog(
+                              Get.back();
+                              /*showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return ReusableAlert(
@@ -100,16 +148,11 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   );
                                 });*/
                             },
-                            child: cartController.isSync.value
-                                ? const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : BigText(
-                                    text: 'Place order',
-                                    color: AppColor.defWhite,
-                                  ),
+                            child: BigText(
+                              text: 'Place order',
+                              color: AppColor.defWhite,
+                              size: 14,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -135,24 +178,11 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                             style: ElevatedButton.styleFrom(
                               primary: AppColor.appBarColor,
                             ),
-                            child: cartController.isPlaced.value
-                                ? const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      BigText(
-                                        text: 'Save order',
-                                        color: AppColor.defWhite,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  ),
+                            child: BigText(
+                              text: 'Save order',
+                              color: AppColor.defWhite,
+                              size: 14,
+                            ),
                           ),
                         ),
                       ],
@@ -162,7 +192,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
               ),
             ),
           ],
-        ),
+        ),),
       ),
     );
   }
@@ -226,7 +256,7 @@ class ReusableAlert extends StatelessWidget {
           ),
           onPressed: () async {
             Navigator.pop(context);
-            await cartController.placeOrder(xCus, xOrg, context);
+            // await cartController.placeOrder(xCus, xOrg, context);
           },
         ),
       ],

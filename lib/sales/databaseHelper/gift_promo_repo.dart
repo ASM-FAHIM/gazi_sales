@@ -61,12 +61,12 @@ class GiftPromoRepo {
   }
 
   //cartHeaderInfo
-  Future getGiftItem() async {
+  Future getGiftItem(String xitem, String zId) async {
     var dbClient = await conn.db;
     List gpList = [];
     try {
       List<Map<String, dynamic>> maps =
-          await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftItem}");
+          await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftItem} Where xitem =? AND zid = ?", [xitem, zId]);
       for (var gpitems in maps) {
         gpList.add(gpitems);
       }
@@ -207,5 +207,21 @@ class GiftPromoRepo {
       print('There are some issues in insertIntoCaCusDiscTable: $e');
     }
     return result;
+  }
+
+  Future getFromCaCusDiscTable(String xcus, String xitem) async{
+    var dbClient = await conn.db;
+    List caCusDisc = [];
+    try {
+      List<Map<String, dynamic>> maps =
+      await dbClient!.rawQuery("SELECT * FROM ${DBHelper.caCusDisc} WHERE xcus =? AND xitem = ?", [xcus, xitem]);
+      for (var cusDisList in maps) {
+        caCusDisc.add(cusDisList);
+      }
+    } catch (e) {
+      print("There are some issues getting products : $e");
+    }
+    // print("All cart product from Header: $cartList");
+    return caCusDisc;
   }
 }

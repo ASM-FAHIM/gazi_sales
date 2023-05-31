@@ -1,3 +1,5 @@
+import 'package:gazi_sales_app/sales/databaseHelper/gift_promo_repo.dart';
+
 import '../module/model/ca_cus_price_model.dart';
 import '../module/model/dealer_model.dart';
 import '../module/model/gift_promo_model.dart';
@@ -243,21 +245,21 @@ class DatabaseRepo {
     try {
       if (dealerType == 'Dealer') {
         List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-            "SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature,  FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+            "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp,  xdealerp as totrate FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
         for (var products in maps) {
           productList.add(products);
           print('Product List from repo : $productList');
         }
       } else if (dealerType == 'Corporate') {
         List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-            "SELECT xitem, xdesc, xunit,color, xrate as totrate, xpnature FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+            "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp, xrate as totrate FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
         for (var products in maps) {
           productList.add(products);
           print('Product List from repo : $productList');
         }
       } else {
         List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-            "SELECT xitem, xdesc, xunit,color, xmrp as totrate, xpnature FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+            "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp, xmrp as totrate FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
         for (var products in maps) {
           productList.add(products);
           print('Product List from repo : $productList');
@@ -1062,5 +1064,84 @@ class DatabaseRepo {
         [cus, xitem]);
     print("Got the product price:::::::$price");
     return price;
+  }
+
+  Future processDiscount(String zid, String cartId, double spDisc, String xcus, String xitem, String xdesc, String xUnit, int xqty) async {
+    var dbClient = await conn.db;
+
+    List<Map<String, dynamic>> mapsGift = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftItem} WHERE xitem = ? AND zid = ?", [xitem, zid]);
+    List<Map<String, dynamic>> mapsCaCusDisc = await dbClient.rawQuery("SELECT * FROM ${DBHelper.caCusDisc} WHERE xcus = ? AND xitem = ?", [xcus, xitem]);
+
+    List<Map<String, dynamic>> giftItemList = [];
+    for (var gpitems in mapsGift) {
+      giftItemList.add(gpitems);
+    }
+    print('list of gift items: $giftItemList');
+    print('l============ items: $xcus --------- $xitem');
+
+    List<Map<String, dynamic>> caCusDisList = [];
+    for (var cusDisList in mapsCaCusDisc) {
+      caCusDisList.add(cusDisList);
+    }
+    print('list of caCus items: $caCusDisList');
+
+    if (caCusDisList.isNotEmpty) {
+      double cusDisc = double.tryParse(caCusDisList[0]["xdisc"]) ?? 0;
+      print('List of cusDisc: $cusDisc');
+
+      if (cusDisc > 0) {
+        spDisc = cusDisc;
+      }
+    }
+
+    for (int i = 0; i < giftItemList.length; i++) {
+      var giftQuantity = double.parse(giftItemList[i]["xqty"]).toInt();
+      int bonusQty = int.tryParse(giftItemList[i]["xqtybonus"]) ?? 0;
+      int quantity = int.tryParse(giftItemList[i]["xqty"]) ?? 0;
+      print('value of bonusQty: $bonusQty');
+      print('value of quantity: ${giftQuantity}');
+      int gifItemQty = bonusQty * (xqty ~/ giftQuantity);
+      if (xqty >= giftQuantity && spDisc == 0) {
+        Map<String, dynamic> cartDetailsInsert = {
+          'zid': zid,
+          'cartID': cartId,
+          'xitem': xitem,
+          'xdesc': xdesc,
+          'xunit': xUnit,
+          'xrate': 0.0,
+          'xdisc': 0.0,
+          'xdiscamt': 0.0,
+          'xdiscad': 0.0,
+          'xdiscadamt': 0.0,
+          'xlineamt': 0.0,
+          'xqty': gifItemQty,
+          'subTotal': 0.0,
+          'giftStatus': 'Gift Item',
+          'yes_no': 'No',
+          'xmasteritem': '',
+        };
+        await DatabaseRepo().cartDetailsInsert(cartDetailsInsert);
+      }
+    }
+  }
+
+  //get cartDetails after inserting
+  Future getCartIdWiseCartDetails(String cartId) async {
+    var dbClient = await conn.db;
+    List idWiseCartDetails = [];
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!.query(
+          DBHelper.cartDetailsTable,
+          where: 'cartId = ? and yes_no = "No" and giftStatus != "Gift Item"',
+          whereArgs: [cartId]);
+      for (var idWiseCart in maps) {
+        idWiseCartDetails.add(idWiseCart);
+      }
+      print("There founded product list are : $idWiseCartDetails");
+    } catch (e) {
+      print("There are some issues getting products : $e");
+    }
+    // print("All cart product from Header: $cartList");
+    return idWiseCartDetails;
   }
 }

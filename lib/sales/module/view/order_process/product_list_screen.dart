@@ -20,6 +20,7 @@ class ProductsScreen extends StatefulWidget {
   String xterritory;
   String xgcus;
   String xPNature;
+  String delDisc;
 
   ProductsScreen({
     Key? key,
@@ -28,6 +29,7 @@ class ProductsScreen extends StatefulWidget {
     required this.xterritory,
     required this.xgcus,
     required this.xPNature,
+    required this.delDisc,
   }) : super(key: key);
 
   @override
@@ -196,16 +198,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                         child: TextButton(
                                           onPressed: () {
                                             cartController.addToCart(
-                                              dashboardController
-                                                      .foundProductList[index]
-                                                  ["xitem"],
-                                              dashboardController
-                                                      .foundProductList[index]
-                                                  ["xdesc"],
+                                              dashboardController.foundProductList[index]["xitem"],
+                                              dashboardController.foundProductList[index]["xdesc"],
                                               '${dashboardController.updatedProductList[index]}',
-                                              dashboardController
-                                                      .foundProductList[index]
-                                                  ["xunit"],
+                                              dashboardController.foundProductList[index]["xunit"],
+                                              dashboardController.foundProductList[index]["xdisc"],
+                                              dashboardController.foundProductList[index]["xcolor"],
+                                              dashboardController.foundProductList[index]["xstype"],
+                                              dashboardController.foundProductList[index]["xcapacity"],
+                                              dashboardController.foundProductList[index]["xdateeff"],
+                                              dashboardController.foundProductList[index]["xdateexp"],
                                             );
                                           },
                                           style: TextButton.styleFrom(
@@ -290,6 +292,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   xcus: widget.xcus,
                   xOrg: widget.xOrg,
                   xterritory: widget.xterritory,
+                  delDisc: widget.delDisc,
                 ));
           },
           label: Row(
