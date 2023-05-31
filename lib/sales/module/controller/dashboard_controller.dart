@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import '../../constant/app_constants.dart';
 import '../../constant/colors.dart';
 import '../../databaseHelper/database_repo.dart';
+import '../../databaseHelper/gift_promo_repo.dart';
 import '../../databaseHelper/login_repo.dart';
 import '../../widget/big_text.dart';
 import '../../widget/small_text.dart';
@@ -719,37 +720,7 @@ class DashboardController extends GetxController {
     print('Table deleted successfully');
   }
 
-  /* ///git and promo items
-  RxBool isLoading6 = false.obs;
-  List<GiftModel> addGiftList = [];
-  Future<Object> getGiftItems() async{
-    try{
-      isLoading6(true);
-      var responseGiftItems = await http.get(Uri.parse('http://${AppConstants.baseurl}/salesforce/giftitem.php'));
-      if(responseGiftItems.statusCode == 200){
-        addGiftList = giftModelFromJson(responseGiftItems.body);
-        print('gift List : $addGiftList');
-        await dropGiftPromoTable();
-        await (json.decode(responseGiftItems.body) as List).map((giftItems) {
-          DatabaseRepo().addgiftItem(GiftModel.fromJson(giftItems));
-        }).toList();
-        isLoading6(false);
-        return 'Gift Item fetched Successfully';
-      }else{
-        isLoading6(false);
-        print("The model has no value to insert : ${responseGiftItems.statusCode}");
-        return responseGiftItems.statusCode;
-      }
-    }catch(e){
-      print("Something went wrong $e");
-      return isLoading6(false);
-    }
-  }*/
-
   RxBool isLoading7 = false.obs;
-  List<PromoModel> addPromoList = [];
-
-  int? executionTime;
 
   Future<void> asyncFunction() async {
     isLoading7(true);
@@ -772,31 +743,8 @@ class DashboardController extends GetxController {
       isLoading7(false);
       // handle the error accordingly
     } finally {
-      DateTime endTime = DateTime.now();
-      executionTime = endTime.difference(startTime).inMilliseconds;
-      print('Execution time: $executionTime ms');
       isLoading7(false);
-    }
-  }
-
-  //delete cuc wise product first
-  Future dropGiftPromoTable() async {
-    DatabaseRepo().deleteGiftPromoTable();
-    print('Table deleted successfully');
-  }
-
-  //for getting cart_List from cart table
-  List listGiftPromo = [];
-  RxBool listFetched = false.obs;
-
-  Future getGiftPromoList() async {
-    try {
-      listFetched(true);
-      listGiftPromo = await DatabaseRepo().getGiftPromo();
-      print(listGiftPromo);
-      listFetched(false);
-    } catch (error) {
-      print('There are some issue: $error');
+      print('--------Successfully fetched');
     }
   }
 

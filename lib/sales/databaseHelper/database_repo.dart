@@ -243,7 +243,7 @@ class DatabaseRepo {
     try {
       if (dealerType == 'Dealer') {
         List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-            "SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+            "SELECT xitem, xdesc, xunit,color, xdealerp as totrate, xpnature,  FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
         for (var products in maps) {
           productList.add(products);
           print('Product List from repo : $productList');
@@ -1062,55 +1062,5 @@ class DatabaseRepo {
         [cus, xitem]);
     print("Got the product price:::::::$price");
     return price;
-  }
-
-  ///Gift and Promotion item repo
-  Future<int> addgiftItem(GiftModel giftModel) async {
-    var dbClient = await conn.db;
-    int result = 0;
-    try {
-      result =
-          await dbClient!.insert(DBHelper.giftAndPromotion, giftModel.toJson());
-      print("-------------$result");
-    } catch (e) {
-      print('There are some issues: $e');
-    }
-    return result;
-  }
-
-  Future<int> addPromotionItem(PromoModel promoModel) async {
-    var dbClient = await conn.db;
-    int result = 0;
-    try {
-      result = await dbClient!
-          .insert(DBHelper.giftAndPromotion, promoModel.toJson());
-      print("-------------$result");
-    } catch (e) {
-      print('There are some issues: $e');
-    }
-    return result;
-  }
-
-  Future<void> deleteGiftPromoTable() async {
-    var dbClient = await conn.db;
-    dbClient!.delete(DBHelper.giftAndPromotion);
-    print("Table deleted successfully");
-  }
-
-  //cartHeaderInfo
-  Future getGiftPromo() async {
-    var dbClient = await conn.db;
-    List gpList = [];
-    try {
-      List<Map<String, dynamic>> maps = await dbClient!
-          .rawQuery("SELECT * FROM ${DBHelper.giftAndPromotion}");
-      for (var gpitems in maps) {
-        gpList.add(gpitems);
-      }
-    } catch (e) {
-      print("There are some issues getting products : $e");
-    }
-    // print("All cart product from Header: $cartList");
-    return gpList;
   }
 }

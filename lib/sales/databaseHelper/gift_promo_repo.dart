@@ -1,4 +1,5 @@
 import '../module/model/ca_cus_disc_model.dart';
+import '../module/model/gift_promo_model.dart';
 import '../module/model/promo_details_model.dart';
 import '../module/model/promo_header_model.dart';
 import 'database_helper.dart';
@@ -7,21 +8,76 @@ class GiftPromoRepo {
   final conn = DBHelper.dbHelper;
   DBHelper dbHelper = DBHelper();
 
-  ///Promotion Header
-  /*Future<int> insertIntoPromoHeaderTable(
-      PromoHeaderModel promoHeaderModel) async {
+  ///Gift and Promotion item repo
+  Future<int> insertIntoGiftItem(GiftModel giftModel) async {
     var dbClient = await conn.db;
     int result = 0;
     try {
-      result = await dbClient!
-          .insert(DBHelper.promoHeader, promoHeaderModel.toJson());
-      print("-------------$result");
+      var existingRecords = await dbClient!.query(
+        DBHelper.giftItem,
+        where: 'zid = ? AND xitem = ? AND xgiftitem = ?',
+        whereArgs: [
+          giftModel.zid,
+          giftModel.xitem,
+          giftModel.xgiftitem,
+        ],
+      );
+
+      if (existingRecords.isNotEmpty) {
+        result = await dbClient.update(
+          DBHelper.giftItem,
+          {
+            'xwh': giftModel.xwh,
+            'xqty': giftModel.xqty,
+            'xqtybonus': giftModel.xqtybonus,
+            'xdateeff': giftModel.xdateeff,
+            'xdateexp': giftModel.xdateexp,
+          },
+          where: 'zid = ? AND xitem = ? AND xgiftitem = ?',
+          whereArgs: [
+            giftModel.zid,
+            giftModel.xitem,
+            giftModel.xgiftitem,
+          ],
+        );
+        print("Gift item updated: $result");
+      } else {
+        result = await dbClient.insert(
+          DBHelper.giftItem,
+          giftModel.toJson(),
+        );
+        print("New gift item inserted: $result");
+      }
     } catch (e) {
-      print('There are some issues insertIntoPromoHeaderTable : $e');
+      print('There are some issues: $e');
     }
     return result;
-  }*/
+  }
 
+  Future<void> deleteGiftItemTable() async {
+    var dbClient = await conn.db;
+    dbClient!.delete(DBHelper.giftItem);
+    print("Table deleted successfully");
+  }
+
+  //cartHeaderInfo
+  Future getGiftItem() async {
+    var dbClient = await conn.db;
+    List gpList = [];
+    try {
+      List<Map<String, dynamic>> maps =
+          await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftItem}");
+      for (var gpitems in maps) {
+        gpList.add(gpitems);
+      }
+    } catch (e) {
+      print("There are some issues getting products : $e");
+    }
+    // print("All cart product from Header: $cartList");
+    return gpList;
+  }
+
+  ///Promotion Header
   Future<int> insertIntoPromoHeaderTable(
       PromoHeaderModel promoHeaderModel) async {
     var dbClient = await conn.db;
@@ -30,23 +86,26 @@ class GiftPromoRepo {
       var existingRecords = await dbClient!.query(
         DBHelper.promoHeader,
         where: 'xtrnnum = ? AND zid = ?',
-        whereArgs: [promoHeaderModel.xtrnnum,
-          promoHeaderModel.zid,],
+        whereArgs: [
+          promoHeaderModel.xtrnnum,
+          promoHeaderModel.zid,
+        ],
       );
 
       if (existingRecords.isNotEmpty) {
         result = await dbClient.update(
           DBHelper.promoHeader,
           {
-
             'xstype': promoHeaderModel.xstype,
             'xfdate': promoHeaderModel.xfdate,
             'xtdate': promoHeaderModel.xtdate,
             'xref': promoHeaderModel.xref,
           },
           where: 'xtrnnum = ? AND zid = ?',
-          whereArgs: [promoHeaderModel.xtrnnum,
-            promoHeaderModel.zid,],
+          whereArgs: [
+            promoHeaderModel.xtrnnum,
+            promoHeaderModel.zid,
+          ],
         );
       } else {
         result = await dbClient.insert(
@@ -62,21 +121,7 @@ class GiftPromoRepo {
     return result;
   }
 
-
   /// Promotion details
-/*  Future<int> insertIntoPromoDetailsTable(
-      PromoDetailsrModel promoDetailsrModel) async {
-    var dbClient = await conn.db;
-    int result = 0;
-    try {
-      result = await dbClient!
-          .insert(DBHelper.promoDetails, promoDetailsrModel.toJson());
-      print("-------------$result");
-    } catch (e) {
-      print('There are some issues insertIntoPromoDetailsTable : $e');
-    }
-    return result;
-  }*/
   Future<int> insertIntoPromoDetailsTable(
       PromoDetailsrModel promoDetailsModel) async {
     var dbClient = await conn.db;
@@ -122,20 +167,7 @@ class GiftPromoRepo {
     return result;
   }
 
-
   /// CaCusDisc table
-/*  Future<int> insertIntoCaCusDiscTable(CaCusDiscModel caCusDiscModel) async {
-    var dbClient = await conn.db;
-    int result = 0;
-    try {
-      result = await dbClient!
-          .insert(DBHelper.caCusDisc, caCusDiscModel.toJson());
-      print("-------------$result");
-    } catch (e) {
-      print('There are some issues in insertIntoCaCusDiscTable : $e');
-    }
-    return result;
-  }*/
   Future<int> insertIntoCaCusDiscTable(CaCusDiscModel caCusDiscModel) async {
     var dbClient = await conn.db;
     int result = 0;
@@ -149,11 +181,10 @@ class GiftPromoRepo {
         ],
       );
 
-      if (existingRecords.isNotEmpty)  {
+      if (existingRecords.isNotEmpty) {
         result = await dbClient.update(
           DBHelper.caCusDisc,
           {
-
             'xdisc': caCusDiscModel.xdisc,
             'xdateeff': caCusDiscModel.xdateeff,
             'xdateexp': caCusDiscModel.xdateexp,
@@ -164,7 +195,7 @@ class GiftPromoRepo {
             caCusDiscModel.xitem,
           ],
         );
-      }else {
+      } else {
         result = await dbClient.insert(
           DBHelper.caCusDisc,
           caCusDiscModel.toJson(),
@@ -177,28 +208,4 @@ class GiftPromoRepo {
     }
     return result;
   }
-
-
-// Future<void> deleteGiftPromoTable() async {
-//   var dbClient = await conn.db;
-//   dbClient!.delete(DBHelper.giftAndPromotion);
-//   print("Table deleted successfully");
-// }
-//
-// //cartHeaderInfo
-// Future getGiftPromo() async {
-//   var dbClient = await conn.db;
-//   List gpList = [];
-//   try {
-//     List<Map<String, dynamic>> maps = await dbClient!
-//         .rawQuery("SELECT * FROM ${DBHelper.giftAndPromotion}");
-//     for (var gpitems in maps) {
-//       gpList.add(gpitems);
-//     }
-//   } catch (e) {
-//     print("There are some issues getting products : $e");
-//   }
-//   // print("All cart product from Header: $cartList");
-//   return gpList;
-// }
 }

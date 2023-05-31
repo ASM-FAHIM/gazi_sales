@@ -16,6 +16,7 @@ import 'dart:convert';
 import '../../constant/app_constants.dart';
 import '../../databaseHelper/gift_promo_repo.dart';
 import '../../databaseHelper/login_repo.dart';
+import '../model/gift_promo_model.dart';
 import '../model/login_model.dart';
 import '../model/tsolist_model.dart';
 import '../model/user_wise_business_model.dart';
@@ -188,6 +189,7 @@ class LoginController extends GetxController {
         await loginMethod();
         await insertToBankTable();
         await insertToPaymentTable();
+        await getGiftItems();
         await insertToPromoHeaderTable();
         await insertToPromoDetailsTable();
         await insertToCaCusDiscTable();
@@ -445,18 +447,48 @@ class LoginController extends GetxController {
     }
   }
 
-/*  RxBool bankLoaded = false.obs;
-  List bankNames = [];
+  //insert to gift item table
+  ///git and promo items
+  RxBool isLoading6 = false.obs;
+  List<GiftModel> addGiftList = [];
 
-  Future<void> getBankNames() async {
+  Future<Object> getGiftItems() async {
     try {
-      bankLoaded(true);
-      bankNames = await DepositRepo().getFromBankTable(zID.value);
-      bankLoaded(false);
-      print('bank name List : $bankNames');
+      isLoading6(true);
+      var responseGiftItems = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/salesforce/giftitem.php'));
+      if (responseGiftItems.statusCode == 200) {
+        addGiftList = giftModelFromJson(responseGiftItems.body);
+        print('gift List : $addGiftList');
+        await Future.wait(addGiftList.map((gifts) {
+          return GiftPromoRepo().insertIntoGiftItem(gifts);
+        }).toList());
+        isLoading6(false);
+        return 'Gift Item fetched Successfully';
+      } else {
+        isLoading6(false);
+        print(
+            "The model has no value to insert : ${responseGiftItems.statusCode}");
+        return responseGiftItems.statusCode;
+      }
+    } catch (e) {
+      print("Something went wrong $e");
+      return isLoading6(false);
+    }
+  }
+
+  //for getting cart_List from cart table
+  List listGiftPromo = [];
+  RxBool listFetched = false.obs;
+
+  Future getGiftPromoList() async {
+    try {
+      listFetched(true);
+      listGiftPromo = await GiftPromoRepo().getGiftItem();
+      print(listGiftPromo);
+      listFetched(false);
     } catch (error) {
-      bankLoaded(false);
       print('There are some issue: $error');
     }
-  }*/
+  }
 }

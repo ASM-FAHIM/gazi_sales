@@ -23,7 +23,7 @@ class DBHelper {
   static const cartTable = 'cartTable';
   static const cartDetailsTable = 'cartDetailsTable';
   static const cartAccessoriesTable = 'cartAccessoriesTable';
-  static const giftAndPromotion = 'giftAndPromotion';
+  static const giftItem = 'giftItem';
   static const promoHeader = 'promoHeader';
   static const promoDetails = 'promoDetails';
   static const caCusDisc = 'caCusDisc';
@@ -219,24 +219,17 @@ class DBHelper {
         )
         """);
       await db.execute("""
-        CREATE TABLE $giftAndPromotion (
+        CREATE TABLE $giftItem (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          type VARCHAR(150),          
-          xitem VARCHAR(150),          
-          itemName VARCHAR(150),
+          zid INTEGER,          
+          xrow VARCHAR(150),          
           xwh VARCHAR(150),
+          xitem VARCHAR(150),
           xgiftitem VARCHAR(150),
-          giftName VARCHAR(150),
           xqty VARCHAR(150),
-          xqty1 VARCHAR(150),
-          xqty2 VARCHAR(150),
-          xqty3 VARCHAR(150),
-          xqty4 VARCHAR(150),
           xqtybonus VARCHAR(150),
-          xqtybonus1 VARCHAR(150),
-          xqtybonus2 VARCHAR(150),
-          xqtybonus3 VARCHAR(150),
-          xqtybonus4 VARCHAR(150)
+          xdateeff VARCHAR(150),
+          xdateexp VARCHAR(150)
           )""");
       await db.execute("""
         CREATE TABLE $promoHeader (
