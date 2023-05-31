@@ -29,6 +29,9 @@ class DealerModel {
     required this.xdm,
     required this.xthana,
     required this.xdistrict,
+    required this.xdisc,
+    required this.xdiscdetamt,
+    required this.xtype,
   });
 
   int? id;
@@ -48,25 +51,31 @@ class DealerModel {
   String xdm;
   String xthana;
   String xdistrict;
+  String xdisc;
+  String xdiscdetamt;
+  String xtype;
 
   factory DealerModel.fromJson(Map<String, dynamic> json) => DealerModel(
         id: json["id"],
         zid: json["zid"],
         xcus: json["xcus"],
-        xorg: json["xorg"] ?? ' ',
-        xphone: json["xphone"] ?? ' ',
-        xmadd: json["xmadd"] ?? ' ',
-        xgcus: json["xgcus"] ?? ' ',
-        xterritory: json["xterritory"] ?? ' ',
-        xcontact: json["xcontact"] ?? ' ',
-        xmobile: json["xmobile"] ?? ' ',
-        xtso: json["xtso"] ?? ' ',
-        xzone: json["xzone"] ?? ' ',
-        xzm: json["xzm"] ?? ' ',
-        xdivision: json["xdivision"] ?? ' ',
-        xdm: json["xdm"] ?? ' ',
-        xthana: json["xthana"] ?? ' ',
-        xdistrict: json["xdistrict"] ?? ' ',
+        xorg: json["xorg"],
+        xphone: json["xphone"],
+        xmadd: json["xmadd"],
+        xgcus: json["xgcus"],
+        xterritory: json["xterritory"],
+        xcontact: json["xcontact"],
+        xmobile: json["xmobile"],
+        xtso: json["xtso"],
+        xzone: json["xzone"],
+        xzm: json["xzm"],
+        xdivision: json["xdivision"],
+        xdm: json["xdm"],
+        xthana: json["xthana"],
+        xdistrict: json["xdistrict"],
+        xdisc: json["xdisc"],
+        xdiscdetamt: json["xdiscdetamt"],
+        xtype: json["xtype"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -87,5 +96,8 @@ class DealerModel {
         "xdm": xdm,
         "xthana": xthana,
         "xdistrict": xdistrict,
+        "xdisc": xdisc,
+        "xdiscdetamt": xdiscdetamt,
+        "xtype": xtype,
       };
 }

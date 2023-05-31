@@ -118,7 +118,10 @@ class DBHelper {
           xdivision VARCHAR(150),
           xdm VARCHAR(150),
           xthana VARCHAR(150),
-          xdistrict VARCHAR(150)
+          xdistrict VARCHAR(150),
+          xdisc VARCHAR(150),
+          xdiscdetamt VARCHAR(150),
+          xtype VARCHAR(150)
           )""");
       await db.execute("""
         CREATE TABLE $productNature (
