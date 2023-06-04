@@ -378,7 +378,7 @@ class CartController extends GetxController {
         await DatabaseRepo().processGift(loginController.zID.value, cartID, double.parse(delDisc), cusId, xItem, xDesc, xunit, qty.toInt());
 
         //promotion discount part
-
+        //await DatabaseRepo().processDiscount(loginController.zID.value, cusId, totalAmount, adDisc, xitem, cartId, qty, xrate, xcolor, xstype)
 
       }
       print('Delete cart accessories table c cartTableAccInsert');

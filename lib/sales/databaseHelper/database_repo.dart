@@ -1146,13 +1146,132 @@ class DatabaseRepo {
   }
 
 
-  Future processDiscount(String xcus, String totalAmount, double adDisc, String xitem, String cartId, String qty, String rate) async{
+  Future processDiscount(String zid,String xcus, String totalAmount, double adDisc, String xitem, String cartId, String qty, String xrate, String xcolor, String xstype) async{
     var dbClient = await conn.db;
+
+    //additional discount calculation
     if(adDisc >= 0.0){
       //updated cart header table
-      List updatedHeader =[];
-      List<Map<String, dynamic>> maps = await dbClient!.rawQuery('sql');
-      
+      var headerUpdate = await dbClient!.update(
+        DBHelper.cartTable,
+        {
+          'xdisctype': "Additional",
+        },
+        where: 'zid = ? AND cartID = ?',
+        whereArgs: [
+          zid,
+          cartId,
+        ],
+      );
+      print('updated cartheader is : $headerUpdate');
+
+      double discdamt = ((double.parse(xrate) * double.parse(qty))* adDisc)/100;
+      print('Discounted amount : $discdamt');
+      var detailsUpdate = await dbClient.update(
+        DBHelper.cartDetailsTable,
+        {
+          'xdiscadamt': discdamt,
+        },
+        where: 'zid = ? AND cartID = ? AND xitem = ?',
+        whereArgs: [
+          zid,
+          cartId,
+          xitem
+        ],
+      );
+      print('Details updated: $detailsUpdate');
+
+      List<Map<String, dynamic>> promoHeader = await dbClient.rawQuery("SELECT * FROM ${DBHelper.promoHeader} WHERE zid = ?", [xitem, zid]);
+      List<Map<String, dynamic>> promodetails = await dbClient.rawQuery("SELECT * FROM ${DBHelper.promoDetails} WHERE zid = ?", [xcus, xitem]);
+      String itemColor = '';
+      if(xcolor == '1005'){
+        itemColor = 'Black';
+      }else{
+        itemColor = 'Colored';
+      }
+      if(promoHeader.isNotEmpty){
+        String trnNum = promoHeader[0]["xtrnnum"];
+        String xref = promoHeader[0]["xref"];
+        var totalLtr = 0.0;
+        if(xref == 'Invoice'){
+          if(itemColor == 'Black'){
+            var queryResult = await dbClient.rawQuery("SELECT sum(c.xqtyreq*p.xcapacity) FROM ${DBHelper.cartDetailsTable} c join ${DBHelper.productTable} p on c.xitem = p.xitem and c.zid = p.zid WHERE c.zid = ? AND c.cartID = ? AND c.yes_no = 'No' AND c.giftStatus != 'Gift Item' AND p.xstype = ? AND p.xcolor='1005' ", [zid, cartId, xstype]);
+            if (queryResult.isNotEmpty) {
+              totalLtr = queryResult[0][0] as double;
+            }
+          }
+          else{
+            var queryResult = await dbClient.rawQuery("SELECT sum(c.xqtyreq*p.xcapacity) FROM ${DBHelper.cartDetailsTable} c join ${DBHelper.productTable} p on c.xitem = p.xitem and c.zid = p.zid WHERE c.zid = ? AND c.cartID = ? AND c.yes_no = 'No' AND c.giftStatus != 'Gift Item' AND p.xstype = ? AND p.xcolor != '1005' ", [zid, cartId, xstype]);
+            if (queryResult.isNotEmpty) {
+              totalLtr = queryResult[0][0] as double;
+            }
+          }
+
+          var queryResult = await dbClient.rawQuery(
+              "SELECT COALESCE(a.xamount, 0) AS prdisc FROM ${DBHelper.promoDetails} a JOIN ${DBHelper.promoHeader} b ON a.zid=b.zid AND a.xtrnnum=b.xtrnnum WHERE a.zid=? AND b.xtrnnum=? AND ? BETWEEN a.xfslab AND a.xtslab AND b.xstype=? AND datetime(b.xfdate) <= datetime('now') AND datetime(b.xtdate) >= datetime('now') AND a.xcolor=?",
+              [zid, trnNum, totalLtr, xstype, itemColor]
+          );
+          if (queryResult.isNotEmpty) {
+            double prDisc = queryResult[0][0] as double;
+            print('Discount amount: $prDisc');
+
+            if(prDisc != 0.0){
+                if(itemColor == 'Black'){
+                  List<Map<String, dynamic>> result = await dbClient.rawQuery(
+                    "SELECT a.id, a.xitem, COALESCE(a.xrate, 0) AS xrate, COALESCE(a.xqtyreq, 0) AS xqtyreq, COALESCE(a.xdiscadamt, 0) AS xdiscadamt, COALESCE(a.xdiscad, 0) AS xdiscad FROM ${DBHelper.cartDetailsTable} a JOIN ${DBHelper.productTable} b ON a.zid=b.zid AND a.xitem=b.xitem WHERE a.zid=? AND a.cartID=? AND b.xstype=? AND b.xcolor='1005' AND a.yes_no<>'Yes' AND COALESCE(a.giftStatus, '')!='Gift Item'",
+                    [zid, cartId, xstype],
+                  );
+
+                  for (var row in result) {
+                    int id = row['id'];
+                    String xitem = row['xitem'];
+                    double xrate = row['xrate'];
+                    double xqtyreq = row['xqtyreq'];
+                    double xdiscadamt = row['xdiscadamt'];
+                    double xdiscad = row['xdiscad'];
+
+                    // Process the fetched data as needed
+                    print('id: $id, xitem: $xitem, xrate: $xrate, xqtyreq: $xqtyreq, xdiscadamt: $xdiscadamt, xdiscad: $xdiscad');
+
+                    xdiscad = xdiscad + prDisc;
+                    if(xdiscad <= 100){
+                      double discamt = 0.0;
+                      discamt = ((xqtyreq*xrate)*prDisc)/100;
+                      print('xdisc amount: $xdiscadamt');
+
+                      double lineamt = 0.0;
+                      lineamt = (xrate*xqtyreq);
+                      print('xdisc amount: $lineamt');
+
+                      double xlineamt = 0.0;
+                      xlineamt = lineamt - (discamt + xdiscadamt);
+
+                      //update cart details table one by one
+                      var detailsUpdate = await dbClient.update(
+                        DBHelper.cartDetailsTable,
+                        {
+                          'xdisc': prDisc,
+                          'xdiscamt': discamt,
+                          'xlineamt': xlineamt,
+                        },
+                        where: 'zid = ? AND cartID = ? AND xitem = ?',
+                        whereArgs: [
+                          zid,
+                          cartId,
+                          xitem
+                        ],
+                      );
+                      print('Details updated: $detailsUpdate');
+
+                    }
+
+                  }
+                }
+            }
+          }
+        }
+
+        }
     }else{
       null;
     }
