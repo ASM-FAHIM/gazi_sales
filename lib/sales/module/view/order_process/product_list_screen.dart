@@ -147,7 +147,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       decoration: const InputDecoration(
                           hintText: 'Search by name',
                           border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.search)),
+                          suffixIcon: Icon(
+                            Icons.search,
+                            color: AppColor.appBarColor,
+                          )),
                       onChanged: (value) =>
                           dashboardController.runFilterForProduct(value),
                     ),
@@ -198,16 +201,34 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                         child: TextButton(
                                           onPressed: () {
                                             cartController.addToCart(
-                                              dashboardController.foundProductList[index]["xitem"],
-                                              dashboardController.foundProductList[index]["xdesc"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xitem"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xdesc"],
                                               '${dashboardController.updatedProductList[index]}',
-                                              dashboardController.foundProductList[index]["xunit"],
-                                              dashboardController.foundProductList[index]["xdisc"],
-                                              dashboardController.foundProductList[index]["xcolor"],
-                                              dashboardController.foundProductList[index]["xstype"],
-                                              dashboardController.foundProductList[index]["xcapacity"],
-                                              dashboardController.foundProductList[index]["xdateeff"],
-                                              dashboardController.foundProductList[index]["xdateexp"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xunit"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xdisc"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xcolor"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xstype"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xcapacity"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xdateeff"],
+                                              dashboardController
+                                                      .foundProductList[index]
+                                                  ["xdateexp"],
                                             );
                                           },
                                           style: TextButton.styleFrom(

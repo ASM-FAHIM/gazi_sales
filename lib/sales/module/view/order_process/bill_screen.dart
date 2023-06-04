@@ -8,7 +8,8 @@ import '../../../widget/big_text.dart';
 
 class BillDetailsScreen extends StatefulWidget {
   String cartId;
-  BillDetailsScreen({required this.cartId,Key? key}) : super(key: key);
+
+  BillDetailsScreen({required this.cartId, Key? key}) : super(key: key);
 
   @override
   State<BillDetailsScreen> createState() => _BillDetailsScreenState();
@@ -47,65 +48,136 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
           ),
           actions: [],
         ),
-        body: Obx(()
-        => cartController.isValueLoaded.value
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        body: Obx(
+          () => cartController.isValueLoaded.value
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10.0),
+                        child: const CircularProgressIndicator(
+                          color: AppColor.appBarColor,
+                        ),
+                      ),
+                      const Text('Loading...'),
+                    ],
+                  ),
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      margin: const EdgeInsets.all(10.0),
-                      child: const CircularProgressIndicator(
-                        color: AppColor.appBarColor,
-                      ),
+                      height: Dimensions.height650 - Dimensions.height70,
+                      child: ListView.builder(
+                          itemCount: cartController.listOfAddedProducts.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 130,
+                              margin: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        AppColor.appBarColor.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 2,
+                                    offset: Offset(
+                                        0, 2), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "${cartController.listOfAddedProducts[index]["xdesc"]}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    " ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["subTotal"]} Tk.",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: 35,
+                                          child: Text(
+                                            'General discount \n 0.0',
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 35,
+                                          child: Text(
+                                            'General discount amount\n 0.0',
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: 35,
+                                          child: Text(
+                                            'General discount \n 0.0',
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 35,
+                                          child: Text(
+                                            'General discount \n 0.0',
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
                     ),
-                    const Text('Loading...'),
-                  ],
-                ),
-              )
-            : Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              height: Dimensions.height650 - Dimensions.height70,
-              child: ListView.builder(
-                  itemCount: cartController.listOfAddedProducts.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 50,
-                      child: Column(
-                        children: [
-                          Text("${cartController.listOfAddedProducts[index]["xdesc"]}"),
-                          Text(" ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["subTotal"]}"),
-                        ],
-                      ),
-                    );
-                  }),
-            ),
-            Expanded(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(right: 30),
-                      alignment: Alignment.centerRight,
-                      child: BigText(
-                        text: 'Total amount = ${cartController.totalAmount} Tk.',
-                        size: 22,
-                        color: Colors.red,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 30),
-                      alignment: Alignment.centerRight,
-                      child: BigText(
-                        text: 'Total discount = ${cartController.totalDiscount} %.',
-                        size: 22,
-                        color: Colors.red,
-                      ),
-                    ),
-                    /*Container(
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(right: 30),
+                              alignment: Alignment.centerRight,
+                              child: BigText(
+                                text:
+                                    'Total amount = ${cartController.totalAmount} Tk.',
+                                size: 22,
+                                color: Colors.red,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(right: 30),
+                              alignment: Alignment.centerRight,
+                              child: BigText(
+                                text:
+                                    'Total discount = ${cartController.totalDiscount} %.',
+                                size: 22,
+                                color: Colors.red,
+                              ),
+                            ),
+                            /*Container(
                       padding: EdgeInsets.only(right: 30),
                       alignment: Alignment.centerRight,
                       child: BigText(
@@ -114,31 +186,32 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                         color: Colors.red,
                       ),
                     ),*/
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          height: Dimensions.height50,
-                          width: Dimensions.height150 - Dimensions.height20,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Colors.grey, //New
-                                    blurRadius: 5,
-                                    offset: Offset(0, 0))
-                              ]),
-                          clipBehavior: Clip.hardEdge,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: AppColor.appBarColor,
+                            SizedBox(
+                              height: 20,
                             ),
-                            onPressed: () async {
-                              Get.back();
-                              /*showDialog(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  height: Dimensions.height50,
+                                  width: Dimensions.height150 -
+                                      Dimensions.height20,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.grey, //New
+                                            blurRadius: 5,
+                                            offset: Offset(0, 0))
+                                      ]),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: AppColor.appBarColor,
+                                    ),
+                                    onPressed: () async {
+                                      Get.back();
+                                      /*showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return ReusableAlert(
@@ -147,52 +220,54 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                     xOrg: xOrg,
                                   );
                                 });*/
-                            },
-                            child: BigText(
-                              text: 'Place order',
-                              color: AppColor.defWhite,
-                              size: 14,
+                                    },
+                                    child: BigText(
+                                      text: 'Place order',
+                                      color: AppColor.defWhite,
+                                      size: 14,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Container(
+                                  height: Dimensions.height50,
+                                  width: Dimensions.height150 -
+                                      Dimensions.height10,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.grey, //New
+                                            blurRadius: 5,
+                                            offset: Offset(0, 0))
+                                      ]),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      //print('The xsp value from dealer table is: ${loginController.xsp.value}');
+                                      // await cartController.saveOrder(xCus, xOrg, 'Open');
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: AppColor.appBarColor,
+                                    ),
+                                    child: BigText(
+                                      text: 'Save order',
+                                      color: AppColor.defWhite,
+                                      size: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          height: Dimensions.height50,
-                          width: Dimensions.height150 - Dimensions.height10,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Colors.grey, //New
-                                    blurRadius: 5,
-                                    offset: Offset(0, 0))
-                              ]),
-                          clipBehavior: Clip.hardEdge,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              //print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                              // await cartController.saveOrder(xCus, xOrg, 'Open');
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: AppColor.appBarColor,
-                            ),
-                            child: BigText(
-                              text: 'Save order',
-                              color: AppColor.defWhite,
-                              size: 14,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ),
-          ],
-        ),),
+        ),
       ),
     );
   }

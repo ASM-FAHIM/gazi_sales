@@ -44,7 +44,7 @@ class CartTotal extends StatelessWidget {
                   boxShadow: const [
                     BoxShadow(
                         color: Colors.grey, //New
-                        blurRadius: 5,
+                        blurRadius: 2,
                         offset: Offset(0, 0))
                   ]),
               clipBehavior: Clip.hardEdge,
@@ -53,19 +53,19 @@ class CartTotal extends StatelessWidget {
                   primary: AppColor.appBarColor,
                 ),
                 onPressed: () {
-                        cartController.insertToCart(xCus, xOrg, 'Applied', delDisc);
-                       // Get.to(() => const BillDetailsScreen());
-                      },
+                  cartController.insertToCart(xCus, xOrg, 'Applied', delDisc);
+                  // Get.to(() => const BillDetailsScreen());
+                },
                 child: Obx(() => cartController.saving.value
                     ? const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                )
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      )
                     : BigText(
-                  text: 'Process',
-                  color: AppColor.defWhite,
-                )),
+                        text: 'Process',
+                        color: AppColor.defWhite,
+                      )),
               ),
             ),
             /*Container(

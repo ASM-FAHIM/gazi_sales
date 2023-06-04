@@ -75,7 +75,10 @@ class _OrderScreenState extends State<OrderScreen> {
                         decoration: const InputDecoration(
                             hintText: 'Search by name',
                             border: OutlineInputBorder(),
-                            suffixIcon: Icon(Icons.search)),
+                            suffixIcon: Icon(
+                              Icons.search,
+                              color: AppColor.appBarColor,
+                            )),
                         onChanged: (value) =>
                             dashboardController.runFilter(value),
                       ),
@@ -100,79 +103,109 @@ class _OrderScreenState extends State<OrderScreen> {
                                       .foundDealerList.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 5, bottom: 5),
-                                      child: SizedBox(
-                                        height: Dimensions.height50 +
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 10),
+                                      child: Container(
+                                        height: Dimensions.height70 +
                                             Dimensions.height20,
-                                        child: ListTile(
-                                          onTap: () {
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppColor.appBarColor,
+                                              spreadRadius: 1,
+                                              blurRadius: 2,
+                                              offset: const Offset(0,
+                                                  1), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
                                             Get.to(
                                                 () => ProductTypeSelectScreen(
-                                                      xCus: dashboardController.foundDealerList[index]['xcus'],
-                                                      xOrg: dashboardController.foundDealerList[index]['xorg'],
-                                                      xGcus: dashboardController.foundDealerList[index]['xgcus'],
-                                                      xTerritory: dashboardController.foundDealerList[index]['xterritory'],
-                                                      delDisc: dashboardController.foundDealerList[index]['xdisc'],
+                                                      xCus: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xcus'],
+                                                      xOrg: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xorg'],
+                                                      xGcus: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xgcus'],
+                                                      xTerritory: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xterritory'],
+                                                      delDisc: dashboardController
+                                                              .foundDealerList[
+                                                          index]['xdisc'],
                                                     ));
                                           },
-                                          tileColor: AppColor.appBarColor,
-                                          title: Row(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Colors.white,
+                                          ),
+                                          child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              BigText(
-                                                text: dashboardController
-                                                    .foundDealerList[index]
-                                                        ['xorg']
-                                                    .toString(),
-                                                size: 14,
-                                                color: AppColor.defWhite,
-                                              )
-                                            ],
-                                          ),
-                                          subtitle: Column(
-                                            children: [
                                               Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  Column(
+                                                  BigText(
+                                                    text: dashboardController
+                                                            .foundDealerList[
+                                                        index]['xorg'],
+                                                    size: 16,
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      SmallText(
-                                                        text: dashboardController
-                                                                .foundDealerList[
-                                                            index]['xcus'],
-                                                        size: 12,
-                                                      ),
                                                       Container(
-                                                        height: 50,
-                                                        width: Dimensions
-                                                            .height150,
+                                                        width: 200,
                                                         child: SmallText(
                                                           text: dashboardController
                                                                   .foundDealerList[
-                                                              index]['xphone'],
-                                                          size: 10,
+                                                              index]['xmadd'],
+                                                          size: 12,
                                                         ),
-                                                      )
+                                                      ),
+                                                      Column(
+                                                        children: [
+                                                          SmallText(
+                                                            text: dashboardController
+                                                                    .foundDealerList[
+                                                                index]['xcus'],
+                                                            size: 12,
+                                                          ),
+                                                          SmallText(
+                                                            text: dashboardController
+                                                                    .foundDealerList[
+                                                                index]['xphone'],
+                                                            size: 12,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ],
                                                   ),
-                                                  Container(
-                                                    height: 60,
-                                                    width: Dimensions.height150,
-                                                    child: SmallText(
-                                                      text: dashboardController
-                                                              .foundDealerList[
-                                                          index]['xmadd'],
-                                                      size: 8,
-                                                    ),
-                                                  )
-                                                ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -191,88 +224,34 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 }
 
-/*
-ListView.builder(
-itemCount: dashboardController.list.length,
-itemBuilder: (context, index) {
-return Padding(
-padding: const EdgeInsets.only(top: 5, bottom: 5),
+/*Padding(
+padding: const EdgeInsets.only(
+top: 5, bottom: 5),
 child: SizedBox(
-height: Dimensions.height50 + Dimensions.height20,
-child: ListTile(
-onTap: (){
-Get.to(() => ProductsScreen(
-xcus: dashboardController.list[index]['xcus'].toString(),
-xOrg: dashboardController.list[index]['xorg'].toString(),
-xterritory: dashboardController.list[index]['xterritory'].toString(),
-xareaop: dashboardController.list[index]['xareaop'].toString(),
-xdivisionop: dashboardController.list[index]['xdivisionop'].toString(),
-xsubcat: dashboardController.list[index]['xsubcat'].toString(),
-));
-},
-tileColor: AppColor.appBarColor,
-title: Row(
-crossAxisAlignment: CrossAxisAlignment.start,
-children: [
-BigText(text: dashboardController.list[index]['xorg'].toString(), size: 16, color: AppColor.defWhite,)
-],),
-subtitle: Column(
-children: [
-Row (
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
-children: [
-SmallText(text: dashboardController.list[index]['xcus'], size: 14,),
-SmallText(text: dashboardController.list[index]['xterritory'], size: 14,),
-],
-),
-],
-),
-),
-),
-);
-})*/
-
-///main
-/*Obx((){
-return dashboardController.enableDealerList.value == false
-? Expanded(
-child: dashboardController.isLoading1.value
-? Center(
-child: Column(
-children: [
-Container(
-margin: EdgeInsets.all(10.0),
-child: CircularProgressIndicator(),
-),
-Text('Loading...')
-],
-),
-)
-    : ListView.builder(
-itemCount: dashboardController.list.length,
-itemBuilder: (context, index) {
-return Padding(
-padding: const EdgeInsets.only(top: 5, bottom: 5),
-child: SizedBox(
-height: Dimensions.height50 + Dimensions.height20,
+height: Dimensions.height50 +
+Dimensions.height20,
 child: ListTile(
 onTap: () {
-Get.to(() => ProductsScreen(
-xcus: dashboardController.list[index]['xcus'].toString(),
-xOrg: dashboardController.list[index]['xorg'].toString(),
-xterritory: dashboardController.list[index]['xterritory'].toString(),
-xareaop: dashboardController.list[index]['xareaop'].toString(),
-xdivisionop: dashboardController.list[index]['xdivisionop'].toString(),
-xsubcat: dashboardController.list[index]['xsubcat'].toString(),
+Get.to(
+() => ProductTypeSelectScreen(
+xCus: dashboardController.foundDealerList[index]['xcus'],
+xOrg: dashboardController.foundDealerList[index]['xorg'],
+xGcus: dashboardController.foundDealerList[index]['xgcus'],
+xTerritory: dashboardController.foundDealerList[index]['xterritory'],
+delDisc: dashboardController.foundDealerList[index]['xdisc'],
 ));
 },
 tileColor: AppColor.appBarColor,
 title: Row(
-crossAxisAlignment: CrossAxisAlignment.start,
+crossAxisAlignment:
+CrossAxisAlignment.start,
 children: [
 BigText(
-text: dashboardController.list[index]['xorg'].toString(),
-size: 16,
+text: dashboardController
+    .foundDealerList[index]
+['xorg']
+    .toString(),
+size: 14,
 color: AppColor.defWhite,
 )
 ],
@@ -280,27 +259,42 @@ color: AppColor.defWhite,
 subtitle: Column(
 children: [
 Row(
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
+mainAxisAlignment:
+MainAxisAlignment
+    .spaceBetween,
 children: [
 Column(
-crossAxisAlignment: CrossAxisAlignment.start,
+crossAxisAlignment:
+CrossAxisAlignment
+    .start,
 children: [
 SmallText(
-text: dashboardController.list[index]['xcus'],
-size: 14,
-),
-SmallText(
-text: dashboardController.list[index]['xphone'],
-size: 14,
-),
-],
+text: dashboardController
+    .foundDealerList[
+index]['xcus'],
+size: 12,
 ),
 Container(
 height: 50,
+width: Dimensions
+    .height150,
+child: SmallText(
+text: dashboardController
+    .foundDealerList[
+index]['xphone'],
+size: 10,
+),
+)
+],
+),
+Container(
+height: 60,
 width: Dimensions.height150,
 child: SmallText(
-text: dashboardController.list[index]['xmadd'],
-size: 14,
+text: dashboardController
+    .foundDealerList[
+index]['xmadd'],
+size: 8,
 ),
 )
 ],
@@ -309,72 +303,4 @@ size: 14,
 ),
 ),
 ),
-);
-}),
-)
-    : Expanded(
-child: dashboardController.isLoading5.value
-? Center(
-child: Column(
-children: [
-Container(
-margin: EdgeInsets.all(10.0),
-child: CircularProgressIndicator(),
-),
-Text('Loading...')
-],
-),
-)
-    : ListView.builder(
-itemCount: dashboardController.dealerListByName.length,
-itemBuilder: (context, index) {
-return Padding(
-padding: const EdgeInsets.only(top: 5, bottom: 5),
-child: SizedBox(
-height: Dimensions.height50 + Dimensions.height20,
-child: ListTile(
-onTap: () {
-dashboardController.enableDealerList(false);
-Get.to(() => ProductsScreen(
-xcus: dashboardController.dealerListByName[index]['xcus'].toString(),
-xOrg: dashboardController.dealerListByName[index]['xorg'].toString(),
-xterritory: dashboardController.dealerListByName[index]['xterritory'].toString(),
-xareaop: dashboardController.dealerListByName[index]['xareaop'].toString(),
-xdivisionop: dashboardController.dealerListByName[index]['xdivisionop'].toString(),
-xsubcat: dashboardController.dealerListByName[index]['xsubcat'].toString(),
-));
-},
-tileColor: AppColor.appBarColor,
-title: Row(
-crossAxisAlignment: CrossAxisAlignment.start,
-children: [
-BigText(
-text: dashboardController.dealerListByName[index]['xorg'].toString(),
-size: 16,
-color: AppColor.defWhite,
-)
-],
-),
-subtitle: Column(
-children: [
-Row(
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
-children: [
-SmallText(
-text: dashboardController.dealerListByName[index]['xcus'],
-size: 14,
-),
-SmallText(
-text: dashboardController.dealerListByName[index]['xterritory'],
-size: 14,
-),
-],
-),
-],
-),
-),
-),
-);
-}),
-) ;
-})*/
+)*/
