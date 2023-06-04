@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/colors.dart';
 
 import 'big_text.dart';
-
 
 class BusinessWidget extends StatelessWidget {
   String businessName;
@@ -10,6 +10,7 @@ class BusinessWidget extends StatelessWidget {
   double? width;
   BoxFit? fit;
   VoidCallback onPressed;
+
   BusinessWidget({
     required this.businessName,
     required this.imgPath,
@@ -31,11 +32,10 @@ class BusinessWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: AppColor.appBarColor.withOpacity(0.5),
             spreadRadius: 1,
-            blurRadius: 5,
-            offset:
-            Offset(0, 3), // changes position of shadow
+            blurRadius: 2,
+            offset: Offset(0, 2), // changes position of shadow
           ),
         ],
       ),
@@ -51,8 +51,13 @@ class BusinessWidget extends StatelessWidget {
               width: width,
               fit: fit,
             ),
-            SizedBox(height: 10,),
-            BigText(text: businessName, size: 14,)
+            SizedBox(
+              height: 10,
+            ),
+            BigText(
+              text: businessName,
+              size: 14,
+            )
           ],
         ),
       ),
