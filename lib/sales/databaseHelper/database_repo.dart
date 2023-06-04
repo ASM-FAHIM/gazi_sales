@@ -1066,7 +1066,7 @@ class DatabaseRepo {
     return price;
   }
 
-  Future processDiscount(String zid, String cartId, double spDisc, String xcus, String xitem, String xdesc, String xUnit, int xqty) async {
+  Future processGift(String zid, String cartId, double spDisc, String xcus, String xitem, String xdesc, String xUnit, int xqty) async {
     var dbClient = await conn.db;
 
     List<Map<String, dynamic>> mapsGift = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftItem} WHERE xitem = ? AND zid = ?", [xitem, zid]);
@@ -1143,5 +1143,19 @@ class DatabaseRepo {
     }
     // print("All cart product from Header: $cartList");
     return idWiseCartDetails;
+  }
+
+
+  Future processDiscount(String xcus, String totalAmount, double adDisc, String xitem, String cartId, String qty, String rate) async{
+    var dbClient = await conn.db;
+    if(adDisc >= 0.0){
+      //updated cart header table
+      List updatedHeader =[];
+      List<Map<String, dynamic>> maps = await dbClient!.rawQuery('sql');
+      
+    }else{
+      null;
+    }
+
   }
 }
