@@ -347,7 +347,9 @@ class CartController extends GetxController {
         double itemPrice = double.parse(addedProducts[i][3]);
         double subTotal = qty * itemPrice;
         String xunit = addedProducts[i][4];
-        // String color = addedProducts[i][5];
+        //String xPdisc = addedProducts[i][5];
+        String xcolor = addedProducts[i][6];
+        String xstype = addedProducts[i][7];
         // double itemPackQty = double.parse(addedProducts[i][5]);
         // double subPackQty = qty * itemPackQty;
         Map<String, dynamic> cartDetailsInsert = {
@@ -375,10 +377,17 @@ class CartController extends GetxController {
             .cartTableAccInsert(xItem, loginController.zID.value, cartID);
 
         //process Gift part follow ZAB
+        print('Calling processGift');
         await DatabaseRepo().processGift(loginController.zID.value, cartID, double.parse(delDisc), cusId, xItem, xDesc, xunit, qty.toInt());
 
         //promotion discount part
-        //await DatabaseRepo().processDiscount(loginController.zID.value, cusId, totalAmount, adDisc, xitem, cartId, qty, xrate, xcolor, xstype)
+        if(discount.text.isEmpty){
+          print('Calling processDiscount');
+          await DatabaseRepo().processDiscount(loginController.zID.value, cusId, '0.0', xItem, cartID, qty.toString(), itemPrice.toString(), xcolor, xstype);
+        }else{
+          print('Calling processDiscount');
+          await DatabaseRepo().processDiscount(loginController.zID.value, cusId, discount.text, xItem, cartID, qty.toString(), itemPrice.toString(), xcolor, xstype);
+        }
 
       }
       print('Delete cart accessories table c cartTableAccInsert');
