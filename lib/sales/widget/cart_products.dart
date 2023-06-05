@@ -367,7 +367,7 @@ class ReusableAlert extends StatelessWidget {
                   controller: cartController.discount,
                   keyboardType: TextInputType.number,
                   onSubmitted: (value) async{
-                    if(cartController.quantity.text.isEmpty){
+                    if(cartController.discount.text.isEmpty){
                       Navigator.pop(context);
                     }else{
                       //await cartController.updateItemWiseCartDetails(itemCode, cartController.quantity.text, price, zID);
@@ -409,10 +409,11 @@ class ReusableAlert extends StatelessWidget {
             ),
           ),
           onPressed: () async{
-            if(cartController.quantity.text.isEmpty){
+            if(cartController.discount.text.isEmpty){
               Navigator.pop(context);
             }else{
               //await cartController.updateItemWiseCartDetails(cartID, itemCode, cartController.quantity.text, price, zID);
+              print('the discounted value is: ${cartController.discount.text}');
               Navigator.pop(context);
             }
           },
