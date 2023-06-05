@@ -51,7 +51,16 @@ class CartController extends GetxController {
   }
 
   Future<void> addToCart(
-      String productId, String pName, String pPrice, String xUnit, String xDisc, String xcolor, String xstype, String xcapacity, String dateEff, String dateExp) async {
+      String productId,
+      String pName,
+      String pPrice,
+      String xUnit,
+      String xDisc,
+      String xcolor,
+      String xstype,
+      String xcapacity,
+      String dateEff,
+      String dateExp) async {
     try {
       await DatabaseRepo()
           .cartAccessoriesInsert(productId, loginController.zID.value);
@@ -66,10 +75,34 @@ class CartController extends GetxController {
           }
         }
         if (!flag) {
-          addedProducts.add([productId, '1', pName, pPrice, xUnit, xDisc, xcolor, xstype, xcapacity, dateEff, dateExp]);
+          addedProducts.add([
+            productId,
+            '1',
+            pName,
+            pPrice,
+            xUnit,
+            xDisc,
+            xcolor,
+            xstype,
+            xcapacity,
+            dateEff,
+            dateExp
+          ]);
         }
       } else {
-        addedProducts.add([productId, '1', pName, pPrice, xUnit, xDisc, xcolor, xstype, xcapacity, dateEff, dateExp]);
+        addedProducts.add([
+          productId,
+          '1',
+          pName,
+          pPrice,
+          xUnit,
+          xDisc,
+          xcolor,
+          xstype,
+          xcapacity,
+          dateEff,
+          dateExp
+        ]);
       }
       print('The selected products are: $addedProducts');
       totalClicked();
@@ -314,7 +347,8 @@ class CartController extends GetxController {
   RxInt cartTableMax = 0.obs;
   RxBool saving = false.obs;
 
-  Future<void> insertToCart(String cusId, String xOrg, String status, String delDisc) async {
+  Future<void> insertToCart(
+      String cusId, String xOrg, String status, String delDisc) async {
     try {
       saving(true);
       cartTableMax.value = await DatabaseRepo().getCartID();
@@ -378,17 +412,35 @@ class CartController extends GetxController {
 
         //process Gift part follow ZAB
         print('Calling processGift');
-        await DatabaseRepo().processGift(loginController.zID.value, cartID, double.parse(delDisc), cusId, xItem, xDesc, xunit, qty.toInt());
+        await DatabaseRepo().processGift(loginController.zID.value, cartID,
+            double.parse(delDisc), cusId, xItem, xDesc, xunit, qty.toInt());
 
         //promotion discount part
-        if(discount.text.isEmpty){
+        if (discount.text.isEmpty) {
           print('Calling processDiscount');
-          await DatabaseRepo().processDiscount(loginController.zID.value, cusId, '0.0', xItem, cartID, qty.toString(), itemPrice.toString(), xcolor, xstype);
-        }else{
+          await DatabaseRepo().processDiscount(
+              loginController.zID.value,
+              cusId,
+              '0.0',
+              xItem,
+              cartID,
+              qty.toString(),
+              itemPrice.toString(),
+              xcolor,
+              xstype);
+        } else {
           print('Calling processDiscount');
-          await DatabaseRepo().processDiscount(loginController.zID.value, cusId, discount.text, xItem, cartID, qty.toString(), itemPrice.toString(), xcolor, xstype);
+          await DatabaseRepo().processDiscount(
+              loginController.zID.value,
+              cusId,
+              discount.text,
+              xItem,
+              cartID,
+              qty.toString(),
+              itemPrice.toString(),
+              xcolor,
+              xstype);
         }
-
       }
       print('Delete cart accessories table c cartTableAccInsert');
       await DatabaseRepo().deleteAccessory();
@@ -862,18 +914,22 @@ class CartController extends GetxController {
   ///discount portion
   TextEditingController discount = TextEditingController();
   RxBool isValueLoaded = false.obs;
-  List listOfAddedProducts=[];
+  List listOfAddedProducts = [];
   double totalAmount = 0.0;
   double totalDiscount = 0.0;
-  Future getAddedProducts(String cartId) async{
+
+  Future getAddedProducts(String cartId) async {
     try {
       isValueLoaded(true);
       listOfAddedProducts =
-      await DatabaseRepo().getCartIdWiseCartDetails(cartId);
+          await DatabaseRepo().getCartIdWiseCartDetails(cartId);
       print(listOfAddedProducts);
-      totalAmount = listOfAddedProducts.fold(0, (sum, product) => sum + product['subTotal']);
+      // totalAmount = listOfAddedProducts.fold(0, (sum, product) => sum + product['subTotal']);
+      totalAmount = listOfAddedProducts.fold(
+          0, (sum, product) => sum + product['xlineamt']);
       print("Total price is :$totalAmount");
-      totalDiscount = listOfAddedProducts.fold(0.0, (sum, product) => sum + (product['xdisc'] as double));
+      totalDiscount = listOfAddedProducts.fold(
+          0.0, (sum, product) => sum + (product['xdisc'] as double));
       print("Total price is :$totalDiscount");
       isValueLoaded(false);
     } catch (error) {

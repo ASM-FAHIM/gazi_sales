@@ -1066,11 +1066,16 @@ class DatabaseRepo {
     return price;
   }
 
-  Future processGift(String zid, String cartId, double spDisc, String xcus, String xitem, String xdesc, String xUnit, int xqty) async {
+  Future processGift(String zid, String cartId, double spDisc, String xcus,
+      String xitem, String xdesc, String xUnit, int xqty) async {
     var dbClient = await conn.db;
 
-    List<Map<String, dynamic>> mapsGift = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftItem} WHERE xitem = ? AND zid = ?", [xitem, zid]);
-    List<Map<String, dynamic>> mapsCaCusDisc = await dbClient.rawQuery("SELECT * FROM ${DBHelper.caCusDisc} WHERE xcus = ? AND xitem = ?", [xcus, xitem]);
+    List<Map<String, dynamic>> mapsGift = await dbClient!.rawQuery(
+        "SELECT * FROM ${DBHelper.giftItem} WHERE xitem = ? AND zid = ?",
+        [xitem, zid]);
+    List<Map<String, dynamic>> mapsCaCusDisc = await dbClient.rawQuery(
+        "SELECT * FROM ${DBHelper.caCusDisc} WHERE xcus = ? AND xitem = ?",
+        [xcus, xitem]);
 
     List<Map<String, dynamic>> giftItemList = [];
     for (var gpitems in mapsGift) {
@@ -1145,8 +1150,16 @@ class DatabaseRepo {
     return idWiseCartDetails;
   }
 
-
-Future processDiscount(String zid,String xcus, String adDiscount, String xitem, String cartId, String qty, String xrate, String xcolor, String xstype) async{
+  Future processDiscount(
+      String zid,
+      String xcus,
+      String adDiscount,
+      String xitem,
+      String cartId,
+      String qty,
+      String xrate,
+      String xcolor,
+      String xstype) async {
     var dbClient = await conn.db;
     //additional discount calculation
     double adDisc = double.parse(adDiscount);
@@ -1156,312 +1169,223 @@ Future processDiscount(String zid,String xcus, String adDiscount, String xitem, 
     double xlineamt = 0.0;
     double discamt = 0.0;
     double discad = 0.0;
-    double discdamt =0.0;
+    double discdamt = 0.0;
     double caCusDisc = 0.0;
-    List<Map<String, dynamic>>promoHeader = await dbClient!.rawQuery("SELECT * FROM ${DBHelper.promoHeader} WHERE zid = ?", [zid]);
-    List<Map<String, dynamic>> promodetails = await dbClient.rawQuery("SELECT * FROM ${DBHelper.promoDetails} WHERE zid = ?", [zid]);
-    print('promoHeader discount : $promoHeader');
-    print('promodetails discount : $promodetails');
-    List<Map<String, dynamic>> caCusList = await dbClient.rawQuery("SELECT * FROM ${DBHelper.caCusDisc} WHERE zid = ? AND xcus = ? AND xitem = ?", [zid, xcus, xitem]);
-    try{
+    List<Map<String, dynamic>> promoHeader = await dbClient!
+        .rawQuery("SELECT * FROM ${DBHelper.promoHeader} WHERE zid = ?", [zid]);
+    List<Map<String, dynamic>> promodetails = await dbClient.rawQuery(
+        "SELECT * FROM ${DBHelper.promoDetails} WHERE zid = ?", [zid]);
+    List<Map<String, dynamic>> caCusList = await dbClient.rawQuery(
+        "SELECT * FROM ${DBHelper.caCusDisc} WHERE zid = ? AND xcus = ? AND xitem = ?",
+        [zid, xcus, xitem]);
+    try {
       print('Additional discount : $adDisc');
-      if(adDisc > 0.0){
-        print('if statement is calling');
-        //updated cart header table
-        var headerUpdate = await dbClient.update(
-          DBHelper.cartTable,
-          {
-            'xdisctype': "Additional",
-          },
-          where: 'zid = ? AND cartID = ?',
-          whereArgs: [
-            zid,
-            cartId,
-          ],
-        );
-        print('updated cartheader is : $headerUpdate');
+      if (promoHeader.isNotEmpty) {
+        if (adDisc > 0.0) {
+          print('if statement is calling');
+          //updated cart header table
+          var headerUpdate = await dbClient.update(
+            DBHelper.cartTable,
+            {
+              'xdisctype': "Additional",
+            },
+            where: 'zid = ? AND cartID = ?',
+            whereArgs: [
+              zid,
+              cartId,
+            ],
+          );
+          print('updated cartheader is : $headerUpdate');
 
-        discdamt = ((double.parse(xrate) * double.parse(qty))* adDisc)/100;
-        print('Discounted amount after giving value in discount field : $discdamt');
-        var detailsUpdate = await dbClient.update(
-          DBHelper.cartDetailsTable,
-          {
-            'xdiscadamt': discdamt,
-          },
-          where: 'zid = ? AND cartID = ? AND xitem = ?',
-          whereArgs: [
-            zid,
-            cartId,
-            xitem
-          ],
-        );
-        print('Details updated: $detailsUpdate');
-        String itemColor = '';
+          discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
+          print(
+              'Discounted amount after giving value in discount field : $discdamt');
+          var detailsUpdate = await dbClient.update(
+            DBHelper.cartDetailsTable,
+            {
+              'xdiscadamt': discdamt,
+            },
+            where: 'zid = ? AND cartID = ? AND xitem = ?',
+            whereArgs: [zid, cartId, xitem],
+          );
+          print('Details updated: $detailsUpdate');
+          String itemColor = '';
 
-        print('xcolor code : $xcolor');
-        if(xcolor == '1005'){
-          itemColor = 'Black';
-        }else{
-          itemColor = 'Colored';
-        }
-        print('promo header table = $promoHeader');
-        if(promoHeader.isNotEmpty){
-          String trnNum = promoHeader[0]["xtrnnum"] ?? '0';
-          String xref = promoHeader[0]["xref"] ?? '0';
-          print('trnNum is : $trnNum');
-          print('xref is : $xref');
-          var totalLtr = 0.0;
-          if(xref == 'Invoice'){
+          print('xcolor code : $xcolor');
+          if (xcolor == '1005') {
+            itemColor = 'Black';
+          } else {
+            itemColor = 'Colored';
+          }
+          print('promo header table = $promoHeader');
+          if (promoHeader.isNotEmpty) {
+            String trnNum = promoHeader[0]["xtrnnum"] ?? '0';
+            String xref = promoHeader[0]["xref"] ?? '0';
+            print('trnNum is : $trnNum');
             print('xref is : $xref');
-            if(itemColor == 'Black'){
-              var queryResult = await dbClient.rawQuery("SELECT sum(c.xqty * p.xcapacity) FROM ${DBHelper.cartDetailsTable} c join ${DBHelper.productTable} p on c.xitem = p.xitem and c.zid = p.zid WHERE c.zid = ? AND c.cartID = ? AND c.yes_no = 'No' AND c.giftStatus != 'Gift Item' AND p.xstype = ? AND p.xcolor='1005' ", [zid, cartId, xstype]);
-              print('join Query result inside colored is : $queryResult');
-              double sumValue = queryResult.first.values.first as double;
-              print('join Query result inside colored is : $sumValue');
-              if (queryResult.isNotEmpty) {
-                totalLtr = sumValue;
-                print('total liter is : $totalLtr');
+            var totalLtr = 0.0;
+            if (xref == 'Invoice') {
+              print('xref is : $xref');
+              if (itemColor == 'Black') {
+                var queryResult = await dbClient.rawQuery(
+                    "SELECT sum(c.xqty * p.xcapacity) FROM ${DBHelper.cartDetailsTable} c join ${DBHelper.productTable} p on c.xitem = p.xitem and c.zid = p.zid WHERE c.zid = ? AND c.cartID = ? AND c.yes_no = 'No' AND c.giftStatus != 'Gift Item' AND p.xstype = ? AND p.xcolor='1005' ",
+                    [zid, cartId, xstype]);
+                print('join Query result inside colored is : $queryResult');
+                double sumValue = queryResult.first.values.first as double;
+                print('join Query result inside colored is : $sumValue');
+                if (queryResult.isNotEmpty) {
+                  totalLtr = sumValue;
+                  print('total liter is : $totalLtr');
+                }
+              } else {
+                print('Inside colored: $itemColor');
+                var queryResult = await dbClient.rawQuery(
+                    "SELECT sum(c.xqty * p.xcapacity) FROM ${DBHelper.cartDetailsTable} c join ${DBHelper.productTable} p on c.xitem = p.xitem and c.zid = p.zid WHERE c.zid = ? AND c.cartID = ? AND c.yes_no = 'No' AND c.giftStatus != 'Gift Item' AND p.xstype = ? AND p.xcolor != '1005' ",
+                    [zid, cartId, xstype]);
+                print('join Query result inside colored is : $queryResult');
+                double sumValue = queryResult.first.values.first as double;
+                print('join Query result inside colored is : $sumValue');
+                if (queryResult.isNotEmpty) {
+                  totalLtr = sumValue;
+                  print('total liter is : $totalLtr');
+                }
               }
-            }
-            else{
-              print('Inside colored: $itemColor');
-              var queryResult = await dbClient.rawQuery("SELECT sum(c.xqty * p.xcapacity) FROM ${DBHelper.cartDetailsTable} c join ${DBHelper.productTable} p on c.xitem = p.xitem and c.zid = p.zid WHERE c.zid = ? AND c.cartID = ? AND c.yes_no = 'No' AND c.giftStatus != 'Gift Item' AND p.xstype = ? AND p.xcolor != '1005' ", [zid, cartId, xstype]);
-              print('join Query result inside colored is : $queryResult');
-              double sumValue = queryResult.first.values.first as double;
-              print('join Query result inside colored is : $sumValue');
+
+              var queryResult = await dbClient.rawQuery(
+                  "SELECT COALESCE(a.xamount, 0) AS prdisc FROM ${DBHelper.promoDetails} a JOIN ${DBHelper.promoHeader} b ON a.zid=b.zid AND a.xtrnnum=b.xtrnnum WHERE a.zid=? AND b.xtrnnum=? AND ? BETWEEN a.xfslab AND a.xtslab AND b.xstype=? AND datetime(b.xfdate) <= datetime('now') AND datetime(b.xtdate) >= datetime('now') AND a.xcolor=?",
+                  [zid, trnNum, totalLtr, xstype, itemColor]);
               if (queryResult.isNotEmpty) {
-                totalLtr = sumValue;
-                print('total liter is : $totalLtr');
-              }
-            }
+                prDisc = queryResult[0][0] as double;
+                print('Discount amount: $prDisc');
 
-            var queryResult = await dbClient.rawQuery(
-                "SELECT COALESCE(a.xamount, 0) AS prdisc FROM ${DBHelper.promoDetails} a JOIN ${DBHelper.promoHeader} b ON a.zid=b.zid AND a.xtrnnum=b.xtrnnum WHERE a.zid=? AND b.xtrnnum=? AND ? BETWEEN a.xfslab AND a.xtslab AND b.xstype=? AND datetime(b.xfdate) <= datetime('now') AND datetime(b.xtdate) >= datetime('now') AND a.xcolor=?",
-                [zid, trnNum, totalLtr, xstype, itemColor]
-            );
-            if (queryResult.isNotEmpty) {
-              prDisc = queryResult[0][0] as double;
-              print('Discount amount: $prDisc');
+                if (prDisc != 0.0) {
+                  if (itemColor == 'Black') {
+                    List<Map<String, dynamic>> result = await dbClient.rawQuery(
+                      "SELECT a.id, a.xitem, COALESCE(a.xrate, 0) AS xrate, COALESCE(a.xqtyreq, 0) AS xqtyreq, COALESCE(a.xdiscadamt, 0) AS xdiscadamt, COALESCE(a.xdiscad, 0) AS xdiscad FROM ${DBHelper.cartDetailsTable} a JOIN ${DBHelper.productTable} b ON a.zid=b.zid AND a.xitem=b.xitem WHERE a.zid=? AND a.cartID=? AND b.xstype=? AND b.xcolor='1005' AND a.yes_no<>'Yes' AND COALESCE(a.giftStatus, '')!='Gift Item'",
+                      [zid, cartId, xstype],
+                    );
 
-              if(prDisc != 0.0){
-                if(itemColor == 'Black'){
-                  List<Map<String, dynamic>> result = await dbClient.rawQuery(
-                    "SELECT a.id, a.xitem, COALESCE(a.xrate, 0) AS xrate, COALESCE(a.xqtyreq, 0) AS xqtyreq, COALESCE(a.xdiscadamt, 0) AS xdiscadamt, COALESCE(a.xdiscad, 0) AS xdiscad FROM ${DBHelper.cartDetailsTable} a JOIN ${DBHelper.productTable} b ON a.zid=b.zid AND a.xitem=b.xitem WHERE a.zid=? AND a.cartID=? AND b.xstype=? AND b.xcolor='1005' AND a.yes_no<>'Yes' AND COALESCE(a.giftStatus, '')!='Gift Item'",
-                    [zid, cartId, xstype],
-                  );
+                    for (var row in result) {
+                      int id = row['id'];
+                      String xitem = row['xitem'];
+                      double xrate = row['xrate'];
+                      double xqtyreq = row['xqtyreq'];
+                      double xdiscadamt = row['xdiscadamt'];
+                      double xdiscad = row['xdiscad'];
 
-                  for (var row in result) {
-                    int id = row['id'];
-                    String xitem = row['xitem'];
-                    double xrate = row['xrate'];
-                    double xqtyreq = row['xqtyreq'];
-                    double xdiscadamt = row['xdiscadamt'];
-                    double xdiscad = row['xdiscad'];
+                      // Process the fetched data as needed
+                      print(
+                          'id: $id, xitem: $xitem, xrate: $xrate, xqtyreq: $xqtyreq, xdiscadamt: $xdiscadamt, xdiscad: $xdiscad');
 
-                    // Process the fetched data as needed
-                    print('id: $id, xitem: $xitem, xrate: $xrate, xqtyreq: $xqtyreq, xdiscadamt: $xdiscadamt, xdiscad: $xdiscad');
+                      xdiscad = xdiscad + prDisc;
+                      if (xdiscad <= 100) {
+                        discamt = ((xqtyreq * xrate) * prDisc) / 100;
+                        print('xdisc amount: $xdiscadamt');
 
-                    xdiscad = xdiscad + prDisc;
-                    if(xdiscad <= 100){
-                      discamt = ((xqtyreq*xrate)*prDisc)/100;
-                      print('xdisc amount: $xdiscadamt');
+                        lineamt = (xrate * xqtyreq);
+                        print('xdisc amount: $lineamt');
 
+                        xlineamt = lineamt - (discamt + xdiscadamt);
 
-                      lineamt = (xrate*xqtyreq);
-                      print('xdisc amount: $lineamt');
-
-                      xlineamt = lineamt - (discamt + xdiscadamt);
-
-                      //update cart details table one by one
-                      var detailsUpdate = await dbClient.update(
-                        DBHelper.cartDetailsTable,
-                        {
-                          'xdisc': prDisc,
-                          'xdiscamt': discamt,
-                          'xlineamt': xlineamt,
-                        },
-                        where: 'zid = ? AND cartID = ? AND xitem = ?',
-                        whereArgs: [
-                          zid,
-                          cartId,
-                          xitem
-                        ],
-                      );
-                      print('Details updated: $detailsUpdate');
-
+                        //update cart details table one by one
+                        var detailsUpdate = await dbClient.update(
+                          DBHelper.cartDetailsTable,
+                          {
+                            'xdisc': prDisc,
+                            'xdiscamt': discamt,
+                            'xlineamt': xlineamt,
+                          },
+                          where: 'zid = ? AND cartID = ? AND xitem = ?',
+                          whereArgs: [zid, cartId, xitem],
+                        );
+                        print('Details updated: $detailsUpdate');
+                      }
                     }
-
                   }
                 }
               }
             }
           }
-
+          print('trnumber : ${promoHeader[0]["xtrnnum"]} AND prDisc = $prDisc');
         }
-        print('trnumber : ${promoHeader[0]["xtrnnum"]} AND prDisc = $prDisc');
+        //customer discount part
+        if (promoHeader[0]["xtrnnum"] == '' || prDisc < 0.0) {
+          print('else if 1 statement is calling');
+          print('trnumber : ${promoHeader[0]["xtrnnum"]} AND prDisc = $prDisc');
+          print('cacus wise discount part entered');
+
+          print("customer discount : $caCusList");
+          if (caCusList.isNotEmpty) {
+            caCusDisc = caCusList[0]["xdisc"] as double;
+            discad = caCusDisc + discad;
+            print('Discount additional = $discad');
+            if (caCusDisc != 0.0 && discad <= 100) {
+              discamt =
+                  ((double.parse(qty) * double.parse(xrate)) * caCusDisc) / 100;
+              print('xdisc amount: $discamt');
+
+              lineamt = (double.parse(xrate) * double.parse(qty));
+              print('xdisc amount: $lineamt');
+
+              xlineamt = lineamt - (discamt + discdamt);
+
+              //update cart details table one by one
+              var detailsUpdate = await dbClient.update(
+                DBHelper.cartDetailsTable,
+                {
+                  'xdisc': caCusDisc,
+                  'xdiscamt': discamt,
+                  'xlineamt': xlineamt,
+                },
+                where: 'zid = ? AND cartID = ? AND xitem = ?',
+                whereArgs: [zid, cartId, xitem],
+              );
+              print('Details updated: $detailsUpdate');
+            }
+          }
+        }
       }
-      //customer discount part
-      else if(promoHeader[0]["xtrnnum"] == '' || prDisc < 0.0){
-        print('else if 1 statement is calling');
-        print('trnumber : ${promoHeader[0]["xtrnnum"]} AND prDisc = $prDisc');
-        print('cacus wise discount part entered');
-
-        print("customer discount : $caCusList");
-        if(caCusList.isNotEmpty){
-          caCusDisc = caCusList[0]["xdisc"] as double;
-          discad = caCusDisc + discad;
+      // item wise discount
+      else {
+        if (caCusDisc == 0.0) {
+          print('else if2 statement is calling');
+          List<Map<String, dynamic>> itemWiseDisc = await dbClient.rawQuery(
+              "SELECT xdisc FROM ${DBHelper.productTable} WHERE zid = ? AND xitem = ?",
+              [zid, xitem]);
+          print('itemwise discount : $itemWiseDisc');
+          double itemDiscount = double.parse(itemWiseDisc[0]['xdisc']);
+          print('item wise discount: $itemDiscount');
+          discad = itemDiscount + discad;
           print('Discount additional = $discad');
-          if(caCusDisc != 0.0 && discad <= 100){
-            discamt = ((double.parse(qty) * double.parse(xrate)) * caCusDisc)/100;
+          if (itemDiscount != 0.0 && discad <= 100) {
+            discamt =
+                ((double.parse(qty) * double.parse(xrate)) * itemDiscount) /
+                    100;
             print('xdisc amount: $discamt');
-
 
             lineamt = (double.parse(xrate) * double.parse(qty));
             print('xdisc amount: $lineamt');
 
-
             xlineamt = lineamt - (discamt + discdamt);
+            print('xline amount is: $xlineamt');
 
             //update cart details table one by one
             var detailsUpdate = await dbClient.update(
               DBHelper.cartDetailsTable,
               {
-                'xdisc': caCusDisc,
+                'xdisc': itemDiscount,
                 'xdiscamt': discamt,
                 'xlineamt': xlineamt,
               },
               where: 'zid = ? AND cartID = ? AND xitem = ?',
-              whereArgs: [
-                zid,
-                cartId,
-                xitem
-              ],
+              whereArgs: [zid, cartId, xitem],
             );
             print('Details updated: $detailsUpdate');
           }
         }
       }
-      // item wise discount
-      else if(caCusDisc == 0.0) {
-        print('else if2 statement is calling');
-        List<Map<String, dynamic>> itemWiseDisc = await dbClient.rawQuery(
-            "SELECT xdisc FROM ${DBHelper
-                .productTable} WHERE zid = ? AND xitem = ?", [zid, xitem]);
-        print('itemwise discount : $itemWiseDisc');
-        double itemDiscount = double.parse(itemWiseDisc[0]['xdisc']);
-        print('item wise discount: $itemDiscount');
-        discad = itemDiscount + discad;
-        print('Discount additional = $discad');
-        if (itemDiscount != 0.0 && discad <= 100) {
-          discamt =
-              ((double.parse(qty) * double.parse(xrate)) * itemDiscount) / 100;
-          print('xdisc amount: $discamt');
-
-
-          lineamt = (double.parse(xrate) * double.parse(qty));
-          print('xdisc amount: $lineamt');
-
-
-          xlineamt = lineamt - (discamt + discdamt);
-          print('xline amount is: $xlineamt');
-
-          //update cart details table one by one
-          var detailsUpdate = await dbClient.update(
-            DBHelper.cartDetailsTable,
-            {
-              'xdisc': itemDiscount,
-              'xdiscamt': discamt,
-              'xlineamt': xlineamt,
-            },
-            where: 'zid = ? AND cartID = ? AND xitem = ?',
-            whereArgs: [
-              zid,
-              cartId,
-              xitem
-            ],
-          );
-          print('Details updated: $detailsUpdate');
-        }
-      }
-      else{
-
-      }
-    }catch(e){
+    } catch (e) {
       print('exception occured: $e');
     }
   }
-/*  Future<void> processDiscount(String zid, String xcus, String adDiscount, String xitem, String cartId, String qty, String xrate, String xcolor, String xstype) async {
-    var dbClient = await conn.db;
-
-    double adDisc = double.parse(adDiscount);
-
-    if (adDisc >= 0.0) {
-      await dbClient!.update(
-        DBHelper.cartTable,
-        {'xdisctype': "Additional"},
-        where: 'zid = ? AND cartID = ?',
-        whereArgs: [zid, cartId],
-      );
-
-      double discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
-
-      await dbClient.update(
-        DBHelper.cartDetailsTable,
-        {'xdiscadamt': discdamt},
-        where: 'zid = ? AND cartID = ? AND xitem = ?',
-        whereArgs: [zid, cartId, xitem],
-      );
-
-      String itemColor = (xcolor == '1005') ? 'Black' : 'Colored';
-
-      List<Map<String, dynamic>> promoHeader = await dbClient.rawQuery("SELECT * FROM ${DBHelper.promoHeader} WHERE zid = ?", [zid]);
-      if (promoHeader.isNotEmpty) {
-        String trnNum = promoHeader[0]["xtrnnum"] ?? '0';
-        String xref = promoHeader[0]["xref"] ?? '0';
-
-        double totalLtr = 0.0;
-        if (xref == 'Invoice') {
-          String colorCondition = (itemColor == 'Black') ? "p.xcolor='1005'" : "p.xcolor != '1005'";
-          var queryResult = await dbClient.rawQuery(
-            "SELECT sum(c.xqty * p.xcapacity) FROM ${DBHelper.cartDetailsTable} c JOIN ${DBHelper.productTable} p ON c.xitem = p.xitem AND c.zid = p.zid WHERE c.zid = ? AND c.cartID = ? AND c.yes_no = 'No' AND c.giftStatus != 'Gift Item' AND p.xstype = ? AND $colorCondition",
-            [zid, cartId, xstype],
-          );
-          if (queryResult.isNotEmpty) {
-            totalLtr = (queryResult.first.values.first as double?) ?? 0.0;
-          }
-        }
-
-        var queryResult = await dbClient.rawQuery(
-          "SELECT COALESCE(a.xamount, 0) AS prdisc FROM ${DBHelper.promoDetails} a JOIN ${DBHelper.promoHeader} b ON a.zid=b.zid AND a.xtrnnum=b.xtrnnum WHERE a.zid=? AND b.xtrnnum=? AND ? BETWEEN a.xfslab AND a.xtslab AND b.xstype=? AND datetime(b.xfdate) <= datetime('now') AND datetime(b.xtdate) >= datetime('now') AND a.xcolor=?",
-          [zid, trnNum, totalLtr, xstype, itemColor],
-        );
-
-        if (queryResult.isNotEmpty) {
-          double prDisc = (queryResult[0][0] as double?) ?? 0.0;
-          if (prDisc != 0.0) {
-            if (itemColor == 'Black') {
-              List<Map<String, dynamic>> result = await dbClient.rawQuery(
-                  "SELECT a.id, a.xitem, COALESCE(a.xrate, 0) AS xrate, COALESCE(a.xqtyreq,0) AS xqtyreq, COALESCE(a.xcat, 0) AS xcat, COALESCE(a.xcat, 0) AS xcat, COALESCE(a.xbrand, 0) AS xbrand FROM ${DBHelper.productTable} a JOIN ${DBHelper.cartDetailsTable} b ON a.xitem=b.xitem AND a.zid=b.zid WHERE b.zid=? AND b.cartID=? AND b.xitem=? AND b.yes_no='No' AND b.giftStatus!='Gift Item' AND a.xstype=? AND a.xcolor=? AND b.xdiscadamt=0",
-                [zid, cartId, xitem, xstype, itemColor],
-              );
-
-              if (result.isNotEmpty) {
-                double xrate = result[0]["xrate"] ?? 0.0;
-                double xqtyreq = result[0]["xqtyreq"] ?? 0.0;
-                double prAmount = prDisc * xqtyreq;
-
-                await dbClient.update(
-                  DBHelper.cartDetailsTable,
-                  {'xpramount': prAmount, 'xrate': xrate},
-                  where: 'zid = ? AND cartID = ? AND xitem = ?',
-                  whereArgs: [zid, cartId, xitem],
-                );
-              }
-            }
-          }
-        }
-      }
-    }
-  }*/
 }
-

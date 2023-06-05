@@ -107,45 +107,53 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          height: 35,
-                                          child: Text(
-                                            'General discount \n 0.0',
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'General discount\n${cartController.listOfAddedProducts[index]["xdisc"]}',
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          height: 35,
-                                          child: Text(
-                                            'General discount amount\n 0.0',
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'General discount amount\n${cartController.listOfAddedProducts[index]["xdiscamt"]}',
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          height: 35,
-                                          child: Text(
-                                            'General discount \n 0.0',
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Trade price\n${cartController.listOfAddedProducts[index]["xrate"]}',
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          height: 35,
-                                          child: Text(
-                                            'General discount \n 0.0',
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Line amount\n${cartController.listOfAddedProducts[index]["xlineamt"]}',
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
