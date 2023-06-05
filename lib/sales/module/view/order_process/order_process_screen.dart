@@ -67,7 +67,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 )
               : Container(
-                  margin: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       TextFormField(
@@ -89,12 +89,12 @@ class _OrderScreenState extends State<OrderScreen> {
                                   child: Column(
                                     children: [
                                       Container(
-                                        margin: EdgeInsets.all(10.0),
-                                        child: CircularProgressIndicator(
+                                        margin: const EdgeInsets.all(10.0),
+                                        child: const CircularProgressIndicator(
                                           color: AppColor.appBarColor,
                                         ),
                                       ),
-                                      Text('Loading...')
+                                      const Text('Loading...')
                                     ],
                                   ),
                                 )
@@ -113,12 +113,12 @@ class _OrderScreenState extends State<OrderScreen> {
                                           color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(15.0),
-                                          boxShadow: [
+                                          boxShadow: const [
                                             BoxShadow(
                                               color: AppColor.appBarColor,
                                               spreadRadius: 1,
                                               blurRadius: 2,
-                                              offset: const Offset(0,
+                                              offset: Offset(0,
                                                   1), // changes position of shadow
                                             ),
                                           ],
@@ -165,7 +165,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 10,
                                               ),
                                               Expanded(
