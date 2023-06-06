@@ -8,8 +8,12 @@ import '../../../widget/big_text.dart';
 
 class BillDetailsScreen extends StatefulWidget {
   String cartId;
+  String xOrg;
+  String xCus;
 
-  BillDetailsScreen({required this.cartId, Key? key}) : super(key: key);
+  BillDetailsScreen(
+      {required this.cartId, required this.xOrg, required this.xCus, Key? key})
+      : super(key: key);
 
   @override
   State<BillDetailsScreen> createState() => _BillDetailsScreenState();
@@ -96,13 +100,13 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                     "${cartController.listOfAddedProducts[index]["xdesc"]}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 16),
+                                        fontSize: 15),
                                   ),
                                   Text(
                                     " ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["subTotal"]} Tk.",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                        fontSize: 13),
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -219,21 +223,25 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                     ),
                                     onPressed: () async {
                                       Get.back();
-                                      /*showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ReusableAlert(
-                                    cartController: cartController,
-                                    xCus: xCus,
-                                    xOrg: xOrg,
-                                  );
-                                });*/
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return ReusableAlert(
+                                              cartController: cartController,
+                                              xCus: widget.xCus,
+                                              xOrg: widget.xOrg,
+                                            );
+                                          });
                                     },
-                                    child: BigText(
-                                      text: 'Place order',
-                                      color: AppColor.defWhite,
-                                      size: 14,
-                                    ),
+                                    child: cartController.isSync.value
+                                        ? const CircularProgressIndicator(
+                                            color: AppColor.defWhite,
+                                          )
+                                        : BigText(
+                                            text: 'Place order',
+                                            color: AppColor.defWhite,
+                                            size: 14,
+                                          ),
                                   ),
                                 ),
                                 SizedBox(
@@ -255,18 +263,21 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       //print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                                      await cartController.saveOrder(widget.cartId);
+                                      await cartController
+                                          .saveOrder(widget.cartId);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: AppColor.appBarColor,
                                     ),
                                     child: cartController.isPlaced.value
-                                        ? CircularProgressIndicator()
+                                        ? const CircularProgressIndicator(
+                                            color: AppColor.defWhite,
+                                          )
                                         : BigText(
-                                      text: 'Save order',
-                                      color: AppColor.defWhite,
-                                      size: 14,
-                                    ),
+                                            text: 'Save order',
+                                            color: AppColor.defWhite,
+                                            size: 14,
+                                          ),
                                   ),
                                 ),
                               ],
@@ -341,7 +352,7 @@ class ReusableAlert extends StatelessWidget {
           ),
           onPressed: () async {
             Navigator.pop(context);
-            // await cartController.placeOrder(xCus, xOrg, context);
+            await cartController.placeOrder(xCus, xOrg, context);
           },
         ),
       ],

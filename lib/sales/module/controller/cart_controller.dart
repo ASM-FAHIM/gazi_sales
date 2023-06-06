@@ -447,7 +447,11 @@ class CartController extends GetxController {
       saving(false);
       Get.snackbar('Successful', 'Order added successfully',
           backgroundColor: Colors.white, duration: const Duration(seconds: 2));
-      Get.to(() => BillDetailsScreen(cartId: cartID));
+      Get.to(() => BillDetailsScreen(
+            cartId: cartID,
+            xOrg: xOrg,
+            xCus: cusId,
+          ));
     } catch (error) {
       saving(false);
       print('There are some issue: $error');
@@ -597,6 +601,7 @@ class CartController extends GetxController {
                   "xpnature": '${listCartHeader[i]['xpnature']}',
                   "xzm": '${listCartHeader[i]['xzm']}',
                   "xzone": '${listCartHeader[i]['xzone']}',
+                  "xdisctype": '${listCartHeader[i]['xdisctype']}',
                 });
 
                 var responseHeader = await http.post(
@@ -619,6 +624,13 @@ class CartController extends GetxController {
                     "amount": allCartDetails[j]['subTotal'],
                     "xpartno": allCartDetails[j]['yes_no'],
                     "xmasteritem": allCartDetails[j]['xmasteritem'],
+                    "xrate": allCartDetails[j]['xrate '],
+                    "xvatrate": '0.0',
+                    "xdisc": allCartDetails[j]['xdisc '],
+                    "xdiscamt": allCartDetails[j]['xdiscamt '],
+                    "xdiscad": allCartDetails[j]['xdiscad '],
+                    "xdiscadamt": allCartDetails[j]['xdiscadamt '],
+                    "xnote1": allCartDetails[j]['giftStatus'],
                   });
 
                   var responseDetails = await http.post(
@@ -662,7 +674,7 @@ class CartController extends GetxController {
     }
   }
 
-/*  //instant order
+  //instant order
   RxBool isSync = false.obs;
 
   Future<void> placeOrder(
@@ -677,7 +689,7 @@ class CartController extends GetxController {
             //code
             isSync(true);
             //await getGeoLocationPosition();
-            await insertToCart(cusId, xOrg, 'Applied');
+            //await insertToCart(cusId, xOrg, 'Applied');
             await getCartHeaderListForSync();
             int i = (listCartHeaderForSync.length - 1);
             await generateSoNumber();
@@ -697,6 +709,7 @@ class CartController extends GetxController {
               "xpnature": '${listCartHeaderForSync[i]['xpnature']}',
               "xzm": '${listCartHeaderForSync[i]['xzm']}',
               "xzone": '${listCartHeaderForSync[i]['xzone']}',
+              "xdisctype": '${listCartHeaderForSync[i]['xdisctype']}',
             });
 
             var responseHeader = await http.post(
@@ -717,6 +730,13 @@ class CartController extends GetxController {
                 "amount": listCartHeaderDetailsForSync[j]['subTotal'],
                 "xpartno": listCartHeaderDetailsForSync[j]['yes_no'],
                 "xmasteritem": listCartHeaderDetailsForSync[j]['xmasteritem'],
+                "xrate": listCartHeaderDetailsForSync[j]['xrate'],
+                "xvatrate": '0.0',
+                "xdisc": listCartHeaderDetailsForSync[j]['xdisc'],
+                "xdiscamt": listCartHeaderDetailsForSync[j]['xdiscamt'],
+                "xdiscad": listCartHeaderDetailsForSync[j]['xdiscad'],
+                "xdiscadamt": listCartHeaderDetailsForSync[j]['xdiscadamt'],
+                "xnote1": listCartHeaderDetailsForSync[j]['giftStatus'],
               });
               var responseDetails = await http.post(
                   Uri.parse(
@@ -730,6 +750,13 @@ class CartController extends GetxController {
             if (updateSO.statusCode == 200) {
               print('Successfully updated----${updateSO.statusCode}');
               isSync(false);
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.snackbar('Successful', 'Order placed successfully',
+                  backgroundColor: Colors.white,
+                  duration: const Duration(seconds: 2));
             }
             break;
           case InternetConnectionStatus.disconnected:
@@ -748,7 +775,7 @@ class CartController extends GetxController {
     } catch (e) {
       print('Error occured $e');
     }
-  }*/
+  }
 
   //for single cart wise upload segments
   List idWiseCartHeader = [];
@@ -816,6 +843,7 @@ class CartController extends GetxController {
               "xpnature": '${idWiseCartHeader[0]['xpnature']}',
               "xzm": '${idWiseCartHeader[0]['xzm']}',
               "xzone": '${idWiseCartHeader[0]['xzone']}',
+              "xdisctype": '${idWiseCartHeader[0]['xdisctype']}',
             });
             var responseHeader = await http.post(
                 Uri.parse(
@@ -835,6 +863,13 @@ class CartController extends GetxController {
                 "amount": idWiseCartHeaderDetails[j]['subTotal'],
                 "xpartno": idWiseCartHeaderDetails[j]['yes_no'],
                 "xmasteritem": idWiseCartHeaderDetails[j]['xmasteritem'],
+                'xrate': idWiseCartHeaderDetails[j]['xrate'],
+                'xvatrate': '0.0',
+                'xdisc': idWiseCartHeaderDetails[j]['xdisc'],
+                'xdiscamt': idWiseCartHeaderDetails[j]['xdiscamt'],
+                'xdiscad': idWiseCartHeaderDetails[j]['xdiscad'],
+                'xdiscadamt': idWiseCartHeaderDetails[j]['xdiscadamt'],
+                'xnote1': idWiseCartHeaderDetails[j]['giftStatus'],
               });
               var responseDetails = await http.post(
                   Uri.parse(
