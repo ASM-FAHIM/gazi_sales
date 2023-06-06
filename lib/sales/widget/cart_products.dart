@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gazi_sales_app/sales/module/view/order_process/cart_accessories_screen.dart';
-import 'package:gazi_sales_app/sales/module/view/order_process/discount_screen.dart';
 import 'package:gazi_sales_app/sales/widget/small_text.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,6 +46,7 @@ class CartProducts extends StatelessWidget {
                     pDesc: controller.addedProducts[index][2],
                     pPrice: controller.addedProducts[index][3],
                     xUnit: controller.addedProducts[index][4],
+                    xDisc: controller.addedProducts[index][5],
                   );
                 }),
       );
@@ -59,6 +59,7 @@ class CartProductsCard extends StatelessWidget {
   final String xItem;
   final TextEditingController qty;
   final String pDesc;
+  final String xDisc;
   final String pPrice;
   final String xUnit;
 
@@ -68,6 +69,7 @@ class CartProductsCard extends StatelessWidget {
     required this.xItem,
     required this.qty,
     required this.pDesc,
+    required this.xDisc,
     required this.pPrice,
     required this.xUnit,
   }) : super(key: key);
@@ -125,6 +127,11 @@ class CartProductsCard extends StatelessWidget {
                           ),
                           SmallText(
                             text: "Unit: $xUnit",
+                            size: 12,
+                            color: Colors.red,
+                          ),
+                          SmallText(
+                            text: "Discount: $xDisc % ?? 0.0",
                             size: 12,
                             color: Colors.red,
                           ),
@@ -247,13 +254,15 @@ class CartProductsCard extends StatelessWidget {
                         ),
                         onPressed: () async {
                           //Route to next page
-                          showDialog(context: context, builder: (BuildContext context){
-                            return ReusableAlert(
-                              cartController: controller,
-                              itemCode: xItem,
-                              xorg: pDesc,
-                            );
-                          });
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ReusableAlert(
+                                  cartController: controller,
+                                  itemCode: xItem,
+                                  xorg: pDesc,
+                                );
+                              });
                           //Get.to(() => const DiscountScreen());
                         },
                         child: BigText(
@@ -309,7 +318,6 @@ class ReusableAlert extends StatelessWidget {
     required this.cartController,
     required this.xorg,
     required this.itemCode,
-
   }) : super(key: key);
 
   final CartController cartController;
@@ -322,9 +330,7 @@ class ReusableAlert extends StatelessWidget {
       title: Text(
         'Additional discount',
         style: GoogleFonts.urbanist(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: Colors.black54),
+            fontSize: 18, fontWeight: FontWeight.w800, color: Colors.black54),
       ),
       content: SingleChildScrollView(
         child: ListBody(
@@ -333,16 +339,14 @@ class ReusableAlert extends StatelessWidget {
               itemCode,
               style: GoogleFonts.urbanist(
                   fontSize: 14,
-                  fontWeight:
-                  FontWeight.w800,
+                  fontWeight: FontWeight.w800,
                   color: Colors.black54),
             ),
             Text(
               xorg,
               style: GoogleFonts.urbanist(
                   fontSize: 14,
-                  fontWeight:
-                  FontWeight.w800,
+                  fontWeight: FontWeight.w800,
                   color: Colors.black54),
             ),
             const SizedBox(
@@ -366,22 +370,28 @@ class ReusableAlert extends StatelessWidget {
                   textAlign: TextAlign.center,
                   controller: cartController.discount,
                   keyboardType: TextInputType.number,
-                  onSubmitted: (value) async{
-                    if(cartController.discount.text.isEmpty){
+                  onSubmitted: (value) async {
+                    if (cartController.discount.text.isEmpty) {
                       Navigator.pop(context);
-                    }else{
+                    } else {
                       //await cartController.updateItemWiseCartDetails(itemCode, cartController.quantity.text, price, zID);
                       Navigator.pop(context);
                     }
                   },
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1.5, color: Colors.green,),
+                      borderSide: BorderSide(
+                        width: 1.5,
+                        color: Colors.green,
+                      ),
                       borderRadius: BorderRadius.circular(5.5),
                     ),
                     border: OutlineInputBorder(),
                     hintText: "Additional discount %",
-                    hintStyle: const TextStyle(color: Colors.grey, fontSize: 15,fontWeight: FontWeight.w600),
+                    hintStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
                   ),
                 )),
           ],
@@ -408,12 +418,22 @@ class ReusableAlert extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          onPressed: () async{
-            if(cartController.discount.text.isEmpty){
+          onPressed: () async {
+            if (cartController.discount.text.isEmpty) {
               Navigator.pop(context);
-            }else{
-              //await cartController.updateItemWiseCartDetails(cartID, itemCode, cartController.quantity.text, price, zID);
-              print('the discounted value is: ${cartController.discount.text}');
+            } else {
+              // Get the updated discount value
+              String updatedDiscount = cartController.discount.text;
+
+              // Update the discount value in addedProducts list
+              for (int i = 0; i < cartController.addedProducts.length; i++) {
+                if (cartController.addedProducts[i][0] == itemCode) {
+                  cartController.addedProducts[i][5] = updatedDiscount;
+                  break;
+                }
+              }
+              print(
+                  'The updated selected products are: ${cartController.addedProducts}');
               Navigator.pop(context);
             }
           },
