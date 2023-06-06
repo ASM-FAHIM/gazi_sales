@@ -473,7 +473,7 @@ class DatabaseRepo {
     List cartList = [];
     try {
       List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-          "SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Open' order by id desc");
+          "SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Saved' order by id desc");
       for (var products in maps) {
         cartList.add(products);
       }
@@ -794,7 +794,7 @@ class DatabaseRepo {
     List cartHeaderDetails = [];
     try {
       cartHeaderDetails = await dbClient!.rawQuery(
-          "Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'",
+          "Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'", // AND giftStatus =! 'Gift Item'
           [cartId]);
       print('Product: $cartHeaderDetails');
       print('Product details length: ${cartHeaderDetails.length}');
@@ -1103,6 +1103,11 @@ class DatabaseRepo {
       var giftQuantity = double.parse(giftItemList[i]["xqty"]).toInt();
       int bonusQty = int.tryParse(giftItemList[i]["xqtybonus"]) ?? 0;
       int quantity = int.tryParse(giftItemList[i]["xqty"]) ?? 0;
+      String giftItem = giftItemList[i]["xgiftitem"] ?? '';
+      var giftItemName = await dbClient.rawQuery(
+          "SELECT IFNULL(xdesc,'') as itemName FROM ${DBHelper.productTable} WHERE zid = ? AND xitem = ?",
+          [zid, giftItem]);
+      print('value of bonusQty: $giftItemName');
       print('value of bonusQty: $bonusQty');
       print('value of quantity: ${giftQuantity}');
       int gifItemQty = bonusQty * (xqty ~/ giftQuantity);
@@ -1110,8 +1115,8 @@ class DatabaseRepo {
         Map<String, dynamic> cartDetailsInsert = {
           'zid': zid,
           'cartID': cartId,
-          'xitem': xitem,
-          'xdesc': xdesc,
+          'xitem': giftItem,
+          'xdesc': giftItemName.first.values.first as String,
           'xunit': xUnit,
           'xrate': 0.0,
           'xdisc': 0.0,
@@ -1387,5 +1392,23 @@ class DatabaseRepo {
     } catch (e) {
       print('exception occured: $e');
     }
+  }
+
+
+  //update cart header by save order press
+  Future<void> updateStatusCartHeader(String cartId, String zId) async{
+    var dbClient = await conn.db;
+    var updateHeader = await dbClient!.update(
+      DBHelper.cartTable,
+      {
+        'xstatus': "Saved",
+      },
+      where: 'zid = ? AND cartID = ? AND xstatus = "Open"',
+      whereArgs: [
+        zId,
+        cartId,
+      ],
+    );
+    print("updated status is : $updateHeader");
   }
 }

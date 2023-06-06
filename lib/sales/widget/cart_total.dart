@@ -53,7 +53,7 @@ class CartTotal extends StatelessWidget {
                   primary: AppColor.appBarColor,
                 ),
                 onPressed: () {
-                  cartController.insertToCart(xCus, xOrg, 'Applied', delDisc);
+                  cartController.insertToCart(xCus, xOrg, 'Open', delDisc);
                   // Get.to(() => const BillDetailsScreen());
                 },
                 child: Obx(() => cartController.saving.value

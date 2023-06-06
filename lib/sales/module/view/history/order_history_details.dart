@@ -76,10 +76,10 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                                   Row(
                                     children: [
                                       BigText(text: '${cartHeaderDetails['xitem']}', size: 14,),
-                                      if('${cartHeaderDetails['yes_no']}' == 'No')...[
-                                        SmallText(text: ' (Product)', color: Colors.red,)
+                                      if('${cartHeaderDetails['yes_no']}' == 'No' && '${cartHeaderDetails["giftStatus"]}' == 'Gift Item')...[
+                                        SmallText(text: ' (Gift Item) ', color: Colors.red,)
                                       ]else...[
-                                        SmallText(text: ' (Accessories)', color: Colors.red,)
+                                        SmallText(text: ' (Product) ', color: Colors.red,)
                                       ]
                                     ],
                                   ),
@@ -92,50 +92,65 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                                     ],
                                   ),
                                   Spacer(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: AppColor.defRed,),
-                                        onPressed: (){
-                                          showDialog(context: context, builder: (BuildContext context){
-                                            return ReusableAlert(
-                                              cartController: cartController,cartID: widget.cartId,
-                                              itemCode: cartHeaderDetails['xitem'],
-                                              qty: cartHeaderDetails['xqty'] as double,
-                                              xorg: cartHeaderDetails['xdesc'],
-                                              price: '${cartHeaderDetails['xrate']}',
-                                              zID: '${cartHeaderDetails['zid']}',
-                                            );
-                                          });
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            SmallText(text: 'Edit', size: 15,color: Colors.white,),
-                                            SizedBox(width: 10,),
-                                            Icon(MdiIcons.bookEdit,color: Colors.white, size: 20, )
-                                          ],
+                                  if('${cartHeaderDetails['yes_no']}' == 'No' && '${cartHeaderDetails["giftStatus"]}' == 'Gift Item')...[
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'This item is a gift item',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 18, color: Colors.grey.withOpacity(0.6)
+                                          ),
                                         ),
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: AppColor.defRed,),
-                                        onPressed: (){
-                                          Get.to(()=> OrderHistoryAccessoriesScreen(cartId: widget.cartId, productID: cartHeaderDetails['xitem']));
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            SmallText(text: 'Accessories', size: 15,color: Colors.white,),
-                                            SizedBox(width: 10,),
-                                            Icon(MdiIcons.listBox,color: Colors.white, size: 20, )
-                                          ],
+                                      ],
+                                    ),
+                                  ]else...[
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: AppColor.defRed,),
+                                          onPressed: (){
+                                            showDialog(context: context, builder: (BuildContext context){
+                                              return ReusableAlert(
+                                                cartController: cartController,cartID: widget.cartId,
+                                                itemCode: cartHeaderDetails['xitem'],
+                                                qty: cartHeaderDetails['xqty'] as double,
+                                                xorg: cartHeaderDetails['xdesc'],
+                                                price: '${cartHeaderDetails['xrate']}',
+                                                zID: '${cartHeaderDetails['zid']}',
+                                              );
+                                            });
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SmallText(text: 'Edit', size: 15,color: Colors.white,),
+                                              SizedBox(width: 10,),
+                                              Icon(MdiIcons.bookEdit,color: Colors.white, size: 20, )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: AppColor.defRed,),
+                                          onPressed: (){
+                                            Get.to(()=> OrderHistoryAccessoriesScreen(cartId: widget.cartId, productID: cartHeaderDetails['xitem']));
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SmallText(text: 'Accessories', size: 15,color: Colors.white,),
+                                              SizedBox(width: 10,),
+                                              Icon(MdiIcons.listBox,color: Colors.white, size: 20, )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ]
 
                                 ],
                               ),

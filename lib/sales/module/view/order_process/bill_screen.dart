@@ -255,12 +255,14 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       //print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                                      // await cartController.saveOrder(xCus, xOrg, 'Open');
+                                      await cartController.saveOrder(widget.cartId);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: AppColor.appBarColor,
                                     ),
-                                    child: BigText(
+                                    child: cartController.isPlaced.value
+                                        ? CircularProgressIndicator()
+                                        : BigText(
                                       text: 'Save order',
                                       color: AppColor.defWhite,
                                       size: 14,

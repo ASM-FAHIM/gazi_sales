@@ -541,15 +541,22 @@ class CartController extends GetxController {
     }
   }
 
-/*  //for place order button
+  //for place order button
   RxBool isPlaced = false.obs;
 
-  Future<void> saveOrder(String cusId, String xOrg, String status, String delDisc) async {
+  Future<void> saveOrder(String cartId) async {
     isPlaced(true);
-    //await getGeoLocationPosition();
-    await insertToCart(cusId, xOrg, status, delDisc);
+    DatabaseRepo().updateStatusCartHeader(cartId, loginController.zID.value);
+    print("List of added products in the bill screen: $listOfAddedProducts");
+    // await insertToCart(cusId, xOrg, status, delDisc);
     isPlaced(false);
-  }*/
+    Get.back();
+    Get.back();
+    Get.back();
+    Get.back();
+    Get.snackbar('Successful', 'Order added successfully',
+        backgroundColor: Colors.white, duration: const Duration(seconds: 2));
+  }
 
   //for uploading cartHeader and details to-gather
   RxBool isUploading = false.obs;
