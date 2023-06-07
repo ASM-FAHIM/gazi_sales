@@ -490,7 +490,7 @@ class DatabaseRepo {
     List cartListForSync = [];
     try {
       List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-          "SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Applied' order by id desc");
+          "SELECT * FROM ${DBHelper.cartTable} WHERE xstatus = 'Open' order by id desc");
       for (var cartSync in maps) {
         cartListForSync.add(cartSync);
       }
@@ -781,11 +781,11 @@ class DatabaseRepo {
     return singleHeader;
   }*/
 
-  Future updateCartHeaderTable(String cartId) async {
+  Future updateCartHeaderTable(String cartId, String zId) async {
     var dbClient = await conn.db;
     dbClient!.rawQuery(
-        "UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied' WHERE cartID = ?",
-        [cartId]);
+        "UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied' WHERE cartID = ? AND zid = ?",
+        [cartId, zId]);
     print(getCartHeader());
   }
 
@@ -794,7 +794,8 @@ class DatabaseRepo {
     List cartHeaderDetails = [];
     try {
       cartHeaderDetails = await dbClient!.rawQuery(
-          "Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'", // AND giftStatus =! 'Gift Item'
+          "Select * FROM ${DBHelper.cartDetailsTable} WHERE cartID = ? AND yes_no = 'No'",
+          // AND giftStatus =! 'Gift Item'
           [cartId]);
       print('Product: $cartHeaderDetails');
       print('Product details length: ${cartHeaderDetails.length}');
@@ -1394,9 +1395,8 @@ class DatabaseRepo {
     }
   }
 
-
   //update cart header by save order press
-  Future<void> updateStatusCartHeader(String cartId, String zId) async{
+  Future<void> updateStatusCartHeader(String cartId, String zId) async {
     var dbClient = await conn.db;
     var updateHeader = await dbClient!.update(
       DBHelper.cartTable,

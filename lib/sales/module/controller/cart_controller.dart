@@ -637,6 +637,9 @@ class CartController extends GetxController {
                       Uri.parse(
                           'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                       body: dataDetails);
+                  //update the table xstatus
+                  await DatabaseRepo().updateStatusCartHeader(
+                      tempHeader, allCartDetails[j]['zid']);
                   print('Details Data: ${responseDetails.body}');
                 }
                 var updateSO = await http.get(Uri.parse(
@@ -645,8 +648,8 @@ class CartController extends GetxController {
                   print('Successfully updated');
                 }
               }
-              await DatabaseRepo().dropCartDetails();
-              await DatabaseRepo().dropCartHeaderTable();
+              /*await DatabaseRepo().dropCartDetails();
+              await DatabaseRepo().dropCartHeaderTable();*/
               await LoginRepo().deleteFromLoginTable();
               await LoginRepo().deleteLoginStatusTable();
               await getCartHeaderList();
@@ -742,6 +745,10 @@ class CartController extends GetxController {
                   Uri.parse(
                       'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                   body: dataDetails);
+              if (responseDetails.statusCode == 200) {
+                await DatabaseRepo().updateStatusCartHeader(
+                    tempHeader, loginController.zID.value);
+              }
               print('so details = $responseDetails');
             }
             await getCartHeaderList();
@@ -803,8 +810,8 @@ class CartController extends GetxController {
 
   Future<void> updateCartHeaderStatus(String cartId) async {
     try {
-      idWiseCartHeaderDetails =
-          await DatabaseRepo().updateCartHeaderTable(cartId);
+      idWiseCartHeaderDetails = await DatabaseRepo()
+          .updateCartHeaderTable(cartId, loginController.zID.value);
       print(idWiseCartHeaderDetails);
     } catch (error) {
       print('There are some issue: $error');
