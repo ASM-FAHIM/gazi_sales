@@ -750,14 +750,15 @@ class CartController extends GetxController {
             if (updateSO.statusCode == 200) {
               print('Successfully updated----${updateSO.statusCode}');
               isSync(false);
-              Get.back();
-              Get.back();
-              Get.back();
-              Get.back();
-              Get.snackbar('Successful', 'Order placed successfully',
-                  backgroundColor: Colors.white,
-                  duration: const Duration(seconds: 2));
             }
+            isSync(false);
+            Get.back();
+            Get.back();
+            Get.back();
+            Get.back();
+            Get.snackbar('Successful', 'Order placed successfully',
+                backgroundColor: Colors.white,
+                duration: const Duration(seconds: 2));
             break;
           case InternetConnectionStatus.disconnected:
             //code
