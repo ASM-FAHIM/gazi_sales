@@ -445,8 +445,8 @@ class CartController extends GetxController {
       print('Delete cart accessories table c cartTableAccInsert');
       await DatabaseRepo().deleteAccessory();
       saving(false);
-      Get.snackbar('Successful', 'Order added successfully',
-          backgroundColor: Colors.white, duration: const Duration(seconds: 2));
+/*      Get.snackbar('Successful', 'Order added successfully',
+          backgroundColor: Colors.white, duration: const Duration(seconds: 2));*/
       Get.to(() => BillDetailsScreen(
             cartId: cartID,
             xOrg: xOrg,
@@ -468,7 +468,7 @@ class CartController extends GetxController {
       listCartHeader = await DatabaseRepo().getCartHeader();
       isLoading(false);
     } catch (error) {
-      print('There are some issue: $error');
+      print('There are some issue getting cart header list: $error');
     }
   }
 
@@ -637,9 +637,10 @@ class CartController extends GetxController {
                       Uri.parse(
                           'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                       body: dataDetails);
-                  //update the table xstatus
-                  await DatabaseRepo().updateStatusCartHeader(
-                      tempHeader, allCartDetails[j]['zid']);
+                  if (responseDetails.statusCode == 200) {
+                    //update the table xstatus
+                    await DatabaseRepo().updateCartHeaderTable(tempHeader);
+                  }
                   print('Details Data: ${responseDetails.body}');
                 }
                 var updateSO = await http.get(Uri.parse(
@@ -746,8 +747,7 @@ class CartController extends GetxController {
                       'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                   body: dataDetails);
               if (responseDetails.statusCode == 200) {
-                await DatabaseRepo().updateStatusCartHeader(
-                    tempHeader, loginController.zID.value);
+                await DatabaseRepo().updateCartHeaderTable(tempHeader);
               }
               print('so details = $responseDetails');
             }
@@ -810,11 +810,11 @@ class CartController extends GetxController {
 
   Future<void> updateCartHeaderStatus(String cartId) async {
     try {
-      idWiseCartHeaderDetails = await DatabaseRepo()
-          .updateCartHeaderTable(cartId, loginController.zID.value);
+      idWiseCartHeaderDetails =
+          await DatabaseRepo().updateCartHeaderTable(cartId);
       print(idWiseCartHeaderDetails);
     } catch (error) {
-      print('There are some issue: $error');
+      print('There are some issue getting updateCart headerStatus: $error');
     }
   }
 
