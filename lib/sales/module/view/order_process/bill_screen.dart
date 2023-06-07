@@ -222,7 +222,6 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                       primary: AppColor.appBarColor,
                                     ),
                                     onPressed: () async {
-                                      Get.back();
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
