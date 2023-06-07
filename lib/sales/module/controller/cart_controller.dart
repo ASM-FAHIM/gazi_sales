@@ -637,9 +637,13 @@ class CartController extends GetxController {
                       Uri.parse(
                           'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                       body: dataDetails);
-                  //update the table xstatus
-                  await DatabaseRepo().updateStatusCartHeader(
-                      tempHeader, allCartDetails[j]['zid']);
+                  //update the table xstatus updateCartHeaderTable
+                  if(responseDetails.statusCode==200){
+                    await DatabaseRepo().updateCartHeaderTable(
+                        tempHeader, allCartDetails[j]['zid'].toString());
+                  }
+                  // await DatabaseRepo().updateStatusCartHeader(
+                  //     tempHeader, allCartDetails[j]['zid'].toString());
                   print('Details Data: ${responseDetails.body}');
                 }
                 var updateSO = await http.get(Uri.parse(

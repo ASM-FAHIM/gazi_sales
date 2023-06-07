@@ -1169,7 +1169,14 @@ class DatabaseRepo {
     var dbClient = await conn.db;
     //additional discount calculation
     double adDisc = double.parse(adDiscount);
-    print('Additional discount : $adDisc');
+    print('ZID from processDiscount : $zid');
+    print('adDiscount from processDiscount : $adDiscount');
+    print('xitem from processDiscount : $xitem');
+    print('cartId from processDiscount : $cartId');
+    print('qty from processDiscount : $qty');
+    print('xrate from processDiscount : $xrate');
+    print('xcolor from processDiscount : $xcolor');
+    print('xstype from processDiscount : $xstype');
     double prDisc = 0.0;
     double lineamt = 0.0;
     double xlineamt = 0.0;
@@ -1185,7 +1192,21 @@ class DatabaseRepo {
         "SELECT * FROM ${DBHelper.caCusDisc} WHERE zid = ? AND xcus = ? AND xitem = ?",
         [zid, xcus, xitem]);
     try {
+      xlineamt = (double.parse(xrate) * double.parse(qty));
+      var updateLineamountToDetails = await dbClient.update(
+        DBHelper.cartDetailsTable,
+        {
+          'xlineamt': xlineamt,
+        },
+        where: 'zid = ? AND cartID = ? AND xitem = ?',
+        whereArgs: [
+          zid,
+          cartId,
+          xitem
+        ],
+      );
       print('Additional discount : $adDisc');
+      print('xlineamt : $xlineamt');
       if (promoHeader.isNotEmpty) {
         if (adDisc > 0.0) {
           print('if statement is calling');
@@ -1292,6 +1313,8 @@ class DatabaseRepo {
                         print('xdisc amount: $lineamt');
 
                         xlineamt = lineamt - (discamt + xdiscadamt);
+
+                        print('xlineamt amount: $xlineamt');
 
                         //update cart details table one by one
                         var detailsUpdate = await dbClient.update(

@@ -368,7 +368,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                       .map<DropdownMenuItem<String>>(
                                           (dynamic bank) {
                                     return DropdownMenuItem<String>(
-                                      value: bank['xname'] as String,
+                                      value: bank['xbank'] as String,
                                       child: Text(bank['xname'] as String),
                                     );
                                   }).toList(),
@@ -376,14 +376,20 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     depositController.bankSelection.value =
                                         value as String;
                                   },
-                                  hint: Obx(() => Text(
-                                        depositController.bankSelection.value,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18.0,
-                                        ),
-                                      )),
+                                  hint: Obx(
+                                        () => Text(
+                                      depositController.bankList
+                                          .firstWhere(
+                                            (bank) => bank['xbank'] == depositController.bankSelection.value,
+                                        orElse: () => {'xname': ''}, // Default value if no match is found
+                                      )['xname'] as String,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                  ),
                                   isExpanded: true,
                                   // to make the dropdown button span the full width of the container
                                   icon: const Icon(

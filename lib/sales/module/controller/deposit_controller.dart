@@ -85,6 +85,7 @@ class DepositController extends GetxController {
 
   /// bank lists
   RxString bankSelection = 'Bank name'.obs;
+  RxString bankCOde = ''.obs;
   RxBool bankLoaded = false.obs;
   List bankList = [];
 
@@ -154,7 +155,7 @@ class DepositController extends GetxController {
       print('Deposit number : ${data.dPnum}');
 
       // Define the regular expression for the custom ID format
-      final RegExp idFormat = RegExp(r'^DP--[0-9]{2}[0-9]{4,}$');
+      final RegExp idFormat = RegExp(r'^DP--[0-9]{2}[0-9]{5,}$');
 
       // Define a function to generate the custom ID
       // Get the current date
