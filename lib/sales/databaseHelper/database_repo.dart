@@ -781,12 +781,19 @@ class DatabaseRepo {
     return singleHeader;
   }*/
 
-  Future updateCartHeaderTable(String cartId, String zId) async {
-    var dbClient = await conn.db;
-    dbClient!.rawQuery(
-        "UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied' WHERE cartID = ? AND zid = ?",
-        [cartId, zId]);
-    print(getCartHeader());
+  Future updateCartHeaderTable(String cartId) async {
+    try {
+      var dbClient = await conn.db;
+      List updatedHeaderList = [];
+      await dbClient!.rawQuery(
+        "UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied' WHERE cartID = ?",
+        [cartId],
+      );
+      updatedHeaderList = await getCartHeader();
+      return updatedHeaderList;
+    } catch (error) {
+      print('There was an issue updating the cart header status: $error');
+    }
   }
 
   Future getCartHeaderDetails(String cartId) async {

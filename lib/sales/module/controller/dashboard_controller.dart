@@ -571,7 +571,7 @@ class DashboardController extends GetxController {
     isLoading2(true);
     productList = await DatabaseRepo().getProduct(dealerType, pNature);
     foundProductList = productList; //for search option in product list
-    await getCusWisePrice();
+    /*await getCusWisePrice();
     if (listcaCusWisePrice.isEmpty) {
       for (int k = 0; k < productList.length; k++) {
         updatedProductList.length = k + 1;
@@ -591,7 +591,7 @@ class DashboardController extends GetxController {
         }
       }
     }
-    print('Updated product list == $updatedProductList');
+    print('Updated product list == $updatedProductList');*/
     isLoading2(false);
   }
 

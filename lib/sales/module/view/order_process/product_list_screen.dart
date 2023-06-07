@@ -285,7 +285,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                           color: Colors.red,
                                                         ),
                                                         Text(
-                                                          '${dashboardController.updatedProductList[index]}',
+                                                          '${dashboardController.foundProductList[index]["totrate"]}',
                                                           style: GoogleFonts
                                                               .roboto(
                                                                   color: Colors
