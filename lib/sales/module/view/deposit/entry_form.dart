@@ -368,21 +368,26 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                       .map<DropdownMenuItem<String>>(
                                           (dynamic bank) {
                                     return DropdownMenuItem<String>(
-                                      value: bank['xbank'] as String,
+                                      value: bank['xname'] as String,
                                       child: Text(bank['xname'] as String),
                                     );
                                   }).toList(),
                                   onChanged: (value) {
+                                    final bank = depositController.bankList
+                                        .firstWhere((element) =>
+                                            element['xname'] == value);
                                     depositController.bankSelection.value =
-                                        value as String;
+                                        bank['xname'] as String;
+                                    depositController.bankCode.value =
+                                        bank['xbank'] as String;
+                                    print(
+                                        'name of the bank: ${depositController.bankSelection.value}');
+                                    print(
+                                        'name of the bank: ${depositController.bankCode.value}');
                                   },
                                   hint: Obx(
-                                        () => Text(
-                                      depositController.bankList
-                                          .firstWhere(
-                                            (bank) => bank['xbank'] == depositController.bankSelection.value,
-                                        orElse: () => {'xname': ''}, // Default value if no match is found
-                                      )['xname'] as String,
+                                    () => Text(
+                                      depositController.bankSelection.value,
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
@@ -560,6 +565,8 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 depositController.selectedOption.value;
                             final String bankName =
                                 depositController.bankSelection.value;
+                            final String bankCode =
+                                depositController.bankCode.value;
                             final String paymentType =
                                 depositController.paymentMod.value;
                             depositController.insertToDeposit(
@@ -567,6 +574,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 widget.cusName,
                                 'Open',
                                 bankName,
+                                bankCode,
                                 paymentNature);
                             // depositController.depositSubmission(widget.cusId,
                             //     bankName, paymentNature, paymentType);

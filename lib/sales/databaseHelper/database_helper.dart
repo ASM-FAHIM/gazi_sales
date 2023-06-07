@@ -329,6 +329,7 @@ class DBHelper {
           xarnature VARCHAR(150),
           xpaymenttype VARCHAR(150),
           xbank VARCHAR(150),
+          bankCode VARCHAR(150),
           xbranch VARCHAR(150),
           xcusbank VARCHAR(150),
           xchequeno VARCHAR(150),
