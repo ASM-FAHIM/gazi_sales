@@ -236,30 +236,20 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     fontSize: 18.0,
                                     color: Colors.black,
                                   ),
-                                  items: <String>[
-                                    "Imp",
-                                    "Roto",
-                                    "Tanks",
-                                    "Toys",
-                                  ].map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
+                                  items: depositController.invoiceList
+                                      .map<DropdownMenuItem<String>>(
+                                          (dynamic type) {
+                                    return DropdownMenuItem<String>(
+                                      value: type['xcode'] as String,
+                                      child: Text(type['xcode'] as String),
+                                    );
+                                  }).toList(),
                                   onChanged: (value) {
-                                    depositController.selectedOption.value =
+                                    depositController.invoiceType.value =
                                         value.toString();
                                   },
                                   hint: Obx(() => Text(
-                                        depositController.selectedOption.value,
+                                        depositController.invoiceType.value,
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
@@ -562,7 +552,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                               primary: AppColor.appBarColor),
                           onPressed: () {
                             final String paymentNature =
-                                depositController.selectedOption.value;
+                                depositController.invoiceType.value;
                             final String bankName =
                                 depositController.bankSelection.value;
                             final String bankCode =
@@ -573,9 +563,10 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 widget.cusId,
                                 widget.cusName,
                                 'Open',
+                                paymentNature,
                                 bankName,
                                 bankCode,
-                                paymentNature);
+                                paymentType);
                             // depositController.depositSubmission(widget.cusId,
                             //     bankName, paymentNature, paymentType);
                           },

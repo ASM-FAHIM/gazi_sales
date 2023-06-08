@@ -1,24 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform, exit;
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gazi_sales_app/sales/module/model/product_accessories_model.dart';
 import 'package:gazi_sales_app/sales/module/model/product_nature_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:intl/intl.dart';
 import '../../constant/app_constants.dart';
 import '../../constant/colors.dart';
 import '../../databaseHelper/database_repo.dart';
-import '../../databaseHelper/gift_promo_repo.dart';
 import '../../databaseHelper/login_repo.dart';
-import '../../widget/big_text.dart';
-import '../../widget/small_text.dart';
 import '../model/ca_cus_price_model.dart';
 import '../model/dealer_model.dart';
-import '../model/gift_promo_model.dart';
 import '../model/master_model.dart';
 import '../model/product_model.dart';
 import 'login_controller.dart';
@@ -523,7 +515,8 @@ class DashboardController extends GetxController {
   Future<void> getPNatureList() async {
     try {
       isPNatureloaded(true);
-      productNatureList = await DatabaseRepo().getProductNature();
+      productNatureList =
+          await DatabaseRepo().getProductNature(loginController.zID.value);
       isPNatureloaded(false);
       print("found product natures : $productNatureList");
     } catch (error) {

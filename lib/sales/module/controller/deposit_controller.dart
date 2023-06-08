@@ -65,13 +65,7 @@ class DepositController extends GetxController {
     try {
       isAllLoaded(true);
       print('=================${isAllLoaded.value}=================');
-      /*Future.delayed(Duration(seconds: 2), () async {
-        await getBankNames();
-        await getPaymentType();
-
-        isAllLoaded(false);
-        print('=================${isAllLoaded.value}=================');
-      });*/
+      await getInvoiceType();
       await getBankNames();
       await getPaymentType();
       isAllLoaded(false);
@@ -120,7 +114,22 @@ class DepositController extends GetxController {
   }
 
   //for entry operations
-  RxString selectedOption = 'Invoice type'.obs;
+  RxString invoiceType = 'Invoice type'.obs;
+  RxBool isLoading3 = false.obs;
+  List invoiceList = [];
+
+  Future<void> getInvoiceType() async {
+    try {
+      isLoading3(true);
+      invoiceList =
+          await DatabaseRepo().getProductNature(loginController.zID.value);
+      print('Invoice type : ${invoiceList.length}');
+      isLoading3(false);
+      print('Invoice type: $invoiceList');
+    } catch (e) {
+      print("Something went wrong in Invoice type: $e");
+    }
+  }
 
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
@@ -176,13 +185,19 @@ class DepositController extends GetxController {
   RxBool isEmptyField = false.obs;
   RxInt depositTableMax = 0.obs;
 
-  Future<void> insertToDeposit(String cusId, String xOrg, String status,
-      String bankName, String bankCode, String paymentType) async {
+  Future<void> insertToDeposit(
+      String cusId,
+      String xOrg,
+      String status,
+      String invoiceType,
+      String bankName,
+      String bankCode,
+      String paymentType) async {
     try {
       if (amount.text.isEmpty ||
           bankName == 'Bank name' ||
           paymentType == 'Mode of Payment' ||
-          selectedOption.value == 'Type') {
+          invoiceType == 'Type') {
         saving(false);
         isEmptyField(true);
         Get.snackbar('Warning!',
@@ -212,7 +227,7 @@ class DepositController extends GetxController {
           "xterritory": loginController.xterritory.value,
           "xzm": loginController.xZM.value,
           "xzone": loginController.xZone.value,
-          "xarnature": selectedOption.value,
+          "xarnature": invoiceType,
           "xpaymenttype": paymentMod.value,
           "xcusbank": cusBank.text,
           "xchequeno": chkRefNo.text,
@@ -328,7 +343,7 @@ class DepositController extends GetxController {
   void clearFields() {
     amount.clear();
     depositBranch.clear();
-    selectedOption.value = 'Invoice type';
+    invoiceType.value = 'Invoice type';
     paymentMod.value = 'Mode of payment';
     bankSelection.value = 'Bank name';
     cusBank.clear();

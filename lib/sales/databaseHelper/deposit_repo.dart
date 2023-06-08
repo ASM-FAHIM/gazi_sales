@@ -25,12 +25,12 @@ class DepositRepo {
 
         if (existingRecord.isNotEmpty) {
           result = await dbClient.update(
-            DBHelper.bankTable,{
-            'xname': bankData.xname,
-            'xbacc': bankData.xbacc,
-            'xacc': bankData.xacc,
-          },
-
+            DBHelper.bankTable,
+            {
+              'xname': bankData.xname,
+              'xbacc': bankData.xbacc,
+              'xacc': bankData.xacc,
+            },
             where: 'xbank = ? AND zid=? AND id=?',
             whereArgs: [
               bankData.xbank,
@@ -124,9 +124,10 @@ class DepositRepo {
         );
         if (existingRecord.isNotEmpty) {
           result = await dbClient.update(
-            DBHelper.paymentTable, {
+            DBHelper.paymentTable,
+            {
               'xcode': payment.xcode,
-          },
+            },
             where: 'zid = ? AND xcode = ? AND id = ?',
             whereArgs: [
               payment.zid,
@@ -182,6 +183,26 @@ class DepositRepo {
     } catch (e) {
       print('Something went wrong when deleting Item: $e');
     }
+  }
+
+  //get from banktable
+  Future<List> getInvoiceTable(String zid) async {
+    var dbClient = await conn.db;
+    List paymentList = [];
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!.query(
+        DBHelper.paymentTable,
+        where: 'zid=?',
+        whereArgs: [zid],
+        orderBy: 'id desc',
+      );
+      for (var banks in maps) {
+        paymentList.add(banks);
+      }
+    } catch (e) {
+      print("There are some issues getting products : $e");
+    }
+    return paymentList;
   }
 
   //get from banktable
