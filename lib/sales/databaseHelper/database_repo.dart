@@ -165,12 +165,12 @@ class DatabaseRepo {
   }
 
   //get product natures from product nature table
-  Future getProductNature() async {
+  Future getProductNature(String zid) async {
     var dbClient = await conn.db;
     List productNatureList = [];
     try {
-      List<Map<String, dynamic>> maps =
-          await dbClient!.query(DBHelper.productNature);
+      List<Map<String, dynamic>> maps = await dbClient!
+          .query(DBHelper.productNature, where: 'zid = ?', whereArgs: [zid]);
       for (var productNatures in maps) {
         productNatureList.add(productNatures);
         print('Product nature list from repo : $productNatureList');
@@ -1206,11 +1206,7 @@ class DatabaseRepo {
           'xlineamt': xlineamt,
         },
         where: 'zid = ? AND cartID = ? AND xitem = ?',
-        whereArgs: [
-          zid,
-          cartId,
-          xitem
-        ],
+        whereArgs: [zid, cartId, xitem],
       );
       print('Additional discount : $adDisc');
       print('xlineamt : $xlineamt');

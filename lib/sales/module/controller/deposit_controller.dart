@@ -41,8 +41,7 @@ class DepositController extends GetxController {
       return dealerList;
     } else {
       return dealerList
-          .where((dealer) =>
-          dealer["xorg"]
+          .where((dealer) => dealer["xorg"]
               .toLowerCase()
               .contains(searchQuery.value.toLowerCase()))
           .toList();
@@ -66,13 +65,7 @@ class DepositController extends GetxController {
     try {
       isAllLoaded(true);
       print('=================${isAllLoaded.value}=================');
-      /*Future.delayed(Duration(seconds: 2), () async {
-        await getBankNames();
-        await getPaymentType();
-
-        isAllLoaded(false);
-        print('=================${isAllLoaded.value}=================');
-      });*/
+      await getInvoiceType();
       await getBankNames();
       await getPaymentType();
       isAllLoaded(false);
@@ -85,7 +78,7 @@ class DepositController extends GetxController {
 
   /// bank lists
   RxString bankSelection = 'Bank name'.obs;
-  RxString bankCode = ' '.obs;
+  RxString bankCode = ''.obs;
   RxBool bankLoaded = false.obs;
   List bankList = [];
 
@@ -93,7 +86,7 @@ class DepositController extends GetxController {
     try {
       bankLoaded(true);
       bankList =
-      await DepositRepo().getFromBankTable(loginController.zID.value);
+          await DepositRepo().getFromBankTable(loginController.zID.value);
       print('bank name List : ${bankList}');
       bankLoaded(false);
     } catch (error) {
@@ -111,7 +104,7 @@ class DepositController extends GetxController {
     try {
       isLoading2(true);
       paymentList =
-      await DepositRepo().getFromPaymentTable(loginController.zID.value);
+          await DepositRepo().getFromPaymentTable(loginController.zID.value);
       print('bank name List : ${paymentList.length}');
       isLoading2(false);
       print('List of payment types: $paymentList');
@@ -121,14 +114,26 @@ class DepositController extends GetxController {
   }
 
   //for entry operations
-  RxString selectedOption = 'Invoice type'.obs;
+  RxString invoiceType = 'Invoice type'.obs;
+  RxBool isLoading3 = false.obs;
+  List invoiceList = [];
+
+  Future<void> getInvoiceType() async {
+    try {
+      isLoading3(true);
+      invoiceList =
+          await DatabaseRepo().getProductNature(loginController.zID.value);
+      print('Invoice type : ${invoiceList.length}');
+      isLoading3(false);
+      print('Invoice type: $invoiceList');
+    } catch (e) {
+      print("Something went wrong in Invoice type: $e");
+    }
+  }
 
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
-  final date = DateTime
-      .now()
-      .toString()
-      .obs;
+  final date = DateTime.now().toString().obs;
 
   updateDate(DateTime dateTime) {
     date.value = dateTime.toString();
@@ -147,9 +152,7 @@ class DepositController extends GetxController {
 
   Future<void> generateDPNumber() async {
     var response = await http.get(Uri.parse(
-        'http://${AppConstants
-            .baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID
-            .value}'));
+        'http://${AppConstants.baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID.value}'));
     if (response.statusCode == 200) {
       DepositNumModel? data = depositNumModelFromJson(response.body);
       print('Deposit number : ${data.dPnum}');
@@ -182,13 +185,19 @@ class DepositController extends GetxController {
   RxBool isEmptyField = false.obs;
   RxInt depositTableMax = 0.obs;
 
-  Future<void> insertToDeposit(String cusId, String xOrg, String status,
-      String bankName, String paymentType) async {
+  Future<void> insertToDeposit(
+      String cusId,
+      String xOrg,
+      String status,
+      String invoiceType,
+      String bankName,
+      String bankCode,
+      String paymentType) async {
     try {
       if (amount.text.isEmpty ||
           bankName == 'Bank name' ||
           paymentType == 'Mode of Payment' ||
-          selectedOption.value == 'Type') {
+          invoiceType == 'Type') {
         saving(false);
         isEmptyField(true);
         Get.snackbar('Warning!',
@@ -209,7 +218,8 @@ class DepositController extends GetxController {
           "xtso": loginController.xtso.value,
           "xdivision": loginController.xDivision.value,
           "xamount": int.parse(amount.text),
-          "xbank": bankSelection.value,
+          "xbank": bankName,
+          "bankCode": bankCode,
           "xbranch": depositBranch.text,
           "xnote": note.text,
           "xpreparer": loginController.xstaff.value,
@@ -217,7 +227,7 @@ class DepositController extends GetxController {
           "xterritory": loginController.xterritory.value,
           "xzm": loginController.xZM.value,
           "xzone": loginController.xZone.value,
-          "xarnature": selectedOption.value,
+          "xarnature": invoiceType,
           "xpaymenttype": paymentMod.value,
           "xcusbank": cusBank.text,
           "xchequeno": chkRefNo.text,
@@ -254,8 +264,7 @@ class DepositController extends GetxController {
         await generateDPNumber();
         var response = await http.post(
             Uri.parse(
-                'http://${AppConstants
-                    .baseurl}/gazi/deposit/depositInsert.php'),
+                'http://${AppConstants.baseurl}/gazi/deposit/depositInsert.php'),
             body: jsonEncode(<String, dynamic>{
               "zid": openDeposit[i]["zid"],
               "zauserid": openDeposit[i]["zauserid"],
@@ -264,7 +273,7 @@ class DepositController extends GetxController {
               "xtso": openDeposit[i]["xtso"],
               "xdivision": openDeposit[i]["xdivision"],
               "xamount": openDeposit[i]["xamount"],
-              "xbank": openDeposit[i]["xbank"],
+              "xbank": openDeposit[i]["bankCode"],
               "xbranch": openDeposit[i]["xbranch"],
               "xnote": openDeposit[i]["xnote"],
               "xpreparer": openDeposit[i]["xpreparer"],
@@ -311,7 +320,7 @@ class DepositController extends GetxController {
     try {
       isLoading4(true);
       openDeposit =
-      await DepositRepo().getOpenDeposit(loginController.zID.value);
+          await DepositRepo().getOpenDeposit(loginController.zID.value);
       print('Open deposit: ${openDeposit.length}');
       isLoading4(false);
       print('List of payment types: $openDeposit');
@@ -334,7 +343,7 @@ class DepositController extends GetxController {
   void clearFields() {
     amount.clear();
     depositBranch.clear();
-    selectedOption.value = 'Invoice type';
+    invoiceType.value = 'Invoice type';
     paymentMod.value = 'Mode of payment';
     bankSelection.value = 'Bank name';
     cusBank.clear();
