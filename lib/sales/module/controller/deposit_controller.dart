@@ -158,7 +158,7 @@ class DepositController extends GetxController {
       print('Deposit number : ${data.dPnum}');
 
       // Define the regular expression for the custom ID format
-      final RegExp idFormat = RegExp(r'^DP--[0-9]{2}[0-9]{5,}$');
+      final RegExp idFormat = RegExp(r'^DP--[0-9]{2}[0-9]{6,}$');
 
       // Define a function to generate the custom ID
       // Get the current date
