@@ -85,7 +85,7 @@ class DepositController extends GetxController {
 
   /// bank lists
   RxString bankSelection = 'Bank name'.obs;
-  RxString bankCOde = ''.obs;
+  RxString bankCode = ' '.obs;
   RxBool bankLoaded = false.obs;
   List bankList = [];
 
