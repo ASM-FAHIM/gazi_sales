@@ -360,6 +360,7 @@ class CartController extends GetxController {
         'xcus': cusId,
         'xorg': xOrg,
         'xterritory': loginController.xterritory.value,
+        'xopincapply': incentive.value,
         'total': totalPrice.toDouble(),
         'xdisctype': '',
         'xfwh': 30, // need to check again
@@ -550,7 +551,8 @@ class CartController extends GetxController {
 
   Future<void> saveOrder(String cartId) async {
     isPlaced(true);
-    DatabaseRepo().updateStatusCartHeader(cartId, loginController.zID.value);
+    DatabaseRepo().updateStatusCartHeader(
+        cartId, loginController.zID.value, incentive.value);
     print("List of added products in the bill screen: $listOfAddedProducts");
     // await insertToCart(cusId, xOrg, status, delDisc);
     isPlaced(false);
@@ -602,6 +604,7 @@ class CartController extends GetxController {
                   "xzm": '${listCartHeader[i]['xzm']}',
                   "xzone": '${listCartHeader[i]['xzone']}',
                   "xdisctype": '${listCartHeader[i]['xdisctype']}',
+                  "xopincapply": "${listCartHeader[i]['xopincapply']}",
                 });
 
                 var responseHeader = await http.post(
@@ -639,7 +642,10 @@ class CartController extends GetxController {
                       body: dataDetails);
                   if (responseDetails.statusCode == 200) {
                     //update the table xstatus
-                    await DatabaseRepo().updateCartHeaderTable(tempHeader);
+                    await DatabaseRepo().updateCartHeaderTable(
+                      tempHeader,
+                      "${listCartHeader[i]['xopincapply']}",
+                    );
                   }
                   print('Details Data: ${responseDetails.body}');
                 }
@@ -714,6 +720,7 @@ class CartController extends GetxController {
               "xzm": '${listCartHeaderForSync[i]['xzm']}',
               "xzone": '${listCartHeaderForSync[i]['xzone']}',
               "xdisctype": '${listCartHeaderForSync[i]['xdisctype']}',
+              "xopincapply": incentive.value,
             });
 
             var responseHeader = await http.post(
@@ -747,7 +754,8 @@ class CartController extends GetxController {
                       'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                   body: dataDetails);
               if (responseDetails.statusCode == 200) {
-                await DatabaseRepo().updateCartHeaderTable(tempHeader);
+                await DatabaseRepo()
+                    .updateCartHeaderTable(tempHeader, incentive.value);
               }
               print('so details = $responseDetails');
             }
@@ -808,10 +816,10 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> updateCartHeaderStatus(String cartId) async {
+  Future<void> updateCartHeaderStatus(String cartId, String xopincapply) async {
     try {
       idWiseCartHeaderDetails =
-          await DatabaseRepo().updateCartHeaderTable(cartId);
+          await DatabaseRepo().updateCartHeaderTable(cartId, xopincapply);
       print(idWiseCartHeaderDetails);
     } catch (error) {
       print('There are some issue getting updateCart headerStatus: $error');
@@ -851,6 +859,7 @@ class CartController extends GetxController {
               "xzm": '${idWiseCartHeader[0]['xzm']}',
               "xzone": '${idWiseCartHeader[0]['xzone']}',
               "xdisctype": '${idWiseCartHeader[0]['xdisctype']}',
+              "xopincapply": '${idWiseCartHeader[0]['xopincapply']}',
             });
             var responseHeader = await http.post(
                 Uri.parse(
@@ -884,7 +893,10 @@ class CartController extends GetxController {
                   body: dataDetails);
               print('so details = $responseDetails');
             }
-            await updateCartHeaderStatus(cartID);
+            await updateCartHeaderStatus(
+              cartID,
+              '${idWiseCartHeader[0]['xopincapply']}',
+            );
             await getCartHeaderList();
             var updateSO = await http.get(Uri.parse(
                 'http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
@@ -963,6 +975,10 @@ class CartController extends GetxController {
   ///discount portion
   TextEditingController discount = TextEditingController();
   RxBool isValueLoaded = false.obs;
+
+  // Incentive count
+  RxBool isChecked = true.obs;
+  RxString incentive = 'Yes'.obs;
   List listOfAddedProducts = [];
   double totalAmount = 0.0;
   double totalDiscount = 0.0;

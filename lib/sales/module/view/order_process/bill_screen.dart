@@ -72,7 +72,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      height: Dimensions.height650 - Dimensions.height70,
+                      height: Dimensions.height650 - Dimensions.height50,
                       child: ListView.builder(
                           itemCount: cartController.listOfAddedProducts.length,
                           itemBuilder: (context, index) {
@@ -166,40 +166,59 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                     ),
                     Expanded(
                       child: Container(
+                        alignment: Alignment.bottomCenter,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(right: 30),
+                              padding: EdgeInsets.symmetric(horizontal: 10),
                               alignment: Alignment.centerRight,
-                              child: BigText(
-                                text:
-                                    'Total amount = ${cartController.totalAmount} Tk.',
-                                size: 22,
-                                color: Colors.red,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Obx(() {
+                                    return Row(
+                                      children: [
+                                        Theme(
+                                          data: Theme.of(context).copyWith(
+                                              unselectedWidgetColor:
+                                                  Colors.black),
+                                          child: Checkbox(
+                                            value:
+                                                cartController.isChecked.value,
+                                            activeColor: AppColor.appBarColor,
+                                            checkColor: AppColor.defWhite,
+                                            onChanged: (value) {
+                                              if (value != null) {
+                                                cartController.isChecked.value =
+                                                    value;
+                                                cartController.incentive.value =
+                                                    value ? 'Yes' : 'No';
+                                              }
+                                              print(
+                                                  'Incentive applicable: ${cartController.incentive.value}');
+                                            },
+                                          ),
+                                        ),
+                                        Text(
+                                          "Incentive applicable",
+                                          style: GoogleFonts.urbanist(
+                                            // color: mainBlackColor,
+                                            fontSize: Dimensions.fontBigS16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                  BigText(
+                                    text: '${cartController.totalAmount} Tk.',
+                                    size: 18,
+                                    color: Colors.red,
+                                  ),
+                                ],
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(right: 30),
-                              alignment: Alignment.centerRight,
-                              child: BigText(
-                                text:
-                                    'Total discount = ${cartController.totalDiscount} %.',
-                                size: 22,
-                                color: Colors.red,
-                              ),
-                            ),
-                            /*Container(
-                      padding: EdgeInsets.only(right: 30),
-                      alignment: Alignment.centerRight,
-                      child: BigText(
-                        text: 'Discount amount = 2500 Tk.',
-                        size: 22,
-                        color: Colors.red,
-                      ),
-                    ),*/
-                            SizedBox(
-                              height: 20,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
