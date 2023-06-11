@@ -183,6 +183,7 @@ class DBHelper {
           xtso VARCHAR(50),
           xorg VARCHAR(150),
           xterritory VARCHAR(150),
+          xopincapply VARCHAR(10),
           total REAL,
           xdisctype VARCHAR(20),
           xfwh VARCHAR(50),

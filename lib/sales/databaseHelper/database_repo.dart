@@ -781,13 +781,13 @@ class DatabaseRepo {
     return singleHeader;
   }*/
 
-  Future updateCartHeaderTable(String cartId) async {
+  Future updateCartHeaderTable(String cartId, String xopincapply) async {
     try {
       var dbClient = await conn.db;
       List updatedHeaderList = [];
       await dbClient!.rawQuery(
-        "UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied' WHERE cartID = ?",
-        [cartId],
+        "UPDATE ${DBHelper.cartTable} SET xstatus = 'Applied', xopincapply = ? WHERE cartID = ?",
+        [xopincapply, cartId],
       );
       updatedHeaderList = await getCartHeader();
       return updatedHeaderList;
@@ -1422,12 +1422,14 @@ class DatabaseRepo {
   }
 
   //update cart header by save order press
-  Future<void> updateStatusCartHeader(String cartId, String zId) async {
+  Future<void> updateStatusCartHeader(
+      String cartId, String zId, String xopincapply) async {
     var dbClient = await conn.db;
     var updateHeader = await dbClient!.update(
       DBHelper.cartTable,
       {
         'xstatus': "Saved",
+        'xopincapply': xopincapply,
       },
       where: 'zid = ? AND cartID = ? AND xstatus = "Open"',
       whereArgs: [
