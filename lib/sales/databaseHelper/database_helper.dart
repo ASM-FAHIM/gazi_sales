@@ -136,6 +136,7 @@ class DBHelper {
           zid INTEGER , 
           xitem VARCHAR(150), 
           xdesc VARCHAR(150), 
+          mainRate VARCHAR(150), 
           xrate VARCHAR(150), 
           xdealerp VARCHAR(150), 
           xmrp VARCHAR(150),

@@ -207,7 +207,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                               dashboardController
                                                       .foundProductList[index]
                                                   ["xdesc"],
-                                              '${dashboardController.foundProductList[index]["totrate"]}',
+                                              '${dashboardController.updatedProductList[index]}',
                                               dashboardController
                                                       .foundProductList[index]
                                                   ["xunit"],

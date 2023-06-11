@@ -238,32 +238,36 @@ class DatabaseRepo {
     return result;
   }
 
-  Future getProduct(String dealerType, String pNature) async {
-    print("product natures are: $pNature");
+  Future getProduct(String zId,String dealerType, String pNature) async {
     var dbClient = await conn.db;
     List productList = [];
     try {
+      /*List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+          "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp, mainRate as totrate FROM ${DBHelper.productTable} Where zid = '$zId' AND xpnature = '$pNature'");
+      for (var products in maps) {
+        productList.add(products);
+      }*/
       if (dealerType == 'Dealer') {
         List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
             "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp,  xdealerp as totrate FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
         for (var products in maps) {
           productList.add(products);
-          print('Product List from repo : $productList');
         }
+        print('Product List from repo : ${productList.length}');
       } else if (dealerType == 'Corporate') {
         List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
             "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp, xrate as totrate FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
         for (var products in maps) {
           productList.add(products);
-          print('Product List from repo : $productList');
         }
+        print('Product List from repo : ${productList.length}');
       } else {
         List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-            "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp, xmrp as totrate FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
+            "SELECT xitem, xdesc, xunit, xcolor, color, xstype, stype, xpnature, xdisc, xcapacity, xdateeff, xdateexp, mainRate as totrate FROM ${DBHelper.productTable} Where xpnature = '$pNature'");
         for (var products in maps) {
           productList.add(products);
-          print('Product List from repo : $productList');
         }
+        print('Product List from repo : ${productList.length}');
       }
     } catch (e) {
       print("There are some issues getting products : $e");
@@ -1176,14 +1180,14 @@ class DatabaseRepo {
     var dbClient = await conn.db;
     //additional discount calculation
     double adDisc = double.parse(adDiscount);
-    print('ZID from processDiscount : $zid');
+    /*print('ZID from processDiscount : $zid');
     print('adDiscount from processDiscount : $adDiscount');
     print('xitem from processDiscount : $xitem');
     print('cartId from processDiscount : $cartId');
     print('qty from processDiscount : $qty');
     print('xrate from processDiscount : $xrate');
     print('xcolor from processDiscount : $xcolor');
-    print('xstype from processDiscount : $xstype');
+    print('xstype from processDiscount : $xstype');*/
     double prDisc = 0.0;
     double lineamt = 0.0;
     double xlineamt = 0.0;
@@ -1200,10 +1204,13 @@ class DatabaseRepo {
         [zid, xcus, xitem]);
     try {
       xlineamt = (double.parse(xrate) * double.parse(qty));
+      discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
       var updateLineamountToDetails = await dbClient.update(
         DBHelper.cartDetailsTable,
         {
           'xlineamt': xlineamt,
+          'xdiscad': adDisc,
+          'xdiscadamt': discdamt,
         },
         where: 'zid = ? AND cartID = ? AND xitem = ?',
         whereArgs: [zid, cartId, xitem],

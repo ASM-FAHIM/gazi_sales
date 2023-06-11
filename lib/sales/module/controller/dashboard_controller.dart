@@ -560,32 +560,37 @@ class DashboardController extends GetxController {
   RxBool isLoading2 = false.obs;
 
   Future getProductList(String xcus, String dealerType, String pNature) async {
-    loginController.xPNature.value = pNature;
-    isLoading2(true);
-    productList = await DatabaseRepo().getProduct(dealerType, pNature);
-    foundProductList = productList; //for search option in product list
-    /*await getCusWisePrice();
-    if (listcaCusWisePrice.isEmpty) {
-      for (int k = 0; k < productList.length; k++) {
-        updatedProductList.length = k + 1;
-        updatedProductList[k] = '${productList[k]["totrate"]}';
-      }
-    } else {
-      for (int i = 0; i < productList.length; i++) {
-        for (int j = 0; j < listcaCusWisePrice.length; j++) {
-          if (xcus == listcaCusWisePrice[j]["xcus"] &&
-              productList[i]["xitem"] == listcaCusWisePrice[j]["xitem"]) {
-            updatedProductList.length = i + 1;
-            updatedProductList[i] = '${listcaCusWisePrice[j]["xrate"]}';
-          } else {
-            updatedProductList.length = i + 1;
-            updatedProductList[i] = '${productList[i]["totrate"]}';
+    try{
+      isLoading2(true);
+      loginController.xPNature.value = pNature;
+      productList = await DatabaseRepo().getProduct(loginController.zID.value, dealerType, pNature);
+      foundProductList = productList; //for search option in product list
+      await getCusWisePrice();
+      if (listcaCusWisePrice.isEmpty) {
+        for (int k = 0; k < productList.length; k++) {
+          updatedProductList.length = k + 1;
+          updatedProductList[k] = '${productList[k]["totrate"]}';
+        }
+      } else {
+        for (int i = 0; i < productList.length; i++) {
+          for (int j = 0; j < listcaCusWisePrice.length; j++) {
+            if (xcus == listcaCusWisePrice[j]["xcus"] &&
+                productList[i]["xitem"] == listcaCusWisePrice[j]["xitem"]) {
+              updatedProductList.length = i + 1;
+              updatedProductList[i] = '${listcaCusWisePrice[j]["xrate"]}';
+            } else {
+              updatedProductList.length = i + 1;
+              updatedProductList[i] = '${productList[i]["totrate"]}';
+            }
           }
         }
       }
+    print('Updated product list == $updatedProductList');
+      isLoading2(false);
+    }catch (e){
+      isLoading2(false);
+      print("Error geting product from local Database: $e");
     }
-    print('Updated product list == $updatedProductList');*/
-    isLoading2(false);
   }
 
   RxBool isSearched = false.obs;

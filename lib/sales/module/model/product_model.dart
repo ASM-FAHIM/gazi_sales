@@ -15,6 +15,7 @@ class ProductModel {
   int zid;
   String xitem;
   String xdesc;
+  String mainRate;
   String xrate;
   String xdealerp;
   String xmrp;
@@ -36,6 +37,7 @@ class ProductModel {
     required this.zid,
     required this.xitem,
     required this.xdesc,
+    required this.mainRate,
     required this.xrate,
     required this.xdealerp,
     required this.xmrp,
@@ -58,6 +60,7 @@ class ProductModel {
         zid: json["zid"],
         xitem: json["xitem"],
         xdesc: json["xdesc"],
+        mainRate: json["mainRate"],
         xrate: json["xrate"],
         xdealerp: json["xdealerp"],
         xmrp: json["xmrp"],
@@ -80,6 +83,7 @@ class ProductModel {
         "zid": zid,
         "xitem": xitem,
         "xdesc": xdesc,
+        "mainRate": mainRate,
         "xrate": xrate,
         "xdealerp": xdealerp,
         "xmrp": xmrp,

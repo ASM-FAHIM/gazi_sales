@@ -41,6 +41,7 @@ class CartProducts extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return CartProductsCard(
                     controller: controller,
+                    index: index,
                     xItem: controller.addedProducts[index][0],
                     qty: qtyControllers[controller.addedProducts[index][0]]!,
                     pDesc: controller.addedProducts[index][2],
@@ -56,6 +57,7 @@ class CartProducts extends StatelessWidget {
 
 class CartProductsCard extends StatelessWidget {
   final CartController controller;
+  final int index;
   final String xItem;
   final TextEditingController qty;
   final String pDesc;
@@ -66,6 +68,7 @@ class CartProductsCard extends StatelessWidget {
   const CartProductsCard({
     Key? key,
     required this.controller,
+    required this.index,
     required this.xItem,
     required this.qty,
     required this.pDesc,
@@ -130,11 +133,11 @@ class CartProductsCard extends StatelessWidget {
                             size: 12,
                             color: Colors.red,
                           ),
-                          SmallText(
+                          /*SmallText(
                             text: "Discount: $xDisc % ?? 0.0",
                             size: 12,
                             color: Colors.red,
-                          ),
+                          ),*/
                         ],
                       ),
                     ),
@@ -259,6 +262,7 @@ class CartProductsCard extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return ReusableAlert(
                                   cartController: controller,
+                                  index: index,
                                   itemCode: xItem,
                                   xorg: pDesc,
                                 );
@@ -316,11 +320,13 @@ class ReusableAlert extends StatelessWidget {
   ReusableAlert({
     Key? key,
     required this.cartController,
+    required this.index,
     required this.xorg,
     required this.itemCode,
   }) : super(key: key);
 
   final CartController cartController;
+  final int index;
   final String xorg;
   final String itemCode;
 
@@ -419,23 +425,16 @@ class ReusableAlert extends StatelessWidget {
             ),
           ),
           onPressed: () async {
-            if (cartController.discount.text.isEmpty) {
+              if (cartController.discount.text.isEmpty) {
               Navigator.pop(context);
-            } else {
-              // Get the updated discount value
-              String updatedDiscount = cartController.discount.text;
-
-              // Update the discount value in addedProducts list
-              for (int i = 0; i < cartController.addedProducts.length; i++) {
-                if (cartController.addedProducts[i][0] == itemCode) {
-                  cartController.addedProducts[i][5] = updatedDiscount;
-                  break;
-                }
+              } else {
+              cartController.updateDiscount(index, cartController.discount.text); // Update the discount
+              Navigator.pop(context);
               }
+              cartController.discount.clear();
               print(
                   'The updated selected products are: ${cartController.addedProducts}');
               Navigator.pop(context);
-            }
           },
         ),
       ],

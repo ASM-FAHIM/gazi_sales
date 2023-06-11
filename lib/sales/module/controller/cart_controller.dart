@@ -262,7 +262,7 @@ class CartController extends GetxController {
   Future<void> insertAdditionalAccessories(String xitem, String masteritem,
       String qty, GlobalKey<ScaffoldState> scaffoldKey) async {
     await DatabaseRepo().additionalAccessoriesInsert(
-        xitem, loginController.zID.value, masteritem, qty);
+        xitem, loginController.zID.value, masteritem, '1');
     final currentContext = scaffoldKey
         .currentContext; // Replace 'scaffoldKey' with the key of your scaffold widget
 
@@ -347,6 +347,10 @@ class CartController extends GetxController {
   RxInt cartTableMax = 0.obs;
   RxBool saving = false.obs;
 
+  void updateDiscount(int itemIndex, String discount) {
+    addedProducts[itemIndex][5] = discount;
+  }
+
   Future<void> insertToCart(
       String cusId, String xOrg, String status, String delDisc) async {
     try {
@@ -382,11 +386,10 @@ class CartController extends GetxController {
         double itemPrice = double.parse(addedProducts[i][3]);
         double subTotal = qty * itemPrice;
         String xunit = addedProducts[i][4];
-        //String xPdisc = addedProducts[i][5];
+        double addDisc = double.parse(addedProducts[i][5]);
         String xcolor = addedProducts[i][6];
         String xstype = addedProducts[i][7];
-        // double itemPackQty = double.parse(addedProducts[i][5]);
-        // double subPackQty = qty * itemPackQty;
+        print('Additional Discount : $addDisc');
         Map<String, dynamic> cartDetailsInsert = {
           'zid': loginController.zID.value,
           'cartID': cartID,
@@ -396,7 +399,7 @@ class CartController extends GetxController {
           'xrate': itemPrice.toString(),
           'xdisc': 0.0,
           'xdiscamt': 0.0,
-          'xdiscad': 0.0,
+          'xdiscad': addDisc,
           'xdiscadamt': 0.0,
           'xlineamt': 0.0,
           'xqty': qty.toString(),
