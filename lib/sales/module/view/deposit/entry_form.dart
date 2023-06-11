@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gazi_sales_app/sales/constant/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../constant/colors.dart';
@@ -559,14 +560,20 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                 depositController.bankCode.value;
                             final String paymentType =
                                 depositController.paymentMod.value;
-                            depositController.insertToDeposit(
-                                widget.cusId,
-                                widget.cusName,
-                                'Open',
-                                paymentNature,
-                                bankName,
-                                bankCode,
-                                paymentType);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return UploadSingleCartAlert(
+                                    deposit: depositController,
+                                    amount: depositController.amount.text,
+                                    cusID: widget.cusId,
+                                    cusName: widget.cusName,
+                                    invoiceType: paymentNature,
+                                    bankName: bankName,
+                                    bankCode: bankCode,
+                                    paymentType: paymentType,
+                                  );
+                                });
                             // depositController.depositSubmission(widget.cusId,
                             //     bankName, paymentNature, paymentType);
                           },
@@ -588,5 +595,98 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
               );
       }),
     ));
+  }
+}
+
+//for upload single cart alert
+class UploadSingleCartAlert extends StatelessWidget {
+  UploadSingleCartAlert({
+    Key? key,
+    required this.deposit,
+    required this.amount,
+    required this.invoiceType,
+    required this.bankName,
+    required this.bankCode,
+    required this.paymentType,
+    required this.cusID,
+    required this.cusName,
+  }) : super(key: key);
+
+  final DepositController deposit;
+  final String amount;
+  final String invoiceType;
+  final String bankName;
+  final String bankCode;
+  final String paymentType;
+  final String cusID;
+  final String cusName;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        'Save',
+        style: GoogleFonts.roboto(
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text(
+              'Confirm deposit amount',
+              style: GoogleFonts.roboto(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              '$amount Tk.',
+              style: GoogleFonts.roboto(
+                color: Colors.red,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            'No',
+            style: GoogleFonts.roboto(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        TextButton(
+          child: Text(
+            'Yes',
+            style: GoogleFonts.roboto(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+            await deposit.insertToDeposit(
+              cusID,
+              cusName,
+              'Open',
+              invoiceType,
+              bankName,
+              bankCode,
+              paymentType,
+            );
+          },
+        ),
+      ],
+    );
   }
 }

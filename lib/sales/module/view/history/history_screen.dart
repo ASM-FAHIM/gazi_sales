@@ -17,50 +17,52 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.appBarColor,
-        leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: const Icon(
-              Icons.arrow_back_outlined,
-              size: 25,
-            )),
-        title: BigText(
-          text: "History",
-          color: AppColor.defWhite,
-          size: 25,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColor.appBarColor,
+          leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+                size: 25,
+              )),
+          title: BigText(
+            text: "History",
+            color: AppColor.defWhite,
+            size: 25,
+          ),
         ),
-      ),
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                BusinessWidget(
-                  businessName: 'Sales History',
-                  imgPath: 'assets/images/sale.png',
-                  height: 100,
-                  onPressed: () {
-                    Get.to(() => OrderHistoryScreen());
-                  },
-                ),
-                BusinessWidget(
-                  businessName: 'Deposit History',
-                  imgPath: 'assets/images/bank.png',
-                  height: 100,
-                  onPressed: () {
-                    Get.to(() => DepositHistoryScreen());
-                  },
-                ),
-              ],
-            )
-          ],
+        body: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  BusinessWidget(
+                    businessName: 'Sales History',
+                    imgPath: 'assets/images/sale.png',
+                    height: 100,
+                    onPressed: () {
+                      Get.to(() => OrderHistoryScreen());
+                    },
+                  ),
+                  BusinessWidget(
+                    businessName: 'Deposit History',
+                    imgPath: 'assets/images/bank.png',
+                    height: 100,
+                    onPressed: () {
+                      Get.to(() => DepositHistoryScreen());
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
