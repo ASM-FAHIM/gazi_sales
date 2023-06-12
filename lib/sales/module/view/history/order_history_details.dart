@@ -14,7 +14,8 @@ import '../../controller/cart_controller.dart';
 
 class HistoryDetails extends StatefulWidget {
   String cartId;
-  HistoryDetails({Key? key, required this.cartId}) : super(key: key);
+  String cusId;
+  HistoryDetails({Key? key, required this.cartId, required this.cusId}) : super(key: key);
 
   @override
   State<HistoryDetails> createState() => _HistoryDetailsState();
@@ -67,29 +68,137 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                             clipBehavior: Clip.hardEdge,
                             child: Container(
-                              height: Dimensions.height120,
-                              padding: EdgeInsets.all(12),
+                              height: Dimensions.height120 + Dimensions.height70+ Dimensions.height30,
+                              padding: EdgeInsets.all(8),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SmallText(text: '${cartHeaderDetails['xdesc']}', size: 12,),
-                                  Row(
+                                  Text(
+                                    "${cartHeaderDetails["xdesc"]}",
+                                    style: TextStyle(
+                                      color: AppColor.appBarColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                    ),
+                                  ),
+                                  /*Row(
                                     children: [
                                       BigText(text: '${cartHeaderDetails['xitem']}', size: 14,),
                                       if('${cartHeaderDetails['yes_no']}' == 'No' && '${cartHeaderDetails["giftStatus"]}' == 'Gift Item')...[
                                         SmallText(text: ' (Gift Item) ', color: Colors.red,)
                                       ]else...[
                                         SmallText(text: ' (Product) ', color: Colors.red,)
-                                      ]
+                                      ],
+                                      Spacer(),
+                                      SmallText(text: 'Quantity Ordered: ${cartHeaderDetails['xqty']}')
                                     ],
+                                  ),*/
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                  Row(
+                                  /*Row(
                                     children: [
                                       SmallText(text: '${cartHeaderDetails['xqty']} X', size: 14,),
                                       SmallText(text: ' ${cartHeaderDetails['xrate'].toStringAsFixed(2)} = ', size: 14,),
                                       SmallText(text: '${cartHeaderDetails['subTotal'].toStringAsFixed(2)}', size: 14, color: AppColor.defRed,),
                                       const Icon(MdiIcons.currencyBdt, size: 14, color: AppColor.defRed,)
                                     ],
+                                  ),*/
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Product Code\n${cartHeaderDetails["xitem"]}',
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Quantity Ordered\n${cartHeaderDetails["xqty"]}',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Discount Rate\n${cartHeaderDetails["xdisc"]} %',
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Discount Amount\n${cartHeaderDetails["xdiscamt"]}',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Additional Discount\n${cartHeaderDetails["xdiscad"]} %',
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Additional Discount Amount\n${cartHeaderDetails["xdiscadamt"]}',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Rate\n${cartHeaderDetails["xrate"]}',
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Line Amount\n${cartHeaderDetails["xlineamt"]}',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Spacer(),
                                   if('${cartHeaderDetails['yes_no']}' == 'No' && '${cartHeaderDetails["giftStatus"]}' == 'Gift Item')...[
@@ -116,11 +225,15 @@ class _HistoryDetailsState extends State<HistoryDetails> {
                                             showDialog(context: context, builder: (BuildContext context){
                                               return ReusableAlert(
                                                 cartController: cartController,cartID: widget.cartId,
+                                                cusId: widget.cusId,
                                                 itemCode: cartHeaderDetails['xitem'],
                                                 qty: cartHeaderDetails['xqty'] as double,
                                                 xorg: cartHeaderDetails['xdesc'],
                                                 price: '${cartHeaderDetails['xrate']}',
                                                 zID: '${cartHeaderDetails['zid']}',
+                                                addDisc: '${cartHeaderDetails['xdiscad']}',
+                                                xColor: '${cartHeaderDetails['xcolor']}',
+                                                xsType: '${cartHeaderDetails['xstype']}',
                                               );
                                             });
                                           },
@@ -174,20 +287,28 @@ class ReusableAlert extends StatelessWidget {
     required this.cartController,
     required this.zID,
     required this.cartID,
+    required this.cusId,
     required this.qty,
     required this.xorg,
     required this.itemCode,
     required this.price,
+    required this.addDisc,
+    required this.xColor,
+    required this.xsType,
 
   }) : super(key: key);
 
   final CartController cartController;
   final String zID;
   final String cartID;
+  final String cusId;
   final double qty;
   final String xorg;
   final String itemCode;
   final String price;
+  final String addDisc;
+  final String xColor;
+  final String xsType;
 
   @override
   Widget build(BuildContext context) {
@@ -251,7 +372,7 @@ class ReusableAlert extends StatelessWidget {
                     if(cartController.quantity.text.isEmpty){
                       Navigator.pop(context);
                     }else{
-                      await cartController.updateItemWiseCartDetails(cartID, itemCode, cartController.quantity.text, price, zID);
+                      await cartController.updateItemWiseCartDetails(cartID,cusId, itemCode, cartController.quantity.text, price, zID, addDisc,xColor,xsType);
                       Navigator.pop(context);
                     }
                   },
@@ -293,7 +414,7 @@ class ReusableAlert extends StatelessWidget {
             if(cartController.quantity.text.isEmpty){
               Navigator.pop(context);
             }else{
-              await cartController.updateItemWiseCartDetails(cartID, itemCode, cartController.quantity.text, price, zID);
+              await cartController.updateItemWiseCartDetails(cartID, itemCode, cartController.quantity.text, price, zID, cusId, addDisc, xColor, xsType);
               Navigator.pop(context);
             }
           },

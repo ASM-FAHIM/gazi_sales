@@ -100,16 +100,22 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                     "${cartController.listOfAddedProducts[index]["xdesc"]}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                        fontSize: 13),
                                   ),
+                                  /*Text(
+                                    " ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["xlineamt"]} Tk.",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),*/
                                   Text(
-                                    " ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["subTotal"]} Tk.",
+                                    'Quantity Ordered: ${cartController.listOfAddedProducts[index]["xqty"]}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    height: 8,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -120,7 +126,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                           child: Container(
                                             height: 35,
                                             child: Text(
-                                              'General discount\n${cartController.listOfAddedProducts[index]["xdisc"]}',
+                                              'Discount Rate\n${cartController.listOfAddedProducts[index]["xdisc"]} %',
                                             ),
                                           ),
                                         ),
@@ -128,7 +134,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                           child: Container(
                                             height: 35,
                                             child: Text(
-                                              'General discount amount\n${cartController.listOfAddedProducts[index]["xdiscamt"]}',
+                                              'Discount\n${cartController.listOfAddedProducts[index]["xdiscamt"]}',
                                             ),
                                           ),
                                         ),
@@ -144,7 +150,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                           child: Container(
                                             height: 35,
                                             child: Text(
-                                              'Additional discount\n${cartController.listOfAddedProducts[index]["xdiscad"]}',
+                                              'Additional Discount\n${cartController.listOfAddedProducts[index]["xdiscad"]} %',
                                             ),
                                           ),
                                         ),
@@ -152,7 +158,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                           child: Container(
                                             height: 35,
                                             child: Text(
-                                              'Additional discount amount\n${cartController.listOfAddedProducts[index]["xdiscadamt"]}',
+                                              'Additional Discount Amount\n${cartController.listOfAddedProducts[index]["xdiscadamt"]}',
                                             ),
                                           ),
                                         ),
@@ -168,7 +174,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                           child: Container(
                                             height: 35,
                                             child: Text(
-                                              'Trade price\n${cartController.listOfAddedProducts[index]["xrate"]}',
+                                              'Rate\n${cartController.listOfAddedProducts[index]["xrate"]}',
                                             ),
                                           ),
                                         ),
@@ -176,7 +182,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                           child: Container(
                                             height: 35,
                                             child: Text(
-                                              'Line amount\n${cartController.listOfAddedProducts[index]["xlineamt"]}',
+                                              'Line Amount\n${cartController.listOfAddedProducts[index]["xlineamt"]}',
                                             ),
                                           ),
                                         ),

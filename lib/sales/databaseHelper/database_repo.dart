@@ -973,7 +973,7 @@ class DatabaseRepo {
     var dbClient = await conn.db;
 
     var subTotalResult = await dbClient!.rawQuery(
-      "SELECT SUM(subTotal) as subTotalSum FROM ${DBHelper.cartDetailsTable} WHERE cartID = ?",
+      "SELECT SUM(xlineamt) as subTotalSum FROM ${DBHelper.cartDetailsTable} WHERE cartID = ?",
       [cartID],
     );
     print('Total in Details table = ${subTotalResult[0]["subTotalSum"]}');
@@ -1204,9 +1204,11 @@ class DatabaseRepo {
         "SELECT * FROM ${DBHelper.caCusDisc} WHERE zid = ? AND xcus = ? AND xitem = ?",
         [zid, xcus, xitem]);
     try {
-      xlineamt = (double.parse(xrate) * double.parse(qty));
+
       discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
+      xlineamt = (double.parse(xrate) * double.parse(qty))- discdamt;
       print('Additional discount amount: $discamt');
+      print('Line amount: $xlineamt');
       var updateLineamountToDetails = await dbClient.update(
         DBHelper.cartDetailsTable,
         {
@@ -1235,7 +1237,7 @@ class DatabaseRepo {
           );
           print('updated cartheader is : $headerUpdate');
 
-          discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
+         /* discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
           print(
               'Discounted amount after giving value in discount field : $discdamt');
           var detailsUpdate = await dbClient.update(
@@ -1246,7 +1248,7 @@ class DatabaseRepo {
             where: 'zid = ? AND cartID = ? AND xitem = ?',
             whereArgs: [zid, cartId, xitem],
           );
-          print('Details updated: $detailsUpdate');
+          print('Details updated: $detailsUpdate');*/
           String itemColor = '';
 
           print('xcolor code : $xcolor');
@@ -1255,12 +1257,10 @@ class DatabaseRepo {
           } else {
             itemColor = 'Colored';
           }
-          print('promo header table = $promoHeader');
           if (promoHeader.isNotEmpty) {
             String trnNum = promoHeader[0]["xtrnnum"] ?? '0';
             String xref = promoHeader[0]["xref"] ?? '0';
-            print('trnNum is : $trnNum');
-            print('xref is : $xref');
+
             var totalLtr = 0.0;
             if (xref == 'Invoice') {
               print('xref is : $xref');
