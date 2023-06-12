@@ -1180,6 +1180,7 @@ class DatabaseRepo {
     var dbClient = await conn.db;
     //additional discount calculation
     double adDisc = double.parse(adDiscount);
+    print('Additional discount :: $adDisc');
     /*print('ZID from processDiscount : $zid');
     print('adDiscount from processDiscount : $adDiscount');
     print('xitem from processDiscount : $xitem');
@@ -1205,11 +1206,11 @@ class DatabaseRepo {
     try {
       xlineamt = (double.parse(xrate) * double.parse(qty));
       discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
+      print('Additional discount amount: $discamt');
       var updateLineamountToDetails = await dbClient.update(
         DBHelper.cartDetailsTable,
         {
           'xlineamt': xlineamt,
-          'xdiscad': adDisc,
           'xdiscadamt': discdamt,
         },
         where: 'zid = ? AND cartID = ? AND xitem = ?',

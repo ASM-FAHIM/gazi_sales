@@ -425,7 +425,7 @@ class CartController extends GetxController {
           await DatabaseRepo().processDiscount(
               loginController.zID.value,
               cusId,
-              '0.0',
+              addDisc.toString(),
               xItem,
               cartID,
               qty.toString(),

@@ -434,7 +434,6 @@ class ReusableAlert extends StatelessWidget {
               cartController.discount.clear();
               print(
                   'The updated selected products are: ${cartController.addedProducts}');
-              Navigator.pop(context);
           },
         ),
       ],
