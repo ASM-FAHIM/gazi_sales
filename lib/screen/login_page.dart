@@ -272,7 +272,7 @@ class _Login_pageState extends State<Login_page> {
               image: DecorationImage(
                 image: AssetImage("assets/images/logo/background_image.jpeg"),
                 fit: BoxFit.cover,
-                opacity: 0.5,
+                opacity: 0.4,
               ),
             ),
             child: Form(
@@ -283,7 +283,7 @@ class _Login_pageState extends State<Login_page> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 5),
+                        top: MediaQuery.of(context).size.height / 5.2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -295,7 +295,7 @@ class _Login_pageState extends State<Login_page> {
                     ),
                   ),
                   SizedBox(
-                    height: 120,
+                    height: 110,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -547,63 +547,41 @@ class _Login_pageState extends State<Login_page> {
                             ),
                     ),
                   ),
-                  /*GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          isLoading = true;
-                        },
-                      );
-                      Future.delayed(Duration(seconds: 2), () {
-                        if (userController.text == '' ||
-                            passController.text == '') {
-                          print("User Invalid");
-                          Get.snackbar('Error', 'User Invalid',
-                              backgroundColor: Color(0XFF8CA6DB),
-                              colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
-                          setState(() {
-                            isLoading = false;
-                          });
-                        } else {
-                          loginFunction();
-                          login();
-                          // submitData(userController.text, passController.text);
-                        }
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 50.0,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(80.0),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 255, 136, 34),
-                            Color.fromARGB(255, 255, 177, 41)
-                          ],
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(0),
-                      child: isLoading
-                          ? const SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            )
-                          : Text(
-                              "Login",
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              "Powered by",
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.bakbakOne(
-                                fontSize: 20,
-                                color: Colors.white,
+                              style: GoogleFonts.urbanist(
+                                fontSize: 14,
+                                color: Colors.black,
                               ),
                             ),
+                            Container(
+                              height: 50,
+                              width: 100,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      AssetImage("assets/images/Business.png"),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  ),*/
+                  ),
                 ],
               ),
             ),
