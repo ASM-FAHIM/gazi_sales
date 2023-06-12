@@ -77,7 +77,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                           itemCount: cartController.listOfAddedProducts.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              height: 130,
+                              height: 170,
                               margin: EdgeInsets.all(8.0),
                               padding: EdgeInsets.all(6.0),
                               decoration: BoxDecoration(
@@ -100,13 +100,13 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                     "${cartController.listOfAddedProducts[index]["xdesc"]}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 15),
+                                        fontSize: 14),
                                   ),
                                   Text(
                                     " ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["subTotal"]} Tk.",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 13),
+                                        fontSize: 12),
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -129,6 +129,30 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                             height: 35,
                                             child: Text(
                                               'General discount amount\n${cartController.listOfAddedProducts[index]["xdiscamt"]}',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Additional discount\n${cartController.listOfAddedProducts[index]["xdiscad"]}',
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: 35,
+                                            child: Text(
+                                              'Additional discount amount\n${cartController.listOfAddedProducts[index]["xdiscadamt"]}',
                                             ),
                                           ),
                                         ),
