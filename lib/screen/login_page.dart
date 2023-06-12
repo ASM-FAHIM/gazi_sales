@@ -13,6 +13,7 @@ import '../data_model/loginModel.dart';
 import '../data_model/offline_login_model.dart';
 import '../home_page.dart';
 import '../sales/constant/app_constants.dart';
+import '../sales/constant/colors.dart';
 import '../sales/databaseHelper/database_helper.dart';
 import '../sales/databaseHelper/login_repo.dart';
 
@@ -262,195 +263,349 @@ class _Login_pageState extends State<Login_page> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffFFFFFF),
+        // backgroundColor: const Color(0xffFFFFFF),
         body: SingleChildScrollView(
-          child: Form(
-            key: _formkey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 5,
-                ),
-                Container(
-                  height: 100,
-                  width: 200,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: const Image(
-                      image: AssetImage('assets/images/logo/100000.png'),
-                      fit: BoxFit.cover,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/logo/background_image.jpeg"),
+                fit: BoxFit.cover,
+                opacity: 0.5,
+              ),
+            ),
+            child: Form(
+              key: _formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/logo/gazi_logo.jpeg',
+                          width: MediaQuery.of(context).size.width / 1.2,
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    child: TextFormField(
-                      controller: userController,
-                      style: GoogleFonts.bakbakOne(
-                        //fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                      onChanged: (input) {
-                        zemail = input;
-                      },
-                      validator: (input) {
-                        if (input!.isEmpty) {
-                          return "Empty";
-                        }
-                      },
-                      scrollPadding: EdgeInsets.all(20),
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(left: 20),
-                        // add padding to adjust text
-                        isDense: false,
-                        labelText: "User Name",
-                        labelStyle: GoogleFonts.bakbakOne(
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.person),
-                      ),
-                    ),
+                  SizedBox(
+                    height: 120,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    child: TextFormField(
-                      controller: passController,
-                      style: GoogleFonts.bakbakOne(
-                        //fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                      obscureText: _obsecureText,
-                      onChanged: (input) {
-                        xpassword = input;
-                      },
-                      scrollPadding: EdgeInsets.all(20),
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(
-                          left: 20,
-                        ),
-                        // add padding to adjust text
-                        isDense: true,
-                        labelText: "Password",
-                        labelStyle: GoogleFonts.bakbakOne(
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8), // add padding to adjust icon
-                          child: IconButton(
-                            icon: Icon(
-                              _obsecureText
-                                  ? FontAwesomeIcons.solidEye
-                                  : FontAwesomeIcons.solidEyeSlash,
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 65,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(
+                              color: AppColor.appBarColor, width: 2)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: userController,
+                              style: GoogleFonts.bakbakOne(
+                                //fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
+                              onChanged: (input) {
+                                zemail = input;
+                              },
+                              decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  suffixIcon: Icon(Icons.person),
+                                  hintText: "Enter user id",
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none),
                             ),
-                            onPressed: () {
-                              toggle();
-                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 65,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(
+                              color: AppColor.appBarColor, width: 2)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: passController,
+                              style: GoogleFonts.bakbakOne(
+                                //fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
+                              obscureText: _obsecureText,
+                              onChanged: (input) {
+                                xpassword = input;
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Enter password",
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  // add padding to adjust icon
+                                  child: IconButton(
+                                    icon: Icon(
+                                      _obsecureText
+                                          ? FontAwesomeIcons.solidEye
+                                          : FontAwesomeIcons.solidEyeSlash,
+                                    ),
+                                    onPressed: () {
+                                      toggle();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  /*Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      child: TextFormField(
+                        controller: userController,
+                        style: GoogleFonts.bakbakOne(
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                        onChanged: (input) {
+                          zemail = input;
+                        },
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "Empty";
+                          }
+                        },
+                        scrollPadding: EdgeInsets.all(20),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(left: 20),
+                          // add padding to adjust text
+                          isDense: false,
+                          labelText: "User Name",
+                          labelStyle: GoogleFonts.bakbakOne(
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.person),
+                        ),
+                      ),
+                    ),
+                  ),*/
+                  /*Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      child: TextFormField(
+                        controller: passController,
+                        style: GoogleFonts.bakbakOne(
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                        obscureText: _obsecureText,
+                        onChanged: (input) {
+                          xpassword = input;
+                        },
+                        scrollPadding: EdgeInsets.all(20),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(
+                            left: 20,
+                          ),
+                          // add padding to adjust text
+                          isDense: true,
+                          labelText: "Password",
+                          labelStyle: GoogleFonts.bakbakOne(
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 8), // add padding to adjust icon
+                            child: IconButton(
+                              icon: Icon(
+                                _obsecureText
+                                    ? FontAwesomeIcons.solidEye
+                                    : FontAwesomeIcons.solidEyeSlash,
+                              ),
+                              onPressed: () {
+                                toggle();
+                              },
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: isChecked,
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              isChecked = value!;
-                            },
-                          );
-                        },
-                      ),
-                      Text(
-                        "Remember Me",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 20,
-                          color: Colors.black,
+                  ),*/
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          onChanged: (value) {
+                            setState(
+                              () {
+                                isChecked = value!;
+                              },
+                            );
+                          },
                         ),
-                      )
-                    ],
+                        Text(
+                          "Remember Me",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(
-                      () {
-                        isLoading = true;
-                      },
-                    );
-                    Future.delayed(Duration(seconds: 2), () {
-                      if (userController.text == '' ||
-                          passController.text == '') {
-                        print("User Invalid");
-                        Get.snackbar('Error', 'User Invalid',
-                            backgroundColor: Color(0XFF8CA6DB),
-                            colorText: Colors.white,
-                            snackPosition: SnackPosition.BOTTOM);
-                        setState(() {
-                          isLoading = false;
-                        });
-                      } else {
-                        loginFunction();
-                        login();
-                        // submitData(userController.text, passController.text);
-                      }
-                    });
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 50.0,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 55.0,
                     width: MediaQuery.of(context).size.width * 0.5,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: const LinearGradient(
+                      borderRadius: BorderRadius.circular(30.0),
+                      /*gradient: const LinearGradient(
                         colors: [
                           Color.fromARGB(255, 255, 136, 34),
                           Color.fromARGB(255, 255, 177, 41)
                         ],
-                      ),
+                      ),*/
                     ),
-                    padding: const EdgeInsets.all(0),
-                    child: isLoading
-                        ? const SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
+                    clipBehavior: Clip.hardEdge,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: AppColor.appBarColor,
+                      ),
+                      onPressed: () async {
+                        setState(
+                          () {
+                            isLoading = true;
+                          },
+                        );
+                        Future.delayed(Duration(seconds: 2), () {
+                          if (userController.text == '' ||
+                              passController.text == '') {
+                            print("User Invalid");
+                            Get.snackbar('Error', 'User Invalid',
+                                backgroundColor: Color(0XFF8CA6DB),
+                                colorText: Colors.white,
+                                snackPosition: SnackPosition.BOTTOM);
+                            setState(() {
+                              isLoading = false;
+                            });
+                          } else {
+                            loginFunction();
+                            login();
+                            // submitData(userController.text, passController.text);
+                          }
+                        });
+                      },
+                      child: isLoading
+                          ? const SizedBox(
+                              height: 25,
+                              width: 25,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Login",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
                             ),
-                          )
-                        : Text(
-                            "Login",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
+                    ),
                   ),
-                ),
-              ],
+                  /*GestureDetector(
+                    onTap: () {
+                      setState(
+                        () {
+                          isLoading = true;
+                        },
+                      );
+                      Future.delayed(Duration(seconds: 2), () {
+                        if (userController.text == '' ||
+                            passController.text == '') {
+                          print("User Invalid");
+                          Get.snackbar('Error', 'User Invalid',
+                              backgroundColor: Color(0XFF8CA6DB),
+                              colorText: Colors.white,
+                              snackPosition: SnackPosition.BOTTOM);
+                          setState(() {
+                            isLoading = false;
+                          });
+                        } else {
+                          loginFunction();
+                          login();
+                          // submitData(userController.text, passController.text);
+                        }
+                      });
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50.0,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 255, 136, 34),
+                            Color.fromARGB(255, 255, 177, 41)
+                          ],
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(0),
+                      child: isLoading
+                          ? const SizedBox(
+                              height: 25,
+                              width: 25,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Login",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                  ),*/
+                ],
+              ),
             ),
           ),
         ),
