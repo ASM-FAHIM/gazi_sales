@@ -272,7 +272,7 @@ class _Login_pageState extends State<Login_page> {
               image: DecorationImage(
                 image: AssetImage("assets/images/logo/background_image.jpeg"),
                 fit: BoxFit.cover,
-                opacity: 0.4,
+                opacity: 0.3,
               ),
             ),
             child: Form(
@@ -554,12 +554,12 @@ class _Login_pageState extends State<Login_page> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Column(
+                        Row(
                           children: [
                             Text(
-                              "Powered by",
+                              "Powered By ",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.urbanist(
                                 fontSize: 14,
