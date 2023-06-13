@@ -236,7 +236,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                       cartController.getCartHeaderDetailsList(
                                           '${cartHeader['cartID']}');
                                       Get.to(() => HistoryDetails(
-                                          cartId: '${cartHeader['cartID']}'));
+                                          cartId: '${cartHeader['cartID']}',
+                                        cusId: '${cartHeader['xcus']}',
+                                      ));
                                     },
                                     child: Row(
                                       mainAxisAlignment:

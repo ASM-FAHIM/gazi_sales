@@ -206,6 +206,8 @@ class DBHelper {
           xitem VARCHAR(150),          
           xdesc VARCHAR(150),
           xunit VARCHAR(150),
+          xcolor VARCHAR(50),
+          xstype VARCHAR(50),
           xrate REAL,
           xdisc REAL,
           xdiscamt REAL,

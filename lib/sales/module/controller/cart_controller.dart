@@ -396,6 +396,8 @@ class CartController extends GetxController {
           'xitem': xItem,
           'xdesc': xDesc,
           'xunit': xunit,
+          'xcolor': xcolor,
+          'xstype': xstype,
           'xrate': itemPrice.toString(),
           'xdisc': 0.0,
           'xdiscamt': 0.0,
@@ -946,11 +948,13 @@ class CartController extends GetxController {
   TextEditingController quantity = TextEditingController();
 
   Future<void> updateItemWiseCartDetails(String cartID, String itemCode,
-      String qty, String price, String zId) async {
+      String qty, String price, String zId, String cusId, String addDisc, String xColor, String xsType) async {
     try {
+      print('updating quantity : $qty');
       await DatabaseRepo().updateCartDetailsTable(cartID, itemCode, qty, price);
       await DatabaseRepo()
           .updateCartHistoryAccessories(zId, itemCode, int.parse(qty), cartID);
+     await DatabaseRepo().processDiscount(zId, cusId, addDisc, itemCode, cartID, qty, price, xColor, xsType);
       await getCartHeaderDetailsList(cartID);
       await getCartHeaderList();
       quantity.clear();
