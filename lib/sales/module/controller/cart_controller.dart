@@ -1021,7 +1021,7 @@ class CartController extends GetxController {
   /// new process work
   RxBool isChecked = true.obs;
   RxString incentive = 'Yes'.obs;
-  RxString selectedAmount = '0.0 Tk.'.obs;
+  RxString selectedAmount = '0.0'.obs;
   RxBool isProcessing = false.obs;
   RxString selectedNumber = 'Select deposit number'.obs;
   final RxList<DepositListModel> dropdownItems = <DepositListModel>[].obs;

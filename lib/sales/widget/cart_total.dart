@@ -252,6 +252,8 @@ class CartTotal extends StatelessWidget {
             child: Obx(
               () {
                 if (cartController.dropdownItems.isEmpty) {
+                  cartController.selectedNumber.value = '';
+                  cartController.selectedAmount.value = '0.0';
                   return const Text(
                       'No deposit available now'); // Show a loading indicator while fetching the dropdown items
                 } else {
@@ -285,9 +287,8 @@ class CartTotal extends StatelessWidget {
                         print(
                             'Selected Item: ${cartController.selectedAmount.value}');
                       } else {
-                        cartController.selectedNumber.value =
-                            'Select deposit number';
-                        cartController.selectedNumber.value = '0.0 Tk.';
+                        cartController.selectedNumber.value = '';
+                        cartController.selectedNumber.value = '';
                       }
                       print('Selected Item: $selectedItem');
                     },
@@ -317,7 +318,8 @@ class CartTotal extends StatelessWidget {
           return Container(
             height: Dimensions.height70,
             width: double.maxFinite,
-            padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
+            padding:
+                const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
             decoration: BoxDecoration(
@@ -331,9 +333,9 @@ class CartTotal extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Depositted No : ${cartController.selectedNumber.value}'),
+                Text('Deposit No : ${cartController.selectedNumber.value}'),
                 Text(
-                    'Depositted amount : ${cartController.selectedAmount.value} Tk.'),
+                    'Deposit amount : ${cartController.selectedAmount.value} Tk.'),
               ],
             ),
           );
