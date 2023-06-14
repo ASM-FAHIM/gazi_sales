@@ -12,13 +12,6 @@ import '../model/tso_summary_model.dart';
 class NotifyController extends GetxController {
   AppConstants appConstants = AppConstants();
 
-  // @override
-  // void onInit() {
-  //   // TODO: implement onInit
-  //   fetchNotification();
-  //   super.onInit();
-  // }
-
   var notifyList = <NotificationModel>[].obs;
   RxBool isLoading = false.obs;
 

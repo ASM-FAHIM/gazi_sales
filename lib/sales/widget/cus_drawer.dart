@@ -178,7 +178,7 @@ class CusDrawer extends StatelessWidget {
                           size: 20,
                         ),
                       ),
-                      const CusDivider(),
+                      /*const CusDivider(),
                       ListTile(
                         visualDensity:
                             VisualDensity(horizontal: 0, vertical: 0),
@@ -195,7 +195,7 @@ class CusDrawer extends StatelessWidget {
                           text: 'History',
                           size: 20,
                         ),
-                      ),
+                      ),*/
                       const CusDivider(),
                       ListTile(
                         onTap: () {

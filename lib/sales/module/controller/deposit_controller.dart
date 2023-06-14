@@ -207,7 +207,7 @@ class DepositController extends GetxController {
             duration: const Duration(seconds: 3));
       } else {
         saving(true);
-        depositTableMax.value = await DepositRepo().getDepositID();
+        /*depositTableMax.value = await DepositRepo().getDepositID();
         var depositID = 'DP-00${(depositTableMax + 1)}';
         Map<String, dynamic> depositInsert = {
           "zid": loginController.zID.value,
@@ -240,9 +240,50 @@ class DepositController extends GetxController {
         print('Deposit added Successfully');
         Get.snackbar('Successful', 'Deposit added successfully',
             backgroundColor: Colors.white,
-            duration: const Duration(seconds: 2));
-        saving(false);
-        isEmptyField(false);
+            duration: const Duration(seconds: 2));*/
+        await generateDPNumber();
+        var response = await http.post(
+            Uri.parse(
+                'http://${AppConstants.baseurl}/gazi/deposit/depositInsert.php'),
+            body: jsonEncode(<String, dynamic>{
+              "zid": loginController.zID.value,
+              "zauserid": loginController.xstaff.value,
+              "xdepositnum": depositNumber.value,
+              "xcus": cusId,
+              "xtso": loginController.xtso.value,
+              "xdivision": loginController.xDivision.value,
+              "xamount": amount.text,
+              "xbank": bankCode,
+              "xbranch": depositBranch.text,
+              "xnote": note.text,
+              "xpreparer": loginController.xstaff.value,
+              "xdm": loginController.xDM.value,
+              "xterritory": loginController.xterritory.value,
+              "xzm": loginController.xZM.value,
+              "xzone": loginController.xZone.value,
+              "xarnature": invoiceType,
+              "xpaymenttype": paymentType,
+              "xcusbank": cusBank.text,
+              "xchequeno": chkRefNo.text
+            }));
+
+        if (response.statusCode == 200) {
+          Get.snackbar('Successful', 'Deposit submitted successfylly',
+              backgroundColor: Colors.white,
+              duration: const Duration(seconds: 2));
+          clearFields();
+          saving(false);
+          isEmptyField(false);
+          print('successfully depositted');
+        } else {
+          Get.snackbar('Warning!', 'There are some issue occurred',
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+              duration: const Duration(seconds: 1));
+          saving(false);
+          isEmptyField(false);
+          print("There is an Error ${response.statusCode}");
+        }
       }
     } catch (e) {
       saving(false);

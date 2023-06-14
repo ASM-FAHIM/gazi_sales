@@ -8,6 +8,7 @@ import '../../databaseHelper/database_repo.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import '../../databaseHelper/login_repo.dart';
+import '../model/deposit_number_list_model.dart';
 import '../model/so_model.dart';
 import '../view/order_process/bill_screen.dart';
 import 'login_controller.dart';
@@ -947,14 +948,23 @@ class CartController extends GetxController {
   //update cartdetails
   TextEditingController quantity = TextEditingController();
 
-  Future<void> updateItemWiseCartDetails(String cartID, String itemCode,
-      String qty, String price, String zId, String cusId, String addDisc, String xColor, String xsType) async {
+  Future<void> updateItemWiseCartDetails(
+      String cartID,
+      String itemCode,
+      String qty,
+      String price,
+      String zId,
+      String cusId,
+      String addDisc,
+      String xColor,
+      String xsType) async {
     try {
       print('updating quantity : $qty');
       await DatabaseRepo().updateCartDetailsTable(cartID, itemCode, qty, price);
       await DatabaseRepo()
           .updateCartHistoryAccessories(zId, itemCode, int.parse(qty), cartID);
-     await DatabaseRepo().processDiscount(zId, cusId, addDisc, itemCode, cartID, qty, price, xColor, xsType);
+      await DatabaseRepo().processDiscount(
+          zId, cusId, addDisc, itemCode, cartID, qty, price, xColor, xsType);
       await getCartHeaderDetailsList(cartID);
       await getCartHeaderList();
       quantity.clear();
@@ -984,8 +994,6 @@ class CartController extends GetxController {
   RxBool isValueLoaded = false.obs;
 
   // Incentive count
-  RxBool isChecked = true.obs;
-  RxString incentive = 'Yes'.obs;
   List listOfAddedProducts = [];
   double totalAmount = 0.0;
   double totalDiscount = 0.0;
@@ -1007,6 +1015,40 @@ class CartController extends GetxController {
     } catch (error) {
       isValueLoaded(false);
       print('There are some issue: $error');
+    }
+  }
+
+  /// new process work
+  RxBool isChecked = true.obs;
+  RxString incentive = 'Yes'.obs;
+  RxString selectedAmount = '0.0 Tk.'.obs;
+  RxBool isProcessing = false.obs;
+  RxString selectedNumber = 'Select deposit number'.obs;
+  final RxList<DepositListModel> dropdownItems = <DepositListModel>[].obs;
+
+  Future<void> fetchDropdownItems(String xcus) async {
+    try {
+      print('customer ID: $xcus');
+      print('selected zid : ${loginController.zID.value}');
+      isProcessing(true);
+      var responseDeposit = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/salesforce/depositSelection.php?zid=${loginController.zID.value}&xcus=$xcus'));
+      if (responseDeposit.statusCode == 200) {
+        if (responseDeposit.body.isNotEmpty) {
+          var dpNum = depositListModelFromJson(responseDeposit.body);
+          dropdownItems.assignAll(dpNum.map((e) => e));
+          print('Dp numbers are: $dropdownItems');
+        } else {
+          print('Response body is empty');
+        }
+      } else {
+        print(
+            'Error happens fetching dp numbers: ${responseDeposit.statusCode}');
+      }
+    } catch (e) {
+      print('Please check again: $e');
+    } finally {
+      isProcessing(false);
     }
   }
 }
