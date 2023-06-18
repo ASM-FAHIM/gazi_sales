@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import '../../constant/app_constants.dart';
 import '../../constant/colors.dart';
 import '../../databaseHelper/database_repo.dart';
+import '../../databaseHelper/gift_promo_repo.dart';
 import '../../databaseHelper/login_repo.dart';
 import '../model/ca_cus_price_model.dart';
 import '../model/dealer_model.dart';
@@ -560,10 +561,11 @@ class DashboardController extends GetxController {
   RxBool isLoading2 = false.obs;
 
   Future getProductList(String xcus, String dealerType, String pNature) async {
-    try{
+    try {
       isLoading2(true);
       loginController.xPNature.value = pNature;
-      productList = await DatabaseRepo().getProduct(loginController.zID.value, dealerType, pNature);
+      productList = await DatabaseRepo()
+          .getProduct(loginController.zID.value, dealerType, pNature);
       foundProductList = productList; //for search option in product list
       await getCusWisePrice();
       if (listcaCusWisePrice.isEmpty) {
@@ -585,9 +587,9 @@ class DashboardController extends GetxController {
           }
         }
       }
-    print('Updated product list == $updatedProductList');
+      print('Updated product list == $updatedProductList');
       isLoading2(false);
-    }catch (e){
+    } catch (e) {
       isLoading2(false);
       print("Error geting product from local Database: $e");
     }
@@ -833,4 +835,20 @@ class DashboardController extends GetxController {
       print('There are some issue: $error');
     }
   }*/
+
+  //for getting cart_List from cart table
+  List listGiftPromo = [];
+  RxBool listFetched = false.obs;
+
+  Future getGiftPromoList() async {
+    try {
+      listFetched(true);
+      listGiftPromo =
+          await GiftPromoRepo().getAllPromoItems(loginController.zID.value);
+      print(listGiftPromo);
+      listFetched(false);
+    } catch (error) {
+      print('There are some issue: $error');
+    }
+  }
 }

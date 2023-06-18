@@ -7,12 +7,21 @@ import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
 
 class BillDetailsScreen extends StatefulWidget {
+  String soNum;
+  String tsoId;
+  String zID;
   String cartId;
   String xOrg;
   String xCus;
 
   BillDetailsScreen(
-      {required this.cartId, required this.xOrg, required this.xCus, Key? key})
+      {required this.soNum,
+      required this.tsoId,
+      required this.cartId,
+      required this.zID,
+      required this.xOrg,
+      required this.xCus,
+      Key? key})
       : super(key: key);
 
   @override
@@ -25,12 +34,16 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    cartController.getAddedProducts(widget.cartId);
+    cartController.getAddedProducts(widget.zID, widget.soNum);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    print('So number = ${widget.soNum}');
+    print('tsoId = ${widget.tsoId}');
+    print('zID = ${widget.zID}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -50,7 +63,6 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
             color: AppColor.defWhite,
             size: 25,
           ),
-          actions: [],
         ),
         body: Obx(
           () => cartController.isValueLoaded.value
@@ -72,12 +84,12 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      height: Dimensions.height650 - Dimensions.height50,
+                      height: size.height / 1.35,
                       child: ListView.builder(
                           itemCount: cartController.listOfAddedProducts.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              height: 170,
+                              height: size.height / 5,
                               margin: EdgeInsets.all(8.0),
                               padding: EdgeInsets.all(6.0),
                               decoration: BoxDecoration(
@@ -97,7 +109,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "${cartController.listOfAddedProducts[index]["xdesc"]}",
+                                    '${cartController.listOfAddedProducts[index].itemName}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13),
@@ -109,7 +121,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                         fontSize: 12),
                                   ),*/
                                   Text(
-                                    'Quantity Ordered: ${cartController.listOfAddedProducts[index]["xqty"]}',
+                                    'Quantity Ordered: ${cartController.listOfAddedProducts[index].xqtyreq}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
@@ -124,41 +136,17 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                       children: [
                                         Expanded(
                                           child: Container(
-                                            height: 35,
+                                            height: size.height / 22,
                                             child: Text(
-                                              'Discount Rate\n${cartController.listOfAddedProducts[index]["xdisc"]} %',
+                                              'Discount Rate\n${cartController.listOfAddedProducts[index].xdisc} %',
                                             ),
                                           ),
                                         ),
                                         Expanded(
                                           child: Container(
-                                            height: 35,
+                                            height: size.height / 22,
                                             child: Text(
-                                              'Discount\n${cartController.listOfAddedProducts[index]["xdiscamt"]}',
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 35,
-                                            child: Text(
-                                              'Additional Discount\n${cartController.listOfAddedProducts[index]["xdiscad"]} %',
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            height: 35,
-                                            child: Text(
-                                              'Additional Discount Amount\n${cartController.listOfAddedProducts[index]["xdiscadamt"]}',
+                                              'Discount\n${cartController.listOfAddedProducts[index].xdiscamt}',
                                             ),
                                           ),
                                         ),
@@ -172,17 +160,41 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                       children: [
                                         Expanded(
                                           child: Container(
-                                            height: 35,
+                                            height: size.height / 22,
                                             child: Text(
-                                              'Rate\n${cartController.listOfAddedProducts[index]["xrate"]}',
+                                              'Additional Discount\n${cartController.listOfAddedProducts[index].xdiscad} %',
                                             ),
                                           ),
                                         ),
                                         Expanded(
                                           child: Container(
-                                            height: 35,
+                                            height: size.height / 22,
                                             child: Text(
-                                              'Line Amount\n${cartController.listOfAddedProducts[index]["xlineamt"]}',
+                                              'Additional Discount Amount\n${cartController.listOfAddedProducts[index].xdiscadamt}',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: size.height / 22,
+                                            child: Text(
+                                              'Rate\n${cartController.listOfAddedProducts[index].xrate}',
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: size.height / 22,
+                                            child: Text(
+                                              'Line Amount\n${cartController.listOfAddedProducts[index].xlineamt}',
                                             ),
                                           ),
                                         ),
@@ -204,10 +216,9 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               alignment: Alignment.centerRight,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Obx(() {
+                                  /*Obx(() {
                                     return Row(
                                       children: [
                                         Theme(
@@ -241,17 +252,21 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                         ),
                                       ],
                                     );
-                                  }),
+                                  }),*/
                                   BigText(
-                                    text: '${cartController.totalAmount} Tk.',
+                                    text:
+                                        'Total = ${cartController.totalAmount} Tk.',
                                     size: 18,
                                     color: Colors.red,
                                   ),
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
                                   height: Dimensions.height50,
@@ -278,6 +293,9 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                               cartController: cartController,
                                               xCus: widget.xCus,
                                               xOrg: widget.xOrg,
+                                              soNum: widget.soNum,
+                                              zid: widget.zID,
+                                              tsoId: widget.tsoId,
                                             );
                                           });
                                     },
@@ -286,13 +304,13 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                             color: AppColor.defWhite,
                                           )
                                         : BigText(
-                                            text: 'Place order',
+                                            text: 'Confirm',
                                             color: AppColor.defWhite,
                                             size: 14,
                                           ),
                                   ),
                                 ),
-                                SizedBox(
+                                /*SizedBox(
                                   width: 20,
                                 ),
                                 Container(
@@ -327,7 +345,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                             size: 14,
                                           ),
                                   ),
-                                ),
+                                ),*/
                               ],
                             ),
                           ],
@@ -348,17 +366,23 @@ class ReusableAlert extends StatelessWidget {
     required this.cartController,
     required this.xOrg,
     required this.xCus,
+    required this.soNum,
+    required this.zid,
+    required this.tsoId,
   }) : super(key: key);
 
   final CartController cartController;
   final String xOrg;
   final String xCus;
+  final String soNum;
+  final String zid;
+  final String tsoId;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Instant upload',
+        'Confirm order',
         style: GoogleFonts.roboto(
           fontSize: 20,
           fontWeight: FontWeight.w800,
@@ -368,7 +392,7 @@ class ReusableAlert extends StatelessWidget {
         child: ListBody(
           children: <Widget>[
             Text(
-              'Do you want to upload order now?',
+              'Do you want to confirm order?',
               style: GoogleFonts.roboto(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -400,7 +424,7 @@ class ReusableAlert extends StatelessWidget {
           ),
           onPressed: () async {
             Navigator.pop(context);
-            await cartController.placeOrder(xCus, xOrg, context);
+            await cartController.confirmOrder(zid, soNum, tsoId);
           },
         ),
       ],

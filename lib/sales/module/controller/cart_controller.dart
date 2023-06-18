@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import '../../databaseHelper/login_repo.dart';
 import '../model/deposit_number_list_model.dart';
+import '../model/process_response_model.dart';
 import '../model/so_model.dart';
 import '../view/order_process/bill_screen.dart';
 import 'login_controller.dart';
@@ -23,7 +25,9 @@ class CartController extends GetxController {
 
   Future<void> generateSoNumber() async {
     var response = await http.get(Uri.parse(
-        'http://${AppConstants.baseurl}/gazi/salesforce/getsonum.php?zid=${loginController.zID.value}'));
+        'http://${AppConstants
+            .baseurl}/gazi/salesforce/getsonum.php?zid=${loginController.zID
+            .value}'));
     if (response.statusCode == 200) {
       SoModel? data = soModelFromJson(response.body);
       print('So number : ${data!.sOnum}');
@@ -51,8 +55,7 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> addToCart(
-      String productId,
+  Future<void> addToCart(String productId,
       String pName,
       String pPrice,
       String xUnit,
@@ -215,7 +218,7 @@ class CartController extends GetxController {
     try {
       isAllAccLoaded(true);
       allAccList =
-          await DatabaseRepo().getAllAccessoriesList(loginController.zID.value);
+      await DatabaseRepo().getAllAccessoriesList(loginController.zID.value);
       foundAccList = allAccList;
       isAllAccLoaded(false);
       print(
@@ -246,7 +249,7 @@ class CartController extends GetxController {
       } else {
         result = allAccList
             .where((name) =>
-                name['name'].toLowerCase().contains(keyword.toLowerCase()))
+            name['name'].toLowerCase().contains(keyword.toLowerCase()))
             .toList();
         isSearched(false);
         print('Actual list : $result');
@@ -281,8 +284,8 @@ class CartController extends GetxController {
   }
 
   //cart accessories update method from cart accessories screen
-  void updateCartAccessories(
-      String accCode, String proCode, int plusMinus) async {
+  void updateCartAccessories(String accCode, String proCode,
+      int plusMinus) async {
     if (plusMinus == 1) {
       await DatabaseRepo().updateAccessories(accCode, proCode, plusMinus);
       await getAccessoriesList(proCode);
@@ -352,12 +355,13 @@ class CartController extends GetxController {
     addedProducts[itemIndex][5] = discount;
   }
 
-  Future<void> insertToCart(
-      String cusId, String xOrg, String status, String delDisc) async {
+  var cartID = '';
+
+  Future<void> insertToCart(String cusId, String xOrg, String status) async {
     try {
       saving(true);
       cartTableMax.value = await DatabaseRepo().getCartID();
-      var cartID = 'C-00${(cartTableMax + 1)}';
+      cartID = 'C-00${(cartTableMax + 1)}';
       Map<String, dynamic> cartInsert = {
         'zid': loginController.zID.value,
         'cartID': cartID,
@@ -416,7 +420,7 @@ class CartController extends GetxController {
         print('Calling cartTableAccInsert');
         await DatabaseRepo()
             .cartTableAccInsert(xItem, loginController.zID.value, cartID);
-
+        /*
         //process Gift part follow ZAB
         print('Calling processGift');
         await DatabaseRepo().processGift(loginController.zID.value, cartID,
@@ -447,18 +451,18 @@ class CartController extends GetxController {
               itemPrice.toString(),
               xcolor,
               xstype);
-        }
+        }*/
       }
       print('Delete cart accessories table c cartTableAccInsert');
       await DatabaseRepo().deleteAccessory();
       saving(false);
 /*      Get.snackbar('Successful', 'Order added successfully',
           backgroundColor: Colors.white, duration: const Duration(seconds: 2));*/
-      Get.to(() => BillDetailsScreen(
+      /*Get.to(() => BillDetailsScreen(
             cartId: cartID,
             xOrg: xOrg,
             xCus: cusId,
-          ));
+          ));*/
     } catch (error) {
       saving(false);
       print('There are some issue: $error');
@@ -502,7 +506,7 @@ class CartController extends GetxController {
     try {
       isAccLoad(true);
       listCartAccessoriesDetails =
-          await DatabaseRepo().getCartHistoryAccessories(cartId, productId);
+      await DatabaseRepo().getCartHistoryAccessories(cartId, productId);
       print(listCartAccessoriesDetails);
       isAccLoad(false);
     } catch (error) {
@@ -532,7 +536,7 @@ class CartController extends GetxController {
     try {
       isLoadingForDetails(true);
       listCartHeaderDetailsForSync =
-          await DatabaseRepo().getCartHeaderDetailsForSync(cartId);
+      await DatabaseRepo().getCartHeaderDetailsForSync(cartId);
       print(listCartHeaderDetailsForSync);
       isLoadingForDetails(false);
     } catch (error) {
@@ -576,12 +580,12 @@ class CartController extends GetxController {
   Future<void> uploadCartOrder() async {
     try {
       final StreamSubscription<InternetConnectionStatus> listener =
-          InternetConnectionChecker()
-              .onStatusChange
-              .listen((InternetConnectionStatus status) async {
+      InternetConnectionChecker()
+          .onStatusChange
+          .listen((InternetConnectionStatus status) async {
         switch (status) {
           case InternetConnectionStatus.connected:
-            //code
+          //code
             isUploading(true);
             await getCartHeaderList();
             if (listCartHeader.isEmpty) {
@@ -615,7 +619,8 @@ class CartController extends GetxController {
 
                 var responseHeader = await http.post(
                     Uri.parse(
-                        'http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
+                        'http://${AppConstants
+                            .baseurl}/gazi/salesforce/SOtableInsert.php'),
                     body: dataHeader);
                 print('cart uploaded: $responseHeader');
                 var tempHeader = '${listCartHeader[i]['cartID']}';
@@ -644,7 +649,8 @@ class CartController extends GetxController {
 
                   var responseDetails = await http.post(
                       Uri.parse(
-                          'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
+                          'http://${AppConstants
+                              .baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                       body: dataDetails);
                   if (responseDetails.statusCode == 200) {
                     //update the table xstatus
@@ -656,7 +662,9 @@ class CartController extends GetxController {
                   print('Details Data: ${responseDetails.body}');
                 }
                 var updateSO = await http.get(Uri.parse(
-                    'http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
+                    'http://${AppConstants
+                        .baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController
+                        .zID.value}'));
                 if (updateSO.statusCode == 200) {
                   print('Successfully updated');
                 }
@@ -673,7 +681,7 @@ class CartController extends GetxController {
             }
             break;
           case InternetConnectionStatus.disconnected:
-            //code
+          //code
             Get.snackbar(
                 'Connection Error', 'You are disconnected from the internet',
                 backgroundColor: Colors.red,
@@ -693,16 +701,16 @@ class CartController extends GetxController {
   //instant order
   RxBool isSync = false.obs;
 
-  Future<void> placeOrder(
-      String cusId, String xOrg, BuildContext context) async {
+  Future<void> placeOrder(String cusId, String xOrg,
+      BuildContext context) async {
     try {
       final StreamSubscription<InternetConnectionStatus> listener =
-          InternetConnectionChecker()
-              .onStatusChange
-              .listen((InternetConnectionStatus status) async {
+      InternetConnectionChecker()
+          .onStatusChange
+          .listen((InternetConnectionStatus status) async {
         switch (status) {
           case InternetConnectionStatus.connected:
-            //code
+          //code
             isSync(true);
             //await getGeoLocationPosition();
             //await insertToCart(cusId, xOrg, 'Applied');
@@ -731,7 +739,8 @@ class CartController extends GetxController {
 
             var responseHeader = await http.post(
                 Uri.parse(
-                    'http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
+                    'http://${AppConstants
+                        .baseurl}/gazi/salesforce/SOtableInsert.php'),
                 body: dataHeader);
             var tempHeader = '${listCartHeaderForSync[i]['cartID']}';
             await getCartHeaderDetailsListForSync(tempHeader);
@@ -757,7 +766,8 @@ class CartController extends GetxController {
               });
               var responseDetails = await http.post(
                   Uri.parse(
-                      'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
+                      'http://${AppConstants
+                          .baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                   body: dataDetails);
               if (responseDetails.statusCode == 200) {
                 await DatabaseRepo()
@@ -767,7 +777,9 @@ class CartController extends GetxController {
             }
             await getCartHeaderList();
             var updateSO = await http.get(Uri.parse(
-                'http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
+                'http://${AppConstants
+                    .baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController
+                    .zID.value}'));
             if (updateSO.statusCode == 200) {
               print('Successfully updated----${updateSO.statusCode}');
               isSync(false);
@@ -781,7 +793,7 @@ class CartController extends GetxController {
             }
             break;
           case InternetConnectionStatus.disconnected:
-            //code
+          //code
             Get.snackbar(
                 'Connection Error', 'You are disconnected from the internet',
                 backgroundColor: Colors.red,
@@ -815,7 +827,7 @@ class CartController extends GetxController {
   Future<void> getIdWiseCartDetailsList(String cartId) async {
     try {
       idWiseCartHeaderDetails =
-          await DatabaseRepo().getIDWiseCartDetailsHeader(cartId);
+      await DatabaseRepo().getIDWiseCartDetailsHeader(cartId);
       print(idWiseCartHeaderDetails);
     } catch (error) {
       print('There are some issue: $error');
@@ -825,7 +837,7 @@ class CartController extends GetxController {
   Future<void> updateCartHeaderStatus(String cartId, String xopincapply) async {
     try {
       idWiseCartHeaderDetails =
-          await DatabaseRepo().updateCartHeaderTable(cartId, xopincapply);
+      await DatabaseRepo().updateCartHeaderTable(cartId, xopincapply);
       print(idWiseCartHeaderDetails);
     } catch (error) {
       print('There are some issue getting updateCart headerStatus: $error');
@@ -837,12 +849,12 @@ class CartController extends GetxController {
   Future<void> singleCartUpload(String cartID) async {
     try {
       final StreamSubscription<InternetConnectionStatus> listener =
-          InternetConnectionChecker()
-              .onStatusChange
-              .listen((InternetConnectionStatus status) async {
+      InternetConnectionChecker()
+          .onStatusChange
+          .listen((InternetConnectionStatus status) async {
         switch (status) {
           case InternetConnectionStatus.connected:
-            //code
+          //code
             isLoading(true);
             await getIdWiseCartHeaderList(cartID);
             int i = (idWiseCartHeader.length);
@@ -869,7 +881,8 @@ class CartController extends GetxController {
             });
             var responseHeader = await http.post(
                 Uri.parse(
-                    'http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
+                    'http://${AppConstants
+                        .baseurl}/gazi/salesforce/SOtableInsert.php'),
                 body: dataHeader);
             print('Cart header is uploaded: $responseHeader');
             await getIdWiseCartDetailsList(cartID);
@@ -895,7 +908,8 @@ class CartController extends GetxController {
               });
               var responseDetails = await http.post(
                   Uri.parse(
-                      'http://${AppConstants.baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
+                      'http://${AppConstants
+                          .baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
                   body: dataDetails);
               print('so details = $responseDetails');
             }
@@ -905,7 +919,9 @@ class CartController extends GetxController {
             );
             await getCartHeaderList();
             var updateSO = await http.get(Uri.parse(
-                'http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
+                'http://${AppConstants
+                    .baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController
+                    .zID.value}'));
             if (updateSO.statusCode == 200) {
               print('Successfully updated----${updateSO.statusCode}');
               Get.snackbar('Successful',
@@ -921,7 +937,7 @@ class CartController extends GetxController {
             }
             break;
           case InternetConnectionStatus.disconnected:
-            //code
+          //code
             isLoading(false);
             Get.snackbar(
                 'Connection Error', 'You are disconnected from the internet',
@@ -948,8 +964,7 @@ class CartController extends GetxController {
   //update cartdetails
   TextEditingController quantity = TextEditingController();
 
-  Future<void> updateItemWiseCartDetails(
-      String cartID,
+  Future<void> updateItemWiseCartDetails(String cartID,
       String itemCode,
       String qty,
       String price,
@@ -964,7 +979,15 @@ class CartController extends GetxController {
       await DatabaseRepo()
           .updateCartHistoryAccessories(zId, itemCode, int.parse(qty), cartID);
       await DatabaseRepo().processDiscount(
-          zId, cusId, addDisc, itemCode, cartID, qty, price, xColor, xsType);
+          zId,
+          cusId,
+          addDisc,
+          itemCode,
+          cartID,
+          qty,
+          price,
+          xColor,
+          xsType);
       await getCartHeaderDetailsList(cartID);
       await getCartHeaderList();
       quantity.clear();
@@ -994,14 +1017,13 @@ class CartController extends GetxController {
   RxBool isValueLoaded = false.obs;
 
   // Incentive count
-  List listOfAddedProducts = [];
+  //List listOfAddedProducts = [];
+  List<ProcessResponseModel> listOfAddedProducts = [];
   double totalAmount = 0.0;
   double totalDiscount = 0.0;
 
-  Future getAddedProducts(String cartId) async {
-    try {
-      isValueLoaded(true);
-      listOfAddedProducts =
+//normally database theke anar jonno
+  /*listOfAddedProducts =
           await DatabaseRepo().getCartIdWiseCartDetails(cartId);
       print(listOfAddedProducts);
       // totalAmount = listOfAddedProducts.fold(0, (sum, product) => sum + product['subTotal']);
@@ -1010,11 +1032,36 @@ class CartController extends GetxController {
       print("Total price is :$totalAmount");
       totalDiscount = listOfAddedProducts.fold(
           0.0, (sum, product) => sum + (product['xdisc'] as double));
-      print("Total price is :$totalDiscount");
+      print("Total price is :$totalDiscount");*/
+  Future getAddedProducts(String zId, String soNum) async {
+    try {
+      print('soNum: $soNum');
+      print('selected zid : $zId');
+      isValueLoaded(true);
+      var responseProcess = await http.get(Uri.parse(
+          'http://${AppConstants
+              .baseurl}/gazi/salesforce/SODetailValues.php?zid=$zId&xsonum=$soNum'));
+      if (responseProcess.statusCode == 200) {
+        var responseData = processResponseModelFromJson(responseProcess.body);
+        listOfAddedProducts
+            .assignAll(List<ProcessResponseModel>.from(responseData));
+        // Handle the data as per your requirement
+        print('Response data: $listOfAddedProducts');
+        // totalAmount = listOfAddedProducts.fold(0, (sum, product) => sum + product['subTotal']);
+        totalAmount = listOfAddedProducts.fold(
+            0, (sum, product) => sum + double.parse(product.xlineamt));
+        print("Total price is :$totalAmount");
+        totalDiscount = listOfAddedProducts.fold(
+            0.0, (sum, product) => sum + (product.xdisc as double));
+        print("Total price is :$totalDiscount");
+      } else {
+        print(
+            'Error happens fetching dp numbers: ${responseProcess.statusCode}');
+      }
+    } catch (e) {
+      print('Exception: $e');
+    } finally {
       isValueLoaded(false);
-    } catch (error) {
-      isValueLoaded(false);
-      print('There are some issue: $error');
     }
   }
 
@@ -1032,7 +1079,9 @@ class CartController extends GetxController {
       print('selected zid : ${loginController.zID.value}');
       isProcessing(true);
       var responseDeposit = await http.get(Uri.parse(
-          'http://${AppConstants.baseurl}/gazi/salesforce/depositSelection.php?zid=${loginController.zID.value}&xcus=$xcus'));
+          'http://${AppConstants
+              .baseurl}/gazi/salesforce/depositSelection.php?zid=${loginController
+              .zID.value}&xcus=$xcus'));
       if (responseDeposit.statusCode == 200) {
         if (responseDeposit.body.isNotEmpty) {
           var dpNum = depositListModelFromJson(responseDeposit.body);
@@ -1049,6 +1098,158 @@ class CartController extends GetxController {
       print('Please check again: $e');
     } finally {
       isProcessing(false);
+    }
+  }
+
+  Future<void> processOrder(String cusId, String xOrg,
+      BuildContext context) async {
+    try {
+      final StreamSubscription<InternetConnectionStatus> listener =
+      InternetConnectionChecker()
+          .onStatusChange
+          .listen((InternetConnectionStatus status) async {
+        switch (status) {
+          case InternetConnectionStatus.connected:
+          //code
+            isProcessing(true);
+            await insertToCart(cusId, xOrg, 'Open');
+            await generateSoNumber();
+            await getCartHeaderListForSync();
+            int i = (listCartHeaderForSync.length - 1);
+            var dataHeader = jsonEncode(<String, dynamic>{
+              "zauserid": loginController.xposition.value,
+              "zid": "${listCartHeaderForSync[i]['zid']}",
+              "xtornum": customId.value,
+              "xdate": "${listCartHeaderForSync[i]['createdAt']}",
+              "xcus": "${listCartHeaderForSync[i]['xcus']}",
+              "xpreparer": loginController.xstaff.value,
+              "xterritory": "${listCartHeaderForSync[i]['xterritory']}",
+              "xtso": "${listCartHeaderForSync[i]['xtso']}",
+              "xdm": "${listCartHeaderForSync[i]['xdm']}",
+              "xtotamt": '${listCartHeaderForSync[i]['total']}',
+              "xfwh": '${listCartHeaderForSync[i]['xfwh']}',
+              "xdivision": '${listCartHeaderForSync[i]['xdivision']}',
+              "xpnature": '${listCartHeaderForSync[i]['xpnature']}',
+              "xzm": '${listCartHeaderForSync[i]['xzm']}',
+              "xzone": '${listCartHeaderForSync[i]['xzone']}',
+              "xdisctype": '${listCartHeaderForSync[i]['xdisctype']}',
+              "xopincapply": incentive.value,
+            });
+
+            var responseHeader = await http.post(
+                Uri.parse(
+                    'http://${AppConstants
+                        .baseurl}/gazi/salesforce/SOtableInsert.php'),
+                body: dataHeader);
+            print('response header : ${responseHeader.body}');
+            var tempHeader = '${listCartHeaderForSync[i]['cartID']}';
+            await getCartHeaderDetailsListForSync(tempHeader);
+            for (int j = 0; j < listCartHeaderDetailsForSync.length; j++) {
+              var dataDetails = jsonEncode(<String, dynamic>{
+                "zid": listCartHeaderDetailsForSync[j]['zid'],
+                "zauserid": loginController.xposition.value,
+                "xtornum": customId.value,
+                "xrow": "${j + 1}",
+                "xitem": listCartHeaderDetailsForSync[j]['xitem'],
+                "xunit": listCartHeaderDetailsForSync[j]['xunit'],
+                "qty": listCartHeaderDetailsForSync[j]['xqty'],
+                "amount": listCartHeaderDetailsForSync[j]['subTotal'],
+                "xpartno": listCartHeaderDetailsForSync[j]['yes_no'],
+                "xmasteritem": listCartHeaderDetailsForSync[j]['xmasteritem'],
+                "xrate": listCartHeaderDetailsForSync[j]['xrate'],
+                "xvatrate": '0.0',
+                "xdisc": listCartHeaderDetailsForSync[j]['xdisc'],
+                "xdiscamt": listCartHeaderDetailsForSync[j]['xdiscamt'],
+                "xdiscad": listCartHeaderDetailsForSync[j]['xdiscad'],
+                "xdiscadamt": listCartHeaderDetailsForSync[j]['xdiscadamt'],
+                "xnote1": listCartHeaderDetailsForSync[j]['giftStatus'],
+              });
+              var responseDetails = await http.post(
+                  Uri.parse(
+                      'http://${AppConstants
+                          .baseurl}/gazi/salesforce/SOdetailsTableInsert.php'),
+                  body: dataDetails);
+              if (responseDetails.statusCode == 200) {
+                await DatabaseRepo()
+                    .updateCartHeaderTable(tempHeader, incentive.value);
+              }
+              print('so details = $responseDetails');
+            }
+            await getCartHeaderList();
+            var updateSO = await http.get(Uri.parse(
+                'http://${AppConstants
+                    .baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController
+                    .zID.value}'));
+            if (updateSO.statusCode == 200) {
+              print('Successfully updated----${updateSO.statusCode}');
+              isProcessing(false);
+              Get.to(() =>
+                  BillDetailsScreen(
+                    soNum: customId.value,
+                    tsoId: loginController.xtso.value,
+                    zID: loginController.zID.value,
+                    cartId: tempHeader,
+                    xOrg: xOrg,
+                    xCus: cusId,
+                  ));
+              Get.snackbar('Successful', 'Order placed successfully',
+                  backgroundColor: Colors.white,
+                  duration: const Duration(seconds: 2));
+            }
+            /*isProcessing(false);
+            Get.to(() => BillDetailsScreen(
+                  cartId: cartID,
+                  xOrg: xOrg,
+                  xCus: cusId,
+                ));
+            Get.snackbar('Successful', 'Order placed successfully',
+                backgroundColor: Colors.white,
+                duration: const Duration(seconds: 2));*/
+            break;
+          case InternetConnectionStatus.disconnected:
+          //code
+            Get.snackbar(
+                'Connection Error', 'You are disconnected from the internet',
+                backgroundColor: Colors.red,
+                colorText: Colors.white,
+                duration: const Duration(seconds: 1));
+            break;
+        }
+      });
+      // close listener after 30 seconds, so the program doesn't run forever
+      await Future<void>.delayed(const Duration(seconds: 2));
+      await listener.cancel();
+    } catch (e) {
+      print('Error occured $e');
+    }
+  }
+
+  RxBool isConfirmed = false.obs;
+
+  Future<void> confirmOrder(String zid, String soNum, String tsoId) async {
+    try {
+      isConfirmed(true);
+      var responseConfirm = await http.post(
+          Uri.parse(
+              'http://${AppConstants.baseurl}/gazi/salesforce/soConfirm.php'),
+          body: jsonEncode(<String, String>{
+            "zid": zid,
+            "xsonum": soNum,
+            "xtso": tsoId,
+          }));
+      if (responseConfirm.statusCode == 200) {
+        Get.back();
+        Get.back();
+        Get.back();
+        Get.back();
+      }
+      else {
+        print('Response body is empty');
+      }
+    } catch (e) {
+      print('Please check again: $e');
+    } finally {
+      isConfirmed(false);
     }
   }
 }

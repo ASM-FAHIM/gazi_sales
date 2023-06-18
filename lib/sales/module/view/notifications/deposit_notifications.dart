@@ -8,12 +8,12 @@ import '../../../widget/small_text.dart';
 import '../../controller/login_controller.dart';
 import '../../controller/notify_controller.dart';
 
-
 class DepositNotificationScreen extends StatefulWidget {
   const DepositNotificationScreen({Key? key}) : super(key: key);
 
   @override
-  State<DepositNotificationScreen> createState() => _DepositNotificationScreenState();
+  State<DepositNotificationScreen> createState() =>
+      _DepositNotificationScreenState();
 }
 
 class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
@@ -41,8 +41,11 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
               Icons.arrow_back_outlined,
               size: 25,
             )),
-        title: BigText(text: "Deposit notification", color: AppColor.defWhite, size: 25,),
-
+        title: BigText(
+          text: "Deposit notification",
+          color: AppColor.defWhite,
+          size: 25,
+        ),
       ),
       body: Obx(() {
         if (notifyController.isLoading1.value) {
@@ -52,14 +55,15 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
               children: [
                 Container(
                   margin: EdgeInsets.all(10.0),
-                  child: CircularProgressIndicator(color: AppColor.appBarColor,),
+                  child: CircularProgressIndicator(
+                    color: AppColor.appBarColor,
+                  ),
                 ),
                 Text('Loading...'),
               ],
             ),
           );
-        }
-        else {
+        } else {
           return ListView.builder(
               itemCount: notifyController.depositNotifyList.length,
               itemBuilder: (context, index) {
@@ -85,14 +89,18 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
                         height: Dimensions.height50,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: notifyController.changeColor(notifyController.depositNotifyList[index].xstatus),
+                          color: notifyController.changeColor(notifyController
+                              .depositNotifyList[index].xstatus),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0)
-                          ),
+                              topRight: Radius.circular(20.0)),
                         ),
                         alignment: Alignment.center,
-                        child: BigText(text: notifyController.depositNotifyList[index].xstatus, color: Colors.white,),
+                        child: BigText(
+                          text:
+                              notifyController.depositNotifyList[index].xstatus,
+                          color: Colors.white,
+                        ),
                       ),
                       Expanded(
                         child: Padding(
@@ -103,23 +111,57 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  BigText(text: notifyController.depositNotifyList[index].xdate, size: 12, color: AppColor.defRed,),
+                                  BigText(
+                                    text: notifyController
+                                        .depositNotifyList[index].xdate,
+                                    size: 12,
+                                    color: AppColor.defRed,
+                                  ),
                                 ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  BigText(text: notifyController.depositNotifyList[index].cusname, size: 20,),
+                                  BigText(
+                                    text: notifyController
+                                        .depositNotifyList[index].cusname,
+                                    size: 18,
+                                  ),
                                 ],
                               ),
-                              SizedBox(height: 5,),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SmallText(text: 'Deposit No : ${notifyController.depositNotifyList[index].xdepositnum}', size: 16),
-                                  SmallText(text: 'Bank : ${notifyController.depositNotifyList[index].xbank}', size: 16),
-                                  SmallText(text: 'Amount : ${notifyController.depositNotifyList[index].xamount} BDT', size: 16, color: AppColor.defRed,),
-                                ],
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SmallText(
+                                        text:
+                                            'Deposit No : ${notifyController.depositNotifyList[index].xdepositnum}',
+                                        size: 16),
+                                    SmallText(
+                                        text:
+                                            'Bank : ${notifyController.depositNotifyList[index].bankName}',
+                                        size: 16),
+                                    SmallText(
+                                        text:
+                                            'Branch : ${notifyController.depositNotifyList[index].xbranch}',
+                                        size: 16),
+                                    SmallText(
+                                        text:
+                                            'Check/Ref : ${notifyController.depositNotifyList[index].xdepositref}',
+                                        size: 16),
+                                    SmallText(
+                                      text:
+                                          'Amount : ${notifyController.depositNotifyList[index].xamount} BDT',
+                                      size: 16,
+                                      color: AppColor.defRed,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -143,8 +185,7 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
                     ],
                   ),
                 );
-              }
-          );
+              });
         }
       }),
     );

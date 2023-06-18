@@ -60,13 +60,14 @@ class GiftPromoRepo {
     print("Table deleted successfully");
   }
 
-  //cartHeaderInfo
+  //getGiftItem
   Future getGiftItem(String xitem, String zId) async {
     var dbClient = await conn.db;
     List gpList = [];
     try {
-      List<Map<String, dynamic>> maps =
-          await dbClient!.rawQuery("SELECT * FROM ${DBHelper.giftItem} Where xitem =? AND zid = ?", [xitem, zId]);
+      List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+          "SELECT * FROM ${DBHelper.giftItem} Where xitem =? AND zid = ?",
+          [xitem, zId]);
       for (var gpitems in maps) {
         gpList.add(gpitems);
       }
@@ -75,6 +76,23 @@ class GiftPromoRepo {
     }
     // print("All cart product from Header: $cartList");
     return gpList;
+  }
+
+  ///getAll giftPromoDetails
+  Future getAllPromoItems(String zId) async {
+    var dbClient = await conn.db;
+    List promoList = [];
+    try {
+      List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+          "SELECT * FROM ${DBHelper.promoDetails} Where zid = ?", [zId]);
+      for (var promos in maps) {
+        promoList.add(promos);
+      }
+    } catch (e) {
+      print("There are some issues getting products : $e");
+    }
+    // print("All cart product from Header: $cartList");
+    return promoList;
   }
 
   ///Promotion Header
@@ -209,12 +227,13 @@ class GiftPromoRepo {
     return result;
   }
 
-  Future getFromCaCusDiscTable(String xcus, String xitem) async{
+  Future getFromCaCusDiscTable(String xcus, String xitem) async {
     var dbClient = await conn.db;
     List caCusDisc = [];
     try {
-      List<Map<String, dynamic>> maps =
-      await dbClient!.rawQuery("SELECT * FROM ${DBHelper.caCusDisc} WHERE xcus =? AND xitem = ?", [xcus, xitem]);
+      List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+          "SELECT * FROM ${DBHelper.caCusDisc} WHERE xcus =? AND xitem = ?",
+          [xcus, xitem]);
       for (var cusDisList in maps) {
         caCusDisc.add(cusDisList);
       }

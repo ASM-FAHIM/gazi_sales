@@ -476,19 +476,4 @@ class LoginController extends GetxController {
       return isLoading6(false);
     }
   }
-
-/*  //for getting cart_List from cart table
-  List listGiftPromo = [];
-  RxBool listFetched = false.obs;
-
-  Future getGiftPromoList() async {
-    try {
-      listFetched(true);
-      listGiftPromo = await GiftPromoRepo().getGiftItem();
-      print(listGiftPromo);
-      listFetched(false);
-    } catch (error) {
-      print('There are some issue: $error');
-    }
-  }*/
 }

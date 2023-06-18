@@ -224,6 +224,8 @@ class CartTotal extends StatelessWidget {
               ),
               onPressed: () async {
                 Navigator.pop(context);
+                await cartController.processOrder(xCus, xOrg, context);
+                print('selected products are: ${cartController.addedProducts}');
               },
             ),
           ],
