@@ -1,19 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-//import 'package:hrandsells/hr/viewNotification.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
-
-import '../special/advance_adjustment_notification.dart';
-
-import '../special/land_advance_request_notificaition.dart';
-import '../special/legal_activities_notification.dart';
-import '../special/lfa_approval_notificaition.dart';
-import '../sr_notification.dart';
+import 'package:badges/badges.dart' as badges;
 import 'absent_employee.dart';
 import 'early_employee.dart';
 import 'late_employee.dart';
@@ -30,6 +21,7 @@ class HrApproverHome extends StatefulWidget {
     required this.adminleave,
     required this.adminabsent,
   });
+
   String xposition;
   String xstaff;
   String zemail;
@@ -39,7 +31,6 @@ class HrApproverHome extends StatefulWidget {
   String adminleave;
   String adminabsent;
 
-
   @override
   _HrApproverHomeState createState() => _HrApproverHomeState();
 }
@@ -48,14 +39,10 @@ class _HrApproverHomeState extends State<HrApproverHome> {
   // fetchnotification _noteList = fetchnotification();
   //fetchnotification _noteList = fetchnotification();
 
-
-
   late StreamController<int> _eventAbsent;
   late StreamController<int> _eventLeave;
   late StreamController<int> _eventLate;
   late StreamController<int> _eventEarly;
-
-
 
   void _counter() {
     widget.adminabsent;
@@ -69,11 +56,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
 
     widget.adminearly;
     _eventEarly.add(int.parse(widget.adminearly));
-
   }
-
-
-
 
   @override
   void initState() {
@@ -91,8 +74,6 @@ class _HrApproverHomeState extends State<HrApproverHome> {
 
     _eventEarly = new StreamController<int>();
     _eventEarly.add(int.parse(widget.adminearly));
-
-
   }
 
   Widget build(BuildContext context) {
@@ -150,14 +131,13 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       ),
                     );
                   },
-                  child: Badge(
+                  child: badges.Badge(
                     showBadge: int.parse(widget.adminlate) == 0 ? false : true,
-                    padding:
-                    EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),
                     badgeContent: StreamBuilder(
                       stream: _eventLate.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text("${snapshot.data}",
+                        return new Text(
+                          "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
                             color: Colors.white,
@@ -165,22 +145,21 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                         );
                       },
                     ),
-                    badgeColor: Color(0xff064A76),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Late Employees",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Late Employees",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
                 ),
               ),
             ),
@@ -215,14 +194,15 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                                   zemail: widget.zemail,
                                 )));
                   },
-                  child: Badge(
+                  child: badges.Badge(
                     showBadge: int.parse(widget.adminearly) == 0 ? false : true,
-                    padding:
-                    EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),
+                    /*padding:
+                        EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),*/
                     badgeContent: StreamBuilder(
                       stream: _eventEarly.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text("${snapshot.data}",
+                        return new Text(
+                          "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
                             color: Colors.white,
@@ -230,21 +210,21 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                         );
                       },
                     ),
-                    badgeColor: Color(0xff064A76),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Early Leave Employee",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                    //badgeColor: Color(0xff064A76),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Early Leave Employee",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -279,14 +259,15 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                                   xstaff: widget.xstaff,
                                 )));
                   },
-                  child: Badge(
+                  child: badges.Badge(
                     showBadge: int.parse(widget.adminleave) == 0 ? false : true,
-                    padding:
-                    EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),
+                    /*padding:
+                        EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),*/
                     badgeContent: StreamBuilder(
                       stream: _eventLeave.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text("${snapshot.data}",
+                        return new Text(
+                          "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
                             color: Colors.white,
@@ -294,24 +275,24 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                         );
                       },
                     ),
-                    badgeColor: Color(0xff064A76),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Leave & Tour for Approval",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.bakbakOne(
-                            fontSize: 18,
-                            color: Color(0xff064A76),
+                    //badgeColor: Color(0xff064A76),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            "Leave & Tour for Approval",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.bakbakOne(
+                              fontSize: 18,
+                              color: Color(0xff064A76),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -347,14 +328,16 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                                   zid: widget.zid,
                                 )));
                   },
-                  child: Badge(
-                    showBadge: int.parse(widget.adminabsent) == 0 ? false : true,
-                    padding:
-                    EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),
+                  child: badges.Badge(
+                    showBadge:
+                        int.parse(widget.adminabsent) == 0 ? false : true,
+                    /*padding:
+                        EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),*/
                     badgeContent: StreamBuilder(
                       stream: _eventAbsent.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text("${snapshot.data}",
+                        return new Text(
+                          "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
                             color: Colors.white,
@@ -362,21 +345,21 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                         );
                       },
                     ),
-                    badgeColor: Color(0xff064A76),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Absent Employee",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                    //badgeColor: Color(0xff064A76),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Absent Employee",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   ),
                 ),
               ),
