@@ -80,38 +80,43 @@ class _BusinessScreenState extends State<BusinessScreen> {
                   ],
                 ),
               )
-            : GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  // width / height: fixed for *all* items
-                  childAspectRatio: 1.1,
-                ),
-                itemCount: loginController.userWiseBusiness.length,
-                itemBuilder: (context, index) {
-                  return loginController.userWiseBusiness == []
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: BusinessWidget(
-                            businessName:
-                                loginController.userWiseBusiness[index]["zorg"],
-                            imgPath: loginController.changeImage(loginController
-                                .userWiseBusiness[index]["zorg"]),
-                            height: Dimensions.height70,
-                            width: Dimensions.height150,
-                            fit: BoxFit.fill,
-                            onPressed: () {
-                              Get.to(() => TsoSelectionScreen(
-                                  zid: loginController.userWiseBusiness[index]
-                                      ["zid"],
-                                  businessSupeID: 'Need to Modify',
-                                  xStaff: 'Need to modify'));
-                            },
-                          ),
-                        );
-                });
+            : Padding(
+                padding: EdgeInsets.all(10.0),
+                child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
+                      // width / height: fixed for *all* items
+                      childAspectRatio: 1.1,
+                    ),
+                    itemCount: loginController.userWiseBusiness.length,
+                    itemBuilder: (context, index) {
+                      return loginController.userWiseBusiness == []
+                          ? Container()
+                          : Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: BusinessWidget(
+                                businessName: loginController
+                                    .userWiseBusiness[index]["zorg"],
+                                imgPath: loginController.changeImage(
+                                    loginController.userWiseBusiness[index]
+                                        ["zorg"]),
+                                height: Dimensions.height30,
+                                width: Dimensions.height70,
+                                fit: BoxFit.fill,
+                                onPressed: () {
+                                  Get.to(() => TsoSelectionScreen(
+                                      zid: loginController
+                                          .userWiseBusiness[index]["zid"],
+                                      businessSupeID: 'Need to Modify',
+                                      xStaff: 'Need to modify'));
+                                },
+                              ),
+                            );
+                    }),
+              );
       }),
     ));
   }

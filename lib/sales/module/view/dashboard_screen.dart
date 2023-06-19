@@ -128,6 +128,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         margin: const EdgeInsets.all(10.0),

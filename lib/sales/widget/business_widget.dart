@@ -24,8 +24,8 @@ class BusinessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.width / 2.5,
-      width: MediaQuery.of(context).size.width / 2.5,
+      height: MediaQuery.of(context).size.width / 4,
+      width: MediaQuery.of(context).size.width / 4,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: Colors.white,

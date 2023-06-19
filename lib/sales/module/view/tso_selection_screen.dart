@@ -9,12 +9,13 @@ class TsoSelectionScreen extends StatefulWidget {
   String zid;
   String businessSupeID;
   String xStaff;
-  TsoSelectionScreen({
-    required this.zid,
-    required this.xStaff,
-    required this.businessSupeID,
-    Key? key
-  }) : super(key: key);
+
+  TsoSelectionScreen(
+      {required this.zid,
+      required this.xStaff,
+      required this.businessSupeID,
+      Key? key})
+      : super(key: key);
 
   @override
   State<TsoSelectionScreen> createState() => _TsoSelectionScreenState();
@@ -27,7 +28,7 @@ class _TsoSelectionScreenState extends State<TsoSelectionScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    loginController.getTerritory(widget.zid,widget.businessSupeID);
+    loginController.getTerritory(widget.zid, widget.businessSupeID);
     super.initState();
   }
 
@@ -52,7 +53,7 @@ class _TsoSelectionScreenState extends State<TsoSelectionScreen> {
             color: AppColor.defWhite,
             size: 25,
           ),
-            /*actions: [
+          /*actions: [
               Obx(() => IconButton(
                 onPressed: () {
                   loginController.fetchTerritoryList(widget.zid,widget.businessSupeID);
@@ -72,76 +73,88 @@ class _TsoSelectionScreenState extends State<TsoSelectionScreen> {
               )
             ]*/
         ),
-        body: Obx((){
-         return  loginController.territoryFetched.value
-          ? Center(
-             child: Column(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                 Container(
-                   margin: EdgeInsets.all(10.0),
-                   child: CircularProgressIndicator(color: AppColor.appBarColor,),
-                 ),
-                 Text('Loading...'),
-               ],
-             ),
-           )
-          : GridView.builder(
-             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                 crossAxisCount: 2,
-                 crossAxisSpacing: 2.0,
-                 mainAxisSpacing: 2.0,
-                 childAspectRatio: 1.4),
-              itemCount: loginController.territoryList.length,
-              itemBuilder: (context, index) {
-                return loginController.territoryList == []
-                    ? Container()
-                    : Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: GestureDetector(
-                        onTap: (){
-                          loginController.getTsoInfo(
-                              '${loginController.territoryList[index]["xtso"]}',
-                              '${loginController.territoryList[index]["xterritory"]}',
-                              '${loginController.territoryList[index]["xzone"]}',
-                              '${loginController.territoryList[index]["xzm"]}',
-                              '${loginController.territoryList[index]["xdivision"]}',
-                              '${loginController.territoryList[index]["xdm"]}'
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(),
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: const Color(0xff7c94b6),
-                            image:  DecorationImage(
-                                fit: BoxFit.cover,
-                                colorFilter:  ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
-                                image:  const AssetImage('assets/images/user.png',),
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BigText(
-                                text: loginController.territoryList[index]["xterritory"],
-                                size: 25,
-                                color:
-                                AppColor.defWhite,
-                              ),
-                              SmallText(
-                                text: loginController.territoryList[index]["xtso"],
-                                size: 12,
-                                color:
-                                AppColor.defWhite,
-                              ),
-                            ],
-                          ),
+        body: Obx(() {
+          return loginController.territoryFetched.value
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(10.0),
+                        child: CircularProgressIndicator(
+                          color: AppColor.appBarColor,
                         ),
-                ),
-                    );
-              });
+                      ),
+                      Text('Loading...'),
+                    ],
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 2.0,
+                              mainAxisSpacing: 2.0,
+                              childAspectRatio: 1.1),
+                      itemCount: loginController.territoryList.length,
+                      itemBuilder: (context, index) {
+                        return loginController.territoryList == []
+                            ? Container()
+                            : Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    loginController.getTsoInfo(
+                                        '${loginController.territoryList[index]["xtso"]}',
+                                        '${loginController.territoryList[index]["xterritory"]}',
+                                        '${loginController.territoryList[index]["xzone"]}',
+                                        '${loginController.territoryList[index]["xzm"]}',
+                                        '${loginController.territoryList[index]["xdivision"]}',
+                                        '${loginController.territoryList[index]["xdm"]}');
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: const Color(0xff7c94b6),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                            Colors.black.withOpacity(0.6),
+                                            BlendMode.dstATop),
+                                        image: const AssetImage(
+                                          'assets/images/user.png',
+                                        ),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        BigText(
+                                          text: loginController
+                                                  .territoryList[index]
+                                              ["xterritory"],
+                                          size: 14,
+                                          color: AppColor.defWhite,
+                                        ),
+                                        SmallText(
+                                          text: loginController
+                                              .territoryList[index]["xtso"],
+                                          size: 12,
+                                          color: AppColor.defWhite,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                      }),
+                );
         }),
       ),
     );

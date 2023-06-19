@@ -4,20 +4,18 @@ import '../../constant/colors.dart';
 import '../../widget/big_text.dart';
 import 'dart:math';
 
-class EODReportScreen extends StatefulWidget {
-  const EODReportScreen({Key? key}) : super(key: key);
+class ReportScreen extends StatefulWidget {
+  const ReportScreen({Key? key}) : super(key: key);
 
   @override
-  State<EODReportScreen> createState() => _EODReportScreenState();
+  State<ReportScreen> createState() => _ReportScreenState();
 }
 
-class _EODReportScreenState extends State<EODReportScreen> {
-
+class _ReportScreenState extends State<ReportScreen> {
   double _progress1 = 30;
   double _progress2 = 70;
   double _progress3 = 60;
   double _progress4 = 80;
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +24,12 @@ class _EODReportScreenState extends State<EODReportScreen> {
         backgroundColor: AppColor.appBarColor,
         leading: GestureDetector(
           onTap: () {
-              Get.back();
+            Get.back();
           },
           child: const Icon(
             Icons.arrow_back_outlined,
             size: 25,
-            ),
+          ),
         ),
         title: BigText(
           text: "EOD Report",
@@ -54,7 +52,7 @@ class _EODReportScreenState extends State<EODReportScreen> {
                 endColor: Colors.red,
                 width: 8.0,
               ),
-              child: Center(child: Text('$_progress4'+'%')),
+              child: Center(child: Text('$_progress4' + '%')),
             ),
           ),
         ),
@@ -69,8 +67,7 @@ class CircleProgress extends CustomPainter {
     required this.startColor,
     required this.endColor,
     required this.width,
-  })
-      : assert(progress != null),
+  })  : assert(progress != null),
         assert(startColor != null),
         assert(endColor != null),
         assert(width != null),
@@ -106,5 +103,4 @@ class CircleProgress extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
-
 }
