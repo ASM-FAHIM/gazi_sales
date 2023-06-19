@@ -290,7 +290,7 @@ class CartTotal extends StatelessWidget {
                             'Selected Item: ${cartController.selectedAmount.value}');
                       } else {
                         cartController.selectedNumber.value = '';
-                        cartController.selectedNumber.value = '';
+                        cartController.selectedAmount.value = '0.0';
                       }
                       print('Selected Item: $selectedItem');
                     },

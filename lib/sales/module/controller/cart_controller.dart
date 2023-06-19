@@ -1133,6 +1133,7 @@ class CartController extends GetxController {
               "xzone": '${listCartHeaderForSync[i]['xzone']}',
               "xdisctype": '${listCartHeaderForSync[i]['xdisctype']}',
               "xopincapply": incentive.value,
+              "xdepositnum": selectedNumber.value,
             });
 
             var responseHeader = await http.post(
