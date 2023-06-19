@@ -129,78 +129,101 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: size.height / 22,
-                                            child: Text(
-                                              'Discount Rate\n${cartController.listOfAddedProducts[index].xdisc} %',
+                                  if('${cartController.listOfAddedProducts[index].xpartno}' == 'No')...[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: size.height / 22,
+                                              child: Text(
+                                                'Discount Rate\n${cartController.listOfAddedProducts[index].xdisc} %',
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            height: size.height / 22,
-                                            child: Text(
-                                              'Discount\n${cartController.listOfAddedProducts[index].xdiscamt}',
+                                          Expanded(
+                                            child: Container(
+                                              height: size.height / 22,
+                                              child: Text(
+                                                'Discount\n${cartController.listOfAddedProducts[index].xdiscamt}',
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: size.height / 22,
-                                            child: Text(
-                                              'Additional Discount\n${cartController.listOfAddedProducts[index].xdiscad} %',
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: size.height / 22,
+                                              child: Text(
+                                                'Additional Discount\n${cartController.listOfAddedProducts[index].xdiscad} %',
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            height: size.height / 22,
-                                            child: Text(
-                                              'Additional Discount Amount\n${cartController.listOfAddedProducts[index].xdiscadamt}',
+                                          Expanded(
+                                            child: Container(
+                                              height: size.height / 22,
+                                              child: Text(
+                                                'Additional Discount Amount\n${cartController.listOfAddedProducts[index].xdiscadamt}',
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: size.height / 22,
-                                            child: Text(
-                                              'Rate\n${cartController.listOfAddedProducts[index].xrate}',
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: size.height / 22,
+                                              child: Text(
+                                                'Rate\n${cartController.listOfAddedProducts[index].xrate}',
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            height: size.height / 22,
-                                            child: Text(
-                                              'Line Amount\n${cartController.listOfAddedProducts[index].xlineamt}',
+                                          Expanded(
+                                            child: Container(
+                                              height: size.height / 22,
+                                              child: Text(
+                                                'Line Amount\n${cartController.listOfAddedProducts[index].xlineamt}',
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                  ]else...[
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: double.maxFinite,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                                'Accessories of',
+                                              style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.appBarColor),
+                                            ),
+                                            Text(
+                                                '${cartController.listOfAddedProducts[index].masterItemName}',
+                                              style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.appBarColor),),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+
                                 ],
                               ),
                             );

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -1134,6 +1133,7 @@ class CartController extends GetxController {
               "xzone": '${listCartHeaderForSync[i]['xzone']}',
               "xdisctype": '${listCartHeaderForSync[i]['xdisctype']}',
               "xopincapply": incentive.value,
+              "xdepositnum": selectedNumber.value,
             });
 
             var responseHeader = await http.post(

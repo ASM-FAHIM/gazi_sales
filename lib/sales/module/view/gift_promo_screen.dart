@@ -148,16 +148,32 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                                       children: [
                                                         SmallText(
                                                             text:
-                                                                'Color : ${giftPromo["xstype"]}',
+                                                                'Stype : ${giftPromo["xstype"]}',
                                                             size: 16),
                                                         SmallText(
                                                             text:
                                                                 'Color : ${giftPromo["xcolor"]}',
                                                             size: 16),
-                                                        SmallText(
-                                                            text:
-                                                                'Slab : From ${giftPromo["xfslab"]} to ${giftPromo["xtslab"]}',
-                                                            size: 16),
+                                                        Row(
+                                                          children: [
+                                                            SmallText(
+                                                                text:
+                                                                    'Slab : ',
+                                                                size: 16),
+                                                            SmallText(
+                                                                text:
+                                                                    '(${giftPromo["xfslab"]} to ',
+                                                                size: 16,
+                                                                color: AppColor.appBarColor,
+                                                            ),
+                                                            SmallText(
+                                                                text:
+                                                                    '${giftPromo["xtslab"]}) Ltr',
+                                                                size: 16,
+                                                              color: AppColor.appBarColor,
+                                                            ),
+                                                          ],
+                                                        ),
                                                         SmallText(
                                                             text:
                                                                 'Amount : ${giftPromo["xamount"]} Tk.',
