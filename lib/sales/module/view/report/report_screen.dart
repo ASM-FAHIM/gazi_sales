@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/module/view/report/monthly_so_report.dart';
+import 'package:gazi_sales_app/sales/module/view/report/pending_so_screen.dart';
 import 'package:get/get.dart';
-import '../../constant/colors.dart';
-import '../../widget/big_text.dart';
+import '../../../constant/colors.dart';
+import '../../../widget/big_text.dart';
 import 'dart:math';
+
+import '../../../widget/business_widget.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({Key? key}) : super(key: key);
@@ -12,48 +16,59 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  double _progress1 = 30;
+/*  double _progress1 = 30;
   double _progress2 = 70;
   double _progress3 = 60;
-  double _progress4 = 80;
+  double _progress4 = 80;*/
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.appBarColor,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: const Icon(
-            Icons.arrow_back_outlined,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColor.appBarColor,
+          leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: const Icon(
+              Icons.arrow_back_outlined,
+              size: 25,
+            ),
+          ),
+          title: BigText(
+            text: "Report",
+            color: AppColor.defWhite,
             size: 25,
           ),
         ),
-        title: BigText(
-          text: "EOD Report",
-          color: AppColor.defWhite,
-          size: 25,
-        ),
-      ),
-      body: Container(
-        height: 400,
-        width: 400,
-        margin: EdgeInsets.only(left: 10, right: 10),
-        child: Center(
-          child: SizedBox(
-            width: 150.0,
-            height: 130.0,
-            child: CustomPaint(
-              painter: CircleProgress(
-                progress: _progress4,
-                startColor: Colors.blue,
-                endColor: Colors.red,
-                width: 8.0,
-              ),
-              child: Center(child: Text('$_progress4' + '%')),
-            ),
+        body: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  BusinessWidget(
+                    businessName: 'Pending SO report',
+                    imgPath: 'assets/images/report.png',
+                    height: 70,
+                    onPressed: () {
+                      Get.to(() => PendingSOReport());
+                    },
+                  ),
+                  BusinessWidget(
+                    businessName: 'Monthly SO report',
+                    imgPath: 'assets/images/worknote.png',
+                    height: 70,
+                    onPressed: () {
+                      Get.to(() => MonthlySOReport());
+                    },
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),
@@ -61,7 +76,7 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 }
 
-class CircleProgress extends CustomPainter {
+/*class CircleProgress extends CustomPainter {
   const CircleProgress({
     required this.progress,
     required this.startColor,
@@ -103,4 +118,4 @@ class CircleProgress extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
-}
+}*/

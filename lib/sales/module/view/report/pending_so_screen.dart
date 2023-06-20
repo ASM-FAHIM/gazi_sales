@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/module/controller/report_controller.dart';
+import '../../../base/no_data_page.dart';
+import '../../../constant/colors.dart';
+import '../../../constant/dimensions.dart';
+import '../../../widget/big_text.dart';
 import 'package:get/get.dart';
-import '../../base/no_data_page.dart';
-import '../../constant/colors.dart';
-import '../../constant/dimensions.dart';
-import '../../widget/big_text.dart';
-import '../../widget/small_text.dart';
-import '../controller/dashboard_controller.dart';
 
-class GiftAndPromoScreen extends StatefulWidget {
-  const GiftAndPromoScreen({Key? key}) : super(key: key);
+import '../../../widget/small_text.dart';
+
+class PendingSOReport extends StatefulWidget {
+  const PendingSOReport({Key? key}) : super(key: key);
 
   @override
-  State<GiftAndPromoScreen> createState() => _GiftAndPromoScreenState();
+  State<PendingSOReport> createState() => _PendingSOReportState();
 }
 
-class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
-  DashboardController dashboardController = Get.put(DashboardController());
+class _PendingSOReportState extends State<PendingSOReport> {
+  ReportController report = Get.put(ReportController());
 
   @override
   void initState() {
     // TODO: implement initState
-    dashboardController.getGiftPromoList();
     super.initState();
+    report.fetchPendingSoList();
   }
 
   @override
@@ -39,7 +40,7 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                 size: 25,
               )),
           title: BigText(
-            text: "Gift & Promo",
+            text: "Pending SO report",
             color: AppColor.defWhite,
             size: 25,
           ),
@@ -47,7 +48,7 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
         body: Container(
           margin: EdgeInsets.only(left: 5, right: 5, top: 10),
           child: Container(
-            child: Obx(() => dashboardController.listFetched.value
+            child: Obx(() => report.isLoading.value
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -65,18 +66,17 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      dashboardController.listGiftPromo.isEmpty
+                      report.pendingList.isEmpty
                           ? const NoDataPage(
-                              text: 'Sorry! no gift available right now')
+                              text: 'Sorry! no pending SO available right now')
                           : Expanded(
                               child: ListView.builder(
-                                  itemCount:
-                                      dashboardController.listGiftPromo.length,
+                                  itemCount: report.pendingList.length,
                                   itemBuilder: (context, index) {
-                                    var giftPromo = dashboardController
-                                        .listGiftPromo[index];
+                                    var pendinSO = report.pendingList[index];
                                     return Container(
-                                      height: Dimensions.height150,
+                                      height: Dimensions.height150 +
+                                          Dimensions.height50,
                                       width: double.infinity,
                                       margin: EdgeInsets.all(12.0),
                                       decoration: BoxDecoration(
@@ -100,7 +100,7 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                           Container(
                                             height: Dimensions.height50,
                                             width: double.infinity,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Colors.teal,
                                               borderRadius: BorderRadius.only(
                                                   topLeft:
@@ -110,7 +110,7 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                             ),
                                             alignment: Alignment.center,
                                             child: BigText(
-                                              text: '${giftPromo["xtrnnum"]}',
+                                              text: pendinSO.xorg,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -122,21 +122,16 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  /*Row(
+                                                  Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                        MainAxisAlignment.end,
                                                     children: [
-                                                      BigText(
-                                                        text:
-                                                            '${giftPromo["xstype"]}',
-                                                        size: 18,
+                                                      SmallText(
+                                                        text: pendinSO.xdate,
+                                                        size: 11,
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),*/
                                                   Padding(
                                                     padding: const EdgeInsets
                                                             .symmetric(
@@ -146,38 +141,29 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        /* SmallText(
-                                                            text:
-                                                                'Stype : ${giftPromo["xstype"]}',
-                                                            size: 16),*/
                                                         SmallText(
                                                             text:
-                                                                'Color : ${giftPromo["xcolor"]}',
+                                                                'So No : ${pendinSO.xsonumber}',
                                                             size: 16),
-                                                        Row(
-                                                          children: [
-                                                            SmallText(
-                                                                text: 'Slab : ',
-                                                                size: 16),
-                                                            SmallText(
-                                                              text:
-                                                                  '(${giftPromo["xfslab"]} to ',
-                                                              size: 16,
-                                                              color: AppColor
-                                                                  .appBarColor,
-                                                            ),
-                                                            SmallText(
-                                                              text:
-                                                                  '${giftPromo["xtslab"]}) Ltr',
-                                                              size: 16,
-                                                              color: AppColor
-                                                                  .appBarColor,
-                                                            ),
-                                                          ],
-                                                        ),
                                                         SmallText(
                                                             text:
-                                                                'Amount : ${giftPromo["xamount"]} Tk.',
+                                                                'Product desc : ${pendinSO.xdesc}',
+                                                            size: 16),
+                                                        SmallText(
+                                                            text:
+                                                                'So qty : ${pendinSO.soQty}',
+                                                            size: 16),
+                                                        SmallText(
+                                                            text:
+                                                                'DC qty : ${pendinSO.dcQty}',
+                                                            size: 16),
+                                                        SmallText(
+                                                            text:
+                                                                'Pending qty : ${pendinSO.xpendingqty}',
+                                                            size: 16),
+                                                        SmallText(
+                                                            text:
+                                                                'Preclose qty : ${pendinSO.xpendingqty}',
                                                             size: 16),
                                                       ],
                                                     ),
@@ -197,4 +183,47 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
       ),
     );
   }
+
+/*  Widget _dataTable(int index, BuildContext context) {
+    final width = MediaQuery.of(context).size.width - 40;
+    return Column(
+      children: [
+        Row(
+          children: [
+            DataTableWidget(
+              width / 5.5,
+              '${report.pendingList[index].xdate}',
+              shouldColorTop: true,
+            ),
+            DataTableWidget(width / 5, '${report.pendingList[index].xdate}',
+                shouldColorTop: true, shouldColorLeft: true),
+            DataTableWidget(width / 5.8, 'Value 2',
+                shouldColorTop: true, shouldColorLeft: true),
+            DataTableWidget(width / 4.5, 'Value 3',
+                shouldColorTop: true, shouldColorLeft: true),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget _tableTitle(BuildContext context) {
+    final width = MediaQuery.of(context).size.width - 40;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            TableTitle(width / 5.5, 'SO number', shouldOffRight: false),
+            TableTitle(width / 5, 'Date'),
+            TableTitle(width / 5.8, 'Dealer name'),
+            TableTitle(width / 4.5, 'Product name'),
+            TableTitle(width / 4.5, 'So qty'),
+            TableTitle(width / 4.5, 'DC qty'),
+            TableTitle(width / 4.5, 'Pending qty'),
+          ],
+        )
+      ],
+    );
+  }*/
 }

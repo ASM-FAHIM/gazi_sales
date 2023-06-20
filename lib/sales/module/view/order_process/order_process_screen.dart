@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/view/order_process/product_list_screen.dart';
 import 'package:gazi_sales_app/sales/module/view/order_process/product_type_selection_screen.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
 import '../../../widget/big_text.dart';
@@ -178,28 +179,69 @@ class _OrderScreenState extends State<OrderScreen> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Container(
-                                                        width: 200,
-                                                        child: SmallText(
-                                                          text: dashboardController
-                                                                  .foundDealerList[
-                                                              index]['xmadd'],
-                                                          size: 12,
-                                                        ),
-                                                      ),
-                                                      Column(
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          SmallText(
-                                                            text: dashboardController
-                                                                    .foundDealerList[
-                                                                index]['xcus'],
+                                                          Icon(
+                                                            MdiIcons.home,
                                                             size: 12,
                                                           ),
-                                                          SmallText(
-                                                            text: dashboardController
-                                                                    .foundDealerList[
-                                                                index]['xphone'],
-                                                            size: 12,
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Container(
+                                                            width: 200,
+                                                            child: SmallText(
+                                                              text: dashboardController
+                                                                      .foundDealerList[
+                                                                  index]['xmadd'],
+                                                              size: 12,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                MdiIcons
+                                                                    .account,
+                                                                size: 12,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              SmallText(
+                                                                text: dashboardController
+                                                                        .foundDealerList[
+                                                                    index]['xcus'],
+                                                                size: 12,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                MdiIcons.phone,
+                                                                size: 12,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              SmallText(
+                                                                text: dashboardController
+                                                                            .foundDealerList[
+                                                                        index]
+                                                                    ['xphone'],
+                                                                size: 12,
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),

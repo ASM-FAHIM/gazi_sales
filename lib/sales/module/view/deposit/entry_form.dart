@@ -488,7 +488,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   () => TextField(
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Enter Date',
+                                      hintText: 'Enter deposit date',
                                     ),
                                     onTap: () async {
                                       final selectedDate = await showDatePicker(
@@ -505,10 +505,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                     },
                                     readOnly: true,
                                     controller: TextEditingController(
-                                      text: DateFormat.yMMMd().format(
-                                        DateTime.parse(
-                                            depositController.date.value),
-                                      ),
+                                      text: depositController.date.value,
                                     ),
                                   ),
                                 ),

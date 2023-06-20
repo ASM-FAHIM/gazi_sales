@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/controller/deposit_controller.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
 import '../../../widget/big_text.dart';
@@ -45,52 +46,6 @@ class _DepositEntryScreenState extends State<DepositEntryScreen> {
             color: AppColor.defWhite,
             size: 25,
           ),
-          /*actions: [
-          Container(
-            width: Dimensions.height70 + Dimensions.height45,
-            child: DropdownButtonFormField(
-              decoration: const InputDecoration(
-                enabledBorder: OutlineInputBorder( //<-- SEE HERE
-                  borderSide: BorderSide(color: Colors.black, width: 1),
-                ),
-                focusedBorder: OutlineInputBorder( //<-- SEE HERE
-                  borderSide: BorderSide(color: Colors.black, width: 1),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              dropdownColor: AppColor.defWhite,
-              items: <String>[
-                "Tank",
-                "Toy",
-              ].map<DropdownMenuItem<String>>(
-                    (String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                    ),
-                  );
-                },
-              ).toList(),
-              onChanged: (value) {
-                depositController.selectedOption.value = value.toString();
-              },
-              hint: Obx(() => Text(
-                depositController.selectedOption.value,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 15.0,
-                ),
-              )),
-              isExpanded: true, // to make the dropdown button span the full width of the container
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                color: Colors.grey,
-              ),
-            ),
-          )
-        ],*/
         ),
         body: Obx(() {
           return depositController.isLoading.value
@@ -120,108 +75,171 @@ class _DepositEntryScreenState extends State<DepositEntryScreen> {
                             suffixIcon: Icon(Icons.search)),
                         onChanged: (value) => depositController.search(value),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: depositController.filteredDeals.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 5, bottom: 5),
-                                child: SizedBox(
-                                  height:
-                                      Dimensions.height50 + Dimensions.height20,
-                                  child: ListTile(
-                                    onTap: () {
-                                      // go to Mechanic screen
-                                      Get.to(() => DepositFormScreen(
-                                            tso: depositController
-                                                .filteredDeals[index]["xtso"],
-                                            cusId: depositController
-                                                .filteredDeals[index]["xcus"],
-                                            cusName: depositController
-                                                .filteredDeals[index]["xorg"],
-                                            territory: depositController
-                                                    .filteredDeals[index]
-                                                ["xterritory"],
-                                            zone: depositController
-                                                        .filteredDeals[index]
-                                                    ["xzone"] ??
-                                                ' ',
-                                            zm: depositController
-                                                        .filteredDeals[index]
-                                                    ["xzm"] ??
-                                                ' ',
-                                            division: depositController
-                                                        .filteredDeals[index]
-                                                    ["xdivision"] ??
-                                                ' ',
-                                            dm: depositController
-                                                        .filteredDeals[index]
-                                                    ["dm"] ??
-                                                ' ',
-                                          ));
-                                      //Get.to(() => QrScreen());
-                                    },
-                                    tileColor: AppColor.appBarColor,
-                                    title: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        BigText(
-                                          text: depositController
-                                              .filteredDeals[index]["xorg"],
-                                          size: 14,
-                                          color: AppColor.defWhite,
-                                        )
-                                      ],
-                                    ),
-                                    subtitle: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SmallText(
-                                                  text: depositController
-                                                          .filteredDeals[index]
-                                                      ["xcus"],
-                                                  size: 10,
-                                                ),
-                                                Container(
-                                                  height: 50,
-                                                  width: Dimensions.height150,
-                                                  child: SmallText(
-                                                    text: depositController
-                                                            .filteredDeals[
-                                                        index]["xphone"],
-                                                    size: 10,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            Container(
-                                              height: 60,
-                                              width: Dimensions.height150,
-                                              child: SmallText(
-                                                text: depositController
-                                                        .filteredDeals[index]
-                                                    ["xmadd"],
-                                                size: 10,
-                                              ),
-                                            )
-                                          ],
+                      Obx(() {
+                        return Expanded(
+                          child: ListView.builder(
+                              itemCount: depositController.filteredDeals.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 10),
+                                  child: Container(
+                                    height: Dimensions.height70 +
+                                        Dimensions.height20,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: AppColor.appBarColor,
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: Offset(0,
+                                              1), // changes position of shadow
                                         ),
                                       ],
                                     ),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        // go to Mechanic screen
+                                        Get.to(() => DepositFormScreen(
+                                              tso: depositController
+                                                  .filteredDeals[index]["xtso"],
+                                              cusId: depositController
+                                                  .filteredDeals[index]["xcus"],
+                                              cusName: depositController
+                                                  .filteredDeals[index]["xorg"],
+                                              territory: depositController
+                                                      .filteredDeals[index]
+                                                  ["xterritory"],
+                                              zone: depositController
+                                                          .filteredDeals[index]
+                                                      ["xzone"] ??
+                                                  ' ',
+                                              zm: depositController
+                                                          .filteredDeals[index]
+                                                      ["xzm"] ??
+                                                  ' ',
+                                              division: depositController
+                                                          .filteredDeals[index]
+                                                      ["xdivision"] ??
+                                                  ' ',
+                                              dm: depositController
+                                                          .filteredDeals[index]
+                                                      ["dm"] ??
+                                                  ' ',
+                                            ));
+                                      },
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              BigText(
+                                                text: depositController
+                                                        .filteredDeals[index]
+                                                    ['xorg'],
+                                                size: 16,
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Icon(
+                                                        MdiIcons.home,
+                                                        size: 12,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Container(
+                                                        width: 200,
+                                                        child: SmallText(
+                                                          text: depositController
+                                                                  .filteredDeals[
+                                                              index]['xmadd'],
+                                                          size: 12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            MdiIcons.account,
+                                                            size: 12,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          SmallText(
+                                                            text: depositController
+                                                                    .filteredDeals[
+                                                                index]['xcus'],
+                                                            size: 12,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            MdiIcons.phone,
+                                                            size: 12,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          SmallText(
+                                                            text: depositController
+                                                                    .filteredDeals[
+                                                                index]['xphone'],
+                                                            size: 12,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }),
-                      )
+                                );
+                              }),
+                        );
+                      })
                     ],
                   ),
                 );
@@ -230,3 +248,140 @@ class _DepositEntryScreenState extends State<DepositEntryScreen> {
     );
   }
 }
+/*
+Expanded(
+child: ListView.builder(
+itemCount: depositController.filteredDeals.length,
+itemBuilder: (context, index) {
+return Padding(
+padding:
+const EdgeInsets.only(top: 5, bottom: 5),
+child: SizedBox(
+height:
+Dimensions.height50 + Dimensions.height20,
+child: ListTile(
+onTap: () {
+// go to Mechanic screen
+Get.to(() => DepositFormScreen(
+tso: depositController
+    .filteredDeals[index]["xtso"],
+cusId: depositController
+    .filteredDeals[index]["xcus"],
+cusName: depositController
+    .filteredDeals[index]["xorg"],
+territory: depositController
+    .filteredDeals[index]
+["xterritory"],
+zone: depositController
+    .filteredDeals[index]
+["xzone"] ??
+' ',
+zm: depositController
+    .filteredDeals[index]
+["xzm"] ??
+' ',
+division: depositController
+    .filteredDeals[index]
+["xdivision"] ??
+' ',
+dm: depositController
+    .filteredDeals[index]
+["dm"] ??
+' ',
+));
+//Get.to(() => QrScreen());
+},
+tileColor: AppColor.appBarColor,
+title: Row(
+crossAxisAlignment:
+CrossAxisAlignment.start,
+children: [
+BigText(
+text: depositController
+    .filteredDeals[index]["xorg"],
+size: 14,
+color: AppColor.defWhite,
+)
+],
+),
+subtitle: Column(
+children: [
+Row(
+mainAxisAlignment:
+MainAxisAlignment.spaceBetween,
+children: [
+Column(
+crossAxisAlignment:
+CrossAxisAlignment.start,
+children: [
+Row(
+children: [
+Icon(
+MdiIcons.account,
+size: 12,
+color: Colors.white,
+),
+SizedBox(
+width: 5,
+),
+SmallText(
+text: depositController
+    .filteredDeals[
+index]["xcus"],
+size: 10,
+),
+],
+),
+Row(
+children: [
+Icon(
+MdiIcons.phone,
+size: 12,
+color: Colors.white,
+),
+SizedBox(
+width: 5,
+),
+SmallText(
+text: depositController
+    .filteredDeals[
+index]['xphone'],
+size: 12,
+),
+],
+),
+],
+),
+Row(
+crossAxisAlignment:
+CrossAxisAlignment.start,
+children: [
+Icon(
+MdiIcons.home,
+size: 12,
+color: Colors.white,
+),
+SizedBox(
+width: 5,
+),
+Container(
+height: 60,
+width: Dimensions.height150,
+child: SmallText(
+text: depositController
+    .filteredDeals[
+index]["xmadd"],
+size: 10,
+),
+),
+],
+)
+],
+),
+],
+),
+),
+),
+);
+}),
+)*/

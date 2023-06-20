@@ -12,7 +12,7 @@ import '../module/view/gift_promo_screen.dart';
 import '../module/view/history/history_screen.dart';
 import '../module/view/notifications/notification_screen.dart';
 import '../module/view/order_process/order_process_screen.dart';
-import '../module/view/report_screen.dart';
+import '../module/view/report/report_screen.dart';
 import '../module/view/sro_summary/sro_screen.dart';
 import '../module/view/work_note_screen.dart';
 import 'big_text.dart';

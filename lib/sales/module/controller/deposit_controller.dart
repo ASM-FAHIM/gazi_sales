@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import '../../constant/app_constants.dart';
 import '../../databaseHelper/database_repo.dart';
 import '../../databaseHelper/deposit_repo.dart';
@@ -133,10 +134,11 @@ class DepositController extends GetxController {
 
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
-  final date = DateTime.now().toString().obs;
+  final date = ''.obs;
 
   updateDate(DateTime dateTime) {
-    date.value = dateTime.toString();
+    date.value = DateFormat.yMMMd().format(DateTime.parse(dateTime.toString()));
+    print('Deposit date value: ${date.value}');
   }
 
   //for submit operation
