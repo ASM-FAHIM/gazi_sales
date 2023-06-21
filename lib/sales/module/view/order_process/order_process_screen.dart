@@ -108,7 +108,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                           horizontal: 5, vertical: 10),
                                       child: Container(
                                         height: Dimensions.height70 +
-                                            Dimensions.height20,
+                                            Dimensions.height45,
                                         clipBehavior: Clip.hardEdge,
                                         decoration: BoxDecoration(
                                           color: Colors.white,

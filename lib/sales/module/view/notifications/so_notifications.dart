@@ -134,12 +134,12 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                                           BigText(
                                             text: notifyController
                                                 .notifyList[index].cusname,
-                                            size: 20,
+                                            size: 16,
                                           ),
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 15,
+                                        height: 10,
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -148,15 +148,15 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                                           SmallText(
                                               text:
                                                   'So No : ${notifyController.notifyList[index].xsonumber}',
-                                              size: 16),
+                                              size: 14),
                                           SmallText(
                                               text:
                                                   'Customer Id : ${notifyController.notifyList[index].xcus}',
-                                              size: 16),
+                                              size: 14),
                                           SmallText(
                                             text:
                                                 'Territory : ${notifyController.notifyList[index].xterritory}',
-                                            size: 16,
+                                            size: 14,
                                             color: AppColor.defRed,
                                           ),
                                         ],

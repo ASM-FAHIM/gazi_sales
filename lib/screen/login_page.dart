@@ -283,7 +283,7 @@ class _Login_pageState extends State<Login_page> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 5.2),
+                        top: MediaQuery.of(context).size.height / 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -548,7 +548,7 @@ class _Login_pageState extends State<Login_page> {
                     ),
                   ),
                   const SizedBox(
-                    height: 60,
+                    height: 20,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

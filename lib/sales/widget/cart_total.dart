@@ -318,7 +318,7 @@ class CartTotal extends StatelessWidget {
         ),
         Obx(() {
           return Container(
-            height: Dimensions.height70,
+            height: Dimensions.height70 + Dimensions.height35,
             width: double.maxFinite,
             padding:
                 const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),

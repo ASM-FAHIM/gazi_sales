@@ -56,7 +56,7 @@ class BusinessWidget extends StatelessWidget {
             ),
             BigText(
               text: businessName,
-              size: 14,
+              size: 12,
             )
           ],
         ),

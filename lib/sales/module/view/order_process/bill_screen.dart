@@ -89,7 +89,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                           itemCount: cartController.listOfAddedProducts.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              height: size.height / 5,
+                              height: size.height / 4.8,
                               margin: EdgeInsets.all(8.0),
                               padding: EdgeInsets.all(6.0),
                               decoration: BoxDecoration(
@@ -129,7 +129,8 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  if('${cartController.listOfAddedProducts[index].xpartno}' == 'No')...[
+                                  if ('${cartController.listOfAddedProducts[index].xpartno}' ==
+                                      'No') ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 6),
@@ -202,28 +203,36 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                         ],
                                       ),
                                     ),
-                                  ]else...[
+                                  ] else ...[
                                     Expanded(
                                       child: Container(
                                         alignment: Alignment.center,
                                         width: double.maxFinite,
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                'Accessories of',
-                                              style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.appBarColor),
+                                              'Accessories of',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColor.appBarColor),
                                             ),
                                             Text(
-                                                '${cartController.listOfAddedProducts[index].masterItemName}',
-                                              style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.appBarColor),),
+                                              '${cartController.listOfAddedProducts[index].masterItemName}',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColor.appBarColor),
+                                            ),
                                           ],
                                         ),
                                       ),
                                     )
                                   ],
-
                                 ],
                               ),
                             );

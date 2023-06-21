@@ -181,7 +181,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           horizontal: 5, vertical: 10),
                                       child: Container(
                                         height: Dimensions.height70 +
-                                            Dimensions.height20,
+                                            Dimensions.height35,
                                         clipBehavior: Clip.hardEdge,
                                         decoration: BoxDecoration(
                                           color: Colors.white,

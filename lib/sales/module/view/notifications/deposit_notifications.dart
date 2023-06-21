@@ -68,7 +68,7 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
               itemCount: notifyController.depositNotifyList.length,
               itemBuilder: (context, index) {
                 return Container(
-                  height: Dimensions.height200,
+                  height: Dimensions.height200 + Dimensions.height30,
                   width: double.infinity,
                   margin: EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
@@ -125,12 +125,12 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
                                   BigText(
                                     text: notifyController
                                         .depositNotifyList[index].cusname,
-                                    size: 18,
+                                    size: 16,
                                   ),
                                 ],
                               ),
                               SizedBox(
-                                height: 5,
+                                height: 10,
                               ),
                               Padding(
                                 padding:
@@ -141,22 +141,22 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
                                     SmallText(
                                         text:
                                             'Deposit No : ${notifyController.depositNotifyList[index].xdepositnum}',
-                                        size: 16),
+                                        size: 14),
                                     SmallText(
                                         text:
                                             'Bank : ${notifyController.depositNotifyList[index].bankName}',
-                                        size: 16),
+                                        size: 14),
                                     SmallText(
                                         text:
                                             'Branch : ${notifyController.depositNotifyList[index].xbranch}',
-                                        size: 16),
+                                        size: 14),
                                     SmallText(
                                         text:
                                             'Check/Ref : ${notifyController.depositNotifyList[index].xdepositref}',
-                                        size: 16),
+                                        size: 14),
                                     SmallText(
                                       text:
-                                          'Amount : ${notifyController.depositNotifyList[index].xamount} BDT',
+                                          'Amount : ${notifyController.depositNotifyList[index].xamount} Tk.',
                                       size: 16,
                                       color: AppColor.defRed,
                                     ),

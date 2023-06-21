@@ -34,8 +34,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
               Icons.arrow_back_outlined,
               size: 25,
             )),
-        title: BigText(text: "Notifications", color: AppColor.defWhite, size: 25,),
-
+        title: BigText(
+          text: "Notifications",
+          color: AppColor.defWhite,
+          size: 25,
+        ),
       ),
       body: Container(
         child: Column(
@@ -48,16 +51,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 BusinessWidget(
                   businessName: 'Sales Notification',
                   imgPath: 'assets/images/sale.png',
-                  height: 100,
-                  onPressed: (){
-                    Get.to(()=> SoNotificationScreen());
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => SoNotificationScreen());
                   },
                 ),
                 BusinessWidget(
                   businessName: 'Deposit Notification',
                   imgPath: 'assets/images/bank.png',
-                  height: 100,
-                  onPressed: (){
+                  height: 70,
+                  onPressed: () {
                     Get.to(() => DepositNotificationScreen());
                   },
                 ),
