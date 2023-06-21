@@ -9,10 +9,9 @@ import '../module/controller/login_controller.dart';
 import '../module/view/dashboard_screen.dart';
 import '../module/view/deposit/deposi_entry_screen.dart';
 import '../module/view/gift_promo_screen.dart';
-import '../module/view/history/history_screen.dart';
 import '../module/view/notifications/notification_screen.dart';
 import '../module/view/order_process/order_process_screen.dart';
-import '../module/view/report/report_screen.dart';
+import '../module/view/report/dealer_screen.dart';
 import '../module/view/sro_summary/sro_screen.dart';
 import '../module/view/work_note_screen.dart';
 import 'big_text.dart';
@@ -217,7 +216,7 @@ class CusDrawer extends StatelessWidget {
                       ListTile(
                         onTap: () {
                           Get.back();
-                          Get.to(() => ReportScreen());
+                          Get.to(() => DealerReportScreen());
                         },
                         leading: const Icon(
                           MdiIcons.chartLine,
