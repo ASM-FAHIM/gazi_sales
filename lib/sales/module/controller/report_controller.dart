@@ -2,6 +2,7 @@ import 'package:gazi_sales_app/sales/module/controller/login_controller.dart';
 import 'package:get/get.dart';
 import '../../constant/app_constants.dart';
 import '../../databaseHelper/database_repo.dart';
+import '../model/bank_list_model.dart';
 import '../model/monthly_so_report.dart';
 import '../model/pending_so_report_model.dart';
 import 'package:http/http.dart' as http;
@@ -84,6 +85,23 @@ class ReportController extends GetxController {
       monthlySoList.assignAll(monSoList.map((e) => e));
     } finally {
       isLoading1(false);
+    }
+  }
+
+//creating dropdown value
+  //Bank list inserted into database
+  RxBool soFetched = false.obs;
+  List<BankListModel> bankList = [];
+
+  Future<void> insertToBankTable() async {
+    try {
+      soFetched(true);
+      var response = await http.get(Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/deposit/bankList.php'));
+      var monSoList = bankListModelFromJson(response.body);
+      bankList.assignAll(monSoList.map((e) => e));
+    } finally {
+      soFetched(false);
     }
   }
 }
