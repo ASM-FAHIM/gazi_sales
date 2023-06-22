@@ -331,7 +331,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                             );
                                           });
                                     },
-                                    child: cartController.isSync.value
+                                    child: cartController.isConfirmed.value
                                         ? const CircularProgressIndicator(
                                             color: AppColor.defWhite,
                                           )

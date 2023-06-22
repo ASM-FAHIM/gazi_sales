@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/module/view/report/customer_ledger_screen.dart';
 import 'package:gazi_sales_app/sales/module/view/report/monthly_so_report.dart';
 import 'package:gazi_sales_app/sales/module/view/report/pending_so_screen.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
 import 'dart:math';
@@ -67,7 +69,56 @@ class _ReportScreenState extends State<ReportScreen> {
                     },
                   ),
                 ],
-              )
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 10),
+                child: Container(
+                  height: MediaQuery.of(context).size.width / 2.5,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    //border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColor.appBarColor.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const CustomerLedgerScreen()));
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Image(
+                          image: AssetImage('assets/images/expense_report.png'),
+                          height: 70,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        BigText(
+                          text: 'Customer ledger',
+                          size: 12,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

@@ -142,6 +142,7 @@ class DepositController extends GetxController {
   }
 
   //for submit operation
+  TextEditingController reference = TextEditingController();
   TextEditingController amount = TextEditingController();
   TextEditingController depositBranch = TextEditingController();
   TextEditingController cusBank = TextEditingController();
@@ -266,7 +267,8 @@ class DepositController extends GetxController {
               "xarnature": invoiceType,
               "xpaymenttype": paymentType,
               "xcusbank": cusBank.text,
-              "xchequeno": chkRefNo.text
+              "xchequeno": chkRefNo.text,
+              "xref": reference.text,
             }));
 
         if (response.statusCode == 200) {
@@ -384,6 +386,7 @@ class DepositController extends GetxController {
   }
 
   void clearFields() {
+    reference.clear();
     amount.clear();
     depositBranch.clear();
     invoiceType.value = 'Invoice type';
