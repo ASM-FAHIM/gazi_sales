@@ -41,9 +41,6 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print('So number = ${widget.soNum}');
-    print('tsoId = ${widget.tsoId}');
-    print('zID = ${widget.zID}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -90,8 +87,8 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                           itemBuilder: (context, index) {
                             return Container(
                               height: size.height / 4.8,
-                              margin: EdgeInsets.all(8.0),
-                              padding: EdgeInsets.all(6.0),
+                              margin: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(6.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20.0),
@@ -101,7 +98,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                         AppColor.appBarColor.withOpacity(0.5),
                                     spreadRadius: 1,
                                     blurRadius: 2,
-                                    offset: Offset(
+                                    offset: const Offset(
                                         0, 2), // changes position of shadow
                                   ),
                                 ],
@@ -109,8 +106,9 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    '${cartController.listOfAddedProducts[index].itemName}',
-                                    style: TextStyle(
+                                    cartController
+                                        .listOfAddedProducts[index].itemName,
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13),
                                   ),
@@ -122,11 +120,11 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   ),*/
                                   Text(
                                     'Quantity Ordered: ${cartController.listOfAddedProducts[index].xqtyreq}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                   if ('${cartController.listOfAddedProducts[index].xpartno}' ==
@@ -214,7 +212,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Accessories of',
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -223,7 +221,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                             ),
                                             Text(
                                               '${cartController.listOfAddedProducts[index].masterItemName}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w600,
                                                   color: AppColor.appBarColor),
@@ -245,7 +243,8 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               alignment: Alignment.centerRight,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -294,7 +293,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(

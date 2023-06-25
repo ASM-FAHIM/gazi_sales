@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/controller/report_controller.dart';
+import 'package:gazi_sales_app/sales/module/view/report/pending_so_details_screen.dart';
 import '../../../base/no_data_page.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
 import '../../../widget/big_text.dart';
 import 'package:get/get.dart';
 
-import '../../../widget/small_text.dart';
-
 class PendingSOReport extends StatefulWidget {
-  const PendingSOReport({Key? key}) : super(key: key);
+  String xCus;
+  String cusName;
+
+  PendingSOReport({required this.xCus, required this.cusName, Key? key})
+      : super(key: key);
 
   @override
   State<PendingSOReport> createState() => _PendingSOReportState();
 }
 
 class _PendingSOReportState extends State<PendingSOReport> {
-  ReportController report = Get.put(ReportController());
+  ReportController report = Get.find<ReportController>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    report.fetchPendingSoList();
+    report.fetchPendingSoList(widget.xCus);
   }
 
   @override
   Widget build(BuildContext context) {
+    print('${widget.xCus}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColor.appBarColor,
           leading: GestureDetector(
               onTap: () {
+                report.pendingList.clear();
                 Get.back();
               },
               child: const Icon(
@@ -40,150 +45,81 @@ class _PendingSOReportState extends State<PendingSOReport> {
                 size: 25,
               )),
           title: BigText(
-            text: "Pending SO report",
+            overflow: TextOverflow.ellipsis,
+            text: widget.cusName,
             color: AppColor.defWhite,
             size: 25,
           ),
         ),
-        body: Container(
-          margin: EdgeInsets.only(left: 5, right: 5, top: 10),
-          child: Container(
-            child: Obx(() => report.isLoading.value
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(10.0),
-                          child: CircularProgressIndicator(
-                            color: AppColor.appBarColor,
-                          ),
-                        ),
-                        Text('Loading...'),
-                      ],
+        body: Obx(() => report.isLoading.value
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10.0),
+                      child: const CircularProgressIndicator(
+                        color: AppColor.appBarColor,
+                      ),
                     ),
+                    const Text('Loading...'),
+                  ],
+                ),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: report.pendingList.isEmpty
+                        ? const NoDataPage(
+                            text: 'Sorry! no pending SO available right now')
+                        : ListView.builder(
+                            itemCount: report.pendingList.length,
+                            itemBuilder: (context, index) {
+                              var penDelList = report.pendingList[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: Dimensions.height70,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: AppColor.appBarColor,
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: Offset(0,
+                                              2) // changes position of shadow
+                                          ),
+                                    ],
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Get.to(() => PendingSoDetailsScreen(
+                                          xCus: widget.xCus,
+                                          cusName: widget.cusName,
+                                          soNum: penDelList.xsonumber));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(penDelList.xsonumber),
+                                        Text(penDelList.xdate),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                   )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      report.pendingList.isEmpty
-                          ? const NoDataPage(
-                              text: 'Sorry! no pending SO available right now')
-                          : Expanded(
-                              child: ListView.builder(
-                                  itemCount: report.pendingList.length,
-                                  itemBuilder: (context, index) {
-                                    var pendinSO = report.pendingList[index];
-                                    return Container(
-                                      height: Dimensions.height150 +
-                                          Dimensions.height50,
-                                      width: double.infinity,
-                                      margin: EdgeInsets.all(12.0),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 10,
-                                            offset: Offset(2,
-                                                2), // changes position of shadow
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: Dimensions.height50,
-                                            width: double.infinity,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.teal,
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft:
-                                                      Radius.circular(20.0),
-                                                  topRight:
-                                                      Radius.circular(20.0)),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: BigText(
-                                              text: pendinSO.xorg,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      SmallText(
-                                                        text: pendinSO.xdate,
-                                                        size: 11,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        SmallText(
-                                                            text:
-                                                                'So No : ${pendinSO.xsonumber}',
-                                                            size: 16),
-                                                        SmallText(
-                                                            text:
-                                                                'Product desc : ${pendinSO.xdesc}',
-                                                            size: 16),
-                                                        SmallText(
-                                                            text:
-                                                                'So qty : ${pendinSO.soQty}',
-                                                            size: 16),
-                                                        SmallText(
-                                                            text:
-                                                                'DC qty : ${pendinSO.dcQty}',
-                                                            size: 16),
-                                                        SmallText(
-                                                            text:
-                                                                'Pending qty : ${pendinSO.xpendingqty}',
-                                                            size: 16),
-                                                        SmallText(
-                                                            text:
-                                                                'Preclose qty : ${pendinSO.xpendingqty}',
-                                                            size: 16),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  })),
-                    ],
-                  )),
-          ),
-        ),
+                ],
+              )),
       ),
     );
   }
-
 /*  Widget _dataTable(int index, BuildContext context) {
     final width = MediaQuery.of(context).size.width - 40;
     return Column(

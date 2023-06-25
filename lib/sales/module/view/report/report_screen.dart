@@ -3,15 +3,18 @@ import 'package:gazi_sales_app/sales/module/view/report/customer_ledger_screen.d
 import 'package:gazi_sales_app/sales/module/view/report/monthly_so_report.dart';
 import 'package:gazi_sales_app/sales/module/view/report/pending_so_screen.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
-import 'dart:math';
 
 import '../../../widget/business_widget.dart';
+import 'dealer-wise_deposit_screen.dart';
 
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({Key? key}) : super(key: key);
+  String xCus;
+  String cusName;
+
+  ReportScreen({required this.xCus, required this.cusName, Key? key})
+      : super(key: key);
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
@@ -44,83 +47,61 @@ class _ReportScreenState extends State<ReportScreen> {
             size: 25,
           ),
         ),
-        body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  BusinessWidget(
-                    businessName: 'Pending SO report',
-                    imgPath: 'assets/images/report.png',
-                    height: 70,
-                    onPressed: () {
-                      Get.to(() => PendingSOReport());
-                    },
-                  ),
-                  BusinessWidget(
-                    businessName: 'Monthly SO report',
-                    imgPath: 'assets/images/worknote.png',
-                    height: 70,
-                    onPressed: () {
-                      Get.to(() => MonthlySOReport());
-                    },
-                  ),
-                ],
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 10),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 2.5,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    //border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColor.appBarColor.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  clipBehavior: Clip.hardEdge,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const CustomerLedgerScreen()));
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Image(
-                          image: AssetImage('assets/images/expense_report.png'),
-                          height: 70,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        BigText(
-                          text: 'Customer ledger',
-                          size: 12,
-                        )
-                      ],
-                    ),
-                  ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BusinessWidget(
+                  businessName: 'Pending SO report',
+                  imgPath: 'assets/images/report.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => PendingSOReport(
+                          xCus: widget.xCus,
+                          cusName: widget.cusName,
+                        ));
+                  },
                 ),
-              ),
-            ],
-          ),
+                BusinessWidget(
+                  businessName: 'Monthly SO report',
+                  imgPath: 'assets/images/worknote.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => MonthlySOReport());
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BusinessWidget(
+                  businessName: 'Customer Ledger',
+                  imgPath: 'assets/images/expense_report.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => CustomerLedgerScreen());
+                  },
+                ),
+                BusinessWidget(
+                  businessName: 'Deposit',
+                  imgPath: 'assets/images/bank.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => DealerDepositScreen(
+                          xCus: widget.xCus,
+                        ));
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

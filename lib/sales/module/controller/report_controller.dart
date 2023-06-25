@@ -2,9 +2,10 @@ import 'package:gazi_sales_app/sales/module/controller/login_controller.dart';
 import 'package:get/get.dart';
 import '../../constant/app_constants.dart';
 import '../../databaseHelper/database_repo.dart';
-import '../model/bank_list_model.dart';
-import '../model/monthly_so_report.dart';
-import '../model/pending_so_report_model.dart';
+import '../model/report_model/dealer-wise_deposit_model.dart';
+import '../model/report_model/monthly_so_report.dart';
+import '../model/report_model/pending_so_details.dart';
+import '../model/report_model/pending_so_report_model.dart';
 import 'package:http/http.dart' as http;
 
 class ReportController extends GetxController {
@@ -60,16 +61,40 @@ class ReportController extends GetxController {
   var pendingList = <PendingSoModel>[].obs;
   RxBool isLoading = false.obs;
 
-  void fetchPendingSoList() async {
+  void fetchPendingSoList(String xCus) async {
     try {
       isLoading(true);
       var response = await http.get(Uri.parse(
-          "http://${AppConstants.baseurl}/gazi/salesforce/reports/soQtyreport.php?zid=400080"));
+          "http://${AppConstants.baseurl}/gazi/salesforce/reports/soSelect.php?zid=${loginController.zID.value}&xcus=$xCus"));
       var soList = pendingSoModelFromJson(response.body);
       pendingList.assignAll(soList.map((e) => e));
     } finally {
       isLoading(false);
     }
+  }
+
+  //pending SO(delivery) details
+  var pendDelDetails = <PendingSoDetailsModel>[].obs;
+
+  RxBool fetDelDetail = false.obs;
+
+  void fetchPendDelDetails(String xCus, String soNum) async {
+    try {
+      fetDelDetail(true);
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/salesforce/reports/soqtyreport.php?zid=${loginController.zID.value}&xsonumber=$soNum"));
+      var soDelList = pendingSoDetailsModelFromJson(response.body);
+      pendDelDetails.assignAll(soDelList.map((e) => e));
+      print('del details: $pendDelDetails');
+    } finally {
+      fetDelDetail(false);
+    }
+  }
+
+  //clear list
+  void clearList() {
+    pendingList.clear();
+    pendDelDetails.clear();
   }
 
   //value
@@ -88,7 +113,7 @@ class ReportController extends GetxController {
     }
   }
 
-//creating dropdown value
+/*//creating dropdown value
   //Bank list inserted into database
   RxBool soFetched = false.obs;
   List<BankListModel> bankList = [];
@@ -102,6 +127,23 @@ class ReportController extends GetxController {
       bankList.assignAll(monSoList.map((e) => e));
     } finally {
       soFetched(false);
+    }
+  }*/
+
+  //value
+  var dlrWiseDepo = <DealerWiseDepoModel>[].obs;
+  RxBool isDepoFetched = false.obs;
+
+  void dealerWiseDepo(String xCus) async {
+    try {
+      isDepoFetched(true);
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/salesforce/reports/depositNotification.php?zid=${loginController.zID.value}&xcus=$xCus"));
+      var depoList = dealerWiseDepoModelFromJson(response.body);
+      dlrWiseDepo.assignAll(depoList.map((e) => e));
+      print('Deposit list dealer wise');
+    } finally {
+      isDepoFetched(false);
     }
   }
 }

@@ -1,17 +1,17 @@
 // To parse this JSON data, do
 //
-//     final pendingSoModel = pendingSoModelFromJson(jsonString);
+//     final pendingSoDetailsModel = pendingSoDetailsModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<PendingSoModel> pendingSoModelFromJson(String str) =>
-    List<PendingSoModel>.from(
-        json.decode(str).map((x) => PendingSoModel.fromJson(x)));
+List<PendingSoDetailsModel> pendingSoDetailsModelFromJson(String str) =>
+    List<PendingSoDetailsModel>.from(
+        json.decode(str).map((x) => PendingSoDetailsModel.fromJson(x)));
 
-String pendingSoModelToJson(List<PendingSoModel> data) =>
+String pendingSoDetailsModelToJson(List<PendingSoDetailsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class PendingSoModel {
+class PendingSoDetailsModel {
   int zid;
   String xsonumber;
   String xdate;
@@ -24,7 +24,7 @@ class PendingSoModel {
   String xpendingqty;
   String xpreclosedqty;
 
-  PendingSoModel({
+  PendingSoDetailsModel({
     required this.zid,
     required this.xsonumber,
     required this.xdate,
@@ -38,7 +38,8 @@ class PendingSoModel {
     required this.xpreclosedqty,
   });
 
-  factory PendingSoModel.fromJson(Map<String, dynamic> json) => PendingSoModel(
+  factory PendingSoDetailsModel.fromJson(Map<String, dynamic> json) =>
+      PendingSoDetailsModel(
         zid: json["zid"],
         xsonumber: json["xsonumber"],
         xdate: json["xdate"],
@@ -52,7 +53,8 @@ class PendingSoModel {
         xpreclosedqty: json["xpreclosedqty"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "zid": zid,
         "xsonumber": xsonumber,
         "xdate": xdate,
