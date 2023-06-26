@@ -39,6 +39,7 @@ class DataTableWidget extends StatelessWidget {
           title,
           textAlign: TextAlign.center,
           style: textStyle,
+          overflow: TextOverflow.ellipsis,
         )));
   }
 

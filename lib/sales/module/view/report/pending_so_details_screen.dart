@@ -43,8 +43,8 @@ class _PendingSoDetailsScreenState extends State<PendingSoDetailsScreen> {
           backgroundColor: AppColor.appBarColor,
           leading: GestureDetector(
               onTap: () {
-                report.pendDelDetails.clear();
                 Get.back();
+                report.pendDelDetails.clear();
               },
               child: const Icon(
                 Icons.arrow_back_outlined,
@@ -76,7 +76,7 @@ class _PendingSoDetailsScreenState extends State<PendingSoDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 40,
+                    height: Dimensions.height50,
                     alignment: Alignment.center,
                     child: Text(widget.soNum),
                   ),

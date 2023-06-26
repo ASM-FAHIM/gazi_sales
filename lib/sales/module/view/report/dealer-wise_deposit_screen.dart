@@ -7,8 +7,10 @@ import '../../../widget/big_text.dart';
 
 class DealerDepositScreen extends StatefulWidget {
   String xCus;
+  String cusName;
 
-  DealerDepositScreen({required this.xCus, Key? key}) : super(key: key);
+  DealerDepositScreen({required this.xCus, required this.cusName, Key? key})
+      : super(key: key);
 
   @override
   State<DealerDepositScreen> createState() => _DealerDepositScreenState();
@@ -33,13 +35,15 @@ class _DealerDepositScreenState extends State<DealerDepositScreen> {
         leading: GestureDetector(
             onTap: () {
               Get.back();
+              report.dlrWiseDepo.clear();
             },
             child: const Icon(
               Icons.arrow_back_outlined,
               size: 25,
             )),
         title: BigText(
-          text: "Deposit report",
+          overflow: TextOverflow.ellipsis,
+          text: widget.cusName,
           color: AppColor.defWhite,
           size: 25,
         ),

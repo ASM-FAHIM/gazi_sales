@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/module/view/report/customer_ledger_screen.dart';
-import 'package:gazi_sales_app/sales/module/view/report/monthly_so_report.dart';
+import 'package:gazi_sales_app/sales/module/view/report/monthly-so_report.dart';
 import 'package:gazi_sales_app/sales/module/view/report/pending_so_screen.dart';
 import 'package:get/get.dart';
 import '../../../constant/colors.dart';
@@ -21,11 +21,6 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-/*  double _progress1 = 30;
-  double _progress2 = 70;
-  double _progress3 = 60;
-  double _progress4 = 80;*/
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,12 +65,13 @@ class _ReportScreenState extends State<ReportScreen> {
                   imgPath: 'assets/images/worknote.png',
                   height: 70,
                   onPressed: () {
-                    Get.to(() => MonthlySOReport());
+                    Get.to(() => MonthlySoReport(
+                        xCus: widget.xCus, cusName: widget.cusName));
                   },
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
@@ -86,7 +82,8 @@ class _ReportScreenState extends State<ReportScreen> {
                   imgPath: 'assets/images/expense_report.png',
                   height: 70,
                   onPressed: () {
-                    Get.to(() => CustomerLedgerScreen());
+                    Get.to(() => CustomerLedgerScreen(
+                        xCus: widget.xCus, cusName: widget.cusName));
                   },
                 ),
                 BusinessWidget(
@@ -95,8 +92,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   height: 70,
                   onPressed: () {
                     Get.to(() => DealerDepositScreen(
-                          xCus: widget.xCus,
-                        ));
+                        xCus: widget.xCus, cusName: widget.cusName));
                   },
                 ),
               ],

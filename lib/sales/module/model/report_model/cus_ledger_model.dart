@@ -1,24 +1,24 @@
 // To parse this JSON data, do
 //
-//     final monthlySoModel = monthlySoModelFromJson(jsonString);
+//     final cusLedgerListModel = cusLedgerListModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<MonthlySoModel> monthlySoModelFromJson(String str) =>
-    List<MonthlySoModel>.from(
-        json.decode(str).map((x) => MonthlySoModel.fromJson(x)));
+List<CusLedgerListModel> cusLedgerListModelFromJson(String str) =>
+    List<CusLedgerListModel>.from(
+        json.decode(str).map((x) => CusLedgerListModel.fromJson(x)));
 
-String monthlySoModelToJson(List<MonthlySoModel> data) =>
+String cusLedgerListModelToJson(List<CusLedgerListModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class MonthlySoModel {
+class CusLedgerListModel {
   int zid;
   String xcus;
   String dealerName;
   String xpnature;
   String xbalance;
 
-  MonthlySoModel({
+  CusLedgerListModel({
     required this.zid,
     required this.xcus,
     required this.dealerName,
@@ -26,7 +26,8 @@ class MonthlySoModel {
     required this.xbalance,
   });
 
-  factory MonthlySoModel.fromJson(Map<String, dynamic> json) => MonthlySoModel(
+  factory CusLedgerListModel.fromJson(Map<String, dynamic> json) =>
+      CusLedgerListModel(
         zid: json["zid"],
         xcus: json["xcus"],
         dealerName: json["dealerName"],

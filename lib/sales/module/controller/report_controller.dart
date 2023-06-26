@@ -2,8 +2,9 @@ import 'package:gazi_sales_app/sales/module/controller/login_controller.dart';
 import 'package:get/get.dart';
 import '../../constant/app_constants.dart';
 import '../../databaseHelper/database_repo.dart';
+import '../model/report_model/cus_ledger_model.dart';
 import '../model/report_model/dealer-wise_deposit_model.dart';
-import '../model/report_model/monthly_so_report.dart';
+import '../model/report_model/monthly_so_report_nodel.dart';
 import '../model/report_model/pending_so_details.dart';
 import '../model/report_model/pending_so_report_model.dart';
 import 'package:http/http.dart' as http;
@@ -97,19 +98,53 @@ class ReportController extends GetxController {
     pendDelDetails.clear();
   }
 
-  //value
+  //value monthly report/last 5 order report
   var monthlySoList = <MonthlySoModel>[].obs;
   RxBool isLoading1 = false.obs;
 
-  void fetchMonthlySoList() async {
+  void fetchMonthlySoList(String xCus) async {
     try {
       isLoading1(true);
       var response = await http.get(Uri.parse(
-          "http://${AppConstants.baseurl}/gazi/salesforce/reports/arHeadreport.php?zid=400080"));
+          "http://${AppConstants.baseurl}/gazi/salesforce/reports/salesOrderReport.php?zid=${loginController.zID.value}&xcus=$xCus"));
       var monSoList = monthlySoModelFromJson(response.body);
       monthlySoList.assignAll(monSoList.map((e) => e));
     } finally {
       isLoading1(false);
+    }
+  }
+
+  //value monthly so details report
+  var monthlySoDetailsList = <PendingSoDetailsModel>[].obs;
+  RxBool soDelFetched = false.obs;
+
+  void fetchMonthlySoDetailsList(String xCus, String soNum) async {
+    try {
+      soDelFetched(true);
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/salesforce/reports/soqtyreport.php?zid=${loginController.zID.value}&xsonumber=$soNum"));
+      var monSoList = pendingSoDetailsModelFromJson(response.body);
+      monthlySoDetailsList.assignAll(monSoList.map((e) => e));
+    } finally {
+      soDelFetched(false);
+    }
+  }
+
+  //customer ledger report
+
+  //value
+  var cusLedList = <CusLedgerListModel>[].obs;
+  RxBool ledFetched = false.obs;
+
+  void fetchLedgerReport(String xCus) async {
+    try {
+      ledFetched(true);
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/salesforce/reports/arHeadreport.php?zid=${loginController.zID.value}&xcus=$xCus"));
+      var monSoList = cusLedgerListModelFromJson(response.body);
+      cusLedList.assignAll(monSoList.map((e) => e));
+    } finally {
+      ledFetched(false);
     }
   }
 

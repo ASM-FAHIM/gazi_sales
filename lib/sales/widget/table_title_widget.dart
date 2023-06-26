@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constant/colors.dart';
+
 class TableTitle extends StatelessWidget {
   const TableTitle(this.width, this.title,
       {Key? key, this.shouldOffRight = true})
@@ -12,7 +14,8 @@ class TableTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(.6),
+            //color: Theme.of(context).primaryColor.withOpacity(.6),
+            color: AppColor.appBarColor,
             border: Border(
                 left: BorderSide(
                     color: shouldOffRight ? Colors.transparent : Colors.red),
@@ -25,6 +28,8 @@ class TableTitle extends StatelessWidget {
             child: Text(
           title,
           textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
         )));
   }
 }
