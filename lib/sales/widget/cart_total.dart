@@ -57,8 +57,6 @@ class CartTotal extends StatelessWidget {
                 onPressed: () async {
                   await cartController.fetchDropdownItems(xCus);
                   dialogBox(context);
-                  // cartController.insertToCart(xCus, xOrg, 'Open', delDisc);
-                  // Get.to(() => const BillDetailsScreen());
                 },
                 child: Obx(() => cartController.isProcessing.value
                     ? const Center(
@@ -72,118 +70,6 @@ class CartTotal extends StatelessWidget {
                       )),
               ),
             ),
-            /*Container(
-                  padding: EdgeInsets.only(right: 30),
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Icon(
-                        MdiIcons.currencyBdt,
-                        size: 22,
-                        color: Colors.red,
-                      ),
-                      BigText(
-                        text:
-                            '${cartController.totalPrice.value.toStringAsFixed(2)}',
-                        size: 22,
-                        color: Colors.red,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),*/
-            /*Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: Dimensions.height50,
-                      width: Dimensions.height150 - Dimensions.height20,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Colors.grey, //New
-                                blurRadius: 5,
-                                offset: Offset(0, 0))
-                          ]),
-                      clipBehavior: Clip.hardEdge,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: AppColor.appBarColor,
-                        ),
-                        onPressed: () async {
-                          Get.to(() => BillDetailsScreen());
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ReusableAlert(
-                                  cartController: cartController,
-                                  xCus: xCus,
-                                  xOrg: xOrg,
-                                );
-                              });
-                        },
-                        child: cartController.isSync.value
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : BigText(
-                                text: 'Place order',
-                                color: AppColor.defWhite,
-                              ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      height: Dimensions.height50,
-                      width: Dimensions.height150 - Dimensions.height10,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Colors.grey, //New
-                                blurRadius: 5,
-                                offset: Offset(0, 0))
-                          ]),
-                      clipBehavior: Clip.hardEdge,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          //print('The xsp value from dealer table is: ${loginController.xsp.value}');
-                          await cartController.saveOrder(xCus, xOrg, 'Open');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: AppColor.appBarColor,
-                        ),
-                        child: cartController.isPlaced.value
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  BigText(
-                                    text: 'Save order',
-                                    color: AppColor.defWhite,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                ],
-                              ),
-                      ),
-                    ),
-                  ],
-                ),*/
           ],
         );
       }
@@ -223,9 +109,18 @@ class CartTotal extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                Navigator.pop(context);
-                await cartController.processOrder(xCus, xOrg, context);
-                print('selected products are: ${cartController.addedProducts}');
+                if (cartController.selectedNumber.value ==
+                    'Select deposit number') {
+                  print('if statement is calling');
+                  cartController.selectedNumber.value = '';
+                  cartController.selectedAmount.value = '0.0';
+                  Navigator.pop(context);
+                  await cartController.processOrder(xCus, xOrg, context);
+                } else {
+                  print('else statement is calling');
+                  Navigator.pop(context);
+                  await cartController.processOrder(xCus, xOrg, context);
+                }
               },
             ),
           ],
@@ -283,16 +178,7 @@ class CartTotal extends StatelessWidget {
                             selectedItem.xdepositnum;
                         cartController.selectedAmount.value =
                             selectedItem.xamount;
-                        // Assuming 'name' is the property you want to assign
-                        print(
-                            'Selected Item: ${cartController.selectedNumber.value}');
-                        print(
-                            'Selected Item: ${cartController.selectedAmount.value}');
-                      } else {
-                        cartController.selectedNumber.value = '';
-                        cartController.selectedAmount.value = '0.0';
                       }
-                      print('Selected Item: $selectedItem');
                     },
                     hint: Obx(
                       () => Text(

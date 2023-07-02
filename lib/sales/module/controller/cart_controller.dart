@@ -382,7 +382,6 @@ class CartController extends GetxController {
       };
       await DatabaseRepo().cartInsert(cartInsert);
       for (int i = 0; i < addedProducts.length; i++) {
-        print('Inside from for details');
         String xItem = addedProducts[i][0];
         double qty = double.parse(addedProducts[i][1]);
         String xDesc = addedProducts[i][2];
@@ -392,7 +391,6 @@ class CartController extends GetxController {
         double addDisc = double.parse(addedProducts[i][5]);
         String xcolor = addedProducts[i][6];
         String xstype = addedProducts[i][7];
-        print('Additional Discount : $addDisc');
         Map<String, dynamic> cartDetailsInsert = {
           'zid': loginController.zID.value,
           'cartID': cartID,
@@ -413,9 +411,7 @@ class CartController extends GetxController {
           'yes_no': 'No',
           'xmasteritem': xItem,
         };
-        print('Calling cartDetailsInsert');
         await DatabaseRepo().cartDetailsInsert(cartDetailsInsert);
-        print('Calling cartTableAccInsert');
         await DatabaseRepo()
             .cartTableAccInsert(xItem, loginController.zID.value, cartID);
         /*
@@ -451,7 +447,6 @@ class CartController extends GetxController {
               xstype);
         }*/
       }
-      print('Delete cart accessories table c cartTableAccInsert');
       await DatabaseRepo().deleteAccessory();
       saving(false);
 /*      Get.snackbar('Successful', 'Order added successfully',
@@ -1088,6 +1083,7 @@ class CartController extends GetxController {
           case InternetConnectionStatus.connected:
             //code
             isProcessing(true);
+            print('deposit_number = ${selectedNumber.value}');
             await insertToCart(cusId, xOrg, 'Open');
             await generateSoNumber();
             await getCartHeaderListForSync();
@@ -1117,7 +1113,6 @@ class CartController extends GetxController {
                 Uri.parse(
                     'http://${AppConstants.baseurl}/gazi/salesforce/SOtableInsert.php'),
                 body: dataHeader);
-            print('response header : ${responseHeader.body}');
             var tempHeader = '${listCartHeaderForSync[i]['cartID']}';
             await getCartHeaderDetailsListForSync(tempHeader);
             for (int j = 0; j < listCartHeaderDetailsForSync.length; j++) {
@@ -1148,13 +1143,11 @@ class CartController extends GetxController {
                 await DatabaseRepo()
                     .updateCartHeaderTable(tempHeader, incentive.value);
               }
-              print('so details = $responseDetails');
             }
             await getCartHeaderList();
             var updateSO = await http.get(Uri.parse(
                 'http://${AppConstants.baseurl}/gazi/salesforce/TRNincrement.php?zid=${loginController.zID.value}'));
             if (updateSO.statusCode == 200) {
-              print('Successfully updated----${updateSO.statusCode}');
               isProcessing(false);
               Get.to(() => BillDetailsScreen(
                     soNum: customId.value,

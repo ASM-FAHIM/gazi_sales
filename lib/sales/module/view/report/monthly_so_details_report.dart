@@ -112,16 +112,17 @@ class _MonthlySODetailsReportState extends State<MonthlySODetailsReport> {
         Row(
           children: [
             DataTableWidget(
-              width / 4.5,
+              width / 5,
               report.monthlySoDetailsList[index].xitem,
               shouldColorTop: true,
             ),
+            DataTableWidget(width / 2, report.monthlySoDetailsList[index].xdesc,
+                shouldColorTop: true, shouldColorLeft: true),
             DataTableWidget(
-                width / 2.58, report.monthlySoDetailsList[index].xdesc,
+                width / 6.5, report.monthlySoDetailsList[index].soQty,
                 shouldColorTop: true, shouldColorLeft: true),
-            DataTableWidget(width / 5, report.monthlySoDetailsList[index].soQty,
-                shouldColorTop: true, shouldColorLeft: true),
-            DataTableWidget(width / 5, report.monthlySoDetailsList[index].dcQty,
+            DataTableWidget(
+                width / 6.5, report.monthlySoDetailsList[index].dcQty,
                 shouldColorTop: true, shouldColorLeft: true),
           ],
         )
@@ -136,10 +137,10 @@ class _MonthlySODetailsReportState extends State<MonthlySODetailsReport> {
       children: [
         Row(
           children: [
-            TableTitle(width / 4.5, 'Item code', shouldOffRight: false),
-            TableTitle(width / 2.58, 'Item name'),
-            TableTitle(width / 5, 'So qty'),
-            TableTitle(width / 5, 'Dc qty'),
+            TableTitle(width / 5, 'Item code', shouldOffRight: false),
+            TableTitle(width / 2, 'Item name'),
+            TableTitle(width / 6.5, 'So qty'),
+            TableTitle(width / 6.5, 'Dc qty'),
           ],
         )
       ],
