@@ -78,8 +78,10 @@ class _MonthlySODetailsReportState extends State<MonthlySODetailsReport> {
                       height: Dimensions.height50,
                       alignment: Alignment.center,
                       child: Text(widget.soNum,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
+                          style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
                     ),
                     Expanded(
                       child: Padding(

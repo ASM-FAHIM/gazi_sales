@@ -50,7 +50,7 @@ class _ReportScreenState extends State<ReportScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 BusinessWidget(
-                  businessName: 'Pending SO report',
+                  businessName: 'Pending SO',
                   imgPath: 'assets/images/report.png',
                   height: 70,
                   onPressed: () {
@@ -61,7 +61,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   },
                 ),
                 BusinessWidget(
-                  businessName: 'Monthly SO report',
+                  businessName: 'SO orders',
                   imgPath: 'assets/images/worknote.png',
                   height: 70,
                   onPressed: () {

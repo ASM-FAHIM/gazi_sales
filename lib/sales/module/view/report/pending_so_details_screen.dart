@@ -12,11 +12,10 @@ class PendingSoDetailsScreen extends StatefulWidget {
   String cusName;
   String soNum;
 
-  PendingSoDetailsScreen(
-      {required this.xCus,
-      required this.cusName,
-      required this.soNum,
-      Key? key})
+  PendingSoDetailsScreen({required this.xCus,
+    required this.cusName,
+    required this.soNum,
+    Key? key})
       : super(key: key);
 
   @override
@@ -35,7 +34,9 @@ class _PendingSoDetailsScreenState extends State<PendingSoDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     print('So number: ${widget.soNum}');
     return SafeArea(
       child: Scaffold(
@@ -57,131 +58,141 @@ class _PendingSoDetailsScreenState extends State<PendingSoDetailsScreen> {
             size: 25,
           ),
         ),
-        body: Obx(() => report.fetDelDetail.value
+        body: Obx(() =>
+        report.fetDelDetail.value
             ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(10.0),
-                      child: CircularProgressIndicator(
-                        color: AppColor.appBarColor,
-                      ),
-                    ),
-                    Text('Loading...'),
-                  ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child: CircularProgressIndicator(
+                  color: AppColor.appBarColor,
                 ),
-              )
+              ),
+              Text('Loading...'),
+            ],
+          ),
+        )
             : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: Dimensions.height50,
-                    alignment: Alignment.center,
-                    child: Text(widget.soNum),
-                  ),
-                  Expanded(
-                    child: report.pendDelDetails.isEmpty
-                        ? const NoDataPage(text: 'Sorry! no details available')
-                        : ListView.builder(
-                            itemCount: report.pendDelDetails.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                height: size.height / 4.8,
-                                margin: const EdgeInsets.all(8.0),
-                                padding: const EdgeInsets.all(6.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          AppColor.appBarColor.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: const Offset(
-                                          0, 2), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      report.pendDelDetails[index].xdesc,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13),
-                                    ),
-                                    /*Text(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: Dimensions.height50,
+              alignment: Alignment.center,
+              child: Text(widget.soNum,
+                  style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold)),
+            ),
+            Expanded(
+              child: report.pendDelDetails.isEmpty
+                  ? const NoDataPage(text: 'Sorry! no details available')
+                  : ListView.builder(
+                  itemCount: report.pendDelDetails.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: size.height / 4.8,
+                      margin: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                            AppColor.appBarColor.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: const Offset(
+                                0, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            report.pendDelDetails[index].xdesc,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13),
+                          ),
+                          /*Text(
                                     " ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["xlineamt"]} Tk.",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
                                   ),*/
-                                    Text(
-                                      'item code: ${report.pendDelDetails[index].xitem}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12),
+                          Text(
+                            'item code: ${report.pendDelDetails[index].xitem}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: size.height / 22,
+                                    child: Text(
+                                      'So qty\n${report.pendDelDetails[index]
+                                          .soQty}',
                                     ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              height: size.height / 22,
-                                              child: Text(
-                                                'So qty\n${report.pendDelDetails[index].soQty}',
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              height: size.height / 22,
-                                              child: Text(
-                                                'Dc qty\n${report.pendDelDetails[index].soQty}',
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              height: size.height / 22,
-                                              child: Text(
-                                                'Pending qty\n${report.pendDelDetails[index].xpendingqty}',
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              height: size.height / 22,
-                                              child: Text(
-                                                'Preclose qty\n${report.pendDelDetails[index].soQty}',
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              );
-                            }),
-                  )
-                ],
-              )),
+                                Expanded(
+                                  child: Container(
+                                    height: size.height / 22,
+                                    child: Text(
+                                      'Dc qty\n${report.pendDelDetails[index]
+                                          .dcQty}',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: size.height / 22,
+                                    child: Text(
+                                      'Pending qty\n${report
+                                          .pendDelDetails[index].xpendingqty}',
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: size.height / 22,
+                                    child: Text(
+                                      'Preclose qty\n${report
+                                          .pendDelDetails[index]
+                                          .xpreclosedqty}',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+            )
+          ],
+        )),
       ),
     );
   }
