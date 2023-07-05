@@ -8,8 +8,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
 import '../../controller/deposit_controller.dart';
-import '../../model/bank_list_model.dart';
-import '../../model/payment_model_model.dart';
 
 class DepositFormScreen extends StatefulWidget {
   String tso;
@@ -106,7 +104,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                   child: Column(
                     children: [
                       Container(
-                        height: Dimensions.height650 + Dimensions.height20,
+                        height: Dimensions.height650 + Dimensions.height30,
                         margin: const EdgeInsets.only(bottom: 10),
                         child: SingleChildScrollView(
                           child: Column(
@@ -127,7 +125,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
                                 child: BigText(
-                                  text: 'Customer name: ${widget.cusName}',
+                                  text: 'Customer : ${widget.cusName}',
                                 ),
                               ),
                               Container(
@@ -146,7 +144,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
                                 child: BigText(
-                                  text: 'Customer ID: ${widget.cusId}',
+                                  text: 'ID : ${widget.cusId}',
                                 ),
                               ),
                               Container(
@@ -199,8 +197,33 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: 'Please enter amount',
+                                    hintText: 'Enter amount',
                                   ),
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: Dimensions.height70,
+                                width: double.maxFinite,
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(
+                                    left: 10, top: 10, right: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: TextFormField(
+                                  controller: depositController.reference,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Reference'),
                                   style: const TextStyle(
                                     fontSize: 18.0,
                                   ),
@@ -463,7 +486,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   controller: depositController.chkRefNo,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Enter check/Ref. No'),
+                                      hintText: 'Cheque/Ref No'),
                                   style: const TextStyle(
                                     fontSize: 18.0,
                                   ),
@@ -488,7 +511,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   () => TextField(
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Enter deposit date',
+                                      hintText: 'Cheque/Ref date',
                                     ),
                                     onTap: () async {
                                       final selectedDate = await showDatePicker(

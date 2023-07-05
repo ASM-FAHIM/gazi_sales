@@ -104,7 +104,12 @@ class _DealerReportScreenState extends State<DealerReportScreen> {
                                     child: TextButton(
                                       onPressed: () {
                                         // go to Mechanic screen
-                                        Get.to(() => ReportScreen());
+                                        Get.to(() => ReportScreen(
+                                              xCus: report.filteredDeals[index]
+                                                  ['xcus'],
+                                              cusName: report
+                                                  .filteredDeals[index]['xorg'],
+                                            ));
                                       },
                                       style: TextButton.styleFrom(
                                         backgroundColor: Colors.white,

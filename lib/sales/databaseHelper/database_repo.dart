@@ -238,7 +238,7 @@ class DatabaseRepo {
     return result;
   }
 
-  Future getProduct(String zId,String dealerType, String pNature) async {
+  Future getProduct(String zId, String dealerType, String pNature) async {
     var dbClient = await conn.db;
     List productList = [];
     try {
@@ -429,7 +429,6 @@ class DatabaseRepo {
 
   //inserting cart_details table
   Future<int> cartDetailsInsert(Map<String, dynamic> data) async {
-    print('Called from cartDetailsInsert');
     var dbClient = await conn.db;
     int result = 0;
     try {
@@ -443,7 +442,6 @@ class DatabaseRepo {
 
   Future<void> cartTableAccInsert(
       String xitem, String zid, String cartID) async {
-    print('Called from cartTableAccInsert');
     var dbClient = await conn.db;
     int result = 0;
     try {
@@ -453,7 +451,6 @@ class DatabaseRepo {
         FROM ${DBHelper.cartAccessoriesTable}
         WHERE xmasteritem = ? and zid =?
       ''', [cartID, xitem, xitem, zid]);
-      print("Inserted Successfully in details table : -------------$result");
     } catch (e) {
       print(
           'There are some issues inserting product from accessoories table to cart details table: $e');
@@ -1204,9 +1201,8 @@ class DatabaseRepo {
         "SELECT * FROM ${DBHelper.caCusDisc} WHERE zid = ? AND xcus = ? AND xitem = ?",
         [zid, xcus, xitem]);
     try {
-
       discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
-      xlineamt = (double.parse(xrate) * double.parse(qty))- discdamt;
+      xlineamt = (double.parse(xrate) * double.parse(qty)) - discdamt;
       print('Additional discount amount: $discamt');
       print('Line amount: $xlineamt');
       var updateLineamountToDetails = await dbClient.update(
@@ -1237,7 +1233,7 @@ class DatabaseRepo {
           );
           print('updated cartheader is : $headerUpdate');
 
-         /* discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
+          /* discdamt = ((double.parse(xrate) * double.parse(qty)) * adDisc) / 100;
           print(
               'Discounted amount after giving value in discount field : $discdamt');
           var detailsUpdate = await dbClient.update(

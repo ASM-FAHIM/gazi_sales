@@ -22,7 +22,7 @@ class DataTableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     const textStyle = TextStyle(
       color: Colors.black,
-      fontSize: 12,
+      fontSize: 13,
     );
 
     return Container(
@@ -32,13 +32,14 @@ class DataTableWidget extends StatelessWidget {
                 top: _borderSide(shouldColorTop),
                 bottom: _borderSide(shouldColorBottom),
                 right: _borderSide(shouldColorRight))),
-        height: 45,
+        height: 50,
         width: width,
         child: Center(
             child: Text(
           title,
           textAlign: TextAlign.center,
           style: textStyle,
+          //overflow: TextOverflow.ellipsis,
         )));
   }
 

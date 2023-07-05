@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/sales/module/controller/report_controller.dart';
-import 'package:gazi_sales_app/sales/module/view/report/pending_so_details_screen.dart';
+import 'package:gazi_sales_app/sales/module/view/report/monthly_so_details_report.dart';
+import 'package:get/get.dart';
 import '../../../base/no_data_page.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
 import '../../../widget/big_text.dart';
-import 'package:get/get.dart';
+import '../../controller/report_controller.dart';
 
-class PendingSOReport extends StatefulWidget {
+class MonthlySoReport extends StatefulWidget {
   String xCus;
   String cusName;
 
-  PendingSOReport({required this.xCus, required this.cusName, Key? key})
+  MonthlySoReport({required this.xCus, required this.cusName, Key? key})
       : super(key: key);
 
   @override
-  State<PendingSOReport> createState() => _PendingSOReportState();
+  State<MonthlySoReport> createState() => _MonthlySoReportState();
 }
 
-class _PendingSOReportState extends State<PendingSOReport> {
-  ReportController report = Get.find<ReportController>();
+class _MonthlySoReportState extends State<MonthlySoReport> {
+  ReportController report = Get.put(ReportController());
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    report.fetchPendingSoList(widget.xCus);
+    report.fetchMonthlySoList(widget.xCus);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.xCus}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -38,7 +37,7 @@ class _PendingSOReportState extends State<PendingSOReport> {
           leading: GestureDetector(
               onTap: () {
                 Get.back();
-                report.pendingList.clear();
+                report.monthlySoList.clear();
               },
               child: const Icon(
                 Icons.arrow_back_outlined,
@@ -51,7 +50,7 @@ class _PendingSOReportState extends State<PendingSOReport> {
             size: 25,
           ),
         ),
-        body: Obx(() => report.isLoading.value
+        body: Obx(() => report.isLoading1.value
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -70,13 +69,13 @@ class _PendingSOReportState extends State<PendingSOReport> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: report.pendingList.isEmpty
+                    child: report.monthlySoList.isEmpty
                         ? const NoDataPage(
                             text: 'Sorry! no pending SO available right now')
                         : ListView.builder(
-                            itemCount: report.pendingList.length,
+                            itemCount: report.monthlySoList.length,
                             itemBuilder: (context, index) {
-                              var penDelList = report.pendingList[index];
+                              var monSoList = report.monthlySoList[index];
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -97,17 +96,17 @@ class _PendingSOReportState extends State<PendingSOReport> {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      Get.to(() => PendingSoDetailsScreen(
+                                      Get.to(() => MonthlySODetailsReport(
                                           xCus: widget.xCus,
                                           cusName: widget.cusName,
-                                          soNum: penDelList.xsonumber));
+                                          soNum: monSoList.xsonumber));
                                     },
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(penDelList.xsonumber),
-                                        Text(penDelList.xdate),
+                                        Text(monSoList.xsonumber),
+                                        Text(monSoList.xdate),
                                       ],
                                     ),
                                   ),
@@ -120,46 +119,4 @@ class _PendingSOReportState extends State<PendingSOReport> {
       ),
     );
   }
-/*  Widget _dataTable(int index, BuildContext context) {
-    final width = MediaQuery.of(context).size.width - 40;
-    return Column(
-      children: [
-        Row(
-          children: [
-            DataTableWidget(
-              width / 5.5,
-              '${report.pendingList[index].xdate}',
-              shouldColorTop: true,
-            ),
-            DataTableWidget(width / 5, '${report.pendingList[index].xdate}',
-                shouldColorTop: true, shouldColorLeft: true),
-            DataTableWidget(width / 5.8, 'Value 2',
-                shouldColorTop: true, shouldColorLeft: true),
-            DataTableWidget(width / 4.5, 'Value 3',
-                shouldColorTop: true, shouldColorLeft: true),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _tableTitle(BuildContext context) {
-    final width = MediaQuery.of(context).size.width - 40;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            TableTitle(width / 5.5, 'SO number', shouldOffRight: false),
-            TableTitle(width / 5, 'Date'),
-            TableTitle(width / 5.8, 'Dealer name'),
-            TableTitle(width / 4.5, 'Product name'),
-            TableTitle(width / 4.5, 'So qty'),
-            TableTitle(width / 4.5, 'DC qty'),
-            TableTitle(width / 4.5, 'Pending qty'),
-          ],
-        )
-      ],
-    );
-  }*/
 }

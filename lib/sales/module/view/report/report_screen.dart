@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/sales/module/view/report/monthly_so_report.dart';
+import 'package:gazi_sales_app/sales/module/view/report/customer_ledger_screen.dart';
+import 'package:gazi_sales_app/sales/module/view/report/monthly-so_report.dart';
 import 'package:gazi_sales_app/sales/module/view/report/pending_so_screen.dart';
 import 'package:get/get.dart';
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
-import 'dart:math';
 
 import '../../../widget/business_widget.dart';
+import 'dealer-wise_deposit_screen.dart';
 
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({Key? key}) : super(key: key);
+  String xCus;
+  String cusName;
+
+  ReportScreen({required this.xCus, required this.cusName, Key? key})
+      : super(key: key);
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-/*  double _progress1 = 30;
-  double _progress2 = 70;
-  double _progress3 = 60;
-  double _progress4 = 80;*/
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,34 +42,62 @@ class _ReportScreenState extends State<ReportScreen> {
             size: 25,
           ),
         ),
-        body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  BusinessWidget(
-                    businessName: 'Pending SO report',
-                    imgPath: 'assets/images/report.png',
-                    height: 70,
-                    onPressed: () {
-                      Get.to(() => PendingSOReport());
-                    },
-                  ),
-                  BusinessWidget(
-                    businessName: 'Monthly SO report',
-                    imgPath: 'assets/images/worknote.png',
-                    height: 70,
-                    onPressed: () {
-                      Get.to(() => MonthlySOReport());
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BusinessWidget(
+                  businessName: 'Pending SO',
+                  imgPath: 'assets/images/report.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => PendingSOReport(
+                          xCus: widget.xCus,
+                          cusName: widget.cusName,
+                        ));
+                  },
+                ),
+                BusinessWidget(
+                  businessName: 'SO orders',
+                  imgPath: 'assets/images/worknote.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => MonthlySoReport(
+                        xCus: widget.xCus, cusName: widget.cusName));
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BusinessWidget(
+                  businessName: 'Customer Ledger',
+                  imgPath: 'assets/images/expense_report.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => CustomerLedgerScreen(
+                        xCus: widget.xCus, cusName: widget.cusName));
+                  },
+                ),
+                BusinessWidget(
+                  businessName: 'Deposit',
+                  imgPath: 'assets/images/bank.png',
+                  height: 70,
+                  onPressed: () {
+                    Get.to(() => DealerDepositScreen(
+                        xCus: widget.xCus, cusName: widget.cusName));
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
