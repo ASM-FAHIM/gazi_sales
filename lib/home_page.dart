@@ -211,7 +211,7 @@ class _HomepageState extends State<Homepage> {
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: BigText(
-                text: "My gazi",
+                text: "My Gazi",
                 color: Color(0xff074974),
                 size: 25,
               ),

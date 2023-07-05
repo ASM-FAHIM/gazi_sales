@@ -110,7 +110,7 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                             ),
                                             alignment: Alignment.center,
                                             child: BigText(
-                                              text: '${giftPromo["xtrnnum"]}',
+                                              text: giftPromo.xtrnnum,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -152,7 +152,7 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                                             size: 16),*/
                                                         SmallText(
                                                             text:
-                                                                'Color : ${giftPromo["xcolor"]}',
+                                                                'Color : ${giftPromo.xcolor}',
                                                             size: 16),
                                                         Row(
                                                           children: [
@@ -161,14 +161,14 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                                                 size: 16),
                                                             SmallText(
                                                               text:
-                                                                  '(${giftPromo["xfslab"]} to ',
+                                                                  '(${giftPromo.xfslab} to ',
                                                               size: 16,
                                                               color: AppColor
                                                                   .appBarColor,
                                                             ),
                                                             SmallText(
                                                               text:
-                                                                  '${giftPromo["xtslab"]}) Ltr',
+                                                                  '${giftPromo.xtslab}) Ltr',
                                                               size: 16,
                                                               color: AppColor
                                                                   .appBarColor,
@@ -177,7 +177,7 @@ class _GiftAndPromoScreenState extends State<GiftAndPromoScreen> {
                                                         ),
                                                         SmallText(
                                                             text:
-                                                                'Amount : ${giftPromo["xamount"]} Tk.',
+                                                                'Amount : ${giftPromo.xamount} Tk.',
                                                             size: 16),
                                                       ],
                                                     ),
