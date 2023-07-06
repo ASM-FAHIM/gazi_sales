@@ -30,6 +30,7 @@ class _Attendance_reportState extends State<Attendance_report> {
   Future<List<AttendenceReportModel>>? futurePost;
 
   AppConstants appConstants = AppConstants();
+
   changeColor(String statusdemo) {
     switch (statusdemo) {
       case "Late":
@@ -55,11 +56,11 @@ class _Attendance_reportState extends State<Attendance_report> {
   Future<List<AttendenceReportModel>> fetchPost() async {
     print("execute");
     var response = await http.post(
-      Uri.parse('http://${AppConstants.baseurl}/salesforce/attendance_rpt.php'),
+      Uri.parse('http://${AppConstants.baseurl}/gazi/hr/attendance_rpt.php'),
       body: jsonEncode(
         <String, String>{
-          "zid": "100060",
-          "user": "",
+          "zid": "100000",
+          "user": widget.xposition,
           "fdate": widget.fromDate,
           "tdate": widget.toDate,
           "empcat": "",
@@ -87,6 +88,7 @@ class _Attendance_reportState extends State<Attendance_report> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('xposition ; ${widget.xposition} && xstaff : ${widget.xstaff}');
     futurePost = fetchPost();
     print(fetchPost());
   }
@@ -522,8 +524,8 @@ class _Attendance_reportState extends State<Attendance_report> {
                           );
                         } else {
                           return Center(
-                            child:
-                                Image(image: AssetImage("assets/images/loading.gif")),
+                            child: Image(
+                                image: AssetImage("assets/images/loading.gif")),
                           );
                         }
                       },

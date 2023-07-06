@@ -4,8 +4,7 @@ import 'package:gazi_sales_app/sales/databaseHelper/deposit_repo.dart';
 import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
 import 'package:gazi_sales_app/sales/module/model/ca_cus_disc_model.dart';
 import 'package:gazi_sales_app/sales/module/model/payment_model_model.dart';
-import 'package:gazi_sales_app/sales/module/model/promo_details_model.dart';
-import 'package:gazi_sales_app/sales/module/model/promo_header_model.dart';
+import 'package:gazi_sales_app/sales/module/model/gift_promo_model/promo_details_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,6 @@ import 'dart:convert';
 import '../../constant/app_constants.dart';
 import '../../databaseHelper/gift_promo_repo.dart';
 import '../../databaseHelper/login_repo.dart';
-import '../model/gift_promo_model.dart';
 import '../model/login_model.dart';
 import '../model/tsolist_model.dart';
 import '../model/user_wise_business_model.dart';
@@ -189,10 +187,10 @@ class LoginController extends GetxController {
         await loginMethod();
         await insertToBankTable();
         await insertToPaymentTable();
-        await getGiftItems();
+        /*await getGiftItems();
         await insertToPromoHeaderTable();
         await insertToPromoDetailsTable();
-        await insertToCaCusDiscTable();
+        await insertToCaCusDiscTable();*/
         isFetched(false);
         Get.snackbar('Success', 'Data Fetched successfully',
             backgroundColor: Colors.white,
@@ -366,7 +364,7 @@ class LoginController extends GetxController {
     }
   }
 
-  //Insert promo header into promoHeader Table
+/*  //Insert promo header into promoHeader Table
   RxBool pHeader = false.obs;
   List<PromoHeaderModel> promoHeaderList = [];
 
@@ -445,9 +443,9 @@ class LoginController extends GetxController {
       caCusDisInserted(false);
       print('Failed to insert caCusDisTable : $e');
     }
-  }
+  }*/
 
-  //insert to gift item table
+/*  //insert to gift item table
   ///git and promo items
   RxBool isLoading6 = false.obs;
   List<GiftModel> addGiftList = [];
@@ -475,5 +473,5 @@ class LoginController extends GetxController {
       print("Something went wrong $e");
       return isLoading6(false);
     }
-  }
+  }*/
 }

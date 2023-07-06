@@ -13,6 +13,7 @@ import '../data_model/smallapi/checkleavebalance_model.dart';
 import '../data_model/smallapi/holidaymodel.dart';
 import '../data_model/smallapi/leave_type_model.dart';
 import '../data_model/xyearperdate.dart';
+import '../sales/constant/app_constants.dart';
 
 class LeaveApply_page extends StatefulWidget {
   LeaveApply_page({
@@ -27,8 +28,10 @@ class LeaveApply_page extends StatefulWidget {
   String xstaff;
   String xposition;
   String xname;
+
   //String leave_avail;
   String xsid;
+
   //String appleave;
 
   @override
@@ -55,8 +58,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
 
   Future<String> getAPIDATA() async {
     http.Response response = await http.get(
-      Uri.parse(
-          'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/xyearperdate.php'),
+      Uri.parse('http://${AppConstants.baseurl}/gazi/HR/xyearperdate.php'),
     );
 
     xyearperdate1 = xyearperdateFromJson(response.body);
@@ -77,8 +79,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
   //for holiday count
   Future<String> getholidaydata() async {
     http.Response response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/holidayCount.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/holidayCount.php'),
         body: jsonEncode(<String, String>{
           "xstaff": widget.xstaff,
           "fdate": _value,
@@ -100,9 +101,9 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
   String blockdate = " ";
 
   Future<String> getblockdatedata() async {
+    print(widget.xstaff);
     http.Response response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/dateblock.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/dateblock.php'),
         body: jsonEncode(<String, String>{
           "xstaff": widget.xstaff,
           "fdate": _value,
@@ -178,14 +179,15 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
   }
 
   late LeaveandTourModel _dataModel;
+
   //make dynamic dropdown value
   String? dropdownValue;
   List<LeaveTypeModel>? dropdownList;
   Future<List<LeaveTypeModel>>? availableLeave;
+
   Future<List<LeaveTypeModel>?> getDropdownList() async {
     var response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leaveSelect.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/leaveSelect.php'),
         body: jsonEncode(<String, String>{"xstaff": widget.xstaff}));
 
     print(response.body);
@@ -199,10 +201,10 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
 
   //available leave from leave and tour page
   List<AvailebleLeaveModel>? availableleave;
+
   Future<List<AvailebleLeaveModel>> fetchavailableleave() async {
     var response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leavetype.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/leavetype.php'),
         body: jsonEncode(<String, String>{"xstaff": widget.xstaff}));
 
     print(response.body);
@@ -218,11 +220,11 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
 
   late CheckLeaveBalance checkLeaveBalance;
   String leave_avail = '';
+
   checkbalance(String newValue) async {
     print(newValue);
     var response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/xbalance.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/xbalance.php'),
         body: jsonEncode(
             <String, String>{"xstaff": widget.xstaff, "xtype": newValue}));
 
@@ -231,15 +233,17 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
     print(checkLeaveBalance.xbalance);
 
     leave_avail = checkLeaveBalance.xbalance;
+
+    print("kajsd" + leave_avail);
   }
 
   late AppliedLeaveModel appliedleave;
   String appleave = " ";
+
   getappleavedata(String newValue) async {
     print("enter");
     http.Response response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/appliedleave.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/appliedleave.php'),
         body: jsonEncode(
             <String, String>{"xstaff": widget.xstaff, "xtype": newValue}));
 
@@ -847,8 +851,8 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                   );
                                 });
                           } else if (((double.parse(leave_avail)) -
-                                  int.parse(appleave) +
-                                  int.parse(holidaycount)) <
+                                  double.parse(appleave) +
+                                  double.parse(holidaycount)) <
                               difference) {
                             showDialog(
                                 context: context,
@@ -871,7 +875,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                         style: TextButton.styleFrom(
                                           primary: Color(0xff074974),
                                         ),
-                                       // color: Color(0xff074974),
+                                        // color: Color(0xff074974),
                                         onPressed: () {
                                           //Navigator.pop(context);
                                           Navigator.pop(context);
@@ -891,17 +895,19 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                             print(xyearperdate2);
                             var response = await http.post(
                                 Uri.parse(
-                                    'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leaveandtourapply.php'),
+                                    'http://${AppConstants.baseurl}/gazi/HR/leaveandtourapply.php'),
                                 body: jsonEncode(<String, String>{
-                                  "zid": "200010",
-                                  "zauserid": widget.xposition, //position
+                                  "zid": "100000",
+                                  "zauserid": widget.xposition,
+                                  //position
                                   "xstaff": widget.xstaff,
                                   "xdate": "$now2",
                                   "xyear": "$year",
-                                  "xday": difference.toString(), //add 1
+                                  "xday": difference.toString(),
+                                  //add 1
                                   //"xyearperdate": (int.parse(_xyearperdate)+1).toString(),// auto
-                                  "xyearperdate":
-                                      xyearperdate2.toString(), // auto
+                                  "xyearperdate": xyearperdate2.toString(),
+                                  // auto
                                   "xyesno": "No",
                                   "xtypeleave": dropdownValue!,
                                   "xdatefrom": "$dt1",
@@ -914,7 +920,8 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                   "xhourdeduct": "24",
                                   "xsid": widget.xsid,
                                   "xposition": widget.xposition,
-                                  "xhday": "0", // holiday
+                                  "xhday": "0",
+                                  // holiday
                                   "xpreparer": widget.xstaff,
                                   "xappday": difference.toString(),
                                 }));
@@ -992,19 +999,19 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        if(dropdownValue == 'Official Tour')...[
+                                        if (dropdownValue ==
+                                            'Official Tour') ...[
                                           Text(
-                                            "Day: " +
-                                                (difference).toString(),
+                                            "Day: " + (difference).toString(),
                                             style: GoogleFonts.bakbakOne(
                                               color: Colors.black,
                                             ),
                                           ),
-                                        ]else...[
+                                        ] else ...[
                                           Text(
                                             "Day: " +
                                                 (difference -
-                                                    int.parse(holidaycount))
+                                                        int.parse(holidaycount))
                                                     .toString(),
                                             style: GoogleFonts.bakbakOne(
                                               color: Colors.black,
@@ -1027,9 +1034,9 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
 
                                           var response = await http.post(
                                               Uri.parse(
-                                                  'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leaveandtourapplyconfirm.php'),
+                                                  'http://${AppConstants.baseurl}/gazi/HR/leaveandtourapplyconfirm.php'),
                                               body: jsonEncode(<String, String>{
-                                                "zid": "200010",
+                                                "zid": "100000",
                                                 "xposition": widget.xposition,
                                                 "xyearperdate":
                                                     xyearperdate2.toString(),
@@ -1042,11 +1049,11 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                           print(dropdownValue);
                                           var response1 = await http.post(
                                               Uri.parse(
-                                                  'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leaveandtourapplyconfirmfinal.php'),
+                                                  'http://${AppConstants.baseurl}/gazi/HR/leaveandtourapplyconfirmfinal.php'),
                                               body: jsonEncode(<String, String>{
                                                 //position
 
-                                                "zid": "200010",
+                                                "zid": "100000",
                                                 "user": widget.xposition,
                                                 "xposition": widget.xposition,
                                                 "xyearperdate":
@@ -1070,7 +1077,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                               "Leave Applied",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.bakbakOne(
-                                                color: Colors.black,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ));

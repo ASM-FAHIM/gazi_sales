@@ -16,8 +16,6 @@ import 'package:intl/intl.dart';
 import 'data_model/promotion.dart';
 import 'data_model/xyearperdate.dart';
 import 'package:get/get.dart';
-
-import 'hr/absent_approval.dart';
 import 'hr/attendance_page.dart';
 import 'hr/leave_tour.dart';
 import 'hr/payslip_page.dart';
@@ -211,7 +209,7 @@ class _HomepageState extends State<Homepage> {
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: BigText(
-                text: "My gazi",
+                text: "My Gazi",
                 color: Color(0xff074974),
                 size: 25,
               ),

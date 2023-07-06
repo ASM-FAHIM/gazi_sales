@@ -2,7 +2,6 @@ import 'package:gazi_sales_app/sales/databaseHelper/gift_promo_repo.dart';
 
 import '../module/model/ca_cus_price_model.dart';
 import '../module/model/dealer_model.dart';
-import '../module/model/gift_promo_model.dart';
 import '../module/model/product_accessories_model.dart';
 import '../module/model/product_model.dart';
 import '../module/model/product_nature_model.dart';

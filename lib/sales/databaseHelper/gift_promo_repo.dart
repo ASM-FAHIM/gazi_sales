@@ -1,7 +1,7 @@
 import '../module/model/ca_cus_disc_model.dart';
-import '../module/model/gift_promo_model.dart';
-import '../module/model/promo_details_model.dart';
-import '../module/model/promo_header_model.dart';
+import '../module/model/gift_promo_model/gift_promo_model.dart';
+import '../module/model/gift_promo_model/promo_details_model.dart';
+import '../module/model/gift_promo_model/promo_header_model.dart';
 import 'database_helper.dart';
 
 class GiftPromoRepo {
