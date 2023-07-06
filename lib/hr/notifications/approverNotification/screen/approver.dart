@@ -1,33 +1,24 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/data_model/notificaiton_count/admin_count.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/cash_adv_notification.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/pending_voucher.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/sr_notification.dart';
-import 'package:gazi_sales_app/sales/module/view/notifications/deposit_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../cs_notification.dart';
 import '../deposit_notification.dart';
+import '../hr_approver/hr_approver_home.dart';
 import '../po_notification.dart';
-import '../sro_wise-TSO_List.dart';
 import '../so_notification.dart';
 
 class AdminNotification extends StatefulWidget {
-  //const NotificationList({Key? key}) : super(key: key);
-
   AdminNotification({
     required this.xposition,
     required this.zemail,
     required this.zid,
     required this.xStaff,
-    //required this.loginModel
   });
 
   String xposition;
-
-/*  String xstaff90;
-  String xstaff210;*/
   String zemail;
   String zid;
   String xStaff;
@@ -450,6 +441,75 @@ class _AdminNotificationState extends State<AdminNotification> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+              child: Container(
+                height: MediaQuery.of(context).size.width / 8,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: TextButton(
+                  // shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20.0)),
+                  onPressed: () {
+                    print('Employee HR Approval pressed');
+                    setState(() {
+                      isLoadingHR = true;
+                    });
+
+                    Future.delayed(
+                      Duration(seconds: 1),
+                      () {
+                        setState(() {
+                          isLoadingHR = false;
+                        });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HrApproverHome(
+                                      xposition: widget.xposition,
+                                      xstaff: widget.xStaff,
+                                      zemail: widget.zemail,
+                                      zid: widget.zid,
+                                    )));
+                      },
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      isLoadingHR
+                          ? SizedBox(
+                              height: 25,
+                              width: 25,
+                              child: CircularProgressIndicator(
+                                color: Color(0xff064A76),
+                              ),
+                            )
+                          : Text(
+                              "Employee HR Approval",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(

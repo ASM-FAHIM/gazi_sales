@@ -15,6 +15,7 @@ import '../sales/constant/app_constants.dart';
 class AttendanceField extends StatefulWidget {
   AttendanceField(
       {required this.xstaff, required this.xposition, required this.xsid});
+
   String xstaff;
   String xposition;
   dynamic xsid;
@@ -25,7 +26,6 @@ class AttendanceField extends StatefulWidget {
 
 class _AttendanceFieldState extends State<AttendanceField> {
   DateTime now = DateTime.now();
-  AppConstants appConstants = AppConstants();
   String dropdownValue = 'Pick';
   String _fromDate = '';
   String _toDate = '';
@@ -37,71 +37,103 @@ class _AttendanceFieldState extends State<AttendanceField> {
   String outtime = '';
   bool pressAttention = false;
   bool pressAttention1 = false;
-  String _currentAddress = " ";
-  String _currentAddressout = " ";
+  late String _currentAddress = " ";
+  late String _currentAddressout = " ";
   String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
   int datecount = 0;
+  String AddressIN = '';
+  String Addressdetails = '';
+  String location = '';
+  String AddressOUT = '';
 
-  Future<void> getLocationin() async {
+  Future<Position> _getGeoLocationPosition() async {
+    print("pressed");
+    bool serviceEnabled;
     LocationPermission permission;
-    permission = await Geolocator.requestPermission();
-
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print(position.latitude);
-    print(position.longitude);
-
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      Placemark place = placemarks[0];
-
-      setState(() {
-        _currentAddress =
-            "${place.locality} ${place.postalCode}, ${place.country}";
-        //"${place.thoroughfare} ${place.postalCode}, ${place.country}";
-        //_currentAddressout = "${place.locality}, ${place.postalCode}, ${place.country}";
-      });
-      print(_currentAddress);
-    } catch (e) {
-      print(e);
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location services are disabled.');
     }
-    //print(_currentAddress);
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
-  Future<void> getLocationout() async {
-    Position position = await Geolocator.getCurrentPosition();
-    print(position.latitude);
-    print(position.longitude);
+  Future<void> GetAddressFromLatLongIN(Position position) async {
+    print("Enter");
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    // bool isMockLocation = false;
+    //
+    // isMockLocation = await TrustLocation.isMockLocation;
+    //
+    // print(isMockLocation);
 
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
+    Placemark place = placemarks[0];
 
-      Placemark place = placemarks[0];
+    AddressIN =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    Addressdetails = '$placemarks';
+    setState(() {});
+    //print(Address);
 
-      setState(() {
-        //_currentAddress = "${place.locality}, ${place.postalCode}, ${place.country}";
-        _currentAddressout =
-            "${place.locality} ${place.postalCode}, ${place.country}";
-      });
-    } catch (e) {
-      print(e);
-    }
-    //print(_currentAddress);
+    var response = await http.post(
+        Uri.parse('http://${AppConstants.baseurl}/ughcm/attendencetemp.php'),
+        body: jsonEncode(<String, String>{
+          "xposition": widget.xposition,
+          "xtimein": intime,
+          "xlocation": AddressIN,
+        }));
+    print(response.statusCode);
+    print(response.body);
+    print(AddressIN);
+  }
+
+  Future<void> GetAddressFromLatLongOUT(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    AddressOUT =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    setState(() {});
+    // print(Address);
+    //
+    // bool isMockLocation = await TrustLocation.isMockLocation;
+    //
+    // print(isMockLocation);
+
+    var response = await http.post(
+        Uri.parse('http://${AppConstants.baseurl}/ughcm/attendencetemp.php'),
+        body: jsonEncode(<String, String>{
+          "xposition": widget.xposition,
+          "xtimein": outtime,
+          "xlocation": AddressOUT,
+        }));
+    print(response.statusCode);
+    print(response.body);
+    print(AddressIN);
   }
 
   void _showFromDatePicker() async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: new DateTime.now(),
-      firstDate: new DateTime(2022),
-      lastDate: new DateTime(2024),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2024),
       builder: (context, child) => Theme(
         data: ThemeData(
             backgroundColor: Colors.blueAccent,
@@ -122,9 +154,9 @@ class _AttendanceFieldState extends State<AttendanceField> {
   void _showToDatePicker() async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: new DateTime.now(),
-      firstDate: new DateTime(2022),
-      lastDate: new DateTime(2024),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2024),
       builder: (context, child) => Theme(
         data: ThemeData(
             backgroundColor: Colors.blueAccent,
@@ -203,11 +235,14 @@ class _AttendanceFieldState extends State<AttendanceField> {
             children: <Widget>[
               // from date View
               Padding(
-                padding: const EdgeInsets.only(right: 20, left: 20),
+                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                 child: Container(
+                  //height: MediaQuery.of(context).size.width/2,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.white,
+                    // color: ispressed ? Colors.white : Colors.grey,
+                    //border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -225,7 +260,7 @@ class _AttendanceFieldState extends State<AttendanceField> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(
-                          height: 160,
+                          height: 200,
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -234,38 +269,51 @@ class _AttendanceFieldState extends State<AttendanceField> {
                                 TextButton(
                                   // minWidth:
                                   //     MediaQuery.of(context).size.width / 3,
+
                                   style: TextButton.styleFrom(
-                                    primary: pressAttention
+                                    backgroundColor: pressAttention
                                         ? Colors.green
                                         : Colors.white10,
                                   ),
-                                  //color:
+
+                                  // color: pressAttention
+                                  //     ? Colors.green
+                                  //     : Colors.white10,
                                   onPressed: () async {
-                                    await getLocationin();
+                                    //something will change
+                                    Position position =
+                                        await _getGeoLocationPosition();
+                                    location =
+                                        'Lat: ${position.latitude} , Long: ${position.longitude}';
+
+                                    GetAddressFromLatLongIN(position);
+
+                                    //GetAddressFromLatLong();
+
                                     setState(() {
                                       print('in count $datecount');
                                       datecount = datecount + 1;
                                       DateTime now = DateTime.now();
                                       date = now.toString();
                                       String Onlydate =
-                                          new DateFormat("yyyy h:mm:ssa")
+                                          DateFormat("yyyy-MM-dd h:mm:ssa")
                                               .format(now);
                                       intime = '$Onlydate';
                                       pressAttention = !pressAttention;
                                     });
 
-                                    var response = await http.post(
-                                      Uri.parse(
-                                          'http://${AppConstants.baseurl}/salesforce/attendencetemp.php'),
-                                      body: jsonEncode(
-                                        <String, String>{
-                                          "xposition": widget.xposition,
-                                          "xlocation": _currentAddress,
-                                        },
-                                      ),
-                                    );
-                                    print(response.statusCode);
-                                    print(response.body);
+                                    // var response = await http.post(
+                                    //     Uri.parse(
+                                    //         'http://$api/ughcm/attendencetemp.php'),
+                                    //     body: jsonEncode(<String, String>{
+                                    //       "xposition": widget.xposition,
+                                    //       "xtimein": intime,
+                                    //       "xlocation": AddressIN,
+                                    //     }));
+                                    // print(response.statusCode);
+                                    // print(response.body);
+                                    // print(AddressIN);
+
                                     print(intime);
 
                                     ScaffoldMessenger.of(context)
@@ -274,6 +322,7 @@ class _AttendanceFieldState extends State<AttendanceField> {
                                         "IN Time Saved",
                                         style: GoogleFonts.bakbakOne(
                                           fontSize: 18,
+                                          //color: Color(0xff074974),
                                         ),
                                       ),
                                     ));
@@ -298,15 +347,17 @@ class _AttendanceFieldState extends State<AttendanceField> {
                                         "$intime",
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.bakbakOne(
-                                          fontSize: 15,
-                                        ),
+                                            fontSize: 15, color: Colors.black
+                                            //color: Color(0xff074974),
+                                            ),
                                       ),
                                       Text(
-                                        _currentAddress,
+                                        AddressIN,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.bakbakOne(
-                                          fontSize: 15,
-                                        ),
+                                            fontSize: 15, color: Colors.black
+                                            //color: Color(0xff074974),
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -329,18 +380,20 @@ class _AttendanceFieldState extends State<AttendanceField> {
                                       width: 20,
                                     ),
                                     Text(
-                                      intime,
+                                      "$intime",
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
-                                        fontSize: 15,
-                                      ),
+                                          fontSize: 15, color: Colors.black
+                                          //color: Color(0xff074974),
+                                          ),
                                     ),
                                     Text(
-                                      _currentAddress,
+                                      AddressIN,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
-                                        fontSize: 15,
-                                      ),
+                                          fontSize: 15, color: Colors.black
+                                          //color: Color(0xff074974),
+                                          ),
                                     ),
                                   ],
                                 )
@@ -348,42 +401,43 @@ class _AttendanceFieldState extends State<AttendanceField> {
                               TextButton(
                                 //minWidth: MediaQuery.of(context).size.width / 3,
                                 style: TextButton.styleFrom(
-                                  primary: pressAttention1 ? Colors.red : Colors.white,
+                                  backgroundColor: pressAttention1
+                                      ? Colors.red
+                                      : Colors.white,
                                 ),
 
                                 onPressed: () async {
                                   print('out count $datecount');
-                                  await getLocationout();
+                                  //something will change
+                                  Position position =
+                                      await _getGeoLocationPosition();
+                                  location =
+                                      'Lat: ${position.latitude} , Long: ${position.longitude}';
+                                  GetAddressFromLatLongOUT(position);
                                   setState(() {
                                     datecount = 0;
+                                    print(datecount);
                                     DateTime now = DateTime.now();
                                     date = now.toString();
                                     String Onlydate =
-                                        new DateFormat("yyyy h:mm:ssa")
+                                        DateFormat("yyyy-MM-dd h:mm:ssa")
                                             .format(now);
                                     outtime = '$Onlydate';
                                     pressAttention1 = !pressAttention1;
-                                  });
-                                  var response = await http.post(
-                                    Uri.parse(
-                                        'http://${AppConstants.baseurl}/salesforce/attendencetemp.php'),
-                                    body: jsonEncode(
-                                      <String, String>{
-                                        "xposition": widget.xposition,
-                                        "xlocation": _currentAddressout,
-                                      },
-                                    ),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      "OUT Time saved",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
+                                    print(outtime);
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                        "OUT Time saved",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.bakbakOne(
+                                          fontSize: 18,
+                                          //color: Color(0xff074974),
+                                        ),
                                       ),
-                                    ),
-                                  ));
+                                    ));
+                                  });
                                 },
                                 child: Column(
                                   children: [
@@ -403,15 +457,17 @@ class _AttendanceFieldState extends State<AttendanceField> {
                                       "$outtime",
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
-                                        fontSize: 15,
-                                      ),
+                                          fontSize: 15, color: Colors.black
+                                          //color: Color(0xff074974),
+                                          ),
                                     ),
                                     Text(
-                                      _currentAddressout,
+                                      AddressOUT,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
-                                        fontSize: 15,
-                                      ),
+                                          fontSize: 15, color: Colors.black
+                                          //color: Color(0xff074974),
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -429,13 +485,29 @@ class _AttendanceFieldState extends State<AttendanceField> {
                 height: 20,
               ),
 
+              Divider(
+                thickness: 2,
+                color: Colors.black,
+              ),
+
+              Text(
+                "Personal Attendance Info",
+                style: GoogleFonts.bakbakOne(
+                  fontSize: 18,
+                  //color: Color(0xff074974),
+                ),
+              ),
+
+              Divider(
+                thickness: 2,
+                color: Colors.black,
+              ),
+
               Stack(
                 children: <Widget>[
                   TextButton(
                     style: TextButton.styleFrom(
-                      primary: Color(0xfffafafa),
-                    ),
-                    //color: Color(0xfffafafa),
+                        backgroundColor: Color(0xfffafafa)),
                     onPressed: () {
                       _showFromDatePicker();
                     },
@@ -446,16 +518,27 @@ class _AttendanceFieldState extends State<AttendanceField> {
                       child: Center(
                           child: Row(
                         children: [
-                          Icon(Icons.calendar_today_sharp,color: Color(0xff074974),),
+                          // TextButton(
+                          //   color: Color(0xfffafafa),
+                          //   onPressed: () {
+                          //     _showFromDatePicker();
+                          //   },
+                          //   child: Icon(Icons.calendar_today_sharp),
+                          // ),
+
+                          Icon(Icons.calendar_today_sharp,
+                              color: Color(0xff074974)),
+
                           SizedBox(
                             width: 10,
                           ),
+
                           Text(
                             _fromDate,
                             style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Colors.black
-                            ),
+                                fontSize: 18, color: Colors.black
+                                //color: Color(0xff074974),
+                                ),
                           ),
                         ],
                       )),
@@ -478,6 +561,7 @@ class _AttendanceFieldState extends State<AttendanceField> {
                         'Form Date',
                         style: GoogleFonts.bakbakOne(
                           fontSize: 18,
+                          //color: Color(0xff074974),
                         ),
                       ),
                     ),
@@ -490,8 +574,9 @@ class _AttendanceFieldState extends State<AttendanceField> {
                 children: <Widget>[
                   TextButton(
                     style: TextButton.styleFrom(
-                      primary: Color(0xfffafafa),
-                    ),
+                        backgroundColor: Color(0xfffafafa)),
+                    // splashColor: Colors.white,
+                    //minWidth: double.infinity,
                     onPressed: () {
                       _showToDatePicker();
                     },
@@ -501,16 +586,27 @@ class _AttendanceFieldState extends State<AttendanceField> {
                       child: Center(
                           child: Row(
                         children: [
-                          Icon(Icons.calendar_today_sharp,color: Color(0xff074974),),
+                          // TextButton(
+                          //   color: Color(0xfffafafa),
+                          //   onPressed: () {
+                          //     _showToDatePicker();
+                          //   },
+                          //   child: Icon(Icons.calendar_today_sharp),
+                          // ),
+
+                          Icon(Icons.calendar_today_sharp,
+                              color: Color(0xff074974)),
+
                           SizedBox(
                             width: 10,
                           ),
+
                           Text(
                             _toDate,
                             style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Colors.black
-                            ),
+                                fontSize: 18, color: Colors.black
+                                //color: Color(0xff074974),
+                                ),
                           ),
                         ],
                       )),
@@ -542,12 +638,15 @@ class _AttendanceFieldState extends State<AttendanceField> {
               SizedBox(
                 height: 20,
               ),
+
+              //TextButton or TextButton Container
               Center(
                 child: Container(
                   height: 40,
                   width: MediaQuery.of(context).size.width / 1.2,
                   decoration: BoxDecoration(
                     color: Color(0xff074974),
+                    //border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -559,13 +658,14 @@ class _AttendanceFieldState extends State<AttendanceField> {
                     ],
                   ),
                   child: TextButton(
-                    // shape: RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.circular(20.0),
-                    // ),
+                    style: TextButton.styleFrom(
+                        backgroundColor: Color(0xff074974)),
                     onPressed: () async {
+                      //something will change
                       print("Tapped");
                       print("f" + _fromDate);
                       print("t" + _toDate);
+
                       if (_fromDate == "") {
                         Get.snackbar('Error', 'Please Select From Date',
                             backgroundColor: Color(0XFF8CA6DB),
@@ -591,17 +691,15 @@ class _AttendanceFieldState extends State<AttendanceField> {
                             snackPosition: SnackPosition.BOTTOM);
                       } else {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Attendance_report(
-                              fromDate: _fromDate,
-                              toDate: _toDate,
-                              xstaff: widget.xstaff,
-                              xposition: widget.xposition,
-                              xsid: widget.xsid,
-                            ),
-                          ),
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Attendance_report(
+                                      fromDate: _fromDate,
+                                      toDate: _toDate,
+                                      xstaff: widget.xstaff,
+                                      xposition: widget.xposition,
+                                      xsid: widget.xsid,
+                                    )));
                       }
                     },
                     child: Text(

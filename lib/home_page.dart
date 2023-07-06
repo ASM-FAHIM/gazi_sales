@@ -16,8 +16,6 @@ import 'package:intl/intl.dart';
 import 'data_model/promotion.dart';
 import 'data_model/xyearperdate.dart';
 import 'package:get/get.dart';
-
-import 'hr/absent_approval.dart';
 import 'hr/attendance_page.dart';
 import 'hr/leave_tour.dart';
 import 'hr/payslip_page.dart';

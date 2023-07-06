@@ -16,20 +16,21 @@ class HrApproverHome extends StatefulWidget {
     required this.xstaff,
     required this.zemail,
     required this.zid,
-    required this.adminearly,
-    required this.adminlate,
-    required this.adminleave,
-    required this.adminabsent,
+    // required this.adminearly,
+    // required this.adminlate,
+    // required this.adminleave,
+    // required this.adminabsent,
   });
 
   String xposition;
   String xstaff;
   String zemail;
   String zid;
-  String adminearly;
-  String adminlate;
-  String adminleave;
-  String adminabsent;
+
+  // String adminearly;
+  // String adminlate;
+  // String adminleave;
+  // String adminabsent;
 
   @override
   _HrApproverHomeState createState() => _HrApproverHomeState();
@@ -39,7 +40,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
   // fetchnotification _noteList = fetchnotification();
   //fetchnotification _noteList = fetchnotification();
 
-  late StreamController<int> _eventAbsent;
+/*  late StreamController<int> _eventAbsent;
   late StreamController<int> _eventLeave;
   late StreamController<int> _eventLate;
   late StreamController<int> _eventEarly;
@@ -56,12 +57,12 @@ class _HrApproverHomeState extends State<HrApproverHome> {
 
     widget.adminearly;
     _eventEarly.add(int.parse(widget.adminearly));
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
-
+/*
     Timer.periodic(Duration(seconds: 1), (_) => _counter());
     _eventAbsent = new StreamController<int>();
     _eventAbsent.add(int.parse(widget.adminabsent));
@@ -73,15 +74,15 @@ class _HrApproverHomeState extends State<HrApproverHome> {
     _eventLate.add(int.parse(widget.adminlate));
 
     _eventEarly = new StreamController<int>();
-    _eventEarly.add(int.parse(widget.adminearly));
+    _eventEarly.add(int.parse(widget.adminearly));*/
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: Color(0xff064A76),
+            icon: const Icon(Icons.arrow_back),
+            color: const Color(0xff064A76),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -91,7 +92,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
             "HR Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
-              color: Color(0xff074974),
+              color: const Color(0xff074974),
             ),
           ),
           backgroundColor: Colors.white,
@@ -102,8 +103,9 @@ class _HrApproverHomeState extends State<HrApproverHome> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -112,7 +114,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
@@ -127,16 +129,17 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                           xposition: widget.xposition,
                           xstaff: widget.xstaff,
                           zemail: widget.zemail,
+                          zid: widget.zid,
                         ),
                       ),
                     );
                   },
                   child: badges.Badge(
-                    showBadge: int.parse(widget.adminlate) == 0 ? false : true,
+                    showBadge: int.parse('5') == 0 ? false : true,
                     badgeContent: StreamBuilder(
-                      stream: _eventLate.stream,
+                      //stream: _eventLate.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text(
+                        return Text(
                           "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
@@ -154,7 +157,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
-                            color: Color(0xff064A76),
+                            color: const Color(0xff064A76),
                           ),
                         ),
                       ],
@@ -166,8 +169,9 @@ class _HrApproverHomeState extends State<HrApproverHome> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -176,7 +180,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
@@ -192,16 +196,17 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                                   xposition: widget.xposition,
                                   xstaff: widget.xstaff,
                                   zemail: widget.zemail,
+                                  zid: widget.zid,
                                 )));
                   },
                   child: badges.Badge(
-                    showBadge: int.parse(widget.adminearly) == 0 ? false : true,
+                    showBadge: int.parse('5') == 0 ? false : true,
                     /*padding:
                         EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),*/
                     badgeContent: StreamBuilder(
-                      stream: _eventEarly.stream,
+                      //stream: _eventEarly.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text(
+                        return Text(
                           "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
@@ -220,7 +225,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
-                            color: Color(0xff064A76),
+                            color: const Color(0xff064A76),
                           ),
                         ),
                       ],
@@ -232,8 +237,9 @@ class _HrApproverHomeState extends State<HrApproverHome> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 10, left: 10),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -242,7 +248,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
@@ -257,16 +263,18 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                                 Admin_Leave_Tour_NotificationList(
                                   xposition: widget.xposition,
                                   xstaff: widget.xstaff,
+                                  zemail: widget.zemail,
+                                  zid: widget.zid,
                                 )));
                   },
                   child: badges.Badge(
-                    showBadge: int.parse(widget.adminleave) == 0 ? false : true,
+                    showBadge: int.parse('5') == 0 ? false : true,
                     /*padding:
                         EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),*/
                     badgeContent: StreamBuilder(
-                      stream: _eventLeave.stream,
+                      //stream: _eventLeave.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text(
+                        return Text(
                           "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
@@ -280,15 +288,12 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            "Leave & Tour for Approval",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Color(0xff064A76),
-                            ),
+                        Text(
+                          "Leave & Tour for Approval",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: const Color(0xff064A76),
                           ),
                         ),
                       ],
@@ -300,8 +305,9 @@ class _HrApproverHomeState extends State<HrApproverHome> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -310,7 +316,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
@@ -329,14 +335,13 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                                 )));
                   },
                   child: badges.Badge(
-                    showBadge:
-                        int.parse(widget.adminabsent) == 0 ? false : true,
+                    showBadge: int.parse('5') == 0 ? false : true,
                     /*padding:
                         EdgeInsets.only(top: 5, right: 5, left: 5, bottom: 5),*/
                     badgeContent: StreamBuilder(
-                      stream: _eventAbsent.stream,
+                      //stream: _eventAbsent.stream,
                       builder: (BuildContext context, snapshot) {
-                        return new Text(
+                        return Text(
                           "${snapshot.data}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 15,
@@ -355,7 +360,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
-                            color: Color(0xff064A76),
+                            color: const Color(0xff064A76),
                           ),
                         ),
                       ],

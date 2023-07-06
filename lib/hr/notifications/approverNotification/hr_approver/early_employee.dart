@@ -10,11 +10,17 @@ import '../../../../conts_api_link.dart';
 import '../../../../data_model/notification_model/admin_approver_model/early_emp_admin_appr.dart';
 
 class Admin_Early_Leave_NotificationList extends StatefulWidget {
-  Admin_Early_Leave_NotificationList(
-      {required this.xposition, required this.xstaff, required this.zemail});
+  Admin_Early_Leave_NotificationList({
+    required this.xposition,
+    required this.xstaff,
+    required this.zemail,
+    required this.zid,
+  });
+
   String xposition;
   String xstaff;
   String zemail;
+  String zid;
 
   @override
   _Admin_Early_Leave_NotificationListState createState() =>
@@ -26,6 +32,7 @@ class _Admin_Early_Leave_NotificationListState
   @override
   Future<List<AdminearlyNotiModel>>? futurePost;
   String rejectNote = " ";
+
   Future<List<AdminearlyNotiModel>> fetchPost() async {
     var response = await http.post(Uri.parse(ConstApiLink().earlyLeaveEpmApi),
         body: jsonEncode(<String, String>{
@@ -393,7 +400,7 @@ class _Admin_Early_Leave_NotificationListState
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

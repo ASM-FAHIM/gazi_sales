@@ -15,6 +15,7 @@ class Admin_Absent_NotificationList extends StatefulWidget {
       required this.xstaff,
       required this.zemail,
       required this.zid});
+
   String xposition;
   String xstaff;
   String zemail;
@@ -404,7 +405,7 @@ class _Admin_Absent_NotificationListState
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

@@ -8,10 +8,17 @@ import 'package:intl/intl.dart';
 import '../../../../data_model/notification_model/admin_approver_model/leave_emp_admin_model.dart';
 
 class Admin_Leave_Tour_NotificationList extends StatefulWidget {
-  Admin_Leave_Tour_NotificationList(
-      {required this.xposition, required this.xstaff});
+  Admin_Leave_Tour_NotificationList({
+    required this.xposition,
+    required this.xstaff,
+    required this.zemail,
+    required this.zid,
+  });
+
   String xposition;
   String xstaff;
+  String zemail;
+  String zid;
 
   @override
   _Admin_Leave_Tour_NotificationListState createState() =>
@@ -338,7 +345,7 @@ class _Admin_Leave_Tour_NotificationListState
                                                   style: TextButton.styleFrom(
                                                     primary: Color(0xff064A76),
                                                   ),
-                                                 // color: Color(0xff064A76),
+                                                  // color: Color(0xff064A76),
                                                   onPressed: () async {
                                                     //http://172.20.20.69/adminapprove/poreject.php
 
@@ -408,7 +415,7 @@ class _Admin_Leave_Tour_NotificationListState
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },
