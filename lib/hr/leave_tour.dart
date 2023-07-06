@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -34,8 +35,7 @@ class _Leave_pageState extends State<Leave_page> {
   //after apply then see the history
   Future<List<LeaveandTourModel>> fetchPost() async {
     var response = await http.post(
-      Uri.parse(
-          'http://103.150.48.235:2165/API/aygaz/HR/employeenotification/leaveandtour.php'),
+      Uri.parse('http://${AppConstants.baseurl}/gazi/HR/leaveandtour.php'),
       body: jsonEncode(
         <String, String>{
           "xposition": widget.xposition,
@@ -57,8 +57,7 @@ class _Leave_pageState extends State<Leave_page> {
 
   Future<List<AvailebleLeaveModel>> fetchavailableleave() async {
     var response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/leave_and_tour/leavetype.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/leavetype.php'),
         body: jsonEncode(<String, String>{"xstaff": widget.xstaff}));
 
     print(response.body);
@@ -159,83 +158,83 @@ class _Leave_pageState extends State<Leave_page> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, right: 20, left: 20, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Card(
-                    child: ExpansionTile(
-                      title: Column(
-                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "Available leave",
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              //color: Color(0xff074974),
-                            ),
-                          ),
-                          //Text(" ${snapshot.data![index].status}")
-                        ],
-                      ),
+      body: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  child: ExpansionTile(
+                    title: Column(
+                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        FutureBuilder<List<AvailebleLeaveModel>>(
-                          future: availableleave,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (_, index) => Container(
-                                  padding: EdgeInsets.only(left: 20, right: 20),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "${snapshot.data![index].xtypeleave} ",
-                                            style: GoogleFonts.bakbakOne(
-                                              fontSize: 18,
-                                              //color: Color(0xff074974),
-                                            ),
-                                          ),
-                                          Text(
-                                            snapshot.data![index].xbalance,
-                                            style: GoogleFonts.bakbakOne(
-                                              fontSize: 18,
-                                              //color: Color(0xff074974),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return Center(
-                                child: Image(
-                                    image: AssetImage("images/loading.gif")),
-                              );
-                            }
-                          },
+                        Text(
+                          "Available leave",
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            //color: Color(0xff074974),
+                          ),
                         ),
+                        //Text(" ${snapshot.data![index].status}")
                       ],
                     ),
+                    children: [
+                      FutureBuilder<List<AvailebleLeaveModel>>(
+                        future: availableleave,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (_, index) => Container(
+                                padding: EdgeInsets.only(left: 20, right: 20),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "${snapshot.data![index].xtypeleave} ",
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                        Text(
+                                          snapshot.data![index].xbalance,
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Image(
+                                  image:
+                                      AssetImage("assets/images/loading.gif")),
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Container(
-              height: MediaQuery.of(context).size.height,
+          ),
+          Expanded(
+            child: Container(
               width: MediaQuery.of(context).size.width,
               child: FutureBuilder<List<LeaveandTourModel>>(
                 future: futurePost,
@@ -393,14 +392,15 @@ class _Leave_pageState extends State<Leave_page> {
                     );
                   } else {
                     return Center(
-                      child: Image(image: AssetImage("images/loading.gif")),
+                      child:
+                          Image(image: AssetImage("assets/images/loading.gif")),
                     );
                   }
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -59,8 +59,8 @@ class _Attendance_reportState extends State<Attendance_report> {
       Uri.parse('http://${AppConstants.baseurl}/gazi/hr/attendance_rpt.php'),
       body: jsonEncode(
         <String, String>{
-          "zid": "100060",
-          "user": "",
+          "zid": "100000",
+          "user": widget.xposition,
           "fdate": widget.fromDate,
           "tdate": widget.toDate,
           "empcat": "",
@@ -88,6 +88,7 @@ class _Attendance_reportState extends State<Attendance_report> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('xposition ; ${widget.xposition} && xstaff : ${widget.xstaff}');
     futurePost = fetchPost();
     print(fetchPost());
   }

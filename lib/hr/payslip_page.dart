@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../data_model/payslip/deduct.dart';
 import '../data_model/payslip/payment.dart';
 import '../data_model/payslip/total.dart';
+import '../sales/constant/app_constants.dart';
 
 class Payslip_page extends StatefulWidget {
   Payslip_page(
@@ -18,6 +19,7 @@ class Payslip_page extends StatefulWidget {
       required this.xempbank,
       required this.xstaff,
       required this.xdesignation});
+
   dynamic xname;
   dynamic xempbank;
   dynamic xacc;
@@ -34,6 +36,7 @@ class _Payslip_pageState extends State<Payslip_page> {
 
   String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
   DateTime now = DateTime.now();
+
   //String date = DateTime.now().toString();
   String Onlydate = new DateFormat("mm").format(DateTime.now());
 
@@ -57,8 +60,8 @@ class _Payslip_pageState extends State<Payslip_page> {
     //'2 Months Ago',
   ];
   var items2 = [
-    '2022',
-    '2021'
+    '2023',
+    '2022'
     //'2 Months Ago',
   ];
 
@@ -69,8 +72,7 @@ class _Payslip_pageState extends State<Payslip_page> {
   Future<List<PaymentApiModel>> fetchPost() async {
     print("called");
     var response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/pay_slip/payment.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/payslip/payment.php'),
         body: jsonEncode(<String, String>{
           "xstaff": widget.xstaff,
           "xyear": dropdownvalue2,
@@ -93,8 +95,7 @@ class _Payslip_pageState extends State<Payslip_page> {
   Future<List<DeductApiModel>> fetchPostdeduct() async {
     print("called");
     var response = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/pay_slip/deduct.php'),
+        Uri.parse('http://${AppConstants.baseurl}/gazi/HR/payslip/deduct.php'),
         body: jsonEncode(<String, String>{
           "xstaff": widget.xstaff,
           "xyear": dropdownvalue2,
@@ -122,7 +123,7 @@ class _Payslip_pageState extends State<Payslip_page> {
     print("called");
     var response = await http.post(
         Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/HR/pay_slip/totalpay.php'),
+            'http://${AppConstants.baseurl}/gazi/HR/payslip/totalpay.php'),
         body: jsonEncode(<String, String>{
           "xstaff": widget.xstaff,
           "xyear": dropdownvalue2,
