@@ -6,12 +6,15 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../../data_model/notification_model/absent_notificaiton_model.dart';
+import '../../sales/constant/app_constants.dart';
 
 class Absent_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
-  Absent_NotificationList({required this.xposition});
+  Absent_NotificationList({required this.xposition, required this.zid});
+
   String xposition;
+  String zid;
 
   @override
   _Absent_NotificationListState createState() =>
@@ -26,11 +29,13 @@ class _Absent_NotificationListState extends State<Absent_NotificationList> {
   Future<List<AbsentNotificationModel>>? futurePost;
 
   Future<List<AbsentNotificationModel>> fetchPost() async {
-    var response =
-        await http.post(Uri.parse('http://103.150.48.235:2165/API/aygaz/HR/employeenotification/absentnotification.php'),
-            body: jsonEncode(<String, String>{
-              "xposition": widget.xposition,
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/HR/absentnotification.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xposition": widget.xposition,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -171,7 +176,7 @@ class _Absent_NotificationListState extends State<Absent_NotificationList> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

@@ -91,7 +91,7 @@ class _AttendanceFieldState extends State<AttendanceField> {
     //print(Address);
 
     var response = await http.post(
-        Uri.parse('http://${AppConstants.baseurl}/ughcm/attendencetemp.php'),
+        Uri.parse('http://${AppConstants.baseurl}/Gazi/HR/attendencetemp.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
           "xtimein": intime,
@@ -117,7 +117,7 @@ class _AttendanceFieldState extends State<AttendanceField> {
     // print(isMockLocation);
 
     var response = await http.post(
-        Uri.parse('http://${AppConstants.baseurl}/ughcm/attendencetemp.php'),
+        Uri.parse('http://${AppConstants.baseurl}/Gazi/HR/attendencetemp.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
           "xtimein": outtime,

@@ -233,34 +233,34 @@ class ConstApiLink {
 
   //HR Notification
   final String lateEpmApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/HR/adminnotification/lateemployee.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/lateemployee.php';
   final String earlyLeaveEpmApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/HR/adminnotification/earlyemployee.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/earlyemployee.php';
   final String leaveTourEpmApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/HR/adminnotification/leaveandtouradmin.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/leaveandtouradmin.php';
   final String absEpmApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/HR/adminnotification/absentemployee.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/absentemployee.php';
 
   //HR Approve & Reject
   final String lateEmpApproveApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/lateapprove.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/lateapprove.php';
   final String lateEmpRejectApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/latereject.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/latereject.php';
 
   final String earlyLeaveEpmApproveApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/earlyapprove.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/earlyapprove.php';
   final String earlyLeaveEpmRejectApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/earlyreject.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/earlyreject.php';
 
   final String leaveTourEpmApproveApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/leaveandtourapprove.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/leaveandtourapprove.php';
   final String leaveTourEpmRejectApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/leaveandtourreject.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/leaveandtourreject.php';
 
   final String absEpmApproveApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/absentapprove.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/absentapprove.php';
   final String absEpmRejectApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/hr/adminapprove/absentreject.php';
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/absentreject.php';
 
   //User absent,late,early,leave Notifications api
   final String uLateEpmApi =

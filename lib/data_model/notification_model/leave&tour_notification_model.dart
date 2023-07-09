@@ -4,9 +4,12 @@
 
 import 'dart:convert';
 
-List<LeaveTourNotificationModel> loginModelFromJson(dynamic str) => List<LeaveTourNotificationModel>.from(json.decode(str).map((x) => LeaveTourNotificationModel.fromJson(x)));
+List<LeaveTourNotificationModel> loginModelFromJson(dynamic str) =>
+    List<LeaveTourNotificationModel>.from(
+        json.decode(str).map((x) => LeaveTourNotificationModel.fromJson(x)));
 
-dynamic loginModelToJson(List<LeaveTourNotificationModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+dynamic loginModelToJson(List<LeaveTourNotificationModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class LeaveTourNotificationModel {
   LeaveTourNotificationModel({
@@ -22,14 +25,13 @@ class LeaveTourNotificationModel {
     required this.approvedRecommendedDate,
     required this.approvedBy,
     required this.approvedDate,
-
   });
 
   Date applyDate;
   dynamic typeOfApplication;
   Date fromDate;
   Date toDate;
-  int appliedDayS;
+  dynamic appliedDayS;
   dynamic approvedDayS;
   dynamic status;
   dynamic approver;
@@ -38,38 +40,36 @@ class LeaveTourNotificationModel {
   dynamic approvedBy;
   dynamic approvedDate;
 
-
-  factory LeaveTourNotificationModel.fromJson(Map<String, dynamic> json) => LeaveTourNotificationModel(
-    applyDate: Date.fromJson(json["Apply Date"]),
-    typeOfApplication: json["Type Of Application"],
-    fromDate: Date.fromJson(json["From Date"]),
-    toDate: Date.fromJson(json["To Date"]),
-    appliedDayS: json["Applied Day(s)"],
-    approvedDayS: json["Approved Day(s)"],
-    status: json["Status"],
-    approver: json["Approver"],
-    approvedRecommendedBy: json["Approved/Recommended By"],
-    approvedRecommendedDate: json["Approved/Recommended Date"],
-    approvedBy: json["Approved By"],
-    approvedDate: json["Approved Date"],
-
-  );
+  factory LeaveTourNotificationModel.fromJson(Map<String, dynamic> json) =>
+      LeaveTourNotificationModel(
+        applyDate: Date.fromJson(json["Apply Date"]),
+        typeOfApplication: json["Type Of Application"],
+        fromDate: Date.fromJson(json["From Date"]),
+        toDate: Date.fromJson(json["To Date"]),
+        appliedDayS: json["Applied Day(s)"],
+        approvedDayS: json["Approved Day(s)"],
+        status: json["Status"],
+        approver: json["Approver"],
+        approvedRecommendedBy: json["Approved/Recommended By"],
+        approvedRecommendedDate: json["Approved/Recommended Date"],
+        approvedBy: json["Approved By"],
+        approvedDate: json["Approved Date"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "Apply Date": applyDate.toJson(),
-    "Type Of Application": typeOfApplication,
-    "From Date": fromDate.toJson(),
-    "To Date": toDate.toJson(),
-    "Applied Day(s)": appliedDayS,
-    "Approved Day(s)": approvedDayS,
-    "Status": status,
-    "Approver": approver,
-    "Approved/Recommended By": approvedRecommendedBy,
-    "Approved/Recommended Date": approvedRecommendedDate,
-    "Approved By": approvedBy,
-    "Approved Date": approvedDate,
-
-  };
+        "Apply Date": applyDate.toJson(),
+        "Type Of Application": typeOfApplication,
+        "From Date": fromDate.toJson(),
+        "To Date": toDate.toJson(),
+        "Applied Day(s)": appliedDayS,
+        "Approved Day(s)": approvedDayS,
+        "Status": status,
+        "Approver": approver,
+        "Approved/Recommended By": approvedRecommendedBy,
+        "Approved/Recommended Date": approvedRecommendedDate,
+        "Approved By": approvedBy,
+        "Approved Date": approvedDate,
+      };
 }
 
 class Date {
@@ -84,16 +84,16 @@ class Date {
   dynamic timezone;
 
   factory Date.fromJson(Map<dynamic, dynamic> json) => Date(
-    date: DateTime.parse(json["date"]),
-    timezoneType: json["timezone_type"],
-    timezone: json["timezone"],
-  );
+        date: DateTime.parse(json["date"]),
+        timezoneType: json["timezone_type"],
+        timezone: json["timezone"],
+      );
 
   Map<dynamic, dynamic> toJson() => {
-    "date": date.toIso8601String(),
-    "timezone_type": timezoneType,
-    "timezone": timezone,
-  };
+        "date": date.toIso8601String(),
+        "timezone_type": timezoneType,
+        "timezone": timezone,
+      };
 }
 //
 // enum Timezone { EUROPE_BERLIN }

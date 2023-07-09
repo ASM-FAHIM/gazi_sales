@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../../../../data_model/notification_model/admin_approver_model/late_emp_admin_model.dart';
+import 'hr_approver_home.dart';
 
 class Admin_Late_Leave_NotificationList extends StatefulWidget {
   Admin_Late_Leave_NotificationList({
@@ -38,6 +39,7 @@ class _Admin_Late_Leave_NotificationListState
   Future<List<LateNotiModel>> fetchPost() async {
     var response = await http.post(Uri.parse(ConstApiLink().lateEpmApi),
         body: jsonEncode(<String, String>{
+          "zid": widget.zid,
           "xposition": widget.xposition,
         }));
 
@@ -72,6 +74,15 @@ class _Admin_Late_Leave_NotificationListState
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HrApproverHome(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xstaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         title: Center(
@@ -221,7 +232,7 @@ class _Admin_Late_Leave_NotificationListState
                                 children: [
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                      primary: Colors.green,
+                                      backgroundColor: Colors.green,
                                     ),
 
                                     //color: Colors.green,
@@ -230,7 +241,7 @@ class _Admin_Late_Leave_NotificationListState
                                           Uri.parse(
                                               ConstApiLink().lateEmpApproveApi),
                                           body: jsonEncode(<String, String>{
-                                            "zid": "200010",
+                                            "zid": "100000",
                                             "user": widget.zemail,
                                             "xposition": widget.xposition,
                                             "xstaff":
@@ -255,14 +266,17 @@ class _Admin_Late_Leave_NotificationListState
                                           snapshot.data![index].name
                                               .toString());
                                     },
-                                    child: Text("Approve"),
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 50,
                                   ),
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                      primary: Colors.red,
+                                      backgroundColor: Colors.red,
                                     ),
                                     //color: Colors.red,
                                     onPressed: () async {
@@ -321,7 +335,8 @@ class _Admin_Late_Leave_NotificationListState
                                             actions: [
                                               TextButton(
                                                 style: TextButton.styleFrom(
-                                                  primary: Color(0xff064A76),
+                                                  backgroundColor:
+                                                      Color(0xff064A76),
                                                 ),
                                                 // color: Color(0xff064A76),
                                                 onPressed: () async {
@@ -332,7 +347,7 @@ class _Admin_Late_Leave_NotificationListState
                                                           .lateEmpRejectApi),
                                                       body: jsonEncode(<String,
                                                           String>{
-                                                        "zid": "200010",
+                                                        "zid": "100000",
                                                         "user": widget.zemail,
                                                         "xposition":
                                                             widget.xposition,
@@ -377,7 +392,10 @@ class _Admin_Late_Leave_NotificationListState
                                           snapshot.data![index].name
                                               .toString());
                                     },
-                                    child: Text("Reject"),
+                                    child: Text(
+                                      "Reject",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ],
                               )

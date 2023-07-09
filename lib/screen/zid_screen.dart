@@ -4,6 +4,7 @@ import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../data_model/zid_model.dart';
+import '../hr/notification.dart';
 import '../hr/notifications/approverNotification/screen/approver.dart';
 
 class Get_zid extends StatefulWidget {
@@ -13,7 +14,9 @@ class Get_zid extends StatefulWidget {
       required this.xposition,
       required this.xrole,
       required this.xstaff});
+
   String zemail;
+
   // LoginModel loginModel;
   String xstaff;
   String xposition;
@@ -125,11 +128,42 @@ class _Get_zidState extends State<Get_zid> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AdminNotification(
-                                      xposition: widget.xposition,
-                                      zemail: widget.zemail,
-                                      zid: (snapshot.data![index].zid)
-                                          .toString(),
-                                      xStaff: widget.xstaff)));
+                                        xposition: widget.xposition,
+                                        xStaff: widget.xstaff,
+                                        zemail: widget.zemail,
+                                        zid: (snapshot.data![index].zid)
+                                            .toString(),
+                                        // user: widget.loginModel.zemail,
+                                      )));
+                          /*if (widget.xrole == "User") {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NotificationList(
+                                  xposition: widget.xposition,
+                                  xstaff: widget.xstaff,
+                                  zid: (snapshot.data![index].zid).toString(),
+                                  // earlyCount: earlyCount,
+                                  // lateCount: lateCount,
+                                  // leaveCount: leaveCount,
+                                  // absentCount: absentCount,
+                                  // user: widget.loginModel.zemail,
+                                ),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminNotification(
+                                          xposition: widget.xposition,
+                                          xStaff: widget.xstaff,
+                                          zemail: widget.zemail,
+                                          zid: (snapshot.data![index].zid)
+                                              .toString(),
+                                          // user: widget.loginModel.zemail,
+                                        )));
+                          }*/
                         },
                         child: Column(
                           //mainAxisSize: MainAxisSize.min,

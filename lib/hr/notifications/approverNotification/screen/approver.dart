@@ -1,9 +1,16 @@
+import 'dart:convert';
+
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/cash_adv_notification.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/pending_voucher.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/sr_notification.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import '../../../../data_model/notificaiton_count/admin_count.dart';
+import '../../../../sales/constant/colors.dart';
+import '../../../notification.dart';
 import '../cs_notification.dart';
 import '../deposit_notification.dart';
 import '../hr_approver/hr_approver_home.dart';
@@ -83,12 +90,12 @@ class _AdminNotificationState extends State<AdminNotification> {
   late BatModel bat_Count1;
 
   String cusList_Count = "0";
-  late CusListCountModel cusList_Count1;
+  late CusListCountModel cusList_Count1;*/
 
   // String penSup_Count = "0";
   // late CusListCountModel penSup_Count1;
 
-  String monReq_Count = "0";
+/*  String monReq_Count = "0";
   late MonReqCountModel monReq_Count1;
 
   String monReqAdj_Count = "0";
@@ -101,7 +108,7 @@ class _AdminNotificationState extends State<AdminNotification> {
   late ItemsCountModel items_Count1;
 
   String supplier_Count = "0";
-  late SupplierCountModel supplier_Count1;
+  late SupplierCountModel supplier_Count1;*/
 
   String absentemployee_count = "0";
   late AbsentCountModel absentemployee_count1;
@@ -115,11 +122,16 @@ class _AdminNotificationState extends State<AdminNotification> {
   String lateemployee_count = "0";
   late LateCountModel lateemployee_count1;
 
-
+  bool isLoading = false;
+  int totalCount = 0;
 
   Future<String> getAdminNotificationCount() async {
-    http.Response responseCS = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/cs_count.php'),
+    setState(() {
+      isLoading = true;
+    });
+/*    http.Response responseCS = await http.post(
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/cs_count.php'),
         body: jsonEncode(<String, String>{"xposition": widget.xposition}));
 
     cs_Count1 = csModelFromJson(responseCS.body);
@@ -127,7 +139,8 @@ class _AdminNotificationState extends State<AdminNotification> {
 
     print("Admin Early" + responseCS.body);
     http.Response responseGRN = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/grn_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/grn_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -226,7 +239,8 @@ class _AdminNotificationState extends State<AdminNotification> {
 
     print("Admin PO" + responsePendingVoucher.body);
     http.Response responsePO = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/povalue_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/povalue_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -258,7 +272,8 @@ class _AdminNotificationState extends State<AdminNotification> {
 
     print("Admin LFA" + responseSPA.body);
     http.Response responseSPR = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/spr_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/spr_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -268,7 +283,8 @@ class _AdminNotificationState extends State<AdminNotification> {
 
     print("Admin LFA" + responseSPR.body);
     http.Response responseSQC = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/sqclist_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/sqclist_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -278,7 +294,8 @@ class _AdminNotificationState extends State<AdminNotification> {
     print("Admin LFA" + responseSQC.body);
 
     http.Response responseSR = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/sr_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/sr_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -288,7 +305,8 @@ class _AdminNotificationState extends State<AdminNotification> {
     print("Admin LFA" + responseSR.body);
 
     http.Response responseCusList = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/count_customer.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/count_customer.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -320,7 +338,8 @@ class _AdminNotificationState extends State<AdminNotification> {
     print("Admin monReqAdj_Count" + responseMonReqAdj.body);
 
     http.Response responseDC = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/dc_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/dc_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -330,7 +349,8 @@ class _AdminNotificationState extends State<AdminNotification> {
     print("Admin dc_Count" + responseDC.body);
 
     http.Response responseServNotify = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/service_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/service_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -340,7 +360,8 @@ class _AdminNotificationState extends State<AdminNotification> {
     print("Admin Service Notification:" + responseServNotify.body);
 
     http.Response responseItemCount = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/item_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/item_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -349,17 +370,17 @@ class _AdminNotificationState extends State<AdminNotification> {
     print("Admin Item Approval Notification:" + responseItemCount.body);
 
     http.Response responseSupplierCount = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/notifications/supplier_count.php'),
+        Uri.parse(
+            'http://103.150.48.235:2165/API/aygaz/notifications/supplier_count.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
     supplier_Count1 = supplierCountModelFromJson(responseSupplierCount.body);
     supplier_Count = supplier_Count1.total.toString();
-    print("Admin Supplier Approval Notification:" + responseSupplierCount.body);
-
-
+    print("Admin Supplier Approval Notification:" + responseSupplierCount.body);*/
     http.Response responseAbsentCount = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/hr/adminnotification/absentemployee_count.php'),
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalabsent.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -367,19 +388,21 @@ class _AdminNotificationState extends State<AdminNotification> {
     absentemployee_count = absentemployee_count1.total.toString();
     print("Admin Absent Notification:" + responseAbsentCount.body);
 
-
     http.Response responseLeaveandTourCount = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/hr/adminnotification/leaveandtouradmin_count.php'),
+        Uri.parse(
+            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totalleaveandtour.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
-    leaveandtouradmin_count1 = leaveandTourCountModelFromJson(responseLeaveandTourCount.body);
+    leaveandtouradmin_count1 =
+        leaveandTourCountModelFromJson(responseLeaveandTourCount.body);
     leaveandtouradmin_count = leaveandtouradmin_count1.total.toString();
-    print("Admin Leave and Tour Notification:" + responseLeaveandTourCount.body);
-
+    print(
+        "Admin Leave and Tour Notification:" + responseLeaveandTourCount.body);
 
     http.Response responseLateCount = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/hr/adminnotification/lateemployee_count.php'),
+        Uri.parse(
+            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totallate.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -387,9 +410,9 @@ class _AdminNotificationState extends State<AdminNotification> {
     lateemployee_count = lateemployee_count1.total.toString();
     print("Admin Late Notification:" + responseLateCount.body);
 
-
     http.Response responseEarlyCount = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/hr/adminnotification/earlyemployee_count.php'),
+        Uri.parse(
+            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totalearly.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -397,10 +420,17 @@ class _AdminNotificationState extends State<AdminNotification> {
     earlyemployee_count = earlyemployee_count1.total.toString();
     print("Admin Early Notification:" + responseEarlyCount.body);
 
+    totalCount = int.parse(absentemployee_count) +
+        int.parse(leaveandtouradmin_count) +
+        int.parse(lateemployee_count) +
+        int.parse(earlyemployee_count);
+    print('total count : $totalCount');
 
-
+    setState(() {
+      isLoading = false;
+    });
     return '';
-  }*/
+  }
 
   bool isLoadingAN = false;
   bool isLoadingHR = false;
@@ -408,7 +438,7 @@ class _AdminNotificationState extends State<AdminNotification> {
   @override
   void initState() {
     super.initState();
-    //getAdminNotificationCount();
+    getAdminNotificationCount();
     print(widget.zid);
   }
 
@@ -438,250 +468,326 @@ class _AdminNotificationState extends State<AdminNotification> {
         ],
         backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3), // changes position of shadow
+      body: isLoading == true
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: const CircularProgressIndicator(
+                      color: AppColor.appBarColor,
                     ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    print('Employee HR Approval pressed');
-                    setState(() {
-                      isLoadingHR = true;
-                    });
+                  ),
+                  const Text('Loading...')
+                ],
+              ),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  if (widget.zid == '100000') ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Container(
+                        height: MediaQuery.of(context).size.width / 7.5,
+                        width: MediaQuery.of(context).size.width,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: TextButton(
+                          // shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(20.0)),
+                          onPressed: () {
+                            print('Employee HR Approval pressed');
+                            setState(() {
+                              isLoadingHR = true;
+                            });
 
-                    Future.delayed(
-                      Duration(seconds: 1),
-                      () {
-                        setState(() {
-                          isLoadingHR = false;
-                        });
-                        Navigator.push(
+                            Future.delayed(
+                              Duration(seconds: 1),
+                              () {
+                                setState(() {
+                                  isLoadingHR = false;
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HrApproverHome(
+                                              xposition: widget.xposition,
+                                              xstaff: widget.xStaff,
+                                              zemail: widget.zemail,
+                                              zid: widget.zid,
+                                            )));
+                              },
+                            );
+                          },
+                          child: totalCount == 0
+                              ? Text(
+                                  "Employee HR Approval",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.bakbakOne(
+                                    fontSize: 18,
+                                    color: Color(0xff064A76),
+                                  ),
+                                )
+                              : Badge(
+                                  position: BadgePosition.topEnd(end: -30),
+                                  badgeContent: Text(
+                                    '$totalCount',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  child: Text(
+                                    "Employee HR Approval",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.bakbakOne(
+                                      fontSize: 18,
+                                      color: Color(0xff064A76),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ] else
+                    ...[],
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HrApproverHome(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xStaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                    );
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      isLoadingHR
-                          ? SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: CircularProgressIndicator(
-                                color: Color(0xff064A76),
-                              ),
-                            )
-                          : Text(
-                              "Employee HR Approval",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.bakbakOne(
-                                fontSize: 18,
-                                color: Color(0xff064A76),
+                              builder: (context) => NotificationList(
+                                xposition: widget.xposition,
+                                xstaff: widget.xStaff,
+                                zid: widget.zid,
+                                // earlyCount: earlyCount,
+                                // lateCount: lateCount,
+                                // leaveCount: leaveCount,
+                                // absentCount: absentCount,
+                                // user: widget.loginModel.zemail,
                               ),
                             ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                PO_WO_approval_NotificationList(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                )));
-                  },
-                  child: Text(
-                    "PO/WO Notifications",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
+                          );
+                        },
+                        child: Text(
+                          "Personal notifications",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CS_notification(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                )));
-                  },
-                  child: Text(
-                    "CS Notifications",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SR_notification(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                  xstaff: widget.xStaff,
-                                )));
-                  },
-                  child: Text(
-                    "SR Notifications",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PO_WO_approval_NotificationList(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "PO/WO Notifications",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Pending_voucher(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                )));
-                  },
-                  child: Text(
-                    "Voucher Notifications",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CS_notification(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "CS Notifications",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            /*Padding(
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SR_notification(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                        xstaff: widget.xStaff,
+                                      )));
+                        },
+                        child: Text(
+                          "SR Notifications",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Pending_voucher(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "Voucher Notifications",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  /*Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
                 height: MediaQuery.of(context).size.width / 8,
@@ -722,182 +828,185 @@ class _AdminNotificationState extends State<AdminNotification> {
                 ),
               ),
             ),*/
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CashAdvNotifScreen(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                )));
-                  },
-                  child: Text(
-                    "Cash Adv. Notifications",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-            //   child: Container(
-            //     height: MediaQuery.of(context).size.width / 8,
-            //     width: MediaQuery.of(context).size.width,
-            //     decoration: BoxDecoration(
-            //       color: Colors.white70,
-            //       borderRadius: BorderRadius.circular(20),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.grey.withOpacity(0.5),
-            //           spreadRadius: 1,
-            //           blurRadius: 5,
-            //           offset: Offset(0, 3), // changes position of shadow
-            //         ),
-            //       ],
-            //     ),
-            //     child: TextButton(
-            //       style: TextButton.styleFrom(
-            //           backgroundColor: Colors.white
-            //       ),
-            //       onPressed: () {
-            //         Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //                 builder: (context) => Cash_notification(
-            //                   xposition: widget.xposition,
-            //                   zemail: widget.zemail,
-            //                   zid: widget.zid,
-            //                 )));
-            //       },
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.center,
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           Text(
-            //             "Cash Notifications",
-            //             textAlign: TextAlign.center,
-            //             style: GoogleFonts.bakbakOne(
-            //               fontSize: 18,
-            //               color: Color(0xff064A76),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SO_notification(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                  xStaff: widget.xStaff,
-                                )));
-                  },
-                  child: Text(
-                    "Sales Order",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CashAdvNotifScreen(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "Cash Adv. Notifications",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.width / 7.5,
-                width: MediaQuery.of(context).size.width,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DepositNotifiScreen(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                )));
-                  },
-                  child: Text(
-                    "Deposit Notification",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  //   child: Container(
+                  //     height: MediaQuery.of(context).size.width / 8,
+                  //     width: MediaQuery.of(context).size.width,
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.white70,
+                  //       borderRadius: BorderRadius.circular(20),
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //           color: Colors.grey.withOpacity(0.5),
+                  //           spreadRadius: 1,
+                  //           blurRadius: 5,
+                  //           offset: Offset(0, 3), // changes position of shadow
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     child: TextButton(
+                  //       style: TextButton.styleFrom(
+                  //           backgroundColor: Colors.white
+                  //       ),
+                  //       onPressed: () {
+                  //         Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) => Cash_notification(
+                  //                   xposition: widget.xposition,
+                  //                   zemail: widget.zemail,
+                  //                   zid: widget.zid,
+                  //                 )));
+                  //       },
+                  //       child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.center,
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Text(
+                  //             "Cash Notifications",
+                  //             textAlign: TextAlign.center,
+                  //             style: GoogleFonts.bakbakOne(
+                  //               fontSize: 18,
+                  //               color: Color(0xff064A76),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SO_notification(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                        xStaff: widget.xStaff,
+                                      )));
+                        },
+                        child: Text(
+                          "Sales Order",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            /*Padding(
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DepositNotifiScreen(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "Deposit Notification",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  /*Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
                 height: MediaQuery.of(context).size.width / 8,
@@ -938,9 +1047,9 @@ class _AdminNotificationState extends State<AdminNotification> {
                 ),
               ),
             ),*/
-          ],
-        ),
-      ),
+                ],
+              ),
+            ),
     );
   }
 }

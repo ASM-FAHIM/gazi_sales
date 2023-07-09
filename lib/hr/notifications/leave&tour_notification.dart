@@ -6,11 +6,14 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../../data_model/notification_model/leave&tour_notification_model.dart';
+import '../../sales/constant/app_constants.dart';
 
 class LeaveTour_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
-  LeaveTour_NotificationList({required this.xposition});
+  LeaveTour_NotificationList({required this.xposition, required this.zid});
+
+  String zid;
   String xposition;
 
   @override
@@ -24,7 +27,6 @@ class _LeaveTour_NotificationListState
   //fetchnotification _noteList = fetchnotification();
 
   @override
-
   // Future<List<NotificationModel>>? futurePost;
   //
   // Future<List<NotificationModel>> fetchNotification() async {
@@ -48,11 +50,13 @@ class _LeaveTour_NotificationListState
   Future<List<LeaveTourNotificationModel>>? futurePost;
 
   Future<List<LeaveTourNotificationModel>> fetchPost() async {
-    var response =
-        await http.post(Uri.parse('http://103.150.48.235:2165/API/aygaz/HR/employeenotification/leaveandtour.php'),
-            body: jsonEncode(<String, String>{
-              "xposition": widget.xposition,
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/HR/leavenotification.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xposition": widget.xposition,
+        }));
 
     print(response.body);
 
@@ -274,7 +278,7 @@ class _LeaveTour_NotificationListState
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

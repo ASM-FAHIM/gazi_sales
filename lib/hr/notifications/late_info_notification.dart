@@ -306,7 +306,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 //import 'package:aygazhcm/hr/viewNotification.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -316,9 +318,12 @@ import '../../data_model/notification_model/late_notification.dart';
 class Late_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
-  Late_NotificationList({required this.xposition, required this.xstaff});
+  Late_NotificationList(
+      {required this.xposition, required this.xstaff, required this.zid});
+
   String xposition;
   String xstaff;
+  String zid;
 
   @override
   _Late_NotificationListState createState() => _Late_NotificationListState();
@@ -329,17 +334,15 @@ class _Late_NotificationListState extends State<Late_NotificationList> {
   //fetchnotification _noteList = fetchnotification();
 
   @override
-
-
-
   Future<List<LateNotificaitonApiModel>>? futurePost;
 
   String justificationnote = " ";
 
   Future<List<LateNotificaitonApiModel>> fetchPost() async {
     var response = await http.post(
-        Uri.parse('http://103.150.48.235:2165/API/aygaz/HR/employeenotification/late.php'),
+        Uri.parse('http://${AppConstants.baseurl}/GAZI/HR/late.php'),
         body: jsonEncode(<String, String>{
+          "zid": widget.zid,
           "xstaff": widget.xstaff,
         }));
 
@@ -522,7 +525,7 @@ class _Late_NotificationListState extends State<Late_NotificationList> {
 
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  primary: Color(0xff064A76),
+                                  backgroundColor: Color(0xff064A76),
                                 ),
                                 //color: Color(0xff064A76),
                                 onPressed: () {
@@ -547,9 +550,10 @@ class _Late_NotificationListState extends State<Late_NotificationList> {
                                                   scrollPadding:
                                                       EdgeInsets.all(20),
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.only(
-                                                        left:
-                                                            20), // add padding to adjust text
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            left: 20),
+                                                    // add padding to adjust text
                                                     isDense: false,
 
                                                     hintStyle:
@@ -575,14 +579,15 @@ class _Late_NotificationListState extends State<Late_NotificationList> {
                                           actions: [
                                             TextButton(
                                               style: TextButton.styleFrom(
-                                                primary: Color(0xff064A76),
+                                                backgroundColor:
+                                                    Color(0xff064A76),
                                               ),
                                               onPressed: () async {
                                                 //http://10.1.2.7/api/adminapprove/poreject.php
 
                                                 var response = await http.post(
                                                     Uri.parse(
-                                                        'http://172.20.20.69/aygaz/HR/employeenotification/lateandearlyapply.php'),
+                                                        'http://${AppConstants.baseurl}/Gazi/HR/lateandearlyapply.php'),
                                                     body: jsonEncode(<String,
                                                         String>{
                                                       "xstaff": widget.xstaff,
@@ -592,7 +597,7 @@ class _Late_NotificationListState extends State<Late_NotificationList> {
                                                           .data![index]
                                                           .xyearperdate
                                                           .toString(),
-                                                      "zid": "200010"
+                                                      "zid": "100000"
                                                     }));
                                                 print(response.body);
 
@@ -639,7 +644,7 @@ class _Late_NotificationListState extends State<Late_NotificationList> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

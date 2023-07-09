@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../../../data_model/notification_model/admin_approver_model/absent_emp_admin_model.dart';
+import 'hr_approver_home.dart';
 
 class Admin_Absent_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class _Admin_Absent_NotificationListState
   Future<List<AbsentempNotiModel>> fetchPost() async {
     var response = await http.post(Uri.parse(ConstApiLink().absEpmApi),
         body: jsonEncode(<String, String>{
-          //"zid": widget.zid,
+          "zid": widget.zid,
           "xposition": widget.xposition,
         }));
 
@@ -74,6 +75,15 @@ class _Admin_Absent_NotificationListState
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HrApproverHome(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xstaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         title: Center(
@@ -224,7 +234,7 @@ class _Admin_Absent_NotificationListState
                                 children: [
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                      primary: Colors.green,
+                                      backgroundColor: Colors.green,
                                     ),
                                     //color: Colors.green,
                                     onPressed: () async {
@@ -233,8 +243,7 @@ class _Admin_Absent_NotificationListState
                                           Uri.parse(
                                               ConstApiLink().absEpmApproveApi),
                                           body: jsonEncode(<String, String>{
-                                            //"zid":"100060",
-                                            "zid": widget.zid.toString(),
+                                            "zid": "100000",
                                             "user": widget.zemail,
                                             "xposition": widget.xposition,
                                             "xstaff":
@@ -260,14 +269,17 @@ class _Admin_Absent_NotificationListState
                                           snapshot.data![index].name
                                               .toString());
                                     },
-                                    child: Text("Approve"),
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 50,
                                   ),
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                      primary: Colors.red,
+                                      backgroundColor: Colors.red,
                                     ),
                                     //color: Colors.red,
                                     onPressed: () async {
@@ -328,7 +340,8 @@ class _Admin_Absent_NotificationListState
                                               actions: [
                                                 TextButton(
                                                   style: TextButton.styleFrom(
-                                                    primary: Color(0xff064A76),
+                                                    backgroundColor:
+                                                        Color(0xff064A76),
                                                   ),
                                                   //color: Color(0xff064A76),
                                                   onPressed: () async {
@@ -339,9 +352,7 @@ class _Admin_Absent_NotificationListState
                                                             .absEpmRejectApi),
                                                         body: jsonEncode(<
                                                             String, String>{
-                                                          //"zid": "100060",
-                                                          "zid": widget.zid
-                                                              .toString(),
+                                                          "zid": "100000",
                                                           "user": widget.zemail,
                                                           "xposition":
                                                               widget.xposition,
@@ -391,7 +402,10 @@ class _Admin_Absent_NotificationListState
                                           snapshot.data![index].name
                                               .toString());
                                     },
-                                    child: Text("Reject"),
+                                    child: Text(
+                                      "Reject",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ],
                               )
