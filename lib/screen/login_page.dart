@@ -511,7 +511,7 @@ class _Login_pageState extends State<Login_page> {
                             isLoading = true;
                           },
                         );
-                        Future.delayed(Duration(seconds: 2), () {
+                        Future.delayed(Duration(seconds: 3), () {
                           if (userController.text == '' ||
                               passController.text == '') {
                             print("User Invalid");
