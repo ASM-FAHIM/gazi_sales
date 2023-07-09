@@ -444,8 +444,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -513,8 +514,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -555,8 +557,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -596,8 +599,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -638,8 +642,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -720,8 +725,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -809,8 +815,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
@@ -851,8 +858,9 @@ class _AdminNotificationState extends State<AdminNotification> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
               child: Container(
-                height: MediaQuery.of(context).size.width / 8,
+                height: MediaQuery.of(context).size.width / 7.5,
                 width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),

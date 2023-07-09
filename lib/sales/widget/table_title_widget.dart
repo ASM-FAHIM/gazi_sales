@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constant/colors.dart';
+import '../constant/colors.dart';
 
 class TableTitle extends StatelessWidget {
   const TableTitle(this.width, this.title,
