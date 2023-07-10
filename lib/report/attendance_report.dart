@@ -304,9 +304,10 @@ class _Attendance_reportState extends State<Attendance_report> {
                                           snapshot.data![index].xstatus,
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.bakbakOne(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                          ),
+                                              fontSize: 15,
+                                              color: changeColor((snapshot
+                                                      .data![index].xstatus)
+                                                  .toString())),
                                         ),
                                       ),
 
