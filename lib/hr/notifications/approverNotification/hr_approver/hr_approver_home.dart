@@ -317,7 +317,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
 
     http.Response responseLeaveandTourCount = await http.post(
         Uri.parse(
-            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totalleaveandtour.php'),
+            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalleaveandtour.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -329,7 +329,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
 
     http.Response responseLateCount = await http.post(
         Uri.parse(
-            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totallate.php'),
+            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totallate.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -339,7 +339,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
 
     http.Response responseEarlyCount = await http.post(
         Uri.parse(
-            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totalearly.php'),
+            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalearly.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));

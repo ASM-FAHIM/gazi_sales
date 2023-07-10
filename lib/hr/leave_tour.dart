@@ -16,14 +16,15 @@ class Leave_page extends StatefulWidget {
       {required this.xposition,
       required this.xstaff,
       required this.xsid,
-      required this.xbalance,
+      //required this.xbalance,
       required this.xname,
       required this.supname});
 
   String xposition;
   String xstaff;
   dynamic xsid;
-  String xbalance;
+
+  //String xbalance;
   String xname;
   dynamic supname;
 //LoginModel xsid;
@@ -126,7 +127,7 @@ class _Leave_pageState extends State<Leave_page> {
             color: Color(0xff064A76),
           ),
         )),
-        actions: [
+        /*actions: [
           Padding(
             padding: const EdgeInsets.only(
                 left: 8.0, right: 16, top: 12, bottom: 12),
@@ -142,6 +143,7 @@ class _Leave_pageState extends State<Leave_page> {
                               xsid: widget.xsid,
                               //leave_avail: widget.xbalance,
                               xname: widget.xname,
+                              supname: widget.supname,
                               //appleave: appleave,
                             )));
                 //submitData();
@@ -156,17 +158,67 @@ class _Leave_pageState extends State<Leave_page> {
                   )),
             ),
           ),
-        ],
+        ],*/
       ),
       body: Column(
         children: [
           Padding(
             padding:
-                const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
+                const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  height: 45,
+                  width: MediaQuery.of(context).size.width / 1.15,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: Color(0xff064A76),
+                    //border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color(0xff064A76),
+                    ),
+                    //color: Color(0xff064A76),
+                    onPressed: () {
+                      print("Pressed");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LeaveApply_page(
+                                    xstaff: widget.xstaff,
+                                    xposition: widget.xposition,
+                                    xsid: widget.xsid,
+                                    //leave_avail: widget.xbalance,
+                                    xname: widget.xname,
+                                    supname: widget.supname,
+                                    //appleave: appleave,
+                                  )));
+                      //submitData();
+                    },
+                    child: Text(
+                      'Apply Leave',
+                      style: GoogleFonts.bakbakOne(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Card(
                   child: ExpansionTile(
                     title: Column(
@@ -407,7 +459,10 @@ class _Leave_pageState extends State<Leave_page> {
 
   Future<Null> _handleRefresh() async {
     await new Future.delayed(new Duration(seconds: 3));
-
+    futurePost = fetchPost();
+    availableleave = fetchavailableleave();
+    fetchPost().whenComplete(() => futurePost);
+    fetchavailableleave().whenComplete(() => availableleave);
     setState(() {
       futurePost;
     });

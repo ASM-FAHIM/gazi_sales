@@ -169,6 +169,7 @@ class _Payslip_pageState extends State<Payslip_page> {
             Container(
               height: MediaQuery.of(context).size.height / 7.5,
               width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -212,6 +213,7 @@ class _Payslip_pageState extends State<Payslip_page> {
             Container(
               height: MediaQuery.of(context).size.height / 7.5,
               width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 // color: ispressed ? Colors.white : Colors.grey,

@@ -52,7 +52,7 @@ class LoginController extends GetxController {
     try {
       isDataLoaded(true);
       var response = await http.get(Uri.parse(
-          'http://${AppConstants.baseurl}/gazi/zid.php?zemail=$zemail'));
+          'http://${AppConstants.baseurl}/gazi/zid_sales.php?zemail=$zemail'));
       businessList = userWiseBusinessModelFromJson(response.body);
       await LoginRepo().deleteBusinessTable();
       (json.decode(response.body) as List).map((businessInfo) {

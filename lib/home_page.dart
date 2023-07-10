@@ -419,7 +419,7 @@ class _HomepageState extends State<Homepage> {
                                                 xposition: xposition,
                                                 xstaff: xstaff,
                                                 xsid: xsid,
-                                                xbalance: xbalance,
+                                                //xbalance: xbalance,
                                                 xname: xname,
                                                 supname: supname,
                                               )));

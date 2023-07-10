@@ -14,6 +14,7 @@ import '../data_model/smallapi/holidaymodel.dart';
 import '../data_model/smallapi/leave_type_model.dart';
 import '../data_model/xyearperdate.dart';
 import '../sales/constant/app_constants.dart';
+import 'leave_tour.dart';
 
 class LeaveApply_page extends StatefulWidget {
   LeaveApply_page({
@@ -22,12 +23,14 @@ class LeaveApply_page extends StatefulWidget {
     required this.xsid,
     //required this.leave_avail,
     required this.xname,
+    required this.supname,
     //required this.appleave
   });
 
   String xstaff;
   String xposition;
   String xname;
+  String supname;
 
   //String leave_avail;
   String xsid;
@@ -419,7 +422,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                         height: 100,
                         child: TextButton(
                           style: TextButton.styleFrom(
-                            primary: Color(0xfffafafa),
+                            backgroundColor: Color(0xfffafafa),
                           ),
                           //color: Color(0xfffafafa),
                           onPressed: () {
@@ -482,7 +485,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                         height: 100,
                         child: TextButton(
                           style: TextButton.styleFrom(
-                            primary: Color(0xfffafafa),
+                            backgroundColor: Color(0xfffafafa),
                           ),
                           //color: Color(0xfffafafa),
                           onPressed: () {
@@ -687,6 +690,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                         onPressed: () async {
                           print(availableleave);
                           print(dropdownValue);
+
                           DateTime dt1 = DateTime.parse(_value);
                           DateTime dt2 = DateTime.parse(_value1);
                           //DateTime now1 = DateTime.parse(now.toString());
@@ -716,7 +720,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                     actions: [
                                       TextButton(
                                         style: TextButton.styleFrom(
-                                          primary: Color(0xff064A76),
+                                          backgroundColor: Color(0xff064A76),
                                         ),
                                         //color: Color(0xff064A76),
                                         onPressed: () {
@@ -753,7 +757,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                     actions: [
                                       TextButton(
                                         style: TextButton.styleFrom(
-                                          primary: Color(0xff064A76),
+                                          backgroundColor: Color(0xff064A76),
                                         ),
                                         //color: Color(0xff064A76),
                                         onPressed: () {
@@ -790,7 +794,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                     actions: [
                                       TextButton(
                                         style: TextButton.styleFrom(
-                                          primary: Color(0xff064A76),
+                                          backgroundColor: Color(0xff064A76),
                                         ),
                                         //color: Color(0xff074974),
                                         onPressed: () {
@@ -832,7 +836,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                     actions: [
                                       TextButton(
                                         style: TextButton.styleFrom(
-                                          primary: Color(0xff064A76),
+                                          backgroundColor: Color(0xff064A76),
                                         ),
                                         //color: Color(0xff074974),
                                         onPressed: () {
@@ -873,7 +877,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                     actions: [
                                       TextButton(
                                         style: TextButton.styleFrom(
-                                          primary: Color(0xff074974),
+                                          backgroundColor: Color(0xff074974),
                                         ),
                                         // color: Color(0xff074974),
                                         onPressed: () {
@@ -1023,7 +1027,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                     actions: [
                                       TextButton(
                                         style: TextButton.styleFrom(
-                                          primary: Color(0xff074974),
+                                          backgroundColor: Color(0xff074974),
                                         ),
                                         //color: Color(0xff074974),
                                         onPressed: () async {
@@ -1070,7 +1074,20 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                           Navigator.pop(context);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-
+                                          /*Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Leave_page(
+                                                        xposition: widget
+                                                            .xposition,
+                                                        xstaff: widget.xstaff,
+                                                        xsid: widget.xstaff,
+                                                        xname: widget.xname,
+                                                        supname: widget.supname,
+                                                      )
+                                              )
+                                          );*/
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                             content: Text(
@@ -1092,7 +1109,7 @@ class _LeaveApply_pageState extends State<LeaveApply_page> {
                                         child: Text(
                                           "Apply",
                                           style: GoogleFonts.bakbakOne(
-                                            color: Colors.black,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),

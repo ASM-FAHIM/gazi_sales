@@ -390,7 +390,7 @@ class _AdminNotificationState extends State<AdminNotification> {
 
     http.Response responseLeaveandTourCount = await http.post(
         Uri.parse(
-            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totalleaveandtour.php'),
+            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalleaveandtour.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -402,7 +402,7 @@ class _AdminNotificationState extends State<AdminNotification> {
 
     http.Response responseLateCount = await http.post(
         Uri.parse(
-            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totallate.php'),
+            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totallate.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -412,7 +412,7 @@ class _AdminNotificationState extends State<AdminNotification> {
 
     http.Response responseEarlyCount = await http.post(
         Uri.parse(
-            'http://172.20.20.96/GAZI/HR/Notification/smallAPI/totalearly.php'),
+            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalearly.php'),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
@@ -563,56 +563,60 @@ class _AdminNotificationState extends State<AdminNotification> {
                     ),
                   ] else
                     ...[],
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
-                      width: MediaQuery.of(context).size.width,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: TextButton(
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(20.0)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NotificationList(
-                                xposition: widget.xposition,
-                                xstaff: widget.xStaff,
-                                zid: widget.zid,
-                                // earlyCount: earlyCount,
-                                // lateCount: lateCount,
-                                // leaveCount: leaveCount,
-                                // absentCount: absentCount,
-                                // user: widget.loginModel.zemail,
-                              ),
+                  if (widget.zid == '100000') ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Container(
+                        height: MediaQuery.of(context).size.width / 7.5,
+                        width: MediaQuery.of(context).size.width,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
                             ),
-                          );
-                        },
-                        child: Text(
-                          "Personal notifications",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.bakbakOne(
-                            fontSize: 18,
-                            color: Color(0xff064A76),
+                          ],
+                        ),
+                        child: TextButton(
+                          // shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(20.0)),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NotificationList(
+                                  xposition: widget.xposition,
+                                  xstaff: widget.xStaff,
+                                  zid: widget.zid,
+                                  // earlyCount: earlyCount,
+                                  // lateCount: lateCount,
+                                  // leaveCount: leaveCount,
+                                  // absentCount: absentCount,
+                                  // user: widget.loginModel.zemail,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Personal notifications",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.bakbakOne(
+                              fontSize: 18,
+                              color: Color(0xff064A76),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ] else
+                    ...[],
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 20.0, right: 20, left: 20),
