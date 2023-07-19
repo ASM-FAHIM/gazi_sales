@@ -1,6 +1,7 @@
 import 'dart:io' show Platform, exit;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gazi_sales_app/production/view/production_processing_screen.dart';
 import 'package:gazi_sales_app/sales/constant/colors.dart';
 import 'package:gazi_sales_app/sales/databaseHelper/database_helper.dart';
 import 'package:gazi_sales_app/sales/module/controller/login_controller.dart';
@@ -445,6 +446,36 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              home_page_buttons(
+                                imageName: 'assets/images/sales.png',
+                                buttonName: 'Sales',
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const BusinessScreen()));
+                                },
+                              ),
+                              home_page_buttons(
+                                imageName: 'assets/images/productlogo.PNG',
+                                buttonName: 'Production',
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const ProductionProcessScreen()));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        /*Padding(
                           padding: EdgeInsets.only(
                               top: 10, left: 30, right: 30, bottom: 10),
                           child: Container(
@@ -498,7 +529,7 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),
