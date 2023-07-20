@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:get/get.dart';
+import '../../home_page.dart';
 import '../../sales/constant/colors.dart';
 import '../../sales/widget/big_text.dart';
 
@@ -32,6 +32,56 @@ class _ProductionProcessScreenState extends State<ProductionProcessScreen> {
             text: 'Production Module',
             color: AppColor.defWhite,
             size: 25,
+          ),
+        ),
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    home_page_buttons(
+                      imageName: 'assets/images/production1.png',
+                      buttonName: 'Production processing',
+                      onPressed: () {
+
+                      },
+                    ),
+                    /*home_page_buttons(
+                      imageName: 'assets/images/attendance.png',
+                      buttonName: 'Attendance',
+                      onPressed: () {
+                      },
+                    ),*/
+                  ],
+                ),
+              ),
+              /*Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    home_page_buttons(
+                      imageName: 'assets/images/notification.png',
+                      buttonName: 'Production processing',
+                      onPressed: () {
+
+                      },
+                    ),
+                    home_page_buttons(
+                      imageName: 'assets/images/attendance.png',
+                      buttonName: 'Attendance',
+                      onPressed: () {
+                      },
+                    ),
+                  ],
+                ),
+              ),*/
+            ],
           ),
         ),
       ),
