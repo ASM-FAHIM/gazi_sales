@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/production/view/processing_form_screen.dart';
 import 'package:get/get.dart';
 import '../../home_page.dart';
 import '../../sales/constant/colors.dart';
@@ -48,7 +49,7 @@ class _ProductionProcessScreenState extends State<ProductionProcessScreen> {
                       imageName: 'assets/images/production1.png',
                       buttonName: 'Production processing',
                       onPressed: () {
-
+                        Get.to(() => const ProcessingFormScreen());
                       },
                     ),
                     /*home_page_buttons(
