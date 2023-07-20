@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../sales/constant/colors.dart';
 import '../../sales/constant/dimensions.dart';
 import '../../sales/widget/big_text.dart';
+import '../../sales/widget/reusable_dropdown.dart';
 import '../model/material_store_model.dart';
 
 
@@ -148,66 +149,40 @@ class _ProcessingFormScreenState extends State<ProcessingFormScreen> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: Dimensions.height70,
-                          width: double.maxFinite,
-                          padding:
-                          const EdgeInsets.only(left: 10, right: 10),
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.only(
-                              left: 10, top: 10, right: 10),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: DropdownButton<MaterialStoreList>(
-                            underline: const SizedBox(),
-                            iconSize: 30.0,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.black,
-                            ),
-                            // Set the selected value based on your requirements
-                            items: processController.materialStoreList
-                                .map((MaterialStoreList item) {
-                              return DropdownMenuItem<MaterialStoreList>(
-                                value: item,
-                                child: Text(
-                                  '${item.xlong} -${item.xwh}',
-                                  style: TextStyle(color: Colors.black),
-                                ), // Customize the display of the dropdown item as needed
-                              );
-                            }).toList(),
-                            onChanged: (MaterialStoreList? selectedItem) {
-                              if (selectedItem != null) {
-                                print('store id: ${processController.totalMatSt.value}');
-                                processController.xwh.value = selectedItem.xwh;
-                                processController.xLong.value = selectedItem.xlong;
-                                processController.totalMatSt.value = '${processController.xLong.value} -${processController.xwh.value}';
-                              }
-                            },
-                            hint: Obx(
-                                  () => Text(
-                                processController.totalMatSt.value,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
-                            isExpanded: true,
-                            // to make the dropdown button span the full width of the container
-                            icon: const Icon(
-                              Icons.arrow_drop_down,
-                              color: Colors.grey,
-                            ),
-                          ),
+                        ReusableDropdownButton<MaterialStoreList>(
+                          items: processController.materialStoreList,
+                          //selectedItem: processController.selectedMaterialStore,
+                          onChanged: (MaterialStoreList? selectedItem) {
+                            // processController.selectedMaterialStore = selectedItem;
+                            if (selectedItem != null) {
+                              processController.pXwh.value = selectedItem.xwh;
+                              processController.pXLong.value = selectedItem.xlong;
+                              processController.totalMatSt.value = '${processController.pXLong.value} -${processController.pXwh.value}';
+                              print('store id: ${processController.totalMatSt.value}');
+                            } else {
+                              processController.totalMatSt.value = '';
+                            }
+                          },
+                          displayText: (MaterialStoreList item) => '${item.xlong} - ${item.xwh}',
+                          hintText: processController.totalMatSt.value,
                         ),
-                        /*Container(
+                        ReusableDropdownButton<MaterialStoreList>(
+                          items: processController.materialStoreList,
+                          //selectedItem: processController.selectedMaterialStore,
+                          onChanged: (MaterialStoreList? selectedItem) {
+                            // processController.selectedMaterialStore = selectedItem;
+                            if (selectedItem != null) {
+                              processController.pXwh.value = selectedItem.xwh;
+                              processController.pXLong.value = selectedItem.xlong;
+                              processController.totalMatSt.value = '${processController.pXLong.value} -${processController.pXwh.value}';
+                              print('store id: ${processController.totalMatSt.value}');
+                            } else {
+                              processController.totalMatSt.value = '';
+                            }
+                          },
+                          displayText: (MaterialStoreList item) => '${item.xlong} - ${item.xwh}',
+                          hintText: processController.totalMatSt.value,
+                        ),                        /*Container(
                         height: Dimensions.height70,
                         width: double.maxFinite,
                         padding:

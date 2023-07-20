@@ -56,8 +56,8 @@ class ProcessController extends GetxController{
   }
 
   //for entry operations
-  RxString xLong = ''.obs;
-  RxString xwh = '0'.obs;
+  RxString pXLong = ''.obs;
+  RxString pXwh = '0'.obs;
   RxString totalMatSt = 'Raw Material Store'.obs;
   RxBool isLoading2 = false.obs;
   final RxList<MaterialStoreList> materialStoreList = <MaterialStoreList>[].obs;
@@ -85,5 +85,9 @@ class ProcessController extends GetxController{
     } finally {
       isLoading2(false);
     }
+  }
+
+  void clearList(){
+    materialStoreList.value = [];
   }
 }

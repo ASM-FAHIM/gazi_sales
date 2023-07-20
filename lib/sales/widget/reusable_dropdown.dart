@@ -1,68 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ReusableDropdownFormField extends StatelessWidget {
-  final RxString value;
-  final List<String> options;
-  final Function(String) onChanged;
-  final String hintText;
-  final Color enabledBorderColor;
-  final Color focusedBorderColor;
-  final Color fillColor;
-  final Color hintTextColor;
-  final Color iconColor;
+class ReusableDropdownButton<T> extends StatelessWidget {
+  final List<T> items;
+  //final T? selectedItem;
+  final void Function(T?) onChanged;
+  final String Function(T) displayText;
+  final String? hintText;
 
-  ReusableDropdownFormField({
-    required this.value,
-    required this.options,
+  const ReusableDropdownButton({
+    required this.items,
+    //required this.selectedItem,
     required this.onChanged,
-    required this.hintText,
-    this.enabledBorderColor = Colors.black,
-    this.focusedBorderColor = Colors.black,
-    this.fillColor = Colors.white,
-    this.hintTextColor = Colors.grey,
-    this.iconColor = Colors.grey,
-  });
+    required this.displayText,
+    this.hintText,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return DropdownButtonFormField<String>(
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: enabledBorderColor, width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor, width: 1),
-          ),
-          filled: true,
-          fillColor: fillColor,
+    return Container(
+      height: 70,
+      width: double.maxFinite,
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1.0,
         ),
-        dropdownColor: Colors.white,
-        value: value.value,
-        items: options.map<DropdownMenuItem<String>>((String option) {
-          return DropdownMenuItem<String>(
-            value: option,
-            child: Text(option),
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: DropdownButton<T>(
+        underline: const SizedBox(),
+        iconSize: 30.0,
+        style: const TextStyle(
+          fontSize: 18.0,
+          color: Colors.black,
+        ),
+        //value: selectedItem,
+        items: items.map((T item) {
+          return DropdownMenuItem<T>(
+            value: item,
+            child: Text(
+              displayText(item),
+              style: TextStyle(color: Colors.black),
+            ),
           );
         }).toList(),
-        onChanged: (newValue) {
-          value.value = newValue!;
-          onChanged(newValue!);
-        },
+        onChanged: onChanged,
         hint: Text(
-          hintText,
-          style: TextStyle(
-            color: hintTextColor,
-            fontSize: 15.0,
+          hintText ?? 'Select an item',
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 18.0,
           ),
         ),
         isExpanded: true,
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_drop_down,
-          color: iconColor,
+          color: Colors.grey,
         ),
-      );
-    });
+      ),
+    );
   }
 }

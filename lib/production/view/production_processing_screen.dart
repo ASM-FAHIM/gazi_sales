@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../home_page.dart';
 import '../../sales/constant/colors.dart';
 import '../../sales/widget/big_text.dart';
+import '../controller/process_controller.dart';
 
 class ProductionProcessScreen extends StatefulWidget {
   const ProductionProcessScreen({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class ProductionProcessScreen extends StatefulWidget {
 }
 
 class _ProductionProcessScreenState extends State<ProductionProcessScreen> {
+  ProcessController processController = Get.find<ProcessController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
