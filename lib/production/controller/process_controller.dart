@@ -3,7 +3,10 @@ import 'package:gazi_sales_app/sales/module/controller/login_controller.dart';
 import 'package:get/get.dart';
 import '../../sales/constant/app_constants.dart';
 import '../../sales/databaseHelper/login_repo.dart';
+import '../model/machine_model.dart';
+import '../model/machine_name_model.dart';
 import '../model/material_store_model.dart';
+import '../model/shift_model.dart';
 import '../view/production_processing_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -86,6 +89,118 @@ class ProcessController extends GetxController{
       isLoading2(false);
     }
   }
+
+  //for machineNo
+  //for entry operations
+  RxString pXcode = ''.obs;
+  RxString pXlong = ''.obs;
+  RxString totalMachNo = 'Raw Material Store'.obs;
+  RxBool isLoading3 = false.obs;
+  final RxList<MachineModel> machineNoList = <MachineModel>[].obs;
+
+  Future<void> getMachineNo() async {
+    try {
+      isLoading3(true);
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/production/machineNo.php?zid=${pZid.value}"));
+
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          var machineList = machineModelFromJson(response.body);
+          machineNoList.assignAll(machineList.map((e) => e));
+          print('machine no are: $machineNoList');
+        } else {
+          print('Response body is empty');
+        }
+      } else {
+        print(
+            'Error happens fetching dp numbers: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Please check again: $e');
+    } finally {
+      isLoading3(false);
+    }
+  }
+
+  //for machine name
+  RxString mXcode = ''.obs;
+  RxString mXlong = ''.obs;
+  RxString totalMachName = 'Raw Material Store'.obs;
+  RxBool isLoading4 = false.obs;
+  final RxList<MachineNameModel> machineNameList = <MachineNameModel>[].obs;
+
+  Future<void> getMachineName() async {
+    try {
+      isLoading4(true);
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/production/machineName.php?zid==${pZid.value}"));
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          var machineList = machineNameModelFromJson(response.body);
+          machineNameList.assignAll(machineList.map((e) => e));
+          print('machine no are: $machineNameList');
+        } else {
+          print('Response body is empty');
+        }
+      } else {
+        print(
+            'Error happens fetching dp numbers: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Please check again: $e');
+    } finally {
+      isLoading4(false);
+    }
+  }
+
+  //for shift
+  RxString sXcode = ''.obs;
+  RxString sXlong = ''.obs;
+  RxString totalShift = 'Raw Material Store'.obs;
+  RxBool isLoading5 = false.obs;
+  final RxList<ShiftModel> shiftList = <ShiftModel>[].obs;
+
+  Future<void> getShift() async {
+    try {
+      isLoading5(true);
+      var response = await http.get(Uri.parse(
+          "http://${AppConstants.baseurl}/gazi/production/machineName.php?zid==${pZid.value}"));
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          var machineList = shiftModelFromJson(response.body);
+          shiftList.assignAll(machineList.map((e) => e));
+          print('machine no are: $shiftList');
+        } else {
+          print('Response body is empty');
+        }
+      } else {
+        print(
+            'Error happens fetching dp numbers: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Please check again: $e');
+    } finally {
+      isLoading5(false);
+    }
+  }
+
+  RxBool isFetched = false.obs;
+  void fetchAllList() async{
+    try{
+      isFetched(true);
+      await getMaterialStore();
+      await getMachineNo();
+      await getMachineName();
+      await getShift();
+    } catch (e) {
+      print("Something went wrong $e");
+      isFetched(false);
+    }finally{
+     isFetched(false);
+    }
+  }
+
 
   void clearList(){
     materialStoreList.value = [];
