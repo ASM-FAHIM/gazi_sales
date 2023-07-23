@@ -474,4 +474,8 @@ class LoginController extends GetxController {
       return isLoading6(false);
     }
   }*/
+
+  /// for production purpose
+  RxString zId = ''.obs;
+
 }
