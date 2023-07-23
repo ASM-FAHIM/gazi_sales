@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import '../../../../../../conts_api_link.dart';
+import '../../../../../../data_model/notification_model/admin_approver_model/grn_admin_model.dart';
+import '../../finance_accounts/Notification_page/grn_notification_details.dart';
 
-import '../../../conts_api_link.dart';
-import '../../../data_model/notification_model/admin_approver_model/bmp_admin_model.dart';
-import '../../../data_model/notification_model/admin_approver_model/details/bmp_details_model.dart';
-import 'details/bmp_notification_details.dart';
-
-class BMP_notification extends StatefulWidget {
-  BMP_notification(
+class GRN_notification extends StatefulWidget {
+  GRN_notification(
       {required this.xposition,
       required this.xstaff,
       required this.zemail,
@@ -23,23 +21,22 @@ class BMP_notification extends StatefulWidget {
   String zid;
 
   @override
-  State<BMP_notification> createState() => _BMP_notificationState();
+  State<GRN_notification> createState() => _GRN_notificationState();
 }
 
-class _BMP_notificationState extends State<BMP_notification> {
-  Future<List<BmpModel>>? futurePost;
+class _GRN_notificationState extends State<GRN_notification> {
+  Future<List<GrnModel>>? futurePost;
   String rejectNote = " ";
 
-  Future<List<BmpModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().pendingBMPApi),
+  Future<List<GrnModel>> fetchPost() async {
+    var response = await http.post(Uri.parse(ConstApiLink().grnApi),
         body: jsonEncode(<String, String>{
           "xposition": widget.xposition,
         }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-
-      return parsed.map<BmpModel>((json) => BmpModel.fromJson(json)).toList();
+      return parsed.map<GrnModel>((json) => GrnModel.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load album');
     }
@@ -64,7 +61,7 @@ class _BMP_notificationState extends State<BMP_notification> {
         ),
         title: Center(
           child: Text(
-            "Pending Pre-Process BOM Notification",
+            "GRN Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -80,7 +77,7 @@ class _BMP_notificationState extends State<BMP_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<BmpModel>>(
+        child: FutureBuilder<List<GrnModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -108,7 +105,7 @@ class _BMP_notificationState extends State<BMP_notification> {
                                       child: Column(
                                         children: [
                                           Text(
-                                            "${snapshot.data![index].xbomkey}",
+                                            "${snapshot.data![index].xgrnnum}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
@@ -137,41 +134,14 @@ class _BMP_notificationState extends State<BMP_notification> {
                             ),
                             children: <Widget>[
                               Text(
-                                "BOM Key: " +
-                                    " ${snapshot.data![index].xbomkey}",
+                                "Goods receipts Note Number: " +
+                                    " ${snapshot.data![index].xgrnnum}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
-                                "Description: " +
-                                    "  ${snapshot.data![index].xdesc}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Finished Product Code: " +
-                                    "  ${snapshot.data![index].xitem}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              // Text(
-                              //   "Description: " +
-                              //       "  ${snapshot.data![index].xitemdesc}",
-                              //   textAlign: TextAlign.center,
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
                               Text(
                                 "Date: " +
                                     " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
@@ -182,16 +152,70 @@ class _BMP_notificationState extends State<BMP_notification> {
                                 ),
                               ),
                               Text(
-                                "Preferred Batch Quity: " +
-                                    snapshot.data![index].xpreferbatchqty,
+                                "Invoice Number: " +
+                                    "  ${snapshot.data![index].xinvnum}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Approval Status: " +
-                                    "${snapshot.data![index].xstatus}",
+                                "LC No: " + snapshot.data![index].xlcno,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Supplier ID:" +
+                                    "${snapshot.data![index].xcus}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Supplier Name: " +
+                                    "${snapshot.data![index].xorg ?? " "}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Challan No:" + "${snapshot.data![index].xref}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Goods Receipts Note Status: " +
+                                    "${snapshot.data![index].xstatusgrn}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Plant/Store: " +
+                                    "${snapshot.data![index].xwh}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Store Name:" +
+                                    "${snapshot.data![index].xwhdesc}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Note: " + "${snapshot.data![index].xnote}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -207,16 +231,18 @@ class _BMP_notificationState extends State<BMP_notification> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              BMP_details_notification(
-                                                xbomkey: snapshot
-                                                    .data![index].xbomkey,
+                                              GRN_details_notification(
+                                                xgrnnum: snapshot
+                                                    .data![index].xgrnnum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatus: snapshot
-                                                    .data![index].xstatus,
+                                                xstatusdoc: snapshot
+                                                    .data![index].xstatusdoc,
                                                 xstaff: widget.xstaff,
                                               )));
+                                  debugPrint(result.toString());
+                                  print(result);
                                   if (result.toString() == "approval") {
                                     debugPrint("pressed");
                                     setState(() {
@@ -234,19 +260,19 @@ class _BMP_notificationState extends State<BMP_notification> {
                               //       onPressed: () async {
                               //         var response = await http.post(
                               //             Uri.parse(
-                              //                 'http://172.20.20.69/aygaz/notifications/preProcessBOMapprove.php'),
+                              //                 'http://172.20.20.69/aygaz/notifications/grnapprove.php'),
                               //             body: jsonEncode(<String, String>{
                               //               "zid": widget.zid,
                               //               "user": widget.zemail,
                               //               "xposition": widget.xposition,
-                              //               "xbomkey": snapshot
-                              //                   .data![index].xbomkey
+                              //               "xgrnnum": snapshot
+                              //                   .data![index].xgrnnum
                               //                   .toString(),
                               //               "ypd": "0",
-                              //               " xstatus": snapshot
-                              //                   .data![index].xstatus
+                              //               " xstatusdoc": snapshot
+                              //                   .data![index].xstatusdoc
                               //                   .toString(),
-                              //               "aprcs": "BMP Approval"
+                              //               "aprcs": "GRN Approval"
                               //             }));
                               //
                               //         Get.snackbar('Message', 'Approved',
@@ -278,7 +304,7 @@ class _BMP_notificationState extends State<BMP_notification> {
                               //                   children: [
                               //                     Container(
                               //                       //height: MediaQuery.of(context).size.height/6,
-                              //                       child: TextFormField(
+                              //                       child: TextField(
                               //                         style:
                               //                             GoogleFonts.bakbakOne(
                               //                           //fontWeight: FontWeight.bold,
@@ -288,11 +314,11 @@ class _BMP_notificationState extends State<BMP_notification> {
                               //                         onChanged: (input) {
                               //                           rejectNote = input;
                               //                         },
-                              //                         validator: (input) {
-                              //                           if (input!.isEmpty) {
-                              //                             return "Please Write Reject Note";
-                              //                           }
-                              //                         },
+                              //                         // validator: (input) {
+                              //                         //   if (input!.isEmpty) {
+                              //                         //     return "Please Write Reject Note";
+                              //                         //   }
+                              //                         // },
                               //                         scrollPadding:
                               //                             EdgeInsets.all(20),
                               //                         decoration:
@@ -331,21 +357,22 @@ class _BMP_notificationState extends State<BMP_notification> {
                               //
                               //                       var response = await http.post(
                               //                           Uri.parse(
-                              //                               'http://172.20.20.69/aygaz/notifications/preProcessBOMreject.php'),
+                              //                               'http://172.20.20.69/aygaz/notifications/grnreject.php'),
                               //                           body: jsonEncode(<
                               //                               String, String>{
                               //                             "zid": widget.zid,
                               //                             "user": widget.zemail,
                               //                             "xposition":
                               //                                 widget.xposition,
-                              //                             "wh": "0",
-                              //                             "xbomkey": snapshot
+                              //                             "xgrnnum": snapshot
                               //                                 .data![index]
-                              //                                 .xbomkey,
+                              //                                 .xgrnnum,
+                              //                             "wh": "0",
                               //                             "xnote1": rejectNote
                               //                           }));
                               //                       print(response.statusCode);
                               //                       print(response.body);
+                              //                       print(rejectNote);
                               //                       Navigator.pop(context);
                               //
                               //                       Get.snackbar(

@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/dealer_visit_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../../data_model/notification_model/srowise_tso_visitList_model.dart';
 import '../../../sales/constant/app_constants.dart';
-import 'dealer_visit_screen.dart';
 
 class DealerVisitList extends StatefulWidget {
-  DealerVisitList(
-      {required this.xposition,
-        required this.zemail,
-        required this.zid,
-      });
+  DealerVisitList({
+    required this.xposition,
+    required this.zemail,
+    required this.zid,
+  });
+
   String xposition;
   String zemail;
   String zid;
@@ -37,12 +38,18 @@ class _DealerVisitListState extends State<DealerVisitList> {
     }
   }*/
   Future<List<SroWiseTsoVisitList>> fetchTSOList() async {
-    var response = await http.get(Uri.parse("http://${AppConstants.baseurl}/salesforce/TSO_DailyVisitID.php?id=${widget.xposition}"),);
+    var response = await http.get(
+      Uri.parse(
+          "http://${AppConstants.baseurl}/salesforce/TSO_DailyVisitID.php?id=${widget.xposition}"),
+    );
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
-      return parsed.map<SroWiseTsoVisitList>((json) => SroWiseTsoVisitList.fromJson(json)).toList();
+      return parsed
+          .map<SroWiseTsoVisitList>(
+              (json) => SroWiseTsoVisitList.fromJson(json))
+          .toList();
     } else {
       throw Exception('Failed to load album');
     }
@@ -86,16 +93,13 @@ class _DealerVisitListState extends State<DealerVisitList> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) => Container(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context)=> DailyVisitListScreen(
+                              builder: (context) => DailyVisitListScreen(
                                   tsoId: snapshot.data![index].tsoid,
-                                  tsoName: snapshot.data![index].name
-                              )
-                          )
-                      );
+                                  tsoName: snapshot.data![index].name)));
                     },
                     child: Card(
                       child: Container(

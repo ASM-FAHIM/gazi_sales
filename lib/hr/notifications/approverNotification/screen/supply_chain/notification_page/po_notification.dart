@@ -3,15 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+import '../../../../../../conts_api_link.dart';
+import '../../../../../../data_model/notification_model/admin_approver_model/po_wo_admin_model.dart';
+import 'details_page/po_details.dart';
 
-import '../../../conts_api_link.dart';
-import '../../../data_model/notification_model/admin_approver_model/bmp_admin_model.dart';
-import '../../../data_model/notification_model/admin_approver_model/details/bmp_details_model.dart';
-import 'details/bmp_notification_details.dart';
+class PO_WO_approval_NotificationList extends StatefulWidget {
+  //const NotificationList({Key? key}) : super(key: key);
 
-class BMP_notification extends StatefulWidget {
-  BMP_notification(
+  PO_WO_approval_NotificationList(
       {required this.xposition,
       required this.xstaff,
       required this.zemail,
@@ -23,23 +22,32 @@ class BMP_notification extends StatefulWidget {
   String zid;
 
   @override
-  State<BMP_notification> createState() => _BMP_notificationState();
+  _PO_WO_approval_NotificationListState createState() =>
+      _PO_WO_approval_NotificationListState();
 }
 
-class _BMP_notificationState extends State<BMP_notification> {
-  Future<List<BmpModel>>? futurePost;
+class _PO_WO_approval_NotificationListState
+    extends State<PO_WO_approval_NotificationList> {
+  @override
   String rejectNote = " ";
+  List<PoAdminModel>? dataLength;
+  Future<List<PoAdminModel>>? futurePost;
 
-  Future<List<BmpModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().pendingBMPApi),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
+  Future<List<PoAdminModel>> fetchPost() async {
+    var response = await http.post(
+      Uri.parse(ConstApiLink().poWoApi),
+      body: jsonEncode(
+        <String, String>{"zid": widget.zid, "xposition": widget.xposition},
+      ),
+    );
+    print(ConstApiLink().poWoApi);
+    print(response.body);
     if (response.statusCode == 200) {
+      dataLength = poAdminModelFromJson(response.body);
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-
-      return parsed.map<BmpModel>((json) => BmpModel.fromJson(json)).toList();
+      return parsed
+          .map<PoAdminModel>((json) => PoAdminModel.fromJson(json))
+          .toList();
     } else {
       throw Exception('Failed to load album');
     }
@@ -62,13 +70,12 @@ class _BMP_notificationState extends State<BMP_notification> {
             Navigator.pop(context);
           },
         ),
-        title: Center(
-          child: Text(
-            "Pending Pre-Process BOM Notification",
-            style: GoogleFonts.bakbakOne(
-              fontSize: 20,
-              color: Color(0xff074974),
-            ),
+        centerTitle: true,
+        title: Text(
+          "Pending PO/WO For Approval",
+          style: GoogleFonts.bakbakOne(
+            fontSize: 20,
+            color: Color(0xff074974),
           ),
         ),
         actions: [
@@ -80,7 +87,7 @@ class _BMP_notificationState extends State<BMP_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<BmpModel>>(
+        child: FutureBuilder<List<PoAdminModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -91,43 +98,42 @@ class _BMP_notificationState extends State<BMP_notification> {
                     children: [
                       Card(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 10, bottom: 6.0),
+                          padding: EdgeInsets.only(bottom: 6.0, left: 12),
                           child: ExpansionTile(
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
                             title: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${snapshot.data![index].xbomkey}",
+                                            "${snapshot.data![index].xpornum}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].preparer}",
+                                            snapshot.data![index].prepname,
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
                                           ),
-                                          Text(
-                                            "${snapshot.data![index].deptname}",
+                                          /*Text(
+                                            "${snapshot.data![index].xdeptname}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
-                                          ),
+                                          ),*/
                                         ],
                                       ),
                                     ),
@@ -137,8 +143,8 @@ class _BMP_notificationState extends State<BMP_notification> {
                             ),
                             children: <Widget>[
                               Text(
-                                "BOM Key: " +
-                                    " ${snapshot.data![index].xbomkey}",
+                                "Purchase Date: " +
+                                    "${snapshot.data![index].xdate}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -146,52 +152,92 @@ class _BMP_notificationState extends State<BMP_notification> {
                                 ),
                               ),
                               Text(
-                                "Description: " +
-                                    "  ${snapshot.data![index].xdesc}",
-                                textAlign: TextAlign.center,
+                                "Supplier Name : " +
+                                    snapshot.data![index].cusdesc,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Finished Product Code: " +
-                                    "  ${snapshot.data![index].xitem}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              // Text(
-                              //   "Description: " +
-                              //       "  ${snapshot.data![index].xitemdesc}",
-                              //   textAlign: TextAlign.center,
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              Text(
-                                "Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
-                                textAlign: TextAlign.center,
+                                "Purchase Type : " +
+                                    snapshot.data![index].xtype,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Preferred Batch Quity: " +
-                                    snapshot.data![index].xpreferbatchqty,
+                                "PO Number: " + snapshot.data![index].xporeqnum,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Approval Status: " +
-                                    "${snapshot.data![index].xstatus}",
+                                "PO Status: " +
+                                    snapshot.data![index].xstatuspor,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Project Name : " +
+                                    "${snapshot.data![index].pname}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "PO Value: " + snapshot.data![index].povalue,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Requisition Number: " +
+                                    snapshot.data![index].xporeqnum,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Requisition Type: " +
+                                    snapshot.data![index].xtypeobj,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Total Quantity: " +
+                                    snapshot.data![index].xtotqty,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Total : " + "${snapshot.data![index].xtotval}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Approval Status : " +
+                                    snapshot.data![index].xstatus,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Remarks : " + "${snapshot.data![index].xrem}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -207,9 +253,9 @@ class _BMP_notificationState extends State<BMP_notification> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              BMP_details_notification(
-                                                xbomkey: snapshot
-                                                    .data![index].xbomkey,
+                                              PO_details_notification(
+                                                xpornum: snapshot
+                                                    .data![index].xpornum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
@@ -234,19 +280,16 @@ class _BMP_notificationState extends State<BMP_notification> {
                               //       onPressed: () async {
                               //         var response = await http.post(
                               //             Uri.parse(
-                              //                 'http://172.20.20.69/aygaz/notifications/preProcessBOMapprove.php'),
+                              //                 'http://103.150.48.235:2165/api/aygaz/notifications/poapprove.php'),
                               //             body: jsonEncode(<String, String>{
                               //               "zid": widget.zid,
                               //               "user": widget.zemail,
                               //               "xposition": widget.xposition,
-                              //               "xbomkey": snapshot
-                              //                   .data![index].xbomkey
+                              //               "xpornum": snapshot
+                              //                   .data![index].xpornum
                               //                   .toString(),
                               //               "ypd": "0",
-                              //               " xstatus": snapshot
-                              //                   .data![index].xstatus
-                              //                   .toString(),
-                              //               "aprcs": "BMP Approval"
+                              //               "xstatus": "Approved"
                               //             }));
                               //
                               //         Get.snackbar('Message', 'Approved',
@@ -327,11 +370,11 @@ class _BMP_notificationState extends State<BMP_notification> {
                               //                   TextButton(
                               //                     color: Color(0xff064A76),
                               //                     onPressed: () async {
-                              //                       //http://172.20.20.69/adminapprove/poreject.php
+                              //                       //http://103.150.48.235:2165/api/api/adminapprove/poreject.php
                               //
                               //                       var response = await http.post(
                               //                           Uri.parse(
-                              //                               'http://172.20.20.69/aygaz/notifications/preProcessBOMreject.php'),
+                              //                               'http://103.150.48.235:2165/api/aygaz/notifications/poreject.php'),
                               //                           body: jsonEncode(<
                               //                               String, String>{
                               //                             "zid": widget.zid,
@@ -339,9 +382,10 @@ class _BMP_notificationState extends State<BMP_notification> {
                               //                             "xposition":
                               //                                 widget.xposition,
                               //                             "wh": "0",
-                              //                             "xbomkey": snapshot
+                              //                             "xpornum": snapshot
                               //                                 .data![index]
-                              //                                 .xbomkey,
+                              //                                 .xpornum
+                              //                                 .toString(),
                               //                             "xnote1": rejectNote
                               //                           }));
                               //                       print(response.statusCode);
@@ -389,7 +433,7 @@ class _BMP_notificationState extends State<BMP_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },
