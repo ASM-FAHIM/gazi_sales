@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../../../data_model/notification_model/admin_approver_model/details/sr_details_model.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 
 class SR_details_notification extends StatefulWidget {
   SR_details_notification(
@@ -37,8 +38,9 @@ class _SR_details_notificationState extends State<SR_details_notification> {
   TextEditingController rejectNote = TextEditingController();
 
   Future<List<SrDetailsModel>> fetchPostdetails() async {
-    print('zid: ${widget.zid}-----------xtornum: ${widget.xtornum}');
-    var response = await http.post(Uri.parse(ConstApiLink().srDetailsApi),
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_details.php'),
         body: jsonEncode(
             <String, String>{"zid": widget.zid, "xtornum": widget.xtornum}));
 
@@ -213,7 +215,8 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                         // color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse(ConstApiLink().srApproveApi),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -230,7 +233,6 @@ class _SR_details_notificationState extends State<SR_details_notification> {
 
                           Navigator.pop(context, "approval");
                           print(response.statusCode);
-                          print(response.body);
                         },
                         child: Text(
                           "Approve",
@@ -312,7 +314,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  ConstApiLink().srRejectApi),
+                                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_reject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,

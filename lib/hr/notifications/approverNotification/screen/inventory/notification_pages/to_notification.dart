@@ -4,6 +4,7 @@ import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
+import '../../approver_notification.dart';
 import '../notification_models/to_admin_model.dart';
 import 'details_page/to_details.dart';
 
@@ -71,6 +72,15 @@ class _TO_NotificationState extends State<TO_Notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         centerTitle: true,
@@ -216,7 +226,8 @@ class _TO_NotificationState extends State<TO_Notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor: Colors.lightBlueAccent),
+                                  backgroundColor: Colors.lightBlueAccent,
+                                ),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
@@ -241,7 +252,11 @@ class _TO_NotificationState extends State<TO_Notification> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                             ],
                           ),

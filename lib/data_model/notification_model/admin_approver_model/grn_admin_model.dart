@@ -11,125 +11,93 @@ String grnModelToJson(List<GrnModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class GrnModel {
+  String xgrnnum;
+  String xdate;
+  String xcus;
+  String sup;
+  String xref;
+  String xnote;
+  String xstatusgrn;
+  String xwh;
+  String xwhdesc;
+  String xpornum;
+  String xnote1;
+  String xstatusdoc;
+  String statusdocdesc;
+  String xgateentryno;
+  String preparer;
+  String designation;
+  String deptname;
+  String signrejectName;
+  String signrejectDesignation;
+  String signrejectXdeptname;
+
   GrnModel({
-    required this.xstatusdoc,
-    required this.xinvnum,
-    required this.xcus,
-    required this.xnote,
-    required this.xstatusgrn,
-    required this.xorg,
-    required this.xref,
-    required this.xtypeobj,
-    required this.xstatusreq,
     required this.xgrnnum,
     required this.xdate,
-    required this.xregi,
-    required this.xlcno,
+    required this.xcus,
     required this.sup,
-    required this.xwhdesc,
+    required this.xref,
+    required this.xnote,
+    required this.xstatusgrn,
     required this.xwh,
+    required this.xwhdesc,
+    required this.xpornum,
+    required this.xnote1,
+    required this.xstatusdoc,
+    required this.statusdocdesc,
+    required this.xgateentryno,
     required this.preparer,
     required this.designation,
     required this.deptname,
-    required this.signname,
-    required this.signdesignation,
-    required this.signdeptname,
+    required this.signrejectName,
+    required this.signrejectDesignation,
+    required this.signrejectXdeptname,
   });
 
-  dynamic xstatusdoc;
-  dynamic xinvnum;
-  dynamic xcus;
-  dynamic xnote;
-  dynamic xstatusgrn;
-  dynamic xorg;
-  dynamic xref;
-  dynamic xtypeobj;
-  dynamic xstatusreq;
-  dynamic xgrnnum;
-  Xdate xdate;
-  dynamic xregi;
-  dynamic xlcno;
-  dynamic sup;
-  dynamic xwhdesc;
-  dynamic xwh;
-  dynamic preparer;
-  dynamic designation;
-  dynamic deptname;
-  dynamic signname;
-  dynamic signdesignation;
-  dynamic signdeptname;
-
   factory GrnModel.fromJson(Map<String, dynamic> json) => GrnModel(
-        xstatusdoc: json["xstatusdoc"],
-        xinvnum: json["xinvnum"],
+        xgrnnum: json["xgrnnum"],
+        xdate: json["xdate"],
         xcus: json["xcus"],
+        sup: json["sup"],
+        xref: json["xref"],
         xnote: json["xnote"],
         xstatusgrn: json["xstatusgrn"],
-        xorg: json["xorg"],
-        xref: json["xref"],
-        xtypeobj: json["xtypeobj"],
-        xstatusreq: json["xstatusreq"],
-        xgrnnum: json["xgrnnum"],
-        xdate: Xdate.fromJson(json["xdate"]),
-        xregi: json["xregi"],
-        xlcno: json["xlcno"],
-        sup: json["sup"],
-        xwhdesc: json["xwhdesc"],
         xwh: json["xwh"],
+        xwhdesc: json["xwhdesc"],
+        xpornum: json["xpornum"],
+        xnote1: json["xnote1"],
+        xstatusdoc: json["xstatusdoc"],
+        statusdocdesc: json["statusdocdesc"],
+        xgateentryno: json["xgateentryno"],
         preparer: json["preparer"],
         designation: json["designation"],
         deptname: json["deptname"],
-        signname: json["signname"],
-        signdesignation: json["signdesignation"],
-        signdeptname: json["signdeptname"],
+        signrejectName: json["signreject_name"],
+        signrejectDesignation: json["signreject_designation"],
+        signrejectXdeptname: json["signreject_xdeptname"],
       );
 
   Map<String, dynamic> toJson() => {
-        "xstatusdoc": xstatusdoc,
-        "xinvnum": xinvnum,
+        "xgrnnum": xgrnnum,
+        "xdate": xdate,
         "xcus": xcus,
+        "sup": sup,
+        "xref": xref,
         "xnote": xnote,
         "xstatusgrn": xstatusgrn,
-        "xorg": xorg,
-        "xref": xref,
-        "xtypeobj": xtypeobj,
-        "xstatusreq": xstatusreq,
-        "xgrnnum": xgrnnum,
-        "xdate": xdate.toJson(),
-        "xregi": xregi,
-        "xlcno": xlcno,
-        "sup": sup,
-        "xwhdesc": xwhdesc,
         "xwh": xwh,
+        "xwhdesc": xwhdesc,
+        "xpornum": xpornum,
+        "xnote1": xnote1,
+        "xstatusdoc": xstatusdoc,
+        "statusdocdesc": statusdocdesc,
+        "xgateentryno": xgateentryno,
         "preparer": preparer,
         "designation": designation,
         "deptname": deptname,
-        "signname": signname,
-        "signdesignation": signdesignation,
-        "signdeptname": signdeptname,
-      };
-}
-
-class Xdate {
-  Xdate({
-    required this.date,
-    required this.timezoneType,
-    required this.timezone,
-  });
-
-  DateTime date;
-  int timezoneType;
-  String timezone;
-
-  factory Xdate.fromJson(Map<String, dynamic> json) => Xdate(
-        date: DateTime.parse(json["date"]),
-        timezoneType: json["timezone_type"],
-        timezone: json["timezone"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "date": date.toIso8601String(),
-        "timezone_type": timezoneType,
-        "timezone": timezone,
+        "signreject_name": signrejectName,
+        "signreject_designation": signrejectDesignation,
+        "signreject_xdeptname": signrejectXdeptname,
       };
 }

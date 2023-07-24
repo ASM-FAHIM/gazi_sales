@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../../../api.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 import '../../notification_models/details/damage_details_model.dart';
 import '../../notification_models/details/grn_details_model.dart';
 
@@ -18,6 +19,7 @@ class Damage_details_notification extends StatefulWidget {
       required this.xstatustor,
       required this.zemail,
       required this.xstaff});
+
   String xtornum;
   String zid;
   String xposition;
@@ -37,12 +39,13 @@ class _Damage_details_notificationState
   String rejectNote = " ";
 
   Future<List<DamageDetailsModel>> fetchPostdetails() async {
-    var response =
-        await http.post(Uri.parse('http://$api/ughcm/UG/Damage_Details.php'),
-            body: jsonEncode(<String, String>{
-              "zid": widget.zid,
-              "xtornum": widget.xtornum,
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_Details.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xtornum": widget.xtornum,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -167,13 +170,12 @@ class _Damage_details_notificationState
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://$api/ughcm/UG/Damage_Approve.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -198,15 +200,17 @@ class _Damage_details_notificationState
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.red
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -233,9 +237,9 @@ class _Damage_details_notificationState
                                           // },
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left:
-                                                    20), // add padding to adjust text
+                                            contentPadding:
+                                                EdgeInsets.only(left: 20),
+                                            // add padding to adjust text
                                             isDense: false,
 
                                             hintStyle: GoogleFonts.bakbakOne(
@@ -257,14 +261,13 @@ class _Damage_details_notificationState
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor: Color(0xff064A76)
-                                      ),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
 
                                         var response = await http.post(
                                             Uri.parse(
-                                                'http://$api/ughcm/UG/Damage_Reject.php'),
+                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_Reject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
@@ -297,7 +300,10 @@ class _Damage_details_notificationState
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -305,7 +311,7 @@ class _Damage_details_notificationState
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

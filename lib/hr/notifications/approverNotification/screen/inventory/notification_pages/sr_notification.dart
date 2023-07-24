@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../conts_api_link.dart';
 import '../../../../../../data_model/notification_model/admin_approver_model/sr_admin_model.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../approver_notification.dart';
 
 class SR_notification extends StatefulWidget {
   SR_notification(
@@ -29,7 +31,9 @@ class _SR_notificationState extends State<SR_notification> {
   TextEditingController rejectNote = TextEditingController();
 
   Future<List<SrNotiModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().srApi),
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_notifications.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition
@@ -61,6 +65,15 @@ class _SR_notificationState extends State<SR_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -185,7 +198,11 @@ class _SR_notificationState extends State<SR_notification> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               /*Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

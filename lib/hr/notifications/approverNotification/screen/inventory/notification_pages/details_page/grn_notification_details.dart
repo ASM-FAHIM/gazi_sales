@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../../../../../conts_api_link.dart';
+import '../../../../../../../conts_api_link.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +8,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../../../data_model/notification_model/admin_approver_model/details/grn_details_model.dart';
+import '../../../../../../../data_model/notification_model/admin_approver_model/details/grn_details_model.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 
 class GRN_details_notification extends StatefulWidget {
   GRN_details_notification(
@@ -36,8 +37,13 @@ class _GRN_details_notificationState extends State<GRN_details_notification> {
   String rejectNote = " ";
 
   Future<List<GrnDetailsModel>> fetchPostdetails() async {
-    var response = await http.post(Uri.parse(ConstApiLink().grnDetailsApi),
-        body: jsonEncode(<String, String>{"xgrnnum": widget.xgrnnum}));
+    var response = await http.post(
+        Uri.parse(
+            "http://${AppConstants.baseurl}/gazi/notification/inventory/GRN/GRN_details.php"),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xgrnnum": widget.xgrnnum,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -172,14 +178,14 @@ class _GRN_details_notificationState extends State<GRN_details_notification> {
                                       ),
                                     ),
                                     //
-                                    Text(
-                                      "Mismatch Qty: " +
-                                          snapshot.data![index].mismatch,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   "Mismatch Qty: " +
+                                    //       snapshot.data![index].mismatch,
+                                    //   style: GoogleFonts.bakbakOne(
+                                    //     fontSize: 18,
+                                    //     //color: Color(0xff074974),
+                                    //   ),
+                                    // ),
                                     Text(
                                       "Unit: " + snapshot.data![index].xunitpur,
                                       style: GoogleFonts.bakbakOne(
@@ -201,12 +207,13 @@ class _GRN_details_notificationState extends State<GRN_details_notification> {
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         //color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse(ConstApiLink().grnApproveApi),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/GRN/GRN_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -231,14 +238,17 @@ class _GRN_details_notificationState extends State<GRN_details_notification> {
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -299,7 +309,7 @@ class _GRN_details_notificationState extends State<GRN_details_notification> {
 
                                         var response = await http.post(
                                             Uri.parse(
-                                                ConstApiLink().grnRejectApi),
+                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/GRN/GRN_Reject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
@@ -333,7 +343,10 @@ class _GRN_details_notificationState extends State<GRN_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -341,7 +354,7 @@ class _GRN_details_notificationState extends State<GRN_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

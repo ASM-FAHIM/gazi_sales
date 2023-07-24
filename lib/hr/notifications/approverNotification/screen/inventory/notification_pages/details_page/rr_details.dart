@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../../../api.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 import '../../notification_models/details/grn_details_model.dart';
 import '../../notification_models/details/rr_details_model.dart';
 
@@ -37,12 +38,13 @@ class _RR_details_notificationState extends State<RR_details_notification> {
   String rejectNote = " ";
 
   Future<List<RrDetailsModel>> fetchPostdetails() async {
-    var response =
-        await http.post(Uri.parse('http://$api/ughcm/UG/RR_Details.php'),
-            body: jsonEncode(<String, String>{
-              "zid": widget.zid,
-              "xtornum": widget.xtornum,
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/RR/RR_Details.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xtornum": widget.xtornum,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -129,14 +131,14 @@ class _RR_details_notificationState extends State<RR_details_notification> {
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    Text(
+                                    /*Text(
                                       "Part No : " +
                                           snapshot.data![index].xserial,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
-                                    ),
+                                    ),*/
                                     //
                                     Text(
                                       "Quantity Required : " +
@@ -174,12 +176,12 @@ class _RR_details_notificationState extends State<RR_details_notification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse('http://$api/ughcm/UG/RR_Approve.php'),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/RR/RR_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -204,15 +206,17 @@ class _RR_details_notificationState extends State<RR_details_notification> {
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.red
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -263,14 +267,13 @@ class _RR_details_notificationState extends State<RR_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor:Color(0xff064A76)
-                                      ),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
 
                                         var response = await http.post(
                                             Uri.parse(
-                                                'http://$api/ughcm/UG/SPR_reject.php'),
+                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/RR/RR_Reject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
@@ -303,7 +306,10 @@ class _RR_details_notificationState extends State<RR_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -311,7 +317,7 @@ class _RR_details_notificationState extends State<RR_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

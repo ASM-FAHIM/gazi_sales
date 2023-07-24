@@ -77,6 +77,16 @@
 //           color: Color(0xff064A76),
 //           onPressed: () {
 //             Navigator.pop(context);
+//                 Navigator.pushReplacement(
+//                 context,
+//                 MaterialPageRoute(
+//                 builder: (context) =>
+//                 AdminNotificationList(
+//                 xposition: widget.xposition,
+//                 zemail: widget.zemail,
+//                 zid: widget.zid,
+//                 xstaff: widget.xstaff,
+//                 )));
 //           },
 //         ),
 //         title: Center(

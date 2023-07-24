@@ -12,58 +12,62 @@ String rrNotificationModelToJson(List<RrNotificationModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class RrNotificationModel {
-  RrNotificationModel({
-    required this.xtornum,
-    required this.xstatustor,
-    required this.xdate,
-    required this.twhdesc,
-    required this.xtwh,
-    required this.xregi,
-    required this.xshift,
-    required this.xlong,
-    required this.preparerName,
-    required this.preparerDesignation,
-    required this.preparerXdeptname,
-  });
-
   String xtornum;
-  String xstatustor;
   String xdate;
   String twhdesc;
   String xtwh;
-  String xregi;
+  String regidesc;
   String xshift;
   String xlong;
+  String xstatustor;
+  String statustordesc;
   String preparerName;
-  String preparerDesignation;
+  String preparerXdesignation;
   String preparerXdeptname;
+
+  RrNotificationModel({
+    required this.xtornum,
+    required this.xdate,
+    required this.twhdesc,
+    required this.xtwh,
+    required this.regidesc,
+    required this.xshift,
+    required this.xlong,
+    required this.xstatustor,
+    required this.statustordesc,
+    required this.preparerName,
+    required this.preparerXdesignation,
+    required this.preparerXdeptname,
+  });
 
   factory RrNotificationModel.fromJson(Map<String, dynamic> json) =>
       RrNotificationModel(
-        xtornum: json["xtornum"] ?? ' ',
-        xstatustor: json["xstatustor"] ?? ' ',
-        xdate: json["xdate"] ?? ' ',
-        twhdesc: json["twhdesc"] ?? ' ',
-        xtwh: json["xtwh"] ?? ' ',
-        xregi: json["xregi"] ?? ' ',
-        xshift: json["xshift"] ?? ' ',
-        xlong: json["xlong"] ?? ' ',
-        preparerName: json["preparer_name"] ?? ' ',
-        preparerDesignation: json["preparer_designation"] ?? ' ',
-        preparerXdeptname: json["preparer_xdeptname"] ?? ' ',
+        xtornum: json["xtornum"],
+        xdate: json["xdate"],
+        twhdesc: json["twhdesc"],
+        xtwh: json["xtwh"],
+        regidesc: json["regidesc"],
+        xshift: json["xshift"],
+        xlong: json["xlong"],
+        xstatustor: json["xstatustor"],
+        statustordesc: json["statustordesc"],
+        preparerName: json["preparer_name"],
+        preparerXdesignation: json["preparer_xdesignation"],
+        preparerXdeptname: json["preparer_xdeptname"],
       );
 
   Map<String, dynamic> toJson() => {
         "xtornum": xtornum,
-        "xstatustor": xstatustor,
         "xdate": xdate,
         "twhdesc": twhdesc,
         "xtwh": xtwh,
-        "xregi": xregi,
+        "regidesc": regidesc,
         "xshift": xshift,
         "xlong": xlong,
+        "xstatustor": xstatustor,
+        "statustordesc": statustordesc,
         "preparer_name": preparerName,
-        "preparer_designation": preparerDesignation,
+        "preparer_xdesignation": preparerXdesignation,
         "preparer_xdeptname": preparerXdeptname,
       };
 }

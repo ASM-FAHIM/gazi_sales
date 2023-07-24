@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../approver_notification.dart';
 import '../notification_models/lre_adim_model.dart';
 import 'details_page/lre_details.dart';
 
@@ -29,12 +31,13 @@ class _LRE_NotificationState extends State<LRE_Notification> {
   String api = API_Names().api;
 
   Future<List<LreNotificationModel>> fetchPost() async {
-    var response =
-        await http.post(Uri.parse('http://$api/ughcm/UG/LRE_Notification.php'),
-            body: jsonEncode(<String, String>{
-              "zid": widget.zid,
-              "xposition": widget.xposition,
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://http://${AppConstants.baseurl}/gazi/notification/inventory/LRE_Notification.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xposition": widget.xposition,
+        }));
 
     // print(response.body);
 
@@ -68,6 +71,15 @@ class _LRE_NotificationState extends State<LRE_Notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -235,8 +247,7 @@ class _LRE_NotificationState extends State<LRE_Notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor: Colors.lightBlueAccent
-                                ),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
@@ -261,7 +272,11 @@ class _LRE_NotificationState extends State<LRE_Notification> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text("Details",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ))),
                               ),
                             ],
                           ),
@@ -273,7 +288,7 @@ class _LRE_NotificationState extends State<LRE_Notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

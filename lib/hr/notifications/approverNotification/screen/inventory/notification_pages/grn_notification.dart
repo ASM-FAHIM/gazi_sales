@@ -6,7 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../../../../../conts_api_link.dart';
 import '../../../../../../data_model/notification_model/admin_approver_model/grn_admin_model.dart';
-import '../../finance_accounts/Notification_page/grn_notification_details.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../approver_notification.dart';
+import 'details_page/grn_notification_details.dart';
 
 class GRN_notification extends StatefulWidget {
   GRN_notification(
@@ -29,8 +31,11 @@ class _GRN_notificationState extends State<GRN_notification> {
   String rejectNote = " ";
 
   Future<List<GrnModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().grnApi),
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/GRN/GRN.php'),
         body: jsonEncode(<String, String>{
+          "zid": widget.zid,
           "xposition": widget.xposition,
         }));
 
@@ -57,6 +62,15 @@ class _GRN_notificationState extends State<GRN_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -143,15 +157,14 @@ class _GRN_notificationState extends State<GRN_notification> {
                                 ),
                               ),
                               Text(
-                                "Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
+                                "Date: " + " ${snapshot.data![index].xdate}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              /*Text(
                                 "Invoice Number: " +
                                     "  ${snapshot.data![index].xinvnum}",
                                 textAlign: TextAlign.center,
@@ -159,14 +172,14 @@ class _GRN_notificationState extends State<GRN_notification> {
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
-                              Text(
+                              ),*/
+                              /*Text(
                                 "LC No: " + snapshot.data![index].xlcno,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               Text(
                                 "Supplier ID:" +
                                     "${snapshot.data![index].xcus}",
@@ -177,7 +190,7 @@ class _GRN_notificationState extends State<GRN_notification> {
                               ),
                               Text(
                                 "Supplier Name: " +
-                                    "${snapshot.data![index].xorg ?? " "}",
+                                    "${snapshot.data![index].sup ?? " "}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -223,7 +236,7 @@ class _GRN_notificationState extends State<GRN_notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  primary: Colors.lightBlueAccent,
+                                  backgroundColor: Colors.lightBlueAccent,
                                 ),
                                 //color: Colors.lightBlueAccent,
                                 onPressed: () async {
@@ -250,7 +263,11 @@ class _GRN_notificationState extends State<GRN_notification> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -416,7 +433,7 @@ class _GRN_notificationState extends State<GRN_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

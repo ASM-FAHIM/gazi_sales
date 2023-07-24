@@ -4,6 +4,7 @@ import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
+import '../../approver_notification.dart';
 import '../notification_models/rr_admin_model.dart';
 import 'details_page/rr_details.dart';
 
@@ -32,7 +33,7 @@ class _RR_NotificationState extends State<RR_Notification> {
   Future<List<RrNotificationModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/ughcm/UG/RR_notification.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/RR/RR.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
@@ -70,6 +71,15 @@ class _RR_NotificationState extends State<RR_Notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -198,7 +208,7 @@ class _RR_NotificationState extends State<RR_Notification> {
                               ),
                               Text(
                                 "Department Name :" +
-                                    "${snapshot.data![index].xregi}",
+                                    "${snapshot.data![index].regidesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -239,7 +249,11 @@ class _RR_NotificationState extends State<RR_Notification> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                             ],
                           ),
@@ -251,7 +265,7 @@ class _RR_NotificationState extends State<RR_Notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

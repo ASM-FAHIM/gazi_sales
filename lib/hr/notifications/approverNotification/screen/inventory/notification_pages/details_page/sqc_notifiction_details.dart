@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../../../../conts_api_link.dart';
 import '../../../../../../../data_model/notification_model/admin_approver_model/details/sqc_details_model.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 
 class SQC_details_notification extends StatefulWidget {
   SQC_details_notification(
@@ -36,8 +37,11 @@ class _SQC_details_notificationState extends State<SQC_details_notification> {
   String rejectNote = " ";
 
   Future<List<SqcDetailsModel>> fetchPostdetails() async {
-    var response = await http.post(Uri.parse(ConstApiLink().sqcDetailsApi),
-        body: jsonEncode(<String, String>{"xgrnnum": widget.xgrnnum}));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/sqc_details.php'),
+        body: jsonEncode(
+            <String, String>{"zid": widget.zid, "xgrnnum": widget.xgrnnum}));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -176,7 +180,8 @@ class _SQC_details_notificationState extends State<SQC_details_notification> {
                         //color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse(ConstApiLink().sqcApproveApi),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sqc_approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -196,7 +201,10 @@ class _SQC_details_notificationState extends State<SQC_details_notification> {
 
                           Navigator.pop(context, "approval");
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
@@ -264,7 +272,7 @@ class _SQC_details_notificationState extends State<SQC_details_notification> {
 
                                         var response = await http.post(
                                             Uri.parse(
-                                                ConstApiLink().sqcRejectApi),
+                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/sqc_reject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
@@ -297,7 +305,10 @@ class _SQC_details_notificationState extends State<SQC_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -305,7 +316,7 @@ class _SQC_details_notificationState extends State<SQC_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

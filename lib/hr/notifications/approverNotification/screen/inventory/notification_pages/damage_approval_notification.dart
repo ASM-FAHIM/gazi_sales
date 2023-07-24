@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../approver_notification.dart';
 import '../notification_models/damage_approval_admin_model.dart';
 import 'details_page/damage_details.dart';
 
@@ -13,6 +15,7 @@ class DamageApproval_notification extends StatefulWidget {
       required this.xstaff,
       required this.zemail,
       required this.zid});
+
   String xposition;
   String xstaff;
   String zemail;
@@ -28,9 +31,11 @@ class _DamageApproval_notificationState
   Future<List<DamageNotificationModel>>? futurePost;
   String rejectNote = " ";
   String api = API_Names().api;
+
   Future<List<DamageNotificationModel>> fetchPost() async {
     var response = await http.post(
-        Uri.parse('http://$api/ughcm/UG/Damage_notification.php'),
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_notification.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
@@ -68,6 +73,15 @@ class _DamageApproval_notificationState
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -205,8 +219,7 @@ class _DamageApproval_notificationState
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor: Colors.lightBlueAccent
-                                ),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
@@ -231,7 +244,11 @@ class _DamageApproval_notificationState
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -397,7 +414,7 @@ class _DamageApproval_notificationState
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },
