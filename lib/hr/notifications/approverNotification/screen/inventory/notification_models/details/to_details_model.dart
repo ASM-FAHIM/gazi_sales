@@ -12,6 +12,14 @@ String toDetailsModelToJson(List<ToDetailsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ToDetailsModel {
+  String xrow;
+  String xunit;
+  String xitem;
+  String productName;
+  String xprepqty;
+  String xdphqty;
+  String xnote;
+
   ToDetailsModel({
     required this.xrow,
     required this.xunit,
@@ -22,22 +30,14 @@ class ToDetailsModel {
     required this.xnote,
   });
 
-  int xrow;
-  String xunit;
-  String xitem;
-  String productName;
-  String xprepqty;
-  String xdphqty;
-  String xnote;
-
   factory ToDetailsModel.fromJson(Map<String, dynamic> json) => ToDetailsModel(
-        xrow: json["xrow"] ?? ' ',
-        xunit: json["xunit"] ?? ' ',
-        xitem: json["xitem"] ?? ' ',
-        productName: json["product_Name"] ?? ' ',
-        xprepqty: json["xprepqty"] ?? ' ',
-        xdphqty: json["xdphqty"] ?? ' ',
-        xnote: json["xnote"] ?? ' ',
+        xrow: json["xrow"],
+        xunit: json["xunit"],
+        xitem: json["xitem"],
+        productName: json["product_Name"],
+        xprepqty: json["xprepqty"],
+        xdphqty: json["xdphqty"],
+        xnote: json["xnote"],
       );
 
   Map<String, dynamic> toJson() => {

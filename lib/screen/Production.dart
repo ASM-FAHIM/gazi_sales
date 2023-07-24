@@ -61,7 +61,7 @@ class _ProductionNotificationListState
         ),
         centerTitle: true,
         title: Text(
-          "Purchase Notifications",
+          "Production Notifications",
           style: GoogleFonts.bakbakOne(
             fontSize: 20,
             color: Color(0xff074974),

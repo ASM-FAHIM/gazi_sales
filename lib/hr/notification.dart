@@ -50,7 +50,7 @@ class _NotificationListState extends State<NotificationList> {
           ),
           title: Center(
             child: Text(
-              "Notifications",
+              "Personal Notifications",
               style: GoogleFonts.bakbakOne(
                 fontSize: 20,
                 color: Color(0xff074974),

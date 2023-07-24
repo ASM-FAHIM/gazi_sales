@@ -116,7 +116,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
         ),
         centerTitle: true,
         title: Text(
-          "Purchase Notifications",
+          "Supply Chain Notifications",
           style: GoogleFonts.bakbakOne(
             fontSize: 20,
             color: Color(0xff074974),

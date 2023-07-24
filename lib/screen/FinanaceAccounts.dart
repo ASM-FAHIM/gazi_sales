@@ -61,7 +61,7 @@ class _FinanceAccountNotificationListState
         ),
         centerTitle: true,
         title: Text(
-          "Purchase Notifications",
+          "Accounts Notifications",
           style: GoogleFonts.bakbakOne(
             fontSize: 20,
             color: Color(0xff074974),

@@ -12,86 +12,106 @@ String toNotificationModelToJson(List<ToNotificationModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ToNotificationModel {
-  ToNotificationModel({
-    required this.zid,
-    required this.xidsup,
-    required this.xsuperior2,
-    required this.xsuperior3,
-    required this.xtornum,
-    required this.xstatustor,
-    required this.twhdesc,
-    required this.xdate,
-    required this.xfwh,
-    required this.xtwh,
-    required this.xfbrname,
-    required this.xregi,
-    required this.xshift,
-    required this.xlong,
-    required this.xnote,
-    required this.preparerName,
-    required this.preparerXdesignation,
-    required this.preparerXdeptname,
-  });
-
-  int zid;
-  String xidsup;
-  String xsuperior2;
-  String xsuperior3;
   String xtornum;
-  String xstatustor;
-  String twhdesc;
   String xdate;
   String xfwh;
-  String xtwh;
   String xfbrname;
-  String xregi;
-  String xshift;
+  String xref;
+  String xtwh;
+  String xtbrname;
+  String regidesc;
   String xlong;
   String xnote;
+  String xstatustor;
+  String statustordesc;
   String preparerName;
   String preparerXdesignation;
   String preparerXdeptname;
+  String reviewer1Name;
+  String reviewer1Designation;
+  String reviewer2Xdeptname;
+  String reviewer2Name;
+  String reviewer2Designation;
+  String signrejectName;
+  String signrejectDesignation;
+  String signrejectXdeptname;
+
+  ToNotificationModel({
+    required this.xtornum,
+    required this.xdate,
+    required this.xfwh,
+    required this.xfbrname,
+    required this.xref,
+    required this.xtwh,
+    required this.xtbrname,
+    required this.regidesc,
+    required this.xlong,
+    required this.xnote,
+    required this.xstatustor,
+    required this.statustordesc,
+    required this.preparerName,
+    required this.preparerXdesignation,
+    required this.preparerXdeptname,
+    required this.reviewer1Name,
+    required this.reviewer1Designation,
+    required this.reviewer2Xdeptname,
+    required this.reviewer2Name,
+    required this.reviewer2Designation,
+    required this.signrejectName,
+    required this.signrejectDesignation,
+    required this.signrejectXdeptname,
+  });
 
   factory ToNotificationModel.fromJson(Map<String, dynamic> json) =>
       ToNotificationModel(
-        zid: json["zid"] ?? ' ',
-        xidsup: json["xidsup"] ?? ' ',
-        xsuperior2: json["xsuperior2"] ?? ' ',
-        xsuperior3: json["xsuperior3"] ?? ' ',
-        xtornum: json["xtornum"] ?? ' ',
-        xstatustor: json["xstatustor"] ?? ' ',
-        twhdesc: json["twhdesc"] ?? ' ',
-        xdate: json["xdate"] ?? ' ',
-        xfwh: json["xfwh"] ?? ' ',
-        xtwh: json["xtwh"] ?? ' ',
-        xfbrname: json["xfbrname"] ?? ' ',
-        xregi: json["xregi"] ?? ' ',
-        xshift: json["xshift"] ?? ' ',
-        xlong: json["xlong"] ?? ' ',
-        xnote: json["xnote"] ?? ' ',
-        preparerName: json["preparer_name"] ?? ' ',
-        preparerXdesignation: json["preparer_xdesignation"] ?? ' ',
-        preparerXdeptname: json["preparer_xdeptname"] ?? ' ',
+        xtornum: json["xtornum"],
+        xdate: json["xdate"],
+        xfwh: json["xfwh"],
+        xfbrname: json["xfbrname"],
+        xref: json["xref"],
+        xtwh: json["xtwh"],
+        xtbrname: json["xtbrname"],
+        regidesc: json["regidesc"],
+        xlong: json["xlong"],
+        xnote: json["xnote"],
+        xstatustor: json["xstatustor"],
+        statustordesc: json["statustordesc"],
+        preparerName: json["preparer_name"],
+        preparerXdesignation: json["preparer_xdesignation"],
+        preparerXdeptname: json["preparer_xdeptname"],
+        reviewer1Name: json["reviewer1_name"],
+        reviewer1Designation: json["reviewer1_designation"],
+        reviewer2Xdeptname: json["reviewer2_xdeptname"],
+        reviewer2Name: json["reviewer2_name"],
+        reviewer2Designation: json["reviewer2_designation"],
+        signrejectName: json["signreject_name"],
+        signrejectDesignation: json["signreject_designation"],
+        signrejectXdeptname: json["signreject_xdeptname"],
       );
 
   Map<String, dynamic> toJson() => {
-        "zid": zid,
-        "xidsup": xidsup,
-        "xsuperior2": xsuperior2,
-        "xsuperior3": xsuperior3,
         "xtornum": xtornum,
-        "xstatustor": xstatustor,
-        "twhdesc": twhdesc,
         "xdate": xdate,
         "xfwh": xfwh,
-        "xtwh": xtwh,
         "xfbrname": xfbrname,
-        "xregi": xregi,
-        "xshift": xshift,
+        "xref": xref,
+        "xtwh": xtwh,
+        "xtbrname": xtbrname,
+        "regidesc": regidesc,
         "xlong": xlong,
         "xnote": xnote,
+        "xstatustor": xstatustor,
+        "statustordesc": statustordesc,
         "preparer_name": preparerName,
         "preparer_xdesignation": preparerXdesignation,
         "preparer_xdeptname": preparerXdeptname,
+        "reviewer1_name": reviewer1Name,
+        "reviewer1_designation": reviewer1Designation,
+        "reviewer2_xdeptname": reviewer2Xdeptname,
+        "reviewer2_name": reviewer2Name,
+        "reviewer2_designation": reviewer2Designation,
+        "signreject_name": signrejectName,
+        "signreject_designation": signrejectDesignation,
+        "signreject_xdeptname": signrejectXdeptname,
       };
 }

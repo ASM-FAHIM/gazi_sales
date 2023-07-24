@@ -1,19 +1,14 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../../../../../api.dart';
-import '../../notification_models/details/asti_details_model.dart';
-import '../../notification_models/details/grn_details_model.dart';
-import '../../notification_models/details/rr_details_model.dart';
 import '../../notification_models/details/to_details_model.dart';
 
-class TO_details_notification extends StatefulWidget {
-  TO_details_notification(
+class ToDetailsNotification extends StatefulWidget {
+  ToDetailsNotification(
       {required this.xtornum,
       required this.zid,
       required this.xposition,
@@ -29,22 +24,22 @@ class TO_details_notification extends StatefulWidget {
   String zemail;
 
   @override
-  State<TO_details_notification> createState() =>
-      _TO_details_notificationState();
+  State<ToDetailsNotification> createState() => _ToDetailsNotificationState();
 }
 
-class _TO_details_notificationState extends State<TO_details_notification> {
+class _ToDetailsNotificationState extends State<ToDetailsNotification> {
   String api = API_Names().api;
   Future<List<ToDetailsModel>>? futurePost;
   String rejectNote = " ";
 
   Future<List<ToDetailsModel>> fetchPostdetails() async {
-    var response =
-        await http.post(Uri.parse('http://$api/ughcm/UG/TO_Details.php'),
-            body: jsonEncode(<String, String>{
-              "zid": widget.zid,
-              "xtornum": widget.xtornum,
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/TO/TO_Details.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xtornum": widget.xtornum,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -168,9 +163,8 @@ class _TO_details_notificationState extends State<TO_details_notification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
@@ -204,9 +198,8 @@ class _TO_details_notificationState extends State<TO_details_notification> {
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.red
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -257,8 +250,7 @@ class _TO_details_notificationState extends State<TO_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor: Color(0xff064A76)
-                                      ),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
@@ -26,15 +27,17 @@ class TO_Notification extends StatefulWidget {
 class _TO_NotificationState extends State<TO_Notification> {
   Future<List<ToNotificationModel>>? futurePost;
   String rejectNote = " ";
-  String api = API_Names().api;
+
+  //String api = API_Names().api;
 
   Future<List<ToNotificationModel>> fetchPost() async {
-    var response =
-        await http.post(Uri.parse('http://$api/ughcm/UG/TO_notification.php'),
-            body: jsonEncode(<String, String>{
-              "zid": widget.zid,
-              "xposition": widget.xposition,
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/TO/to.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xposition": widget.xposition,
+        }));
 
     // print(response.body);
 
@@ -70,20 +73,14 @@ class _TO_NotificationState extends State<TO_Notification> {
             Navigator.pop(context);
           },
         ),
-        title: Center(
-          child: Text(
-            "TO Notification",
-            style: GoogleFonts.bakbakOne(
-              fontSize: 20,
-              color: Color(0xff074974),
-            ),
+        centerTitle: true,
+        title: Text(
+          "TO Notification",
+          style: GoogleFonts.bakbakOne(
+            fontSize: 20,
+            color: Color(0xff074974),
           ),
         ),
-        actions: [
-          SizedBox(
-            width: 20,
-          )
-        ],
         backgroundColor: Colors.white,
       ),
       body: Container(
@@ -185,30 +182,30 @@ class _TO_NotificationState extends State<TO_Notification> {
                                   //color: Color(0xff074974),
                                 ),
                               ),*/
-                              Text(
+                              /*Text(
                                 "Shift Name : " +
                                     "${snapshot.data![index].xshift}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               Text(
                                 "Department Name :" +
-                                    "${snapshot.data![index].xregi}",
+                                    "${snapshot.data![index].regidesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              /*Text(
                                 "Shift Name :" +
                                     "${snapshot.data![index].xshift}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               Text(
                                 "Justification:" +
                                     "${snapshot.data![index].xlong}",
@@ -225,7 +222,7 @@ class _TO_NotificationState extends State<TO_Notification> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              TO_details_notification(
+                                              ToDetailsNotification(
                                                 xtornum: snapshot
                                                     .data![index].xtornum,
                                                 zid: widget.zid,
@@ -256,7 +253,7 @@ class _TO_NotificationState extends State<TO_Notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

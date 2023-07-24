@@ -446,7 +446,7 @@ class _HomepageState extends State<Homepage> {
                             ],
                           ),
                         ),
-                        Padding(
+                        /*Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -459,7 +459,7 @@ class _HomepageState extends State<Homepage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const BusinessScreen()));
+                                              const BusinessScreen()));
                                 },
                               ),
                               home_page_buttons(
@@ -470,13 +470,13 @@ class _HomepageState extends State<Homepage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const BusinessProduction()));
+                                              const BusinessProduction()));
                                 },
                               ),
                             ],
                           ),
-                        ),
-                        /*Padding(
+                        ),*/
+                        Padding(
                           padding: EdgeInsets.only(
                               top: 10, left: 30, right: 30, bottom: 10),
                           child: Container(
@@ -530,7 +530,7 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                           ),
-                        ),*/
+                        ),
                       ],
                     ),
                   ),
@@ -583,8 +583,8 @@ class home_page_buttons extends StatelessWidget {
               children: [
                 Image(
                   image: AssetImage(imageName),
-                  height: MediaQuery.of(context).size.height / 6,
-                  width: MediaQuery.of(context).size.width / 6,
+                  height: MediaQuery.of(context).size.height / 8,
+                  width: MediaQuery.of(context).size.width / 8,
                 ),
                 const SizedBox(
                   height: 20,
@@ -593,7 +593,7 @@ class home_page_buttons extends StatelessWidget {
                   buttonName,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.bakbakOne(
-                    fontSize: MediaQuery.of(context).size.height / 40,
+                    fontSize: MediaQuery.of(context).size.height / 44,
                     color: const Color(0xff074974),
                   ),
                 )

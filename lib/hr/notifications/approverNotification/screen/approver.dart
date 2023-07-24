@@ -107,7 +107,7 @@ class _AdminNotificationState extends State<AdminNotification> {
   String supplier_Count = "0";
   late SupplierCountModel supplier_Count1;*/
 
-  String absentemployee_count = "0";
+/*  String absentemployee_count = "0";
   late AbsentCountModel absentemployee_count1;
 
   String leaveandtouradmin_count = "0";
@@ -117,333 +117,16 @@ class _AdminNotificationState extends State<AdminNotification> {
   late EarlyCountModel earlyemployee_count1;
 
   String lateemployee_count = "0";
-  late LateCountModel lateemployee_count1;
+  late LateCountModel lateemployee_count1;*/
 
-  bool isLoading = false;
+/*  bool isLoading = false;
   int totalCount = 0;
 
   int inventoryCount = 0;
   int hrCount = 0;
   int purchaseCount = 0;
   int voucherCount = 0;
-  int bomCount = 0;
-
-  Future<String> getAdminNotificationCount() async {
-    setState(() {
-      isLoading = true;
-    });
-/*    http.Response responseCS = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/cs_count.php'),
-        body: jsonEncode(<String, String>{"xposition": widget.xposition}));
-
-    cs_Count1 = csModelFromJson(responseCS.body);
-    cs_Count = cs_Count1.total.toString();
-
-    print("Admin Early" + responseCS.body);
-    http.Response responseGRN = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/grn_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    grn_Count1 = grnModelFromJson(responseGRN.body);
-    grn_Count = grn_Count1.total.toString();
-
-    print("Admin late" + responseGRN.body);
-    http.Response responseBM = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingBOM_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    bm_Count1 = bomModelFromJson(responseBM.body);
-    bm_Count = bm_Count1.total.toString();
-
-    print("Admin Leave" + responseBM.body);
-    http.Response responseaBAT = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingBatch_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    bat_Count1 = batModelFromJson(responseaBAT.body);
-    bat_Count = bat_Count1.total.toString();
-
-    print("Admin Absent" + responseaBAT.body);
-    http.Response responseDO = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingInvoice_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    do_Count1 = doModelFromJson(responseDO.body);
-    do_Count = do_Count1.total.toString();
-
-    print("Admin PO" + responseDO.body);
-    http.Response responsePRN = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingPurchaseReturn_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    prn_Count1 = prnModelFromJson(responsePRN.body);
-    prn_Count = prn_Count1.total.toString();
-
-    print("Admin SR" + responsePRN.body);
-    http.Response responseBATP = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/PendingPreProcessBatch_Count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    batp_Count1 = batpModelFromJson(responseBATP.body);
-    batp_Count = batp_Count1.total.toString();
-
-    print("Admin CS" + responseBATP.body);
-    http.Response responseSO = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/PendingSalesOrder_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    so_Count1 = soModelFromJson(responseSO.body);
-    so_Count = so_Count1.total.toString();
-
-    print("Admin LA" + responseSO.body);
-    http.Response responseSalesReturn = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/PendingSalesReturn_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    salesReturn_Count1 = salesReturnModelFromJson(responseSalesReturn.body);
-    salesReturn_Count = salesReturn_Count1.total.toString();
-
-    print("Admin LFA" + responseSalesReturn.body);
-    http.Response responsePendingVoucher = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingVoucher_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    pendingVoucher_Count1 =
-        pendingVoucherModelFromJson(responsePendingVoucher.body);
-    pendingVoucher_Count = pendingVoucher_Count1.total.toString();
-
-    print("Admin PO" + responsePendingVoucher.body);
-    http.Response responsePO = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/povalue_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    po_Count1 = poModelFromJson(responsePO.body);
-    po_Count = po_Count1.total.toString();
-
-    print("Admin LFA" + responsePO.body);
-    http.Response responseBMP = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/preProcessBOM_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    bmp_Count1 = bmpModelFromJson(responseBMP.body);
-    bmp_Count = bmp_Count1.total.toString();
-
-    print("Admin LFA" + responseBMP.body);
-    http.Response responseSPA = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/spotpurchaseadvance_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    spa_Count1 = spaModelFromJson(responseSPA.body);
-    spa_Count = spa_Count1.total.toString();
-
-    print("Admin LFA" + responseSPA.body);
-    http.Response responseSPR = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/spr_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    spr_Count1 = sprModelFromJson(responseSPR.body);
-    spr_Count = spr_Count1.total.toString();
-
-    print("Admin LFA" + responseSPR.body);
-    http.Response responseSQC = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/sqclist_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    sqc_Count1 = sqcModelFromJson(responseSQC.body);
-    sqc_Count = sqc_Count1.total.toString();
-    print("Admin LFA" + responseSQC.body);
-
-    http.Response responseSR = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/sr_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    sr_Count1 = srModelFromJson(responseSR.body);
-    sr_Count = sr_Count1.total.toString();
-    print("Admin LFA" + responseSR.body);
-
-    http.Response responseCusList = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/count_customer.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    cusList_Count1 = cusListCountModelFromJson(responseCusList.body);
-    cusList_Count = cusList_Count1.total.toString();
-    print("Admin cusList_Count" + responseCusList.body);
-
-    http.Response responseMonReq = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/moneyreqapprovalcount.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    monReq_Count1 = monReqCountModelFromJson(responseMonReq.body);
-    monReq_Count = monReq_Count1.total.toString();
-    print("Admin monReq_Count" + responseMonReq.body);
-
-    http.Response responseMonReqAdj = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/moneyreqapprovalcount_adj.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    monReqAdj_Count1 = monReqAdjCountModelFromJson(responseMonReqAdj.body);
-    monReqAdj_Count = monReqAdj_Count1.total.toString();
-    print("Admin monReqAdj_Count" + responseMonReqAdj.body);
-
-    http.Response responseDC = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/dc_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    dc_Count1 = dcCountModelFromJson(responseDC.body);
-    dc_Count = dc_Count1.total.toString();
-    print("Admin dc_Count" + responseDC.body);
-
-    http.Response responseServNotify = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/service_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    serviceNoti_Count1 =
-        serviceNotifyCountModelFromJson(responseServNotify.body);
-    serviceNoti_Count = serviceNoti_Count1.total.toString();
-    print("Admin Service Notification:" + responseServNotify.body);
-
-    http.Response responseItemCount = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/item_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    items_Count1 = itemsCountModelFromJson(responseItemCount.body);
-    items_Count = items_Count1.total.toString();
-    print("Admin Item Approval Notification:" + responseItemCount.body);
-
-    http.Response responseSupplierCount = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/supplier_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    supplier_Count1 = supplierCountModelFromJson(responseSupplierCount.body);
-    supplier_Count = supplier_Count1.total.toString();
-    print("Admin Supplier Approval Notification:" + responseSupplierCount.body);*/
-    http.Response responseAbsentCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalabsent.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    absentemployee_count1 = absentCountModelFromJson(responseAbsentCount.body);
-    absentemployee_count = absentemployee_count1.total.toString();
-    print("Admin Absent Notification:" + responseAbsentCount.body);
-
-    http.Response responseLeaveandTourCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalleaveandtour.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    leaveandtouradmin_count1 =
-        leaveandTourCountModelFromJson(responseLeaveandTourCount.body);
-    leaveandtouradmin_count = leaveandtouradmin_count1.total.toString();
-    print(
-        "Admin Leave and Tour Notification:" + responseLeaveandTourCount.body);
-
-    http.Response responseLateCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totallate.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    lateemployee_count1 = lateCountModelFromJson(responseLateCount.body);
-    lateemployee_count = lateemployee_count1.total.toString();
-    print("Admin Late Notification:" + responseLateCount.body);
-
-    http.Response responseEarlyCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalearly.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    earlyemployee_count1 = earlyCountModelFromJson(responseEarlyCount.body);
-    earlyemployee_count = earlyemployee_count1.total.toString();
-    print("Admin Early Notification:" + responseEarlyCount.body);
-
-    totalCount = int.parse(absentemployee_count) +
-        int.parse(leaveandtouradmin_count) +
-        int.parse(lateemployee_count) +
-        int.parse(earlyemployee_count);
-    print('total count : $totalCount');
-
-    setState(() {
-      isLoading = false;
-    });
-    return '';
-  }
-
-  bool isLoadingAN = false;
-  bool isLoadingHR = false;
-
-  @override
-  void initState() {
-    super.initState();
-    getAdminNotificationCount();
-    print(widget.zid);
-  }
+  int bomCount = 0;*/
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -471,387 +154,368 @@ class _AdminNotificationState extends State<AdminNotification> {
         ],
         backgroundColor: Colors.white,
       ),
-      body: isLoading == true
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(10.0),
-                    child: const CircularProgressIndicator(
-                      color: AppColor.appBarColor,
-                    ),
-                  ),
-                  const Text('Loading...')
-                ],
-              ),
-            )
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              if (widget.zid == '100000') ...[
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    if (widget.zid == '100000') ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HrApproverHome(
-                                            xposition: widget.xposition,
-                                            xstaff: widget.xStaff,
-                                            zemail: widget.zemail,
-                                            zid: widget.zid,
-                                          )));
-                            },
-                            child: ReusableWidget(
-                              circleColor: hrCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: hrCount.toString(),
-                              image: 'assets/images/management.png',
-                              text: 'HCM Approval',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zid: widget.zid,
-                                    // earlyCount: earlyCount,
-                                    // lateCount: lateCount,
-                                    // leaveCount: leaveCount,
-                                    // absentCount: absentCount,
-                                    // user: widget.loginModel.zemail,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: inventoryCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: inventoryCount.toString(),
-                              image: 'assets/images/personal.png',
-                              text: 'Personal',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AdminNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    // adminSPR: SPRCount.toString(),
-                                    // adminSR: SRCount.toString(),
-                                    // adminRR: RRCount.toString(),
-                                    // adminASTI: ASTICount.toString(),
-                                    // adminTO: TOCount.toString(),
-                                    // adminLRE: LRECount.toString(),
-                                    // adminGRN: GRNCount.toString(),
-                                    // adminSQC: SQCCount.toString(),
-                                    // adminInspection: INSPCount.toString(),
-                                    // adminDamage: DAMAGECount.toString(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: inventoryCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: inventoryCount.toString(),
-                              image: 'assets/images/inventory.png',
-                              text: 'Inventory',
-                            ),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HrApproverHome(
+                                      xposition: widget.xposition,
+                                      xstaff: widget.xStaff,
+                                      zemail: widget.zemail,
+                                      zid: widget.zid,
+                                    )));
+                      },
+                      child: ReusableWidget(
+                        // circleColor: hrCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: hrCount.toString(),
+                        image: 'assets/images/management.png',
+                        text: 'HCM Approval',
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      PurchaseNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    // adminPO: POCount.toString(),
-                                    // adminCS: CSCount.toString(),
-                                    // adminCash: CashCount.toString(),
-                                    // adminPADJ: PADJCount.toString(),
-                                    // adminPAF: PAFCount.toString(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: purchaseCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: purchaseCount.toString(),
-                              image: 'assets/images/folder.png',
-                              text: 'Supply chain',
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zid: widget.zid,
+                              // earlyCount: earlyCount,
+                              // lateCount: lateCount,
+                              // leaveCount: leaveCount,
+                              // absentCount: absentCount,
+                              // user: widget.loginModel.zemail,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      FinanceAccountNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    //adminVoucher: VoucherCount,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: voucherCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: voucherCount.toString(),
-                              image: 'assets/images/procurement.png',
-                              text: 'Finance',
-                              textS: '& Accounts',
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: inventoryCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: inventoryCount.toString(),
+                        image: 'assets/images/personal.png',
+                        text: 'Personal',
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AdminNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminSPR: SPRCount.toString(),
+                              // adminSR: SRCount.toString(),
+                              // adminRR: RRCount.toString(),
+                              // adminASTI: ASTICount.toString(),
+                              // adminTO: TOCount.toString(),
+                              // adminLRE: LRECount.toString(),
+                              // adminGRN: GRNCount.toString(),
+                              // adminSQC: SQCCount.toString(),
+                              // adminInspection: INSPCount.toString(),
+                              // adminDamage: DAMAGECount.toString(),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductionNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    //adminBOM: BOMCount,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: bomCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: bomCount.toString(),
-                              image: 'assets/images/production.png',
-                              text: 'Production',
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: inventoryCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: inventoryCount.toString(),
+                        image: 'assets/images/inventory.png',
+                        text: 'Inventory',
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PurchaseNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminPO: POCount.toString(),
+                              // adminCS: CSCount.toString(),
+                              // adminCash: CashCount.toString(),
+                              // adminPADJ: PADJCount.toString(),
+                              // adminPAF: PAFCount.toString(),
                             ),
                           ),
-                        ],
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: purchaseCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: purchaseCount.toString(),
+                        image: 'assets/images/folder.png',
+                        text: 'Supply chain',
                       ),
-                      SizedBox(
-                        height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FinanceAccountNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminVoucher: VoucherCount,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: voucherCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: voucherCount.toString(),
+                        image: 'assets/images/procurement.png',
+                        text: 'Finance',
+                        textS: '& Accounts',
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SalesDistribution(
-                                            xposition: widget.xposition,
-                                            xstaff: widget.xStaff,
-                                            zemail: widget.zemail,
-                                            zid: widget.zid,
-                                          )));
-                            },
-                            child: ReusableWidget(
-                              /*circleColor: PurchaseCount == 0
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductionNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminBOM: BOMCount,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: bomCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: bomCount.toString(),
+                        image: 'assets/images/production.png',
+                        text: 'Production',
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SalesDistribution(
+                                      xposition: widget.xposition,
+                                      xstaff: widget.xStaff,
+                                      zemail: widget.zemail,
+                                      zid: widget.zid,
+                                    )));
+                      },
+                      child: ReusableWidget(
+                        /*circleColor: PurchaseCount == 0
                               ? Colors.transparent
                               : Colors.red,*/
-                              image: 'assets/images/money (1).png',
-                              text: 'Sales',
-                              textS: '& Distribution',
-                            ),
-                          ),
-                        ],
+                        image: 'assets/images/money (1).png',
+                        text: 'Sales',
+                        textS: '& Distribution',
                       ),
-                      SizedBox(
-                        height: 20,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ] else ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AdminNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminSPR: SPRCount.toString(),
+                              // adminSR: SRCount.toString(),
+                              // adminRR: RRCount.toString(),
+                              // adminASTI: ASTICount.toString(),
+                              // adminTO: TOCount.toString(),
+                              // adminLRE: LRECount.toString(),
+                              // adminGRN: GRNCount.toString(),
+                              // adminSQC: SQCCount.toString(),
+                              // adminInspection: INSPCount.toString(),
+                              // adminDamage: DAMAGECount.toString(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: inventoryCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: inventoryCount.toString(),
+                        image: 'assets/images/inventory.png',
+                        text: 'Inventory',
                       ),
-                    ] else ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AdminNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    // adminSPR: SPRCount.toString(),
-                                    // adminSR: SRCount.toString(),
-                                    // adminRR: RRCount.toString(),
-                                    // adminASTI: ASTICount.toString(),
-                                    // adminTO: TOCount.toString(),
-                                    // adminLRE: LRECount.toString(),
-                                    // adminGRN: GRNCount.toString(),
-                                    // adminSQC: SQCCount.toString(),
-                                    // adminInspection: INSPCount.toString(),
-                                    // adminDamage: DAMAGECount.toString(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: inventoryCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: inventoryCount.toString(),
-                              image: 'assets/images/inventory.png',
-                              text: 'Inventory',
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PurchaseNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminPO: POCount.toString(),
+                              // adminCS: CSCount.toString(),
+                              // adminCash: CashCount.toString(),
+                              // adminPADJ: PADJCount.toString(),
+                              // adminPAF: PAFCount.toString(),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      PurchaseNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    // adminPO: POCount.toString(),
-                                    // adminCS: CSCount.toString(),
-                                    // adminCash: CashCount.toString(),
-                                    // adminPADJ: PADJCount.toString(),
-                                    // adminPAF: PAFCount.toString(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: purchaseCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: purchaseCount.toString(),
-                              image: 'assets/images/folder.png',
-                              text: 'Supply chain',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      FinanceAccountNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    //adminVoucher: VoucherCount,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: voucherCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: voucherCount.toString(),
-                              image: 'assets/images/procurement.png',
-                              text: 'Finance',
-                              textS: '& Accounts',
-                            ),
-                          ),
-                        ],
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: purchaseCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: purchaseCount.toString(),
+                        image: 'assets/images/folder.png',
+                        text: 'Supply chain',
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductionNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    //adminBOM: BOMCount,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ReusableWidget(
-                              circleColor: bomCount == 0
-                                  ? Colors.transparent
-                                  : Colors.red,
-                              badgeText: bomCount.toString(),
-                              image: 'assets/images/production.png',
-                              text: 'Production',
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FinanceAccountNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminVoucher: VoucherCount,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SalesDistribution(
-                                            xposition: widget.xposition,
-                                            xstaff: widget.xStaff,
-                                            zemail: widget.zemail,
-                                            zid: widget.zid,
-                                          )));
-                            },
-                            child: ReusableWidget(
-                              /*circleColor: PurchaseCount == 0
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: voucherCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: voucherCount.toString(),
+                        image: 'assets/images/procurement.png',
+                        text: 'Finance',
+                        textS: '& Accounts',
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductionNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminBOM: BOMCount,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: bomCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: bomCount.toString(),
+                        image: 'assets/images/production.png',
+                        text: 'Production',
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SalesDistribution(
+                                      xposition: widget.xposition,
+                                      xstaff: widget.xStaff,
+                                      zemail: widget.zemail,
+                                      zid: widget.zid,
+                                    )));
+                      },
+                      child: ReusableWidget(
+                        /*circleColor: PurchaseCount == 0
                               ? Colors.transparent
                               : Colors.red,*/
-                              image: 'assets/images/money (1).png',
-                              text: 'Sales',
-                              textS: '& Distribution',
-                            ),
-                          ),
-                        ],
+                        image: 'assets/images/money (1).png',
+                        text: 'Sales',
+                        textS: '& Distribution',
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ]
-                    /*if (widget.zid == '100000') ...[
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ]
+              /*if (widget.zid == '100000') ...[
                       Padding(
                         padding:
                             const EdgeInsets.only(top: 20.0, right: 20, left: 20),
@@ -982,7 +646,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                       ),
                     ] else
                       ...[],*/
-                    /*Padding(
+              /*Padding(
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Container(
@@ -1156,7 +820,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                         ),
                       ),
                     ),*/
-                    /*Padding(
+              /*Padding(
                 padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                 child: Container(
                   height: MediaQuery.of(context).size.width / 8,
@@ -1197,7 +861,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                   ),
                 ),
             ),*/
-                    /*Padding(
+              /*Padding(
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Container(
@@ -1240,55 +904,55 @@ class _AdminNotificationState extends State<AdminNotification> {
                         ),
                       ),
                     ),*/
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                    //   child: Container(
-                    //     height: MediaQuery.of(context).size.width / 8,
-                    //     width: MediaQuery.of(context).size.width,
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.white70,
-                    //       borderRadius: BorderRadius.circular(20),
-                    //       boxShadow: [
-                    //         BoxShadow(
-                    //           color: Colors.grey.withOpacity(0.5),
-                    //           spreadRadius: 1,
-                    //           blurRadius: 5,
-                    //           offset: Offset(0, 3), // changes position of shadow
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     child: TextButton(
-                    //       style: TextButton.styleFrom(
-                    //           backgroundColor: Colors.white
-                    //       ),
-                    //       onPressed: () {
-                    //         Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (context) => Cash_notification(
-                    //                   xposition: widget.xposition,
-                    //                   zemail: widget.zemail,
-                    //                   zid: widget.zid,
-                    //                 )));
-                    //       },
-                    //       child: Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.center,
-                    //         mainAxisAlignment: MainAxisAlignment.center,
-                    //         children: [
-                    //           Text(
-                    //             "Cash Notifications",
-                    //             textAlign: TextAlign.center,
-                    //             style: GoogleFonts.bakbakOne(
-                    //               fontSize: 18,
-                    //               color: Color(0xff064A76),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    /*Padding(
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+              //   child: Container(
+              //     height: MediaQuery.of(context).size.width / 8,
+              //     width: MediaQuery.of(context).size.width,
+              //     decoration: BoxDecoration(
+              //       color: Colors.white70,
+              //       borderRadius: BorderRadius.circular(20),
+              //       boxShadow: [
+              //         BoxShadow(
+              //           color: Colors.grey.withOpacity(0.5),
+              //           spreadRadius: 1,
+              //           blurRadius: 5,
+              //           offset: Offset(0, 3), // changes position of shadow
+              //         ),
+              //       ],
+              //     ),
+              //     child: TextButton(
+              //       style: TextButton.styleFrom(
+              //           backgroundColor: Colors.white
+              //       ),
+              //       onPressed: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (context) => Cash_notification(
+              //                   xposition: widget.xposition,
+              //                   zemail: widget.zemail,
+              //                   zid: widget.zid,
+              //                 )));
+              //       },
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Text(
+              //             "Cash Notifications",
+              //             textAlign: TextAlign.center,
+              //             style: GoogleFonts.bakbakOne(
+              //               fontSize: 18,
+              //               color: Color(0xff064A76),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              /*Padding(
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Container(
@@ -1375,7 +1039,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                         ),
                       ),
                     ),*/
-                    /*Padding(
+              /*Padding(
                 padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                 child: Container(
                   height: MediaQuery.of(context).size.width / 8,
@@ -1416,10 +1080,10 @@ class _AdminNotificationState extends State<AdminNotification> {
                   ),
                 ),
             ),*/
-                  ],
-                ),
-              ),
-            ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
