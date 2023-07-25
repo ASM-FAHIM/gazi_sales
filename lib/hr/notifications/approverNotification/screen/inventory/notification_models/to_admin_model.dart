@@ -29,9 +29,10 @@ class ToNotificationModel {
   String preparerXdeptname;
   String reviewer1Name;
   String reviewer1Designation;
-  String reviewer2Xdeptname;
+  String reviewer1Xdeptname;
   String reviewer2Name;
   String reviewer2Designation;
+  String reviewer2Xdeptname;
   String signrejectName;
   String signrejectDesignation;
   String signrejectXdeptname;
@@ -54,9 +55,10 @@ class ToNotificationModel {
     required this.preparerXdeptname,
     required this.reviewer1Name,
     required this.reviewer1Designation,
-    required this.reviewer2Xdeptname,
+    required this.reviewer1Xdeptname,
     required this.reviewer2Name,
     required this.reviewer2Designation,
+    required this.reviewer2Xdeptname,
     required this.signrejectName,
     required this.signrejectDesignation,
     required this.signrejectXdeptname,
@@ -81,9 +83,10 @@ class ToNotificationModel {
         preparerXdeptname: json["preparer_xdeptname"],
         reviewer1Name: json["reviewer1_name"],
         reviewer1Designation: json["reviewer1_designation"],
-        reviewer2Xdeptname: json["reviewer2_xdeptname"],
+        reviewer1Xdeptname: json["reviewer1_xdeptname"],
         reviewer2Name: json["reviewer2_name"],
         reviewer2Designation: json["reviewer2_designation"],
+        reviewer2Xdeptname: json["reviewer2_xdeptname"],
         signrejectName: json["signreject_name"],
         signrejectDesignation: json["signreject_designation"],
         signrejectXdeptname: json["signreject_xdeptname"],
@@ -107,9 +110,10 @@ class ToNotificationModel {
         "preparer_xdeptname": preparerXdeptname,
         "reviewer1_name": reviewer1Name,
         "reviewer1_designation": reviewer1Designation,
-        "reviewer2_xdeptname": reviewer2Xdeptname,
+        "reviewer1_xdeptname": reviewer1Xdeptname,
         "reviewer2_name": reviewer2Name,
         "reviewer2_designation": reviewer2Designation,
+        "reviewer2_xdeptname": reviewer2Xdeptname,
         "signreject_name": signrejectName,
         "signreject_designation": signrejectDesignation,
         "signreject_xdeptname": signrejectXdeptname,

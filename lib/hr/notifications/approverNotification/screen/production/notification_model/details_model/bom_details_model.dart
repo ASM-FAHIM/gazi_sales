@@ -12,6 +12,14 @@ String boMdetailsModelToJson(List<BoMdetailsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class BoMdetailsModel {
+  String xbomrow;
+  String xbomcomp;
+  String xdesc;
+  String xwh;
+  String xqtymix;
+  String xunit;
+  String xstype;
+
   BoMdetailsModel({
     required this.xbomrow,
     required this.xbomcomp,
@@ -22,23 +30,15 @@ class BoMdetailsModel {
     required this.xstype,
   });
 
-  int xbomrow;
-  String xbomcomp;
-  String xdesc;
-  String xwh;
-  String xqtymix;
-  String xunit;
-  String xstype;
-
   factory BoMdetailsModel.fromJson(Map<String, dynamic> json) =>
       BoMdetailsModel(
-        xbomrow: json["xbomrow"] ?? ' ',
-        xbomcomp: json["xbomcomp"] ?? ' ',
-        xdesc: json["xdesc"] ?? ' ',
-        xwh: json["xwh"] ?? ' ',
-        xqtymix: json["xqtymix"] ?? ' ',
-        xunit: json["xunit"] ?? ' ',
-        xstype: json["xstype"] ?? ' ',
+        xbomrow: json["xbomrow"],
+        xbomcomp: json["xbomcomp"],
+        xdesc: json["xdesc"],
+        xwh: json["xwh"],
+        xqtymix: json["xqtymix"],
+        xunit: json["xunit"],
+        xstype: json["xstype"],
       );
 
   Map<String, dynamic> toJson() => {

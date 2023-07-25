@@ -14,6 +14,7 @@ class Voucher_notification extends StatefulWidget {
       required this.xstaff,
       required this.zemail,
       required this.zid});
+
   String xposition;
   String xstaff;
   String zemail;
@@ -27,6 +28,7 @@ class _Voucher_notificationState extends State<Voucher_notification> {
   Future<List<VoucherNoticationModel>>? futurePost;
   String rejectNote = " ";
   String api = API_Names().api;
+
   Future<List<VoucherNoticationModel>> fetchPost() async {
     var response =
         await http.post(Uri.parse('http://$api/ughcm/UG/pendingVoucher.php'),
@@ -293,8 +295,7 @@ class _Voucher_notificationState extends State<Voucher_notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor:Colors.lightBlueAccent
-                                ),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
@@ -346,7 +347,7 @@ class _Voucher_notificationState extends State<Voucher_notification> {
                                       Get.snackbar('Message', 'Approved',
                                           backgroundColor: Color(0XFF8CA6DB),
                                           colorText: Colors.white,
-                                          snackPosition: SnackPosition.BOTTOM);
+                                          snackPosition: SnackPosition.TOP);
 
                                       setState(() {
                                         snapshot.data!.removeAt(index);

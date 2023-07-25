@@ -8,12 +8,13 @@ import '../../../../../../../api.dart';
 import '../../notification_models/details/to_details_model.dart';
 
 class ToDetailsNotification extends StatefulWidget {
-  ToDetailsNotification({required this.xtornum,
-    required this.zid,
-    required this.xposition,
-    required this.xstatustor,
-    required this.zemail,
-    required this.xstaff});
+  ToDetailsNotification(
+      {required this.xtornum,
+      required this.zid,
+      required this.xposition,
+      required this.xstatustor,
+      required this.zemail,
+      required this.xstaff});
 
   String xtornum;
   String zid;
@@ -34,8 +35,7 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
   Future<List<ToDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants
-                .baseurl}/gazi/notification/inventory/TO/TO_Details.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/TO/TO_Details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xtornum": widget.xtornum,
@@ -98,74 +98,65 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
-                      itemBuilder: (_, index) =>
-                          Card(
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 6.0, left: 15),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly,
-                                children: [
-                                  Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .start,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data![index].xitem}",
-                                          style: GoogleFonts.bakbakOne(
-                                            fontSize: 18,
-                                            //color: Color(0xff074974),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Unit of Measurement : " +
-                                              "${snapshot.data![index].xunit}",
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.bakbakOne(
-                                            fontSize: 18,
-                                            //color: Color(0xff074974),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Product Name : " +
-                                              snapshot.data![index].productName,
-                                          style: GoogleFonts.bakbakOne(
-                                            fontSize: 18,
-                                            //color: Color(0xff074974),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Preparer Qty : " +
-                                              "${snapshot.data![index]
-                                                  .xprepqty}",
-                                          style: GoogleFonts.bakbakOne(
-                                            fontSize: 18,
-                                            //color: Color(0xff074974),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Approved Qty: " +
-                                              "${snapshot.data![index]
-                                                  .xdphqty}",
-                                          style: GoogleFonts.bakbakOne(
-                                            fontSize: 18,
-                                            //color: Color(0xff074974),
-                                          ),
-                                        ),
-                                      ],
+                      itemBuilder: (_, index) => Card(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 6.0, left: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${snapshot.data![index].xitem}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      "Unit of Measurement : " +
+                                          "${snapshot.data![index].xunit}",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Product Name : " +
+                                          snapshot.data![index].productName,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Preparer Qty : " +
+                                          "${snapshot.data![index].xprepqty}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Approved Qty: " +
+                                          "${snapshot.data![index].xdphqty}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
+                        ),
+                      ),
                     ),
                   ),
                   Row(
@@ -173,12 +164,11 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
                     children: [
                       TextButton(
                         style:
-                        TextButton.styleFrom(backgroundColor: Colors.green),
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants
-                                      .baseurl}/gazi/notification/inventory/TO/TO_Approve.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/TO/TO_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -191,7 +181,7 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
 
@@ -212,7 +202,7 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
                       ),
                       TextButton(
                         style:
-                        TextButton.styleFrom(backgroundColor: Colors.red),
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -240,7 +230,7 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
-                                            EdgeInsets.only(left: 20),
+                                                EdgeInsets.only(left: 20),
                                             // add padding to adjust text
                                             isDense: false,
 
@@ -269,8 +259,7 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
 
                                         var response = await http.post(
                                             Uri.parse(
-                                                'http://${AppConstants
-                                                    .baseurl}/gazi/notification/inventory/TO/TO_Reject.php'),
+                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/TO/TO_Reject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
@@ -282,8 +271,7 @@ class _ToDetailsNotificationState extends State<ToDetailsNotification> {
                                         Get.snackbar('Message', 'Rejected',
                                             backgroundColor: Color(0XFF8CA6DB),
                                             colorText: Colors.white,
-                                            snackPosition:
-                                            SnackPosition.BOTTOM);
+                                            snackPosition: SnackPosition.TOP);
 
                                         Navigator.pop(context);
                                         Navigator.pop(context, "approval");

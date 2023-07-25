@@ -205,9 +205,8 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
@@ -224,7 +223,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
 
@@ -241,9 +240,8 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.red
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -294,8 +292,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor:Color(0xff064A76)
-                                      ),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
 
@@ -315,8 +312,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                         Get.snackbar('Message', 'Rejected',
                                             backgroundColor: Color(0XFF8CA6DB),
                                             colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
+                                            snackPosition: SnackPosition.TOP);
 
                                         Navigator.pop(context);
                                         Navigator.pop(context, "approval");

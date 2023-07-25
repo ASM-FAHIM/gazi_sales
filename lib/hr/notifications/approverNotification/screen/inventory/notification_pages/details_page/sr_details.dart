@@ -7,8 +7,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../../../../data_model/notification_model/admin_approver_model/details/sr_details_model.dart';
+import '../../notification_models/details/sr_details_model.dart';
 import '../../../../../../../sales/constant/app_constants.dart';
+import '../../../approver_notification.dart';
 
 class SR_details_notification extends StatefulWidget {
   SR_details_notification(
@@ -40,7 +41,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
   Future<List<SrDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_details.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/sr/srDetails.php'),
         body: jsonEncode(
             <String, String>{"zid": widget.zid, "xtornum": widget.xtornum}));
 
@@ -71,6 +72,15 @@ class _SR_details_notificationState extends State<SR_details_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -216,7 +226,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_approve.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sr/srApprove.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -229,7 +239,7 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
                           print(response.statusCode);
@@ -309,30 +319,26 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                               'Please enter reject note',
                                               backgroundColor: Colors.redAccent,
                                               colorText: Colors.white,
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM);
+                                              snackPosition: SnackPosition.TOP);
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_reject.php'),
+                                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sr/srReject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
                                                 "xposition": widget.xposition,
                                                 "wh": "0",
                                                 "xtornum": widget.xtornum,
-                                                "xnote1": rejectNote.text
+                                                "xnote": rejectNote.text
                                               }));
                                           print(response.statusCode);
                                           print(response.body);
-                                          Navigator.pop(context);
-                                          debugPrint(rejectNote.toString());
                                           Get.snackbar('Message', 'Rejected',
                                               backgroundColor:
                                                   Color(0XFF8CA6DB),
                                               colorText: Colors.white,
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM);
+                                              snackPosition: SnackPosition.TOP);
 
                                           //ager page a back korbo
                                           Navigator.pop(context);

@@ -35,7 +35,7 @@ class _DamageApproval_notificationState
   Future<List<DamageNotificationModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_notification.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage/Damage.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
@@ -185,17 +185,17 @@ class _DamageApproval_notificationState
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              /*Text(
                                 "Shift Name :" +
                                     "${snapshot.data![index].xshift}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               Text(
                                 "Department Name: " +
-                                    "${snapshot.data![index].xregi}",
+                                    "${snapshot.data![index].regidesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),

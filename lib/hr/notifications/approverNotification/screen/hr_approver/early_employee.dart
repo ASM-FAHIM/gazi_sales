@@ -258,7 +258,7 @@ class _Admin_Early_Leave_NotificationListState
                                       Get.snackbar('Message', 'Approved',
                                           backgroundColor: Color(0XFF8CA6DB),
                                           colorText: Colors.white,
-                                          snackPosition: SnackPosition.BOTTOM);
+                                          snackPosition: SnackPosition.TOP);
 
                                       setState(() {
                                         snapshot.data!.removeAt(index);

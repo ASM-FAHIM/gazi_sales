@@ -33,7 +33,7 @@ class _SR_notificationState extends State<SR_notification> {
   Future<List<SrNotiModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/inventory/sr_notifications.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/sr/sr.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition
@@ -119,7 +119,7 @@ class _SR_notificationState extends State<SR_notification> {
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Text(
-                                        "${snapshot.data![index].requisition}",
+                                        "${snapshot.data![index].xtornum}",
                                         style: GoogleFonts.bakbakOne(
                                           fontSize: 18,
                                           //color: Color(0xff074974),
@@ -156,8 +156,32 @@ class _SR_notificationState extends State<SR_notification> {
                                 ),
                               ),
                               Text(
-                                "Requisition number :  ${snapshot.data![index].requisition}",
+                                "Requisition number :  ${snapshot.data![index].xtornum}",
                                 textAlign: TextAlign.center,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Priority Level:" +
+                                    "${snapshot.data![index].xpriority}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Department Name:" +
+                                    "${snapshot.data![index].regidesc}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Justification:" +
+                                    "${snapshot.data![index].xlong}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -173,7 +197,7 @@ class _SR_notificationState extends State<SR_notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    primary: Colors.lightBlueAccent),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
@@ -181,7 +205,7 @@ class _SR_notificationState extends State<SR_notification> {
                                           builder: (context) =>
                                               SR_details_notification(
                                                 xtornum: snapshot
-                                                    .data![index].requisition,
+                                                    .data![index].xtornum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,

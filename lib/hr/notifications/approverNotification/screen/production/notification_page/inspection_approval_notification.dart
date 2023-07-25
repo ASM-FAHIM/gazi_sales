@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
+import '../../../../../../screen/Production.dart';
+import '../../approver_notification.dart';
 import '../../inventory/notification_models/damage_approval_admin_model.dart';
-import '../../inventory/notification_models/inspection_approval_admin_model.dart';
+import '../notification_model/inspection_approval_admin_model.dart';
 import '../../inventory/notification_pages/details_page/damage_details.dart';
 import 'details_page/inspection_details.dart';
 
@@ -72,6 +74,15 @@ class _InspectionApproval_notificationState
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductionNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(

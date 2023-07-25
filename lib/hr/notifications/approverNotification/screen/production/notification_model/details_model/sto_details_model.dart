@@ -1,17 +1,18 @@
 // To parse this JSON data, do
 //
-//     final damageDetailsModel = damageDetailsModelFromJson(jsonString);
+//     final stOdetailsModel = stOdetailsModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<DamageDetailsModel> damageDetailsModelFromJson(String str) =>
-    List<DamageDetailsModel>.from(
-        json.decode(str).map((x) => DamageDetailsModel.fromJson(x)));
+List<StOdetailsModel> stOdetailsModelFromJson(String str) =>
+    List<StOdetailsModel>.from(
+        json.decode(str).map((x) => StOdetailsModel.fromJson(x)));
 
-String damageDetailsModelToJson(List<DamageDetailsModel> data) =>
+String stOdetailsModelToJson(List<StOdetailsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class DamageDetailsModel {
+class StOdetailsModel {
+  String xtornum;
   String xrow;
   String xunit;
   String xitem;
@@ -19,10 +20,9 @@ class DamageDetailsModel {
   String xprepqty;
   String xdphqty;
   String xnote;
-  String xbrand;
-  String damageQty;
 
-  DamageDetailsModel({
+  StOdetailsModel({
+    required this.xtornum,
     required this.xrow,
     required this.xunit,
     required this.xitem,
@@ -30,12 +30,11 @@ class DamageDetailsModel {
     required this.xprepqty,
     required this.xdphqty,
     required this.xnote,
-    required this.xbrand,
-    required this.damageQty,
   });
 
-  factory DamageDetailsModel.fromJson(Map<String, dynamic> json) =>
-      DamageDetailsModel(
+  factory StOdetailsModel.fromJson(Map<String, dynamic> json) =>
+      StOdetailsModel(
+        xtornum: json["xtornum"],
         xrow: json["xrow"],
         xunit: json["xunit"],
         xitem: json["xitem"],
@@ -43,11 +42,10 @@ class DamageDetailsModel {
         xprepqty: json["xprepqty"],
         xdphqty: json["xdphqty"],
         xnote: json["xnote"],
-        xbrand: json["xbrand"],
-        damageQty: json["damageQty"],
       );
 
   Map<String, dynamic> toJson() => {
+        "xtornum": xtornum,
         "xrow": xrow,
         "xunit": xunit,
         "xitem": xitem,
@@ -55,7 +53,5 @@ class DamageDetailsModel {
         "xprepqty": xprepqty,
         "xdphqty": xdphqty,
         "xnote": xnote,
-        "xbrand": xbrand,
-        "damageQty": damageQty,
       };
 }

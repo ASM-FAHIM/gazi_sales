@@ -195,7 +195,7 @@ class _RR_details_notificationState extends State<RR_details_notification> {
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
 
@@ -288,8 +288,7 @@ class _RR_details_notificationState extends State<RR_details_notification> {
                                         Get.snackbar('Message', 'Rejected',
                                             backgroundColor: Color(0XFF8CA6DB),
                                             colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
+                                            snackPosition: SnackPosition.TOP);
 
                                         Navigator.pop(context);
                                         Navigator.pop(context, "approval");

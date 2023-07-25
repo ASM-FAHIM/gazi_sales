@@ -370,7 +370,7 @@ class _DO_notificationState extends State<DO_notification> {
                               //         Get.snackbar('Message', 'Approved',
                               //             backgroundColor: Color(0XFF8CA6DB),
                               //             colorText: Colors.white,
-                              //             snackPosition: SnackPosition.BOTTOM);
+                              //             snackPosition: SnackPosition.TOP);
                               //
                               //         setState(() {
                               //           snapshot.data!.removeAt(index);

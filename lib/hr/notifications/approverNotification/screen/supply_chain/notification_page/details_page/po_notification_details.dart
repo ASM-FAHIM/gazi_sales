@@ -220,7 +220,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
 

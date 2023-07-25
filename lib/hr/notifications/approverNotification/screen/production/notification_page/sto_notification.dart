@@ -1,42 +1,43 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../../../../api.dart';
 import '../../../../../../screen/Production.dart';
 import '../../approver_notification.dart';
 import '../notification_model/bom_admin_model.dart';
-import 'details_page/bom_details.dart';
+import '../notification_model/sto_admin_model.dart';
+import 'details_page/sto_details.dart';
 
-class BOM_notification extends StatefulWidget {
-  //const CS_notification({Key? key}) : super(key: key);
-  BOM_notification({
-    required this.xposition,
-    required this.xstaff,
-    required this.zemail,
-    required this.zid,
-  });
-
+class PendingSTOScreen extends StatefulWidget {
   String xposition;
-  String xstaff;
-  String zemail;
   String zid;
+  String zemail;
+  String xstaff;
+
+  PendingSTOScreen(
+      {required this.zid,
+      required this.xposition,
+      required this.xstaff,
+      required this.zemail,
+      Key? key})
+      : super(key: key);
 
   @override
-  State<BOM_notification> createState() => _BOM_notificationState();
+  State<PendingSTOScreen> createState() => _PendingSTOScreenState();
 }
 
-class _BOM_notificationState extends State<BOM_notification> {
-  Future<List<BomNotificationModel>>? futurePost;
+class _PendingSTOScreenState extends State<PendingSTOScreen> {
+  Future<List<StoAdminModel>>? futurePost;
   String rejectNote = " ";
   String api = API_Names().api;
 
-  Future<List<BomNotificationModel>> fetchPost() async {
+  Future<List<StoAdminModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/production/bom/bom.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/production/sto/sto.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
@@ -48,8 +49,7 @@ class _BOM_notificationState extends State<BOM_notification> {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<BomNotificationModel>(
-              (json) => BomNotificationModel.fromJson(json))
+          .map<StoAdminModel>((json) => StoAdminModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -87,7 +87,7 @@ class _BOM_notificationState extends State<BOM_notification> {
         ),
         title: Center(
           child: Text(
-            "BOM Approval",
+            "STO Approval",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -103,7 +103,7 @@ class _BOM_notificationState extends State<BOM_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<BomNotificationModel>>(
+        child: FutureBuilder<List<StoAdminModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -126,13 +126,13 @@ class _BOM_notificationState extends State<BOM_notification> {
                                     Container(
                                         width:
                                             MediaQuery.of(context).size.width /
-                                                2.2,
+                                                1.5,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              " ${snapshot.data![index].xbomkey}",
+                                              " ${snapshot.data![index].xtornum}",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.bakbakOne(
                                                 fontSize: 18,
@@ -140,15 +140,7 @@ class _BOM_notificationState extends State<BOM_notification> {
                                               ),
                                             ),
                                             Text(
-                                              " ${snapshot.data![index].preparerName}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
-                                            ),
-                                            Text(
-                                              " ${snapshot.data![index].preparerXdesignation}",
+                                              " ${snapshot.data![index].twhdesc}",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.bakbakOne(
                                                 fontSize: 18,
@@ -165,38 +157,6 @@ class _BOM_notificationState extends State<BOM_notification> {
                                 CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "BOM Key :" +
-                                    "${snapshot.data![index].xbomkey}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Description :" +
-                                    "${snapshot.data![index].xdesc}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Product Code :" +
-                                    "${snapshot.data![index].xitem}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Product Description : " +
-                                    snapshot.data![index].xitemdesc,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
                                 "Date : " + snapshot.data![index].xdate,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -204,64 +164,96 @@ class _BOM_notificationState extends State<BOM_notification> {
                                 ),
                               ),
                               Text(
-                                "Preffered Batch Qty:" +
-                                    "${snapshot.data![index].xpreferbatchqty}",
+                                "Required date : " +
+                                    snapshot.data![index].xdatereq,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Approval Status :" +
-                                    "${snapshot.data![index].descxstatustor}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              // Text(
-                              //   "Reviewer Name : " +
-                              //       snapshot.data![index].reviewerName,
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              // Text(
-                              //   "Designation : " +
-                              //       snapshot.data![index].reviewerDesignation,
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              // Text(
-                              //   "Reviewer Department : " +
-                              //       snapshot.data![index].reviewerXdeptname,
-                              //   style: GoogleFonts.bakbakOne(
-                              //     fontSize: 18,
-                              //     //color: Color(0xff074974),
-                              //   ),
-                              // ),
-                              Text(
-                                "Approver Name : " +
-                                    snapshot.data![index].approverName,
+                                "Store Name :" +
+                                    "${snapshot.data![index].xfbrname}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Approver Designation : " +
-                                    snapshot.data![index].approverDesignation,
+                                "To Store Name :" +
+                                    "${snapshot.data![index].xtbrname}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Approver Department : " +
-                                    snapshot.data![index].approverXdeptname,
+                                "Priority Level :" +
+                                    "${snapshot.data![index].xpriority}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Justification : " +
+                                    snapshot.data![index].xlong,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "STO Status :" +
+                                    "${snapshot.data![index].xstatustor}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              /*Text(
+                                "Reviewer Name : " +
+                                    snapshot.data![index].reviewerName,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Designation : " +
+                                    snapshot.data![index].reviewerDesignation,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Reviewer Department : " +
+                                    snapshot.data![index].reviewerXdeptname,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),*/
+                              Text(
+                                "Preparer Name : " +
+                                    snapshot.data![index].preparerName,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Preparer Designation : " +
+                                    snapshot.data![index].preparerXdesignation,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Preparer Department : " +
+                                    snapshot.data![index].preparerXdeptname,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -283,9 +275,9 @@ class _BOM_notificationState extends State<BOM_notification> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              BOM_details_notification(
-                                                xbomkey: snapshot
-                                                    .data![index].xbomkey,
+                                              STODetailsScreen(
+                                                xtornum: snapshot
+                                                    .data![index].xtornum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,

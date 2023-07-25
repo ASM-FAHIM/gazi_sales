@@ -341,7 +341,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                       Get.snackbar('Message', 'Approved',
                                           backgroundColor: Color(0XFF8CA6DB),
                                           colorText: Colors.white,
-                                          snackPosition: SnackPosition.BOTTOM);
+                                          snackPosition: SnackPosition.TOP);
 
                                       setState(() {
                                         snapshot.data!.removeAt(index);

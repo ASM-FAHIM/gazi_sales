@@ -6,6 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../../api.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
+import '../../../approver_notification.dart';
 import '../../notification_model/details_model/bom_details_model.dart';
 
 class BOM_details_notification extends StatefulWidget {
@@ -37,7 +39,8 @@ class _BOM_details_notificationState extends State<BOM_details_notification> {
 
   Future<List<BoMdetailsModel>> fetchPostdetails() async {
     var response = await http.post(
-        Uri.parse('http://$api/ughcm/UG/production/BOM_Detail.php'),
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/production/bom/bom_details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xbomkey": widget.xbomkey,
@@ -172,45 +175,42 @@ class _BOM_details_notificationState extends State<BOM_details_notification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://$api/ughcm/UG/production/BOM_Approve.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/production/bom/bom_approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
                                 "xbomkey": widget.xbomkey,
                                 "xstatus": widget.xstatus
-                                // "aprcs": "GRN Approval"
                               }));
 
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
 
                           // setState(() {
                           //   snapshot.data!.removeAt(index);
                           // });
-
-                          print(response.statusCode);
-                          print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.red
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -261,14 +261,12 @@ class _BOM_details_notificationState extends State<BOM_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor:  Color(0xff064A76)
-                                      ),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
-
                                         var response = await http.post(
                                             Uri.parse(
-                                                'http://$api/ughcm/UG/production/BOM_Reject.php'),
+                                                'http://${AppConstants.baseurl}/gazi/notification/production/bom/bom_reject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
@@ -277,13 +275,10 @@ class _BOM_details_notificationState extends State<BOM_details_notification> {
                                               "xnote": rejectNote
                                             }));
                                         print(response.statusCode);
-                                        print(response.body);
-                                        print(rejectNote);
                                         Get.snackbar('Message', 'Rejected',
                                             backgroundColor: Color(0XFF8CA6DB),
                                             colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
+                                            snackPosition: SnackPosition.TOP);
 
                                         Navigator.pop(context);
                                         Navigator.pop(context, "approval");
@@ -300,7 +295,10 @@ class _BOM_details_notificationState extends State<BOM_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -308,7 +306,7 @@ class _BOM_details_notificationState extends State<BOM_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

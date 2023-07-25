@@ -7,9 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../../../api.dart';
+import '../../../approver_notification.dart';
 import '../../../inventory/notification_models/details/damage_details_model.dart';
 import '../../../inventory/notification_models/details/grn_details_model.dart';
-import '../../../inventory/notification_models/details/inspection_details_model.dart';
+import '../../notification_model/details_model/inspection_details_model.dart';
 
 class Inspection_details_notification extends StatefulWidget {
   Inspection_details_notification(
@@ -215,7 +216,7 @@ class _Inspection_details_notificationState
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
 
@@ -307,8 +308,7 @@ class _Inspection_details_notificationState
                                         Get.snackbar('Message', 'Rejected',
                                             backgroundColor: Color(0XFF8CA6DB),
                                             colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
+                                            snackPosition: SnackPosition.TOP);
 
                                         Navigator.pop(context);
                                         Navigator.pop(context, "approval");

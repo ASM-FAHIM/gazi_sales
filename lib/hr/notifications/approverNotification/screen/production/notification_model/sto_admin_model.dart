@@ -1,16 +1,17 @@
 // To parse this JSON data, do
 //
-//     final srNotiModel = srNotiModelFromJson(jsonString);
+//     final stoAdminModel = stoAdminModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<SrNotiModel> srNotiModelFromJson(String str) => List<SrNotiModel>.from(
-    json.decode(str).map((x) => SrNotiModel.fromJson(x)));
+List<StoAdminModel> stoAdminModelFromJson(String str) =>
+    List<StoAdminModel>.from(
+        json.decode(str).map((x) => StoAdminModel.fromJson(x)));
 
-String srNotiModelToJson(List<SrNotiModel> data) =>
+String stoAdminModelToJson(List<StoAdminModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class SrNotiModel {
+class StoAdminModel {
   String zid;
   String xtornum;
   String xporeqnum;
@@ -18,19 +19,21 @@ class SrNotiModel {
   String xdatereq;
   String xfwh;
   String xfbrname;
+  String xtwh;
+  String xtbrname;
   String xpriority;
   String regidesc;
   String xprodnaturedesc;
   String xlong;
   String twhdesc;
   String xstatustor;
-  String descxstatustor;
+  String xstatusrdesc;
   String xnote;
   String preparerName;
   String preparerXdesignation;
   String preparerXdeptname;
 
-  SrNotiModel({
+  StoAdminModel({
     required this.zid,
     required this.xtornum,
     required this.xporeqnum,
@@ -38,20 +41,22 @@ class SrNotiModel {
     required this.xdatereq,
     required this.xfwh,
     required this.xfbrname,
+    required this.xtwh,
+    required this.xtbrname,
     required this.xpriority,
     required this.regidesc,
     required this.xprodnaturedesc,
     required this.xlong,
     required this.twhdesc,
     required this.xstatustor,
-    required this.descxstatustor,
+    required this.xstatusrdesc,
     required this.xnote,
     required this.preparerName,
     required this.preparerXdesignation,
     required this.preparerXdeptname,
   });
 
-  factory SrNotiModel.fromJson(Map<String, dynamic> json) => SrNotiModel(
+  factory StoAdminModel.fromJson(Map<String, dynamic> json) => StoAdminModel(
         zid: json["zid"],
         xtornum: json["xtornum"],
         xporeqnum: json["xporeqnum"],
@@ -59,13 +64,15 @@ class SrNotiModel {
         xdatereq: json["xdatereq"],
         xfwh: json["xfwh"],
         xfbrname: json["xfbrname"],
+        xtwh: json["xtwh"],
+        xtbrname: json["xtbrname"],
         xpriority: json["xpriority"],
         regidesc: json["regidesc"],
         xprodnaturedesc: json["xprodnaturedesc"],
         xlong: json["xlong"],
         twhdesc: json["twhdesc"],
         xstatustor: json["xstatustor"],
-        descxstatustor: json["descxstatustor"],
+        xstatusrdesc: json["xstatusrdesc"],
         xnote: json["xnote"],
         preparerName: json["preparer_name"],
         preparerXdesignation: json["preparer_xdesignation"],
@@ -80,13 +87,15 @@ class SrNotiModel {
         "xdatereq": xdatereq,
         "xfwh": xfwh,
         "xfbrname": xfbrname,
+        "xtwh": xtwh,
+        "xtbrname": xtbrname,
         "xpriority": xpriority,
         "regidesc": regidesc,
         "xprodnaturedesc": xprodnaturedesc,
         "xlong": xlong,
         "twhdesc": twhdesc,
         "xstatustor": xstatustor,
-        "descxstatustor": descxstatustor,
+        "xstatusrdesc": xstatusrdesc,
         "xnote": xnote,
         "preparer_name": preparerName,
         "preparer_xdesignation": preparerXdesignation,

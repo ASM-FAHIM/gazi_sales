@@ -41,7 +41,7 @@ class _Damage_details_notificationState
   Future<List<DamageDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_Details.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage/Damage_Details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xtornum": widget.xtornum,
@@ -175,7 +175,7 @@ class _Damage_details_notificationState
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_Approve.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage/Damage_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -189,7 +189,7 @@ class _Damage_details_notificationState
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
 
@@ -267,7 +267,7 @@ class _Damage_details_notificationState
 
                                         var response = await http.post(
                                             Uri.parse(
-                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage_Reject.php'),
+                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/Damage/Damage_Reject.php'),
                                             body: jsonEncode(<String, String>{
                                               "zid": widget.zid,
                                               "user": widget.zemail,
@@ -282,8 +282,7 @@ class _Damage_details_notificationState
                                         Get.snackbar('Message', 'Rejected',
                                             backgroundColor: Color(0XFF8CA6DB),
                                             colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
+                                            snackPosition: SnackPosition.TOP);
 
                                         Navigator.pop(context);
                                         Navigator.pop(context, "approval");

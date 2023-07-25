@@ -157,9 +157,8 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.green
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
@@ -176,7 +175,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.TOP);
 
                           // setState(() {
                           //   snapshot.data!.removeAt(index);
@@ -191,9 +190,8 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.red
-                        ),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -244,8 +242,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor: Color(0xff064A76)
-                                      ),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://$api/ughcm/adminapprove/poreject.php
 
@@ -268,8 +265,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                         Get.snackbar('Message', 'Rejected',
                                             backgroundColor: Color(0XFF8CA6DB),
                                             colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
+                                            snackPosition: SnackPosition.TOP);
 
                                         // setState(() {
                                         //   snapshot.data!

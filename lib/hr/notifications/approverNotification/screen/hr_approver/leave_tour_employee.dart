@@ -274,7 +274,7 @@ class _Admin_Leave_Tour_NotificationListState
                                       Get.snackbar('Message', 'Approved',
                                           backgroundColor: Color(0XFF8CA6DB),
                                           colorText: Colors.white,
-                                          snackPosition: SnackPosition.BOTTOM);
+                                          snackPosition: SnackPosition.TOP);
 
                                       setState(() {
                                         snapshot.data!.removeAt(index);
