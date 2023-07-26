@@ -1,20 +1,17 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
+import 'package:gazi_sales_app/screen/FinanaceAccounts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import '../../../../../conts_api_link.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/leave_emp_admin_model.dart';
-import '../../../../../screen/hr_approver_home.dart';
+import 'dart:convert';
+import 'package:get/get.dart';
+import '../Notification_model/bill_admin_model.dart';
 
-class Admin_Leave_Tour_NotificationList extends StatefulWidget {
-  Admin_Leave_Tour_NotificationList({
-    required this.xposition,
+class BillNotificationScreen extends StatefulWidget {
+  BillNotificationScreen({required this.xposition,
     required this.xstaff,
     required this.zemail,
-    required this.zid,
-  });
+    required this.zid});
 
   String xposition;
   String xstaff;
@@ -22,32 +19,28 @@ class Admin_Leave_Tour_NotificationList extends StatefulWidget {
   String zid;
 
   @override
-  _Admin_Leave_Tour_NotificationListState createState() =>
-      _Admin_Leave_Tour_NotificationListState();
+  State<BillNotificationScreen> createState() => _BillNotificationScreenState();
 }
 
-class _Admin_Leave_Tour_NotificationListState
-    extends State<Admin_Leave_Tour_NotificationList> {
-  @override
-  Future<List<LeaveandTourempNotiModel>>? futurePost;
-  final note = GlobalKey<FormState>();
-  String rejectNote = " ";
+class _BillNotificationScreenState extends State<BillNotificationScreen> {
+  Future<List<BillAdminModel>>? futurePost;
+  dynamic rejectNote = " ";
 
-  Future<List<LeaveandTourempNotiModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().leaveTourEpmApi),
+  Future<List<BillAdminModel>> fetchPost() async {
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants
+                .baseurl}/gazi/notification/accounts/bill/bill.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
         }));
 
-    print(response.body);
-
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<LeaveandTourempNotiModel>(
-              (json) => LeaveandTourempNotiModel.fromJson(json))
+          .map<BillAdminModel>((json) => BillAdminModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -57,10 +50,7 @@ class _Admin_Leave_Tour_NotificationListState
   @override
   void initState() {
     super.initState();
-
-    // submitData();
     futurePost = fetchPost();
-
     fetchPost().whenComplete(() => futurePost);
   }
 
@@ -76,7 +66,7 @@ class _Admin_Leave_Tour_NotificationListState
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        HrApproverHome(
+                        FinanceAccountNotificationList(
                           xposition: widget.xposition,
                           zemail: widget.zemail,
                           xstaff: widget.xstaff,
@@ -86,23 +76,18 @@ class _Admin_Leave_Tour_NotificationListState
         ),
         title: Center(
           child: Text(
-            "Leave And Tour Approval",
+            "Pending Bill Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
             ),
           ),
         ),
-        actions: [
-          SizedBox(
-            width: 20,
-          )
-        ],
         backgroundColor: Colors.white,
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<LeaveandTourempNotiModel>>(
+        child: FutureBuilder<List<BillAdminModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -112,97 +97,64 @@ class _Admin_Leave_Tour_NotificationListState
                     Container(
                       child: Column(
                         children: [
-                          // Icon(Icons.notifications_active_outlined),
-                          // SizedBox(
-                          //   width: 100,
-                          // ),
-
                           Card(
                             child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 36.0,
-                                  left: 6.0,
-                                  right: 6.0,
-                                  bottom: 6.0),
+                              padding: EdgeInsets.only(left: 10, bottom: 6.0),
                               child: ExpansionTile(
+                                expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
                                 title: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Column(
-                                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        // Text((DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].intime.date).toString()))).toString(),
-                                        //   style: GoogleFonts.bakbakOne(
-                                        //     fontSize: 18,
-                                        //     //color: Color(0xff074974),
-                                        //   ),
-                                        // ),
                                         Container(
                                           width: MediaQuery
                                               .of(context)
                                               .size
                                               .width /
-                                              2.2,
-                                          child: Text(
-                                              " ${snapshot.data![index].xname}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              )),
-                                        ),
-                                        Text(
-                                          " ${snapshot.data![index]
-                                              .xtypeleave}",
-                                          style: GoogleFonts.bakbakOne(
-                                            fontSize: 18,
-                                            //color: Color(0xff074974),
+                                              1.6,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${snapshot.data![index]
+                                                    .xbillno}",
+                                                style: GoogleFonts.bakbakOne(
+                                                  fontSize: 18,
+                                                  //color: Color(0xff074974),
+                                                ),
+                                              ),
+                                              Text(
+                                                "${snapshot.data![index]
+                                                    .preparerName ?? ""}",
+                                                style: GoogleFonts.bakbakOne(
+                                                  fontSize: 18,
+                                                  //color: Color(0xff074974),
+                                                ),
+                                              ),
+                                              Text(
+                                                "${snapshot.data![index]
+                                                    .preparerXdeptname ?? ""}",
+                                                style: GoogleFonts.bakbakOne(
+                                                  fontSize: 18,
+                                                  //color: Color(0xff074974),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        //Text(" ${snapshot.data![index].status}")
                                       ],
                                     ),
                                   ],
                                 ),
                                 children: <Widget>[
                                   Text(
-                                    "From Date : " +
-                                        (DateFormat("dd-MM-yyyy").format(
-                                            DateTime.parse((snapshot
-                                                .data![index]
-                                                .xdatefrom
-                                                .date)
-                                                .toString())))
-                                            .toString(),
-                                    style: GoogleFonts.bakbakOne(
-                                      fontSize: 18,
-                                      //color: Color(0xff074974),
-                                    ),
-                                  ),
-                                  // Text("Day : "+(DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].toDate.date).toString()))).toString(),
-                                  //   style: TextStyle(
-                                  //       fontSize: 15,
-                                  //       fontWeight: FontWeight.bold
-                                  //   ),
-                                  // ),
-                                  Text(
-                                    "To Time : " +
-                                        (DateFormat("dd-MM-yyyy").format(
-                                            DateTime.parse((snapshot
-                                                .data![index].xdateto.date)
-                                                .toString())))
-                                            .toString(),
-                                    style: GoogleFonts.bakbakOne(
-                                      fontSize: 18,
-                                      //color: Color(0xff074974),
-                                    ),
-                                  ),
-
-                                  Text(
-                                    "Leave Type: " +
-                                        "${snapshot.data![index].xtypeleave
-                                            .toString()}",
+                                    "Bill Number: " +
+                                        " ${snapshot.data![index].xbillno}",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.bakbakOne(
                                       fontSize: 18,
@@ -210,42 +162,115 @@ class _Admin_Leave_Tour_NotificationListState
                                     ),
                                   ),
                                   Text(
-                                    "Applied Date : " +
-                                        "${snapshot.data![index].xappday
-                                            .toString()}",
+                                    "Date: " +
+                                        " ${snapshot.data![index].xdate}",
+                                    textAlign: TextAlign.center,
                                     style: GoogleFonts.bakbakOne(
                                       fontSize: 18,
                                       //color: Color(0xff074974),
                                     ),
                                   ),
                                   Text(
-                                    "Approved Day : " +
-                                        "${snapshot.data![index].xday
-                                            .toString()}",
+                                    "Requested Amount: " +
+                                        "${snapshot.data![index].xprime}",
                                     style: GoogleFonts.bakbakOne(
                                       fontSize: 18,
                                       //color: Color(0xff074974),
                                     ),
                                   ),
                                   Text(
-                                    "Note : " +
-                                        "${snapshot.data![index].xnote
-                                            .toString()}",
+                                    "Approved Amount: " +
+                                        "${snapshot.data![index].xamount}",
+                                    style: GoogleFonts.bakbakOne(
+                                      fontSize: 18,
+                                      //color: Color(0xff074974),
+                                    ),
+                                  ),
+                                  /*Text(
+                                "Employee ID: " +
+                                    "${snapshot.data![index].xorg ?? " "}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),*/
+                                  Text(
+                                    "Employee Name: " +
+                                        "${snapshot.data![index].preparerName}",
                                     style: GoogleFonts.bakbakOne(
                                       fontSize: 18,
                                       //color: Color(0xff074974),
                                     ),
                                   ),
                                   Text(
-                                    "Status : " +
-                                        "${snapshot.data![index].xstatus
-                                            .toString()}",
+                                    "Debit Account: " +
+                                        "${snapshot.data![index].xaccdr}",
                                     style: GoogleFonts.bakbakOne(
                                       fontSize: 18,
                                       //color: Color(0xff074974),
                                     ),
                                   ),
-
+                                  Text(
+                                    "Debit Account: " +
+                                        "${snapshot.data![index].xacccrdesc}",
+                                    style: GoogleFonts.bakbakOne(
+                                      fontSize: 18,
+                                      //color: Color(0xff074974),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Credit Account: " +
+                                        "${snapshot.data![index].xacccr}",
+                                    style: GoogleFonts.bakbakOne(
+                                      fontSize: 18,
+                                      //color: Color(0xff074974),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Credit Account: " +
+                                        "${snapshot.data![index].xacccrdesc}",
+                                    style: GoogleFonts.bakbakOne(
+                                      fontSize: 18,
+                                      //color: Color(0xff074974),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Plant/Project Code: " +
+                                        snapshot.data![index].xwh,
+                                    style: GoogleFonts.bakbakOne(
+                                      fontSize: 18,
+                                      //color: Color(0xff074974),
+                                    ),
+                                  ),
+                                  /*TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.lightBlueAccent,
+                                ),
+                                //color: Colors.lightBlueAccent,
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DO_details_notification(
+                                                xdornum: snapshot
+                                                    .data![index].xdornum,
+                                                zid: widget.zid,
+                                                xposition: widget.xposition,
+                                                zemail: widget.zemail,
+                                                xstatus: snapshot
+                                                    .data![index].xstatus,
+                                                xstaff: widget.xstaff,
+                                              )));
+                                  if (result.toString() == "approval") {
+                                    debugPrint("pressed");
+                                    setState(() {
+                                      snapshot.data!.removeAt(index);
+                                    });
+                                  }
+                                },
+                                child: Center(child: Text("Details")),
+                              ),*/
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -253,40 +278,22 @@ class _Admin_Leave_Tour_NotificationListState
                                         style: TextButton.styleFrom(
                                           backgroundColor: Colors.green,
                                         ),
-                                        //color: Colors.green,
                                         onPressed: () async {
-                                          //http://172.20.20.69/adminapprove/earlyapprove.php
                                           var response = await http.post(
-                                              Uri.parse(ConstApiLink()
-                                                  .leaveTourEpmApproveApi),
+                                              Uri.parse(
+                                                  'http://${AppConstants
+                                                      .baseurl}/gazi/notification/accounts/bill/bill_approve.php'),
                                               body: jsonEncode(<String, String>{
-                                                "zid": "100000",
-                                                "user": widget.xposition,
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
                                                 "xposition": widget.xposition,
-                                                "xstaff":
-                                                snapshot.data![index].xstaff,
-                                                "xyearperdate": snapshot
-                                                    .data![index].xyearperdate
+                                                "xbillno": snapshot
+                                                    .data![index].xbillno
                                                     .toString(),
-                                                "xnote": "kjdfg",
-                                                "xtypeleave": snapshot
-                                                    .data![index].xtypeleave,
-                                                "xdatefrom": snapshot
-                                                    .data![index].xdatefrom
+                                                "xstatus": snapshot
+                                                    .data![index].xstatus
                                                     .toString(),
-                                                "xdateto": snapshot
-                                                    .data![index].xdateto
-                                                    .toString(),
-                                                "xstatus":
-                                                snapshot.data![index].xstatus,
-                                                "xday": snapshot.data![index]
-                                                    .xday,
-                                                "xyear": snapshot.data![index]
-                                                    .xyear
-                                                    .toString()
                                               }));
-
-                                          print(response.body);
 
                                           Get.snackbar('Message', 'Approved',
                                               backgroundColor: Color(
@@ -298,7 +305,8 @@ class _Admin_Leave_Tour_NotificationListState
                                             snapshot.data!.removeAt(index);
                                           });
 
-                                          //print("Approve"+snapshot.data![index].name.toString());
+                                          print(response.statusCode);
+                                          print(response.body);
                                         },
                                         child: Text(
                                           "Approve",
@@ -312,71 +320,64 @@ class _Admin_Leave_Tour_NotificationListState
                                         style: TextButton.styleFrom(
                                           backgroundColor: Colors.red,
                                         ),
-                                        //color: Colors.red,
-                                        onPressed: () async {
+                                        onPressed: () {
                                           showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
                                                   title: const Text(
                                                       "Reject Note"),
-                                                  content: Form(
-                                                    key: note,
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          //height: MediaQuery.of(context).size.height/6,
-                                                          child: TextFormField(
-                                                            style: GoogleFonts
+                                                  content: Column(
+                                                    children: [
+                                                      Container(
+                                                        //height: MediaQuery.of(context).size.height/6,
+                                                        child: TextFormField(
+                                                          style:
+                                                          GoogleFonts.bakbakOne(
+                                                            //fontWeight: FontWeight.bold,
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                          ),
+                                                          onChanged: (input) {
+                                                            rejectNote = input;
+                                                          },
+                                                          validator: (input) {
+                                                            if (input!
+                                                                .isEmpty) {
+                                                              return "Please Write Reject Note";
+                                                            }
+                                                          },
+                                                          scrollPadding:
+                                                          EdgeInsets.all(20),
+                                                          decoration:
+                                                          InputDecoration(
+                                                            contentPadding:
+                                                            EdgeInsets.only(
+                                                                left: 20),
+                                                            // add padding to adjust text
+                                                            isDense: false,
+
+                                                            hintStyle: GoogleFonts
                                                                 .bakbakOne(
                                                               //fontWeight: FontWeight.bold,
                                                               fontSize: 18,
                                                               color: Colors
                                                                   .black,
                                                             ),
-                                                            onChanged: (input) {
-                                                              rejectNote =
-                                                                  input;
-                                                            },
-                                                            validator: (input) {
-                                                              if (input!
-                                                                  .isEmpty) {
-                                                                return "Please Write Reject Note";
-                                                              }
-                                                            },
-                                                            scrollPadding:
-                                                            EdgeInsets.all(20),
-                                                            decoration:
-                                                            InputDecoration(
-                                                              contentPadding:
-                                                              EdgeInsets.only(
-                                                                  left: 20),
-                                                              // add padding to adjust text
-                                                              isDense: false,
-
-                                                              hintStyle: GoogleFonts
-                                                                  .bakbakOne(
-                                                                //fontWeight: FontWeight.bold,
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .black,
-                                                              ),
-                                                              labelText:
-                                                              "Reject Note",
-                                                              labelStyle:
-                                                              GoogleFonts
-                                                                  .bakbakOne(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .black,
-                                                              ),
-                                                              border:
-                                                              OutlineInputBorder(),
+                                                            labelText:
+                                                            "Reject Note",
+                                                            labelStyle: GoogleFonts
+                                                                .bakbakOne(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black,
                                                             ),
+                                                            border:
+                                                            OutlineInputBorder(),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   actions: [
                                                     TextButton(
@@ -385,7 +386,7 @@ class _Admin_Leave_Tour_NotificationListState
                                                         backgroundColor:
                                                         Color(0xff064A76),
                                                       ),
-                                                      // color: Color(0xff064A76),
+                                                      //color: Color(0xff064A76),
                                                       onPressed: () async {
                                                         //http://172.20.20.69/adminapprove/poreject.php
                                                         if (rejectNote == " ") {
@@ -406,31 +407,25 @@ class _Admin_Leave_Tour_NotificationListState
                                                           var response = await http
                                                               .post(
                                                               Uri.parse(
-                                                                  ConstApiLink()
-                                                                      .leaveTourEpmRejectApi),
+                                                                  'http://${AppConstants
+                                                                      .baseurl}/gazi/notification/accounts/bill/bill_reject.php'),
                                                               body: jsonEncode(<
                                                                   String,
                                                                   String>{
-                                                                "zid": "100000",
-                                                                "user":
-                                                                widget
-                                                                    .xposition,
+                                                                "zid": widget
+                                                                    .zid,
+                                                                "user": widget
+                                                                    .zemail,
                                                                 "xposition":
                                                                 widget
                                                                     .xposition,
-                                                                "xstaff": snapshot
+                                                                "xbillno": snapshot
                                                                     .data![index]
-                                                                    .xstaff,
-                                                                "xyearperdate":
-                                                                snapshot
-                                                                    .data![index]
-                                                                    .xyearperdate
-                                                                    .toString(),
+                                                                    .xbillno,
                                                                 "xnote": rejectNote
                                                               }));
-
-                                                          print(response.body);
-
+                                                          print(response
+                                                              .statusCode);
                                                           Navigator.pop(
                                                               context);
                                                           Get.snackbar(
@@ -443,6 +438,7 @@ class _Admin_Leave_Tour_NotificationListState
                                                               snackPosition:
                                                               SnackPosition
                                                                   .TOP);
+
                                                           setState(() {
                                                             snapshot.data!
                                                                 .removeAt(
@@ -462,8 +458,6 @@ class _Admin_Leave_Tour_NotificationListState
                                                   scrollable: true,
                                                 );
                                               });
-
-                                          //print("Reject"+snapshot.data![index].name.toString());
                                         },
                                         child: Text(
                                           "Reject",

@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../conts_api_link.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/so_admin_model.dart';
-import '../../../../../sales/constant/app_constants.dart';
+import '../../../../../../conts_api_link.dart';
+import '../../../../../../screen/SandD.dart';
+import '../notification_models/so_admin_model.dart';
+import '../../../../../../sales/constant/app_constants.dart';
 import 'details/so_notification_details.dart';
 
 class SO_notification extends StatefulWidget {
@@ -58,6 +59,15 @@ class _SO_notificationState extends State<SO_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SalesDistribution(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xStaff,
+                        )));
           },
         ),
         title: Center(

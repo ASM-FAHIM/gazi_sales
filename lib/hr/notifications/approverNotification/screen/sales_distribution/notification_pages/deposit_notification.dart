@@ -4,18 +4,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
-import '../../../../../conts_api_link.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/deposit_admin_model.dart';
+import '../../../../../../conts_api_link.dart';
+import '../../../../../../data_model/notification_model/admin_approver_model/deposit_admin_model.dart';
+import '../../../../../../screen/SandD.dart';
 
 class DepositNotifiScreen extends StatefulWidget {
   String xposition;
   String zemail;
   String zid;
+  String xstaff;
 
   DepositNotifiScreen(
       {required this.xposition,
       required this.zemail,
       required this.zid,
+      required this.xstaff,
       Key? key})
       : super(key: key);
 
@@ -65,6 +68,15 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SalesDistribution(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -229,7 +241,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                       Get.snackbar('Message', 'Approved',
                                           backgroundColor: Color(0XFF8CA6DB),
                                           colorText: Colors.white,
-                                          snackPosition: SnackPosition.BOTTOM);
+                                          snackPosition: SnackPosition.TOP);
 
                                       setState(() {
                                         snapshot.data!.removeAt(index);
@@ -310,37 +322,58 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                   ),
                                                   onPressed: () async {
                                                     //http://$api/ughcm/adminapprove/poreject.php
+                                                    if (rejectNote == " ") {
+                                                      Navigator.pop(context);
+                                                      print(
+                                                          'response code: Empty field');
+                                                      Get.snackbar('Warning!',
+                                                          'Please enter reject note',
+                                                          backgroundColor:
+                                                              Colors.redAccent,
+                                                          colorText:
+                                                              Colors.white,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .TOP);
+                                                    } else {
+                                                      var response =
+                                                          await http.post(
+                                                              Uri.parse(
+                                                                  'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
+                                                              body: jsonEncode(<
+                                                                  String,
+                                                                  String>{
+                                                                "zid":
+                                                                    widget.zid,
+                                                                "user": widget
+                                                                    .zemail,
+                                                                "xposition": widget
+                                                                    .xposition,
+                                                                "xdepositnum":
+                                                                    snapshot
+                                                                        .data![
+                                                                            index]
+                                                                        .xdepositnum,
+                                                                "xnote":
+                                                                    rejectNote
+                                                              }));
+                                                      print(response.body);
+                                                      Navigator.pop(context);
+                                                      Get.snackbar(
+                                                          'Message', 'Rejected',
+                                                          backgroundColor:
+                                                              Color(0XFF8CA6DB),
+                                                          colorText:
+                                                              Colors.white,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .TOP);
 
-                                                    var response = await http.post(
-                                                        Uri.parse(
-                                                            'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
-                                                        body: jsonEncode(<
-                                                            String, String>{
-                                                          "zid": widget.zid,
-                                                          "user": widget.zemail,
-                                                          "xposition":
-                                                              widget.xposition,
-                                                          "xdepositnum":
-                                                              snapshot
-                                                                  .data![index]
-                                                                  .xdepositnum,
-                                                          "xnote": rejectNote
-                                                        }));
-                                                    print(response.body);
-                                                    Navigator.pop(context);
-                                                    Get.snackbar(
-                                                        'Message', 'Rejected',
-                                                        backgroundColor:
-                                                            Color(0XFF8CA6DB),
-                                                        colorText: Colors.white,
-                                                        snackPosition:
-                                                            SnackPosition
-                                                                .BOTTOM);
-
-                                                    setState(() {
-                                                      snapshot.data!
-                                                          .removeAt(index);
-                                                    });
+                                                      setState(() {
+                                                        snapshot.data!
+                                                            .removeAt(index);
+                                                      });
+                                                    }
                                                   },
                                                   child: Text(
                                                     "Reject",

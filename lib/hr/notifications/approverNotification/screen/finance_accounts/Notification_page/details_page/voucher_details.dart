@@ -39,7 +39,7 @@ class _Voucher_details_notificationState
     print('voucher: ${widget.xvoucher}');
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/Notification/voucher/pendingVoucherDetails.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/accounts/Voucher/Voucher_details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xvoucher": widget.xvoucher,
@@ -181,7 +181,7 @@ class _Voucher_details_notificationState
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherapproval.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/accounts/Voucher/Voucher_approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -235,11 +235,6 @@ class _Voucher_details_notificationState
                                           onChanged: (input) {
                                             rejectNote = input;
                                           },
-                                          // validator: (input) {
-                                          //   if (input!.isEmpty) {
-                                          //     return "Please Write Reject Note";
-                                          //   }
-                                          // },
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
@@ -269,29 +264,36 @@ class _Voucher_details_notificationState
                                           backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/gazi/notification/accounts/Voucher/Voucher_reject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xvoucher": widget.xvoucher,
+                                                "xnote": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherreject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xvoucher": widget.xvoucher,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-                                        print(rejectNote);
-
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",

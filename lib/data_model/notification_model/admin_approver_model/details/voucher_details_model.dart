@@ -12,7 +12,8 @@ String voucherDetailsModelToJson(List<VoucherDetailsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class VoucherDetailsModel {
-  int xrow;
+  String xrow;
+  String xvoucher;
   String xacc;
   String xdesc;
   String xsub;
@@ -22,6 +23,7 @@ class VoucherDetailsModel {
 
   VoucherDetailsModel({
     required this.xrow,
+    required this.xvoucher,
     required this.xacc,
     required this.xdesc,
     required this.xsub,
@@ -33,6 +35,7 @@ class VoucherDetailsModel {
   factory VoucherDetailsModel.fromJson(Map<String, dynamic> json) =>
       VoucherDetailsModel(
         xrow: json["xrow"],
+        xvoucher: json["xvoucher"],
         xacc: json["xacc"],
         xdesc: json["xdesc"],
         xsub: json["xsub"],
@@ -43,6 +46,7 @@ class VoucherDetailsModel {
 
   Map<String, dynamic> toJson() => {
         "xrow": xrow,
+        "xvoucher": xvoucher,
         "xacc": xacc,
         "xdesc": xdesc,
         "xsub": xsub,

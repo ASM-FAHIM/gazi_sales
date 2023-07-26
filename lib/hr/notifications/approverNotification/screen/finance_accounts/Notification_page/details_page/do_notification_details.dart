@@ -8,7 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../../../../data_model/notification_model/admin_approver_model/details/do_details_model.dart';
+import '../../Notification_model/details_model/do_details_model.dart';
 
 class DO_details_notification extends StatefulWidget {
   DO_details_notification(
@@ -182,7 +182,7 @@ class _DO_details_notificationState extends State<DO_details_notification> {
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         //color: Colors.green,
                         onPressed: () async {
@@ -207,14 +207,17 @@ class _DO_details_notificationState extends State<DO_details_notification> {
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -267,37 +270,43 @@ class _DO_details_notificationState extends State<DO_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        primary: Color(0xff064A76),
+                                        backgroundColor: Color(0xff064A76),
                                       ),
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  ConstApiLink().doRejectApi),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xdornum": widget.xdornum,
+                                                "wh": "0",
+                                                "xnote1": rejectNote
+                                              }));
+                                          print(
+                                              'success: ${response.statusCode}');
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                ConstApiLink().doRejectApi),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xdornum": widget.xdornum,
-                                              "wh": "0",
-                                              "xnote1": rejectNote
-                                            }));
-
-                                        debugPrint(rejectNote.toString());
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
-
-                                        // setState(() {
-                                        //   snapshot.data!.removeAt(index);
-                                        // });
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
@@ -311,7 +320,10 @@ class _DO_details_notificationState extends State<DO_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -319,7 +331,7 @@ class _DO_details_notificationState extends State<DO_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

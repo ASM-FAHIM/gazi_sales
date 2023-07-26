@@ -339,40 +339,53 @@ class _Admin_Late_Leave_NotificationListState
                                                 // color: Color(0xff064A76),
                                                 onPressed: () async {
                                                   //http://172.20.20.69/adminapprove/poreject.php
+                                                  if (rejectNote == " ") {
+                                                    Navigator.pop(context);
+                                                    print(
+                                                        'response code: Empty field');
+                                                    Get.snackbar('Warning!',
+                                                        'Please enter reject note',
+                                                        backgroundColor:
+                                                            Colors.redAccent,
+                                                        colorText: Colors.white,
+                                                        snackPosition:
+                                                            SnackPosition.TOP);
+                                                  } else {
+                                                    var response = await http.post(
+                                                        Uri.parse(ConstApiLink()
+                                                            .lateEmpRejectApi),
+                                                        body: jsonEncode(<
+                                                            String, String>{
+                                                          "zid": "100000",
+                                                          "user": widget.zemail,
+                                                          "xposition":
+                                                              widget.xposition,
+                                                          "xstaff": snapshot
+                                                              .data![index]
+                                                              .xstaff,
+                                                          "xyearperdate":
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .xyearperdate
+                                                                  .toString(),
+                                                          "xnote": rejectNote
+                                                        }));
 
-                                                  var response = await http.post(
-                                                      Uri.parse(ConstApiLink()
-                                                          .lateEmpRejectApi),
-                                                      body: jsonEncode(<String,
-                                                          String>{
-                                                        "zid": "100000",
-                                                        "user": widget.zemail,
-                                                        "xposition":
-                                                            widget.xposition,
-                                                        "xstaff": snapshot
-                                                            .data![index]
-                                                            .xstaff,
-                                                        "xyearperdate": snapshot
-                                                            .data![index]
-                                                            .xyearperdate
-                                                            .toString(),
-                                                        "xnote": rejectNote
-                                                      }));
+                                                    print(response.body);
 
-                                                  print(response.body);
-
-                                                  Navigator.pop(context);
-                                                  Get.snackbar(
-                                                      'Message', 'Rejected',
-                                                      backgroundColor:
-                                                          Color(0XFF8CA6DB),
-                                                      colorText: Colors.white,
-                                                      snackPosition:
-                                                          SnackPosition.BOTTOM);
-                                                  setState(() {
-                                                    snapshot.data!
-                                                        .removeAt(index);
-                                                  });
+                                                    Navigator.pop(context);
+                                                    Get.snackbar(
+                                                        'Message', 'Rejected',
+                                                        backgroundColor:
+                                                            Color(0XFF8CA6DB),
+                                                        colorText: Colors.white,
+                                                        snackPosition:
+                                                            SnackPosition.TOP);
+                                                    setState(() {
+                                                      snapshot.data!
+                                                          .removeAt(index);
+                                                    });
+                                                  }
                                                 },
                                                 child: Text(
                                                   "Reject",

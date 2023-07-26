@@ -1,15 +1,13 @@
 import 'dart:convert';
 
-import '../../../../../../conts_api_link.dart';
+import '../../../../../../../conts_api_link.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
-import '../../../../../../data_model/notification_model/admin_approver_model/details/dc_details_model.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/details/do_details_model.dart';
+import '../../notification_models/details_model/dc_details_model.dart';
 
 class DC_Details_Notification extends StatefulWidget {
   DC_Details_Notification(
@@ -266,34 +264,41 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        primary: Color(0xff064A76),
+                                        backgroundColor: Color(0xff064A76),
                                       ),
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                ConstApiLink().dcRejectApi),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xdocnum": widget.xdocnum,
-                                              "wh": "0",
-                                              "xnote1": rejectNote
-                                            }));
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  ConstApiLink().dcRejectApi),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xdocnum": widget.xdocnum,
+                                                "wh": "0",
+                                                "xnote1": rejectNote
+                                              }));
+                                          print(
+                                              'successful: ${response.statusCode}');
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        debugPrint(rejectNote.toString());
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition: SnackPosition.TOP);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
-
-                                        // setState(() {
-                                        //   snapshot.data!.removeAt(index);
-                                        // });
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",

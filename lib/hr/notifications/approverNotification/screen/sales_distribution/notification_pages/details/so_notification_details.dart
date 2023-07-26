@@ -6,10 +6,9 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
-import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/details/so_details_model.dart';
-import '../../../../../../sales/constant/app_constants.dart';
+import '../../../../../../../conts_api_link.dart';
+import '../../notification_models/details_model/so_details_model.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 
 class SO_details_notification extends StatefulWidget {
   SO_details_notification({
@@ -308,27 +307,35 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/GAZI/Notification/so/soReject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xsonumber": widget.xtornum,
+                                                "xnote": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  const Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://${AppConstants.baseurl}/GAZI/Notification/so/soReject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xsonumber": widget.xtornum,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor:
-                                                const Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition: SnackPosition.TOP);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",

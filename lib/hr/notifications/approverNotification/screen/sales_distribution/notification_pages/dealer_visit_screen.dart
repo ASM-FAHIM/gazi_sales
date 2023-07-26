@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../data_model/notification_model/admin_approver_model/dealer_visit_list_model.dart';
-import '../../../../../sales/constant/app_constants.dart';
+import '../../../../../../data_model/notification_model/admin_approver_model/dealer_visit_list_model.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../../../../../screen/SandD.dart';
 
 class DailyVisitListScreen extends StatefulWidget {
   DailyVisitListScreen({
@@ -56,6 +57,15 @@ class _DailyVisitListScreenState extends State<DailyVisitListScreen> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            // Navigator.pushReplacement(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => SalesDistribution(
+            //           xposition: widget.xposition,
+            //           zemail: widget.zemail,
+            //           zid: widget.zid,
+            //           xstaff: widget.xstaff,
+            //         )));
           },
         ),
         title: Center(

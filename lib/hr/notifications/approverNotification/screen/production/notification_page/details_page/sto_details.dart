@@ -225,18 +225,12 @@ class _STODetailsScreenState extends State<STODetailsScreen> {
                                           onChanged: (input) {
                                             rejectNote = input;
                                           },
-                                          // validator: (input) {
-                                          //   if (input!.isEmpty) {
-                                          //     return "Please Write Reject Note";
-                                          //   }
-                                          // },
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
                                                 EdgeInsets.only(left: 20),
                                             // add padding to adjust text
                                             isDense: false,
-
                                             hintStyle: GoogleFonts.bakbakOne(
                                               //fontWeight: FontWeight.bold,
                                               fontSize: 18,
@@ -259,25 +253,35 @@ class _STODetailsScreenState extends State<STODetailsScreen> {
                                           backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/gazi/notification/production/sto/sto_reject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xtornum": widget.xtornum,
+                                                "xnote": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://${AppConstants.baseurl}/gazi/notification/production/sto/sto_reject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xtornum": widget.xtornum,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition: SnackPosition.TOP);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",

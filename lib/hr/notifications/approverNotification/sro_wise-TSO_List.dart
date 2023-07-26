@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/dealer_visit_screen.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/notification_pages/dealer_visit_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';

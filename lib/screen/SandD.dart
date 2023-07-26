@@ -1,9 +1,9 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/dc_notification.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/notification_pages/dc_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../hr/notifications/approverNotification/screen/sales_distribution/deposit_notification.dart';
-import '../hr/notifications/approverNotification/screen/sales_distribution/so_notification.dart';
+import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/deposit_notification.dart';
+import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/so_notification.dart';
 
 class SalesDistribution extends StatefulWidget {
   String xposition;
@@ -208,6 +208,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
                                     xposition: widget.xposition,
                                     zemail: widget.zemail,
                                     zid: widget.zid,
+                                    xstaff: widget.xstaff,
                                   )));
                     },
                     child: Text(

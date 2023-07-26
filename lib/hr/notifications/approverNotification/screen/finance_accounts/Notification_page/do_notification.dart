@@ -6,8 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/details/do_details_model.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/do_admin_model.dart';
+import '../../../../../../screen/FinanaceAccounts.dart';
+import '../Notification_model/details_model/do_details_model.dart';
+import '../Notification_model/do_admin_model.dart';
 import 'details_page/do_notification_details.dart';
 
 class DO_notification extends StatefulWidget {
@@ -60,22 +61,26 @@ class _DO_notificationState extends State<DO_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FinanceAccountNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xstaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         title: Center(
           child: Text(
-            "Pending Invoice List Notification",
+            "Pending Invoice Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
             ),
           ),
         ),
-        actions: [
-          SizedBox(
-            width: 20,
-          )
-        ],
         backgroundColor: Colors.white,
       ),
       body: Container(
@@ -508,7 +513,7 @@ class _DO_notificationState extends State<DO_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

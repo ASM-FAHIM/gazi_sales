@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../conts_api_link.dart';
 import '../../../../../../data_model/notification_model/admin_approver_model/pendingvoucher_model.dart';
+import '../../../../../../screen/FinanaceAccounts.dart';
 import 'details_page/voucher_details.dart';
 
 class Pending_voucher extends StatefulWidget {
@@ -28,7 +30,8 @@ class _Pending_voucherState extends State<Pending_voucher> {
 
   Future<List<PendingvoucherModel>> fetchPost() async {
     var response = await http.post(
-      Uri.parse(ConstApiLink().pendingVoucherApi),
+      Uri.parse(
+          'http://${AppConstants.baseurl}/gazi/notification/accounts/Voucher/Voucher.php'),
       body: jsonEncode(
         <String, String>{
           "zid": widget.zid,
@@ -64,22 +67,26 @@ class _Pending_voucherState extends State<Pending_voucher> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FinanceAccountNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xstaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         title: Center(
           child: Text(
-            "Pending Voucher For Approval",
+            "Pending Voucher Approval",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
             ),
           ),
         ),
-        actions: [
-          SizedBox(
-            width: 20,
-          )
-        ],
         backgroundColor: Colors.white,
       ),
       body: Container(
@@ -243,14 +250,14 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                 ),
                               ),*/
                               Text(
-                                "Status : ${snapshot.data![index].xstatusjv}",
+                                "Status : ${snapshot.data![index].xxstatusjvdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Approval Status : ${snapshot.data![index].xstatus}",
+                                "Approval Status : ${snapshot.data![index].xstatusrdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -289,7 +296,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    primary: Colors.lightBlueAccent),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
@@ -314,7 +321,11 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               /* Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
-import '../../../../../conts_api_link.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/dc_admin_model.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/details/do_details_model.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/do_admin_model.dart';
+import '../../../../../../conts_api_link.dart';
+import '../../../../../../screen/SandD.dart';
+import '../notification_models/dc_admin_model.dart';
 import 'details/dc_notification_details.dart';
 
 class DC_Notification extends StatefulWidget {
@@ -63,6 +61,15 @@ class _DC_NotificationState extends State<DC_Notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SalesDistribution(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(

@@ -269,28 +269,36 @@ class _SQC_details_notificationState extends State<SQC_details_notification> {
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/sqc_reject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "wh": "0",
+                                                "xgrnnum": widget.xgrnnum,
+                                                "xnote1": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://${AppConstants.baseurl}/gazi/notification/inventory/sqc_reject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "wh": "0",
-                                              "xgrnnum": widget.xgrnnum,
-                                              "xnote1": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition: SnackPosition.TOP);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",

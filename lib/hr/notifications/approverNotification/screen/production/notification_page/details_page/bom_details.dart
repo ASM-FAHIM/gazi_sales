@@ -264,24 +264,35 @@ class _BOM_details_notificationState extends State<BOM_details_notification> {
                                           backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://${AppConstants.baseurl}/gazi/notification/production/bom/bom_reject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xbomkey": widget.xbomkey,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition: SnackPosition.TOP);
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/gazi/notification/production/bom/bom_reject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xbomkey": widget.xbomkey,
+                                                "xnote": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
