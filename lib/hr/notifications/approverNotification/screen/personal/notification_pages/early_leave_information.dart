@@ -1265,17 +1265,12 @@
 // }
 
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-//import 'package:aygazhcm/hr/viewNotification.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
-import '../../data_model/notification_model/early_notification.dart';
-import '../../sales/constant/app_constants.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../notification_models/early_notification.dart';
 
 class Early_Leave_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);

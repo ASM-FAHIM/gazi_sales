@@ -4,7 +4,7 @@ import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../data_model/zid_model.dart';
-import '../hr/notification.dart';
+import 'personal_notification.dart';
 import '../hr/notifications/approverNotification/screen/approver.dart';
 
 class Get_zid extends StatefulWidget {

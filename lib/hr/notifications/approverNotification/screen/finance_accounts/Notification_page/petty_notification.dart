@@ -1,19 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/finance_accounts/Notification_page/details_page/petty_details.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-
-import '../../../../../../conts_api_link.dart';
 import '../../../../../../sales/constant/app_constants.dart';
 import '../../../../../../screen/FinanaceAccounts.dart';
-import '../Notification_model/details_model/do_details_model.dart';
-import '../Notification_model/do_admin_model.dart';
-import 'details_page/do_notification_details.dart';
+import '../Notification_model/details_model/petty_admin_model.dart';
 
-class DO_notification extends StatefulWidget {
-  DO_notification(
+class PettyNotificationScreen extends StatefulWidget {
+  PettyNotificationScreen(
       {required this.xposition,
       required this.xstaff,
       required this.zemail,
@@ -25,25 +21,29 @@ class DO_notification extends StatefulWidget {
   String zid;
 
   @override
-  State<DO_notification> createState() => _DO_notificationState();
+  State<PettyNotificationScreen> createState() =>
+      _PettyNotificationScreenState();
 }
 
-class _DO_notificationState extends State<DO_notification> {
-  Future<List<DoModel>>? futurePost;
+class _PettyNotificationScreenState extends State<PettyNotificationScreen> {
+  Future<List<PendingPettyModel>>? futurePost;
   dynamic rejectNote = " ";
 
-  Future<List<DoModel>> fetchPost() async {
+  Future<List<PendingPettyModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingInvoice.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/accounts/petty/petty.php'),
         body: jsonEncode(<String, String>{
+          "zid": widget.zid,
           "xposition": widget.xposition,
         }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
-      return parsed.map<DoModel>((json) => DoModel.fromJson(json)).toList();
+      return parsed
+          .map<PendingPettyModel>((json) => PendingPettyModel.fromJson(json))
+          .toList();
     } else {
       throw Exception('Failed to load album');
     }
@@ -52,6 +52,7 @@ class _DO_notificationState extends State<DO_notification> {
   @override
   void initState() {
     super.initState();
+    print('zid == ${widget.zid}, xposition == ${widget.xposition}');
     futurePost = fetchPost();
     fetchPost().whenComplete(() => futurePost);
   }
@@ -77,7 +78,7 @@ class _DO_notificationState extends State<DO_notification> {
         ),
         title: Center(
           child: Text(
-            "Pending Invoice Notification",
+            "Pending Petty Cash Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -88,7 +89,7 @@ class _DO_notificationState extends State<DO_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<DoModel>>(
+        child: FutureBuilder<List<PendingPettyModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -114,23 +115,25 @@ class _DO_notificationState extends State<DO_notification> {
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${snapshot.data![index].xdornum}",
+                                            "${snapshot.data![index].xbillno}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].preparer ?? ""}",
+                                            "${snapshot.data![index].preparerName ?? ""}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].deptname ?? ""}",
+                                            "${snapshot.data![index].preparerXdeptname ?? ""}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
@@ -145,155 +148,8 @@ class _DO_notificationState extends State<DO_notification> {
                             ),
                             children: <Widget>[
                               Text(
-                                "Invoice Number: " +
-                                    " ${snapshot.data![index].xdornum}",
+                                "Date: " + " ${snapshot.data![index].xdate}",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "DO Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Delivery Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdatedel.date).toString()))}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Customer ID: " +
-                                    "${snapshot.data![index].xcus}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Customer Name: " +
-                                    "${snapshot.data![index].xorg ?? " "}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Customer Type: " +
-                                    "${snapshot.data![index].xpaymentterm ?? " "}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Plant/Project Code: " +
-                                    snapshot.data![index].xwh,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Sub Category: " +
-                                    "${snapshot.data![index].xsubcat}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              //Cash
-                              Text(
-                                "Invoice Type: " +
-                                    "${snapshot.data![index].xpaymenttype}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "District: " +
-                                    "${snapshot.data![index].xdistrictop}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Thana: " + "${snapshot.data![index].xthanaop}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Zone: " + "${snapshot.data![index].xarea}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              //ASM Name
-                              Text(
-                                "ASM Name: " +
-                                    "${snapshot.data![index].asmname}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Territory: " +
-                                    "${snapshot.data![index].xterritory}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Division: " +
-                                    "${snapshot.data![index].xdivisionop}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Division Sales Manager Name: " +
-                                    "${snapshot.data![index].dsmname}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Territory Sales Officer Name: " +
-                                    "${snapshot.data![index].xtsoname}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Transfer Chalan Number: " +
-                                    "${snapshot.data![index].xtornum}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Order Status: " +
-                                    "${snapshot.data![index].xtornum}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -301,23 +157,47 @@ class _DO_notificationState extends State<DO_notification> {
                               ),
                               Text(
                                 "Approval Status: " +
-                                    "${snapshot.data![index].xstatus}",
+                                    "${snapshot.data![index].xstatusdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Voucher Number: " +
-                                    "${snapshot.data![index].xvoucher ?? " "}",
+                                "Requested Amount: " +
+                                    "${snapshot.data![index].xprime ?? " "}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Status: " +
-                                    "${snapshot.data![index].xstatusjv}",
+                                "Approved Amount: " +
+                                    "${snapshot.data![index].xamount ?? " "}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Location Name: " +
+                                    "${snapshot.data![index].xwhdesc}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Account Head: " +
+                                    "${snapshot.data![index].xaccdesc}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Justification: " +
+                                    "${snapshot.data![index].xlong}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -333,9 +213,9 @@ class _DO_notificationState extends State<DO_notification> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              DO_details_notification(
-                                                xdornum: snapshot
-                                                    .data![index].xdornum,
+                                              PettyDetailsScreen(
+                                                xbillno: snapshot
+                                                    .data![index].xbillno,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,

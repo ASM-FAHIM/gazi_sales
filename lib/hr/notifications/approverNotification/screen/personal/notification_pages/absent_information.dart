@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-import '../../data_model/notification_model/absent_notificaiton_model.dart';
-import '../../sales/constant/app_constants.dart';
+import '../notification_models/absent_notificaiton_model.dart';
+import '../../../../../../sales/constant/app_constants.dart';
 
 class Absent_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);

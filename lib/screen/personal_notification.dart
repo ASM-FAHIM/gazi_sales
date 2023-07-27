@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'notifications/absent_information.dart';
-import 'notifications/early_leave_information.dart';
-import 'notifications/late_info_notification.dart';
-import 'notifications/leave&tour_notification.dart';
+import '../hr/notifications/approverNotification/screen/personal/notification_pages/absent_information.dart';
+import '../hr/notifications/approverNotification/screen/personal/notification_pages/early_leave_information.dart';
+import '../hr/notifications/approverNotification/screen/personal/notification_pages/late_info_notification.dart';
+import '../hr/notifications/approverNotification/screen/personal/notification_pages/leave&tour_notification.dart';
 
-class NotificationList extends StatefulWidget {
+class PersonalNotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
-  NotificationList({
+  PersonalNotificationList({
     required this.xposition,
     required this.zid,
     required this.xstaff,
@@ -29,10 +29,11 @@ class NotificationList extends StatefulWidget {
   // String absentCount;
 
   @override
-  _NotificationListState createState() => _NotificationListState();
+  _PersonalNotificationListState createState() =>
+      _PersonalNotificationListState();
 }
 
-class _NotificationListState extends State<NotificationList> {
+class _PersonalNotificationListState extends State<PersonalNotificationList> {
   @override
   void initState() {
     super.initState();

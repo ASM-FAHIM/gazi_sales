@@ -303,17 +303,13 @@
 // }
 
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-//import 'package:aygazhcm/hr/viewNotification.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-import '../../data_model/notification_model/late_notification.dart';
+import '../notification_models/late_notification.dart';
 
 class Late_NotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
