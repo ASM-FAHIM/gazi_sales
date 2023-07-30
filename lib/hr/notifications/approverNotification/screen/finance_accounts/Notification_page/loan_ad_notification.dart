@@ -1,17 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../../api.dart';
-import '../../../../../../screen/SupplyChain.dart';
-import '../notification_model/padj_admin_model.dart';
-import 'details_page/padj_details.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../../../../../screen/FinanaceAccounts.dart';
+import '../Notification_model/ar_admin_model.dart';
+import '../Notification_model/load_ad_admin_model.dart';
 
-class PADJ_notification extends StatefulWidget {
-  //const CS_notification({Key? key}) : super(key: key);
-  PADJ_notification(
+class LoanAdjustNotificationScreen extends StatefulWidget {
+  LoanAdjustNotificationScreen(
       {required this.xposition,
       required this.xstaff,
       required this.zemail,
@@ -23,28 +21,29 @@ class PADJ_notification extends StatefulWidget {
   String zid;
 
   @override
-  State<PADJ_notification> createState() => _PADJ_notificationState();
+  State<LoanAdjustNotificationScreen> createState() =>
+      _LoanAdjustNotificationScreenState();
 }
 
-class _PADJ_notificationState extends State<PADJ_notification> {
-  Future<List<PadjNoticationModel>>? futurePost;
-  String rejectNote = " ";
-  String api = API_Names().api;
+class _LoanAdjustNotificationScreenState
+    extends State<LoanAdjustNotificationScreen> {
+  Future<List<LoanAdAdminModel>>? futurePost;
+  dynamic rejectNote = " ";
 
-  Future<List<PadjNoticationModel>> fetchPost() async {
+  Future<List<LoanAdAdminModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/scm/Adv_Adj/padj.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/accounts/Loan_Adj/LoanAdj.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
         }));
+
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<PadjNoticationModel>(
-              (json) => PadjNoticationModel.fromJson(json))
+          .map<LoanAdAdminModel>((json) => LoanAdAdminModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -54,6 +53,7 @@ class _PADJ_notificationState extends State<PADJ_notification> {
   @override
   void initState() {
     super.initState();
+    print('zid == ${widget.zid}, xposition == ${widget.xposition}');
     futurePost = fetchPost();
     fetchPost().whenComplete(() => futurePost);
   }
@@ -69,33 +69,28 @@ class _PADJ_notificationState extends State<PADJ_notification> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => PurchaseNotificationList(
+                    builder: (context) => FinanceAccountNotificationList(
                           xposition: widget.xposition,
                           zemail: widget.zemail,
-                          zid: widget.zid,
                           xstaff: widget.xstaff,
+                          zid: widget.zid,
                         )));
           },
         ),
         title: Center(
           child: Text(
-            "Advance Adjustment Approval",
+            "Loan Adjustment Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
             ),
           ),
         ),
-        actions: [
-          SizedBox(
-            width: 20,
-          )
-        ],
         backgroundColor: Colors.white,
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<PadjNoticationModel>>(
+        child: FutureBuilder<List<LoanAdAdminModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -106,8 +101,10 @@ class _PADJ_notificationState extends State<PADJ_notification> {
                     children: [
                       Card(
                         child: Padding(
-                          padding: EdgeInsets.only(bottom: 6.0),
+                          padding: EdgeInsets.only(left: 10, bottom: 6.0),
                           child: ExpansionTile(
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -116,174 +113,174 @@ class _PADJ_notificationState extends State<PADJ_notification> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.6,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              " ${snapshot.data![index].xporeqnum}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
+                                      width: MediaQuery.of(context).size.width /
+                                          1.6,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${snapshot.data![index].xadjnum}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
                                             ),
-                                            Text(
-                                              " ${snapshot.data![index].preparerName}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
+                                          ),
+                                          Text(
+                                            "${snapshot.data![index].preparerName ?? ""}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
                                             ),
-                                            Text(
-                                              " ${snapshot.data![index].preparerXdesignation}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
+                                          ),
+                                          Text(
+                                            "${snapshot.data![index].preparerXdeptname ?? ""}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
                                             ),
-                                            Text(
-                                              " ${snapshot.data![index].preparerXdeptname}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                            expandedCrossAxisAlignment:
-                                CrossAxisAlignment.start,
-                            childrenPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
-                                "Adjustment Number :" +
-                                    "${snapshot.data![index].xporeqnum}",
+                                "Adjustment Number: " +
+                                    " ${snapshot.data![index].xadjnum}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Date : " + snapshot.data![index].xdate,
+                                "Adjustment Date: " +
+                                    " ${snapshot.data![index].xdate}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "From Store : " + snapshot.data![index].xfwh,
+                                "Adjustment Type: " +
+                                    " ${snapshot.data![index].xtypeobj}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Plant/Store Name : " +
-                                    snapshot.data![index].storeName,
+                                "Transaction Type: " +
+                                    " ${snapshot.data![index].xtrn}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Requisition Status : " +
-                                    snapshot.data![index].xstatusreq,
+                                "Loan No: " +
+                                    " ${snapshot.data![index].xloannum}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "PR NO : " + snapshot.data![index].xadvnum,
+                                "Adjustment Amount: " +
+                                    " ${snapshot.data![index].xprime}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Employee ID : " + snapshot.data![index].xstaff,
+                                "Bank: " + " ${snapshot.data![index].xbank}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Name : " + snapshot.data![index].sname,
+                                "Bank Name: " +
+                                    " ${snapshot.data![index].xbankdesc}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "SR/WR No : " + snapshot.data![index].tornum,
+                                "Account: " + " ${snapshot.data![index].xacc}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "PR Advance Amount : " +
-                                    snapshot.data![index].xprime,
+                                "Account Description: " +
+                                    " ${snapshot.data![index].xaccdesc}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Reviewer Name : " +
-                                    snapshot.data![index].reviewer1Name,
+                                "Voucher Number: " +
+                                    " ${snapshot.data![index].xvoucher}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Designation : " +
-                                    snapshot.data![index].reviewer1Designation,
+                                "Voucher Status: " +
+                                    "${snapshot.data![index].xstatusjvdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              /*Text(
-                                "Department : " +
-                                    snapshot.data![index].reviewer1De,
+                              Text(
+                                "Approval Status: " +
+                                    "${snapshot.data![index].xstatusrdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),*/
-                              TextButton(
+                              ),
+                              /*TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor: Colors.lightBlueAccent),
+                                  primary: Colors.lightBlueAccent,
+                                ),
+                                //color: Colors.lightBlueAccent,
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              PADJ_details_notification(
-                                                xporeqnum: snapshot
-                                                    .data![index].xporeqnum,
+                                              DO_details_notification(
+                                                xdornum: snapshot
+                                                    .data![index].xdornum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatusreq: snapshot
-                                                    .data![index].xstatusreq,
+                                                xstatus: snapshot
+                                                    .data![index].xstatus,
                                                 xstaff: widget.xstaff,
                                               )));
-                                  debugPrint(result.toString());
-                                  print(result);
                                   if (result.toString() == "approval") {
                                     debugPrint("pressed");
                                     setState(() {
@@ -291,38 +288,36 @@ class _PADJ_notificationState extends State<PADJ_notification> {
                                     });
                                   }
                                 },
-                                child: Center(
-                                    child: Text(
-                                  "Details",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                              ),
-                              /*Row(
+                                child: Center(child: Text("Details")),
+                              ),*/
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                        backgroundColor: Colors.green),
+                                      backgroundColor: Colors.green,
+                                    ),
                                     onPressed: () async {
                                       var response = await http.post(
                                           Uri.parse(
-                                              'http://$api/ughcm/UG/advance_reject.php'),
+                                              'http://${AppConstants.baseurl}/gazi/notification/accounts/Loan_Adj/LoanAdj_approve.php'),
                                           body: jsonEncode(<String, String>{
                                             "zid": widget.zid,
                                             "user": widget.zemail,
                                             "xposition": widget.xposition,
-                                            "xporeqnum": snapshot
-                                                .data![index].xporeqnum
+                                            "xadjnum": snapshot
+                                                .data![index].xadjnum
                                                 .toString(),
-                                            "xstatusreq": snapshot
-                                                .data![index].xstatusreq
-                                                .toString()
+                                            "xstatus": snapshot
+                                                .data![index].xstatus
+                                                .toString(),
                                           }));
 
                                       Get.snackbar('Message', 'Approved',
                                           backgroundColor: Color(0XFF8CA6DB),
                                           colorText: Colors.white,
-                                          snackPosition: SnackPosition.BOTTOM);
+                                          snackPosition: SnackPosition.TOP);
+
                                       setState(() {
                                         snapshot.data!.removeAt(index);
                                       });
@@ -330,14 +325,18 @@ class _PADJ_notificationState extends State<PADJ_notification> {
                                       print(response.statusCode);
                                       print(response.body);
                                     },
-                                    child: Text("Approve"),
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 50,
                                   ),
                                   TextButton(
                                     style: TextButton.styleFrom(
-                                        backgroundColor: Colors.red),
+                                      backgroundColor: Colors.red,
+                                    ),
                                     onPressed: () {
                                       showDialog(
                                           context: context,
@@ -396,43 +395,65 @@ class _PADJ_notificationState extends State<PADJ_notification> {
                                               actions: [
                                                 TextButton(
                                                   style: TextButton.styleFrom(
-                                                      backgroundColor:
-                                                          Color(0xff064A76)),
+                                                    backgroundColor:
+                                                        Color(0xff064A76),
+                                                  ),
+                                                  //color: Color(0xff064A76),
                                                   onPressed: () async {
-                                                    //http://$api/ughcm/adminapprove/poreject.php
+                                                    //http://172.20.20.69/adminapprove/poreject.php
+                                                    if (rejectNote == " ") {
+                                                      Navigator.pop(context);
+                                                      print(
+                                                          'response code: Empty field');
+                                                      Get.snackbar('Warning!',
+                                                          'Please enter reject note',
+                                                          backgroundColor:
+                                                              Colors.redAccent,
+                                                          colorText:
+                                                              Colors.white,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .TOP);
+                                                    } else {
+                                                      var response =
+                                                          await http.post(
+                                                              Uri.parse(
+                                                                  'http://${AppConstants.baseurl}/gazi/notification/accounts/Loan_Adj/LoanAdj_reject.php'),
+                                                              body: jsonEncode(<
+                                                                  String,
+                                                                  String>{
+                                                                "zid":
+                                                                    widget.zid,
+                                                                "user": widget
+                                                                    .zemail,
+                                                                "xposition": widget
+                                                                    .xposition,
+                                                                "xadjnum": snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .xadjnum
+                                                                    .toString(),
+                                                                "xnote":
+                                                                    rejectNote
+                                                              }));
+                                                      print(
+                                                          response.statusCode);
+                                                      Navigator.pop(context);
+                                                      Get.snackbar(
+                                                          'Message', 'Rejected',
+                                                          backgroundColor:
+                                                              Color(0XFF8CA6DB),
+                                                          colorText:
+                                                              Colors.white,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .TOP);
 
-                                                    var response = await http.post(
-                                                        Uri.parse(
-                                                            'http://$api/ughcm/UG/advance_reject.php'),
-                                                        body: jsonEncode(<
-                                                            String, String>{
-                                                          "zid": widget.zid,
-                                                          "user": widget.zemail,
-                                                          "xposition":
-                                                              widget.xposition,
-                                                          "xporeqnum": snapshot
-                                                              .data![index]
-                                                              .xporeqnum
-                                                              .toString(),
-                                                          "xnote1":
-                                                              "Reject by SINA"
-                                                        }));
-                                                    print(response.body);
-                                                    Navigator.pop(context);
-
-                                                    Get.snackbar(
-                                                        'Message', 'Rejected',
-                                                        backgroundColor:
-                                                            Color(0XFF8CA6DB),
-                                                        colorText: Colors.white,
-                                                        snackPosition:
-                                                            SnackPosition
-                                                                .BOTTOM);
-
-                                                    setState(() {
-                                                      snapshot.data!
-                                                          .removeAt(index);
-                                                    });
+                                                      setState(() {
+                                                        snapshot.data!
+                                                            .removeAt(index);
+                                                      });
+                                                    }
                                                   },
                                                   child: Text(
                                                     "Reject",
@@ -447,10 +468,13 @@ class _PADJ_notificationState extends State<PADJ_notification> {
                                             );
                                           });
                                     },
-                                    child: Text("Reject"),
+                                    child: Text(
+                                      "Reject",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ],
-                              )*/
+                              )
                             ],
                           ),
                         ),

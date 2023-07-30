@@ -3,8 +3,7 @@ import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/inve
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/sr_admin_model.dart';
+import '../notification_models/sr_admin_model.dart';
 import '../../../../../../sales/constant/app_constants.dart';
 import '../../approver_notification.dart';
 

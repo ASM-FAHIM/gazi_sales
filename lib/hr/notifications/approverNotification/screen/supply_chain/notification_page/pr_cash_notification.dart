@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../../api.dart';
+import '../../../../../../screen/SupplyChain.dart';
 import '../notification_model/pr_cash_admin_model.dart';
 import '../notification_model/pr_cs_admin_model.dart';
 import 'details_page/pr_cash_details.dart';
@@ -17,6 +18,7 @@ class Cash_notification extends StatefulWidget {
       required this.xstaff,
       required this.zemail,
       required this.zid});
+
   String xposition;
   String xstaff;
   String zemail;
@@ -30,6 +32,7 @@ class _Cash_notificationState extends State<Cash_notification> {
   Future<List<CashNoticationModel>>? futurePost;
   String rejectNote = " ";
   String api = API_Names().api;
+
   Future<List<CashNoticationModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse('http://$api/ughcm/UG/purchase/CashAdv_Notification.php'),
@@ -70,6 +73,15 @@ class _Cash_notificationState extends State<Cash_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PurchaseNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -142,6 +154,8 @@ class _Cash_notificationState extends State<Cash_notification> {
                             ),
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
+                            childrenPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
                                 "Requisition Number :" +
@@ -222,8 +236,7 @@ class _Cash_notificationState extends State<Cash_notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor: Colors.lightBlueAccent
-                                ),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,

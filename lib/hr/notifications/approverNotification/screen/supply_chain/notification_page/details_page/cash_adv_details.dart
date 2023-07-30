@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../conts_api_link.dart';
-import '../../../../data_model/notification_model/admin_approver_model/details/cash_adv_details_model.dart';
-import '../../../../sales/constant/app_constants.dart';
+import '../../../../../../../conts_api_link.dart';
+import '../../notification_model/details_model/cash_adv_details_model.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 
 class CashAdvDetailsNotifiScreen extends StatefulWidget {
   String reqNumber;
@@ -36,7 +36,9 @@ class _CashAdvDetailsNotifiScreenState
   TextEditingController rejectNote = TextEditingController();
 
   Future<List<CashAdvDetailsNotificationModel>> fetchPostdetails() async {
-    var response = await http.post(Uri.parse(ConstApiLink().cashAdvDetailsApi),
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/Notification/scm/Cash_Adv/cashAdv_details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xporeqnum": widget.reqNumber,
@@ -185,29 +187,21 @@ class _CashAdvDetailsNotifiScreenState
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
+                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/Cash_Adv/cash_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
                                 "xporeqnum": widget.reqNumber,
                                 "xstatusreq": widget.xstatusreq
-                                // "aprcs": "GRN Approval"
                               }));
 
                           Get.snackbar('Message', 'Approved',
                               backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
-                              snackPosition: SnackPosition.BOTTOM);
-
+                              snackPosition: SnackPosition.TOP);
                           Navigator.pop(context, "approval");
-
-                          // setState(() {
-                          //   snapshot.data!.removeAt(index);
-                          // });
-
                           print(response.statusCode);
-                          print(response.body);
                         },
                         child: Text(
                           "Approve",
@@ -270,22 +264,20 @@ class _CashAdvDetailsNotifiScreenState
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                          primary: Color(0xff064A76)),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
                                         if (rejectNote.text.isEmpty) {
                                           Navigator.pop(context);
-                                          print('response code: Empty field');
                                           Get.snackbar('Warning!',
                                               'Please enter reject note',
                                               backgroundColor: Colors.redAccent,
                                               colorText: Colors.white,
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM);
+                                              snackPosition: SnackPosition.TOP);
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  'http://${AppConstants.baseurl}/ughcm/UG/pendingVoucherreject.php'),
+                                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/Cash_Adv/cash_Reject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
@@ -294,15 +286,11 @@ class _CashAdvDetailsNotifiScreenState
                                                 "xnote": rejectNote.text
                                               }));
                                           print(response.statusCode);
-                                          print(response.body);
-                                          print(rejectNote);
-
                                           Get.snackbar('Message', 'Rejected',
                                               backgroundColor:
                                                   Color(0XFF8CA6DB),
                                               colorText: Colors.white,
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM);
+                                              snackPosition: SnackPosition.TOP);
 
                                           Navigator.pop(context);
                                           Navigator.pop(context, "approval");

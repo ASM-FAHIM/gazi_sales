@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/po_wo_admin_model.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../../../../../screen/SupplyChain.dart';
+import '../notification_model/po_wo_admin_model.dart';
 import 'details_page/po_details.dart';
 
 class PO_WO_approval_NotificationList extends StatefulWidget {
@@ -35,9 +37,13 @@ class _PO_WO_approval_NotificationListState
 
   Future<List<PoAdminModel>> fetchPost() async {
     var response = await http.post(
-      Uri.parse(ConstApiLink().poWoApi),
+      Uri.parse(
+          'http://${AppConstants.baseurl}/GAZI/Notification/scm/po_wo/PO_notification.php'),
       body: jsonEncode(
-        <String, String>{"zid": widget.zid, "xposition": widget.xposition},
+        <String, String>{
+          "zid": widget.zid,
+          "xposition": widget.xposition,
+        },
       ),
     );
     print(ConstApiLink().poWoApi);
@@ -68,11 +74,20 @@ class _PO_WO_approval_NotificationListState
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PurchaseNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         centerTitle: true,
         title: Text(
-          "Pending PO/WO For Approval",
+          "Pending PO/WO Approval",
           style: GoogleFonts.bakbakOne(
             fontSize: 20,
             color: Color(0xff074974),
@@ -141,6 +156,8 @@ class _PO_WO_approval_NotificationListState
                                 ),
                               ],
                             ),
+                            childrenPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
                                 "Purchase Date: " +
@@ -230,7 +247,7 @@ class _PO_WO_approval_NotificationListState
                               ),
                               Text(
                                 "Approval Status : " +
-                                    snapshot.data![index].xstatus,
+                                    snapshot.data![index].statusName,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -245,7 +262,7 @@ class _PO_WO_approval_NotificationListState
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  primary: Colors.lightBlueAccent,
+                                  backgroundColor: Colors.lightBlueAccent,
                                 ),
                                 //color: Colors.lightBlueAccent,
                                 onPressed: () async {
@@ -270,7 +287,11 @@ class _PO_WO_approval_NotificationListState
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment.center,

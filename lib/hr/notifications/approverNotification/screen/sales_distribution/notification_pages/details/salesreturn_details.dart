@@ -1,53 +1,55 @@
 import 'dart:convert';
-import '../../../../../../../conts_api_link.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../../../data_model/notification_model/admin_approver_model/details/cs_details_model.dart';
-import '../../../../../../../sales/constant/app_constants.dart';
+import '../../../../../../../api.dart';
+import '../../notification_models/details_model/salesreturn_details_model.dart';
 
-class CS_details_notification extends StatefulWidget {
-  CS_details_notification(
-      {required this.xporeqnum,
-      required this.zid,
-      required this.xposition,
-      required this.xstatusreq,
-      required this.zemail});
-
-  String xporeqnum;
+class SalesReturnDetailsScreen extends StatefulWidget {
+  String xcrnnum;
   String zid;
   String xposition;
-  String xstatusreq;
+  String xstatus;
+  String xstaff;
   String zemail;
 
+  SalesReturnDetailsScreen(
+      {required this.xcrnnum,
+      required this.zid,
+      required this.xposition,
+      required this.xstatus,
+      required this.zemail,
+      required this.xstaff,
+      Key? key})
+      : super(key: key);
+
   @override
-  State<CS_details_notification> createState() =>
-      _CS_details_notificationState();
+  State<SalesReturnDetailsScreen> createState() =>
+      _SalesReturnDetailsScreenState();
 }
 
-class _CS_details_notificationState extends State<CS_details_notification> {
-  Future<List<CsDetailsModel>>? futurePost;
+class _SalesReturnDetailsScreenState extends State<SalesReturnDetailsScreen> {
+  String api = API_Names().api;
+  Future<List<SalesReturnDetailsModel>>? futurePost;
+  String rejectNote = " ";
 
-  //String rejectNote = " ";
-  TextEditingController rejectNote = TextEditingController();
-
-  Future<List<CsDetailsModel>> fetchPostdetails() async {
+  Future<List<SalesReturnDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
         Uri.parse(
-            "http://${AppConstants.baseurl}/GAZI/Notification/scm/CS/cs_Details.php"),
+            'http://${AppConstants.baseurl}/gazi/notification/production/sto/sto_details.php'),
         body: jsonEncode(<String, String>{
-          "xporeqnum": widget.xporeqnum,
-          "zid": widget.zid
+          "zid": widget.zid,
+          "xcrnnum": widget.xcrnnum,
         }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<CsDetailsModel>((json) => CsDetailsModel.fromJson(json))
+          .map<SalesReturnDetailsModel>(
+              (json) => SalesReturnDetailsModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -73,7 +75,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
         ),
         title: Center(
           child: Text(
-            "Pending CS Details",
+            "STO Details",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -88,8 +90,8 @@ class _CS_details_notificationState extends State<CS_details_notification> {
         backgroundColor: Colors.white,
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
-        child: FutureBuilder<List<CsDetailsModel>>(
+        padding: EdgeInsets.all(20),
+        child: FutureBuilder<List<SalesReturnDetailsModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -102,7 +104,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (_, index) => Card(
                         child: Padding(
-                          padding: EdgeInsets.only(bottom: 6.0, left: 10),
+                          padding: EdgeInsets.only(bottom: 6.0, left: 15),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -113,47 +115,49 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Item : " + (snapshot.data![index].xitem),
-                                      textAlign: TextAlign.center,
+                                      "${snapshot.data![index].xitem}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Specification : " +
-                                          snapshot.data![index].productName,
-                                      textAlign: TextAlign.center,
+                                      "Description : " +
+                                          snapshot.data![index].xdesc,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    //
+                                    Text(
+                                      "Return Qty : " +
+                                          "${snapshot.data![index].xqtyord}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    //
+                                    Text(
+                                      "Customer Adjustment Rate : " +
+                                          "${snapshot.data![index].xrate}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Qty : " + snapshot.data![index].xqtyreq,
+                                      "Inventory Rate: " +
+                                          snapshot.data![index].xcost,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Unit : " +
-                                          snapshot.data![index].xunitpur,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Rate : " + snapshot.data![index].xrate,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Negotiated Rate : " +
-                                          snapshot.data![index].xratenegotiate,
+                                      "ALine Amount: " +
+                                          snapshot.data![index].xlineamt,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -172,20 +176,19 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.green,
-                        ),
-                        //color: Colors.green,
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  "http://${AppConstants.baseurl}/GAZI/Notification/scm/CS/csapprove.php"),
+                                  'http://${AppConstants.baseurl}/gazi/notification/sales/sr/srapprove.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xporeqnum": widget.xporeqnum,
-                                "xstatusreq": widget.xstatusreq,
+                                "xcrnnum": widget.xcrnnum,
+                                "xstatus": widget.xstatus
+                                // "aprcs": "GRN Approval"
                               }));
 
                           Get.snackbar('Message', 'Approved',
@@ -200,7 +203,6 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                           // });
 
                           print(response.statusCode);
-                          print(response.body);
                         },
                         child: Text(
                           "Approve",
@@ -211,10 +213,8 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                         width: 50,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        //color: Colors.red,
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -225,27 +225,21 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                     children: [
                                       Container(
                                         //height: MediaQuery.of(context).size.height/6,
-                                        child: TextFormField(
+                                        child: TextField(
                                           style: GoogleFonts.bakbakOne(
                                             //fontWeight: FontWeight.bold,
                                             fontSize: 18,
                                             color: Colors.black,
                                           ),
                                           onChanged: (input) {
-                                            rejectNote.text = input;
+                                            rejectNote = input;
                                           },
-                                          // validator: (input) {
-                                          //   if (input!.isEmpty) {
-                                          //     return "Please Write Reject Note";
-                                          //   }
-                                          // },
                                           scrollPadding: EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
                                                 EdgeInsets.only(left: 20),
                                             // add padding to adjust text
                                             isDense: false,
-
                                             hintStyle: GoogleFonts.bakbakOne(
                                               //fontWeight: FontWeight.bold,
                                               fontSize: 18,
@@ -265,13 +259,12 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        backgroundColor: Color(0xff064A76),
-                                      ),
-                                      //color: Color(0xff064A76),
+                                          backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
-                                        if (rejectNote.text.isEmpty) {
+                                        if (rejectNote == " ") {
                                           Navigator.pop(context);
+                                          print('response code: Empty field');
                                           Get.snackbar('Warning!',
                                               'Please enter reject note',
                                               backgroundColor: Colors.redAccent,
@@ -280,15 +273,15 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  "http://${AppConstants.baseurl}/GAZI/Notification/scm/CS/csreject.php"),
+                                                  'http://${AppConstants.baseurl}/gazi/notification/sales/sr/srreject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
                                                 "xposition": widget.xposition,
-                                                "xporeqnum":
-                                                    widget.xporeqnum.toString(),
-                                                "xnote": rejectNote.text,
+                                                "xcrnnum": widget.xcrnnum,
+                                                "xnote": rejectNote
                                               }));
+                                          print(response.statusCode);
                                           Get.snackbar('Message', 'Rejected',
                                               backgroundColor:
                                                   Color(0XFF8CA6DB),
@@ -298,10 +291,6 @@ class _CS_details_notificationState extends State<CS_details_notification> {
                                           Navigator.pop(context);
                                           Navigator.pop(context, "approval");
                                         }
-
-                                        // setState(() {
-                                        //   snapshot.data!.removeAt(index);
-                                        // });
                                       },
                                       child: Text(
                                         "Reject",

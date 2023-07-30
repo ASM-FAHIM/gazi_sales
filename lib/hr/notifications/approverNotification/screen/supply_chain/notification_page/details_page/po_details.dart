@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,11 +38,13 @@ class _PO_details_notificationState extends State<PO_details_notification> {
   String rejectNote = " ";
 
   Future<List<POdetailsModel>> fetchPostdetails() async {
+    print('status: ${widget.xstatus}');
     var response = await http.post(
-        Uri.parse('http://$api/ughcm/UG/purchase/PO_Detail.php'),
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/Notification/scm/po_wo/po_detail.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
-          "xpornum": widget.xpornum,
+          "xporeqnum": widget.xpornum,
         }));
 
     if (response.statusCode == 200) {
@@ -128,14 +131,6 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    Text(
-                                      "Specification : " +
-                                          snapshot.data![index].xspecification,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
                                     //
                                     Text(
                                       "Quantity : " +
@@ -168,30 +163,6 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    Text(
-                                      "VAT rate : " +
-                                          snapshot.data![index].povatrate,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Po Value : " +
-                                          snapshot.data![index].povalue,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "GRN Rate : " +
-                                          snapshot.data![index].xrategrn,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -210,14 +181,13 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://$api/ughcm/UG/purchase/PO_Approve.php'),
+                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/po_wo/POApprove.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
                                 "xpornum": widget.xpornum,
                                 "xstatus": widget.xstatus,
-                                "aprcs": "",
                               }));
 
                           Get.snackbar('Message', 'Approved',
@@ -226,15 +196,10 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                               snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
-
-                          // setState(() {
-                          //   snapshot.data!.removeAt(index);
-                          // });
-
                           print(response.statusCode);
-                          print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text("Approve",
+                            style: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(
                         width: 50,
@@ -295,27 +260,35 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                           backgroundColor: Color(0xff064A76)),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/po_wo/POReject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xpornum": widget.xpornum,
+                                                "xnote": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://$api/ughcm/UG/purchase/PO_Reject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xpornum": widget.xpornum,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-                                        print(rejectNote);
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition: SnackPosition.TOP);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
@@ -329,7 +302,8 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text("Reject",
+                            style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   )
@@ -337,7 +311,7 @@ class _PO_details_notificationState extends State<PO_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

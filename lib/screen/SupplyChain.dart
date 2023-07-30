@@ -1,20 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/finance_accounts/Notification_page/bill_notification.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/finance_accounts/Notification_page/do_notification.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/finance_accounts/Notification_page/iou_notification.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/finance_accounts/Notification_page/pending_voucher.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
-import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/ap_notification.dart';
-import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/ar_notification.dart';
-import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/loan_ad_notification.dart';
-import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/pending_mr_notification.dart';
-import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/petty_notification.dart';
-import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/supplier_payment_notification.dart';
+import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/cash_adv_notification.dart';
+import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/cs_notification.dart';
+import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/po_notification.dart';
+import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/padj_notification.dart';
+import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/prn_notofication.dart';
+import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/spr_notification.dart';
 
-class FinanceAccountNotificationList extends StatefulWidget {
+class PurchaseNotificationList extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
   String xposition;
@@ -22,7 +18,7 @@ class FinanceAccountNotificationList extends StatefulWidget {
   String zemail;
   String zid;
 
-  FinanceAccountNotificationList({
+  PurchaseNotificationList({
     required this.xposition,
     required this.xstaff,
     required this.zemail,
@@ -30,37 +26,17 @@ class FinanceAccountNotificationList extends StatefulWidget {
   });
 
   @override
-  _FinanceAccountNotificationListState createState() =>
-      _FinanceAccountNotificationListState();
+  _PurchaseNotificationListState createState() =>
+      _PurchaseNotificationListState();
 }
 
-class _FinanceAccountNotificationListState
-    extends State<FinanceAccountNotificationList> {
-  String billCount = "1";
-
-  //late AbsentCountModel absentemployee_count1;
-
-  String doCount = "1";
-
-  //late LeaveandTourCountModel leaveandtouradmin_count1;
-
-  String voucherCount = "1";
-
-  String mrCount = "1";
-
-  String pmCount = "1";
-
-  String iouCount = "1";
-
-  String ptCashCount = "1";
-
-  String arCount = "1";
-
-  String apCount = "1";
-
-  String loanAdCount = "1";
-
-  //late EarlyCountModel earlyemployee_count1;
+class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
+  String poCount = '1';
+  String csCount = '1';
+  String sprCount = '1';
+  String prnCount = '1';
+  String cashAdvCount = '1';
+  String padjCount = '1';
 
   bool isLoading = false;
   int totalCount = 0;
@@ -98,7 +74,7 @@ class _FinanceAccountNotificationListState
         ),
         centerTitle: true,
         title: Text(
-          "Accounts Notifications",
+          "Supply Chain Notifications",
           style: GoogleFonts.bakbakOne(
             fontSize: 20,
             color: Color(0xff074974),
@@ -116,7 +92,7 @@ class _FinanceAccountNotificationListState
           padding: const EdgeInsets.only(bottom: 20),
           child: Column(
             children: [
-              if (billCount == '0')
+              if (poCount == '0')
                 ...[]
               else ...[
                 Padding(
@@ -125,11 +101,11 @@ class _FinanceAccountNotificationListState
                   child: Badge(
                     position: BadgePosition.topEnd(end: 0),
                     badgeContent: Text(
-                      billCount,
+                      poCount,
                       style: TextStyle(color: Colors.white),
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
+                      height: MediaQuery.of(context).size.width / 8,
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
@@ -140,232 +116,7 @@ class _FinanceAccountNotificationListState
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: TextButton(
-                        style:
-                            TextButton.styleFrom(backgroundColor: Colors.white),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BillNotificationScreen(
-                                        xposition: widget.xposition,
-                                        xstaff: widget.xstaff,
-                                        zemail: widget.zemail,
-                                        zid: widget.zid,
-                                      )));
-                        },
-                        child: Text(
-                          "Pending Bill Approval",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.bakbakOne(
-                            fontSize: 18,
-                            color: Color(0xff064A76),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              if (doCount == '0')
-                ...[]
-              else ...[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                  child: Badge(
-                    position: BadgePosition.topEnd(end: 0),
-                    badgeContent: Text(
-                      doCount,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
-                      width: MediaQuery.of(context).size.width,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: TextButton(
-                        style:
-                            TextButton.styleFrom(backgroundColor: Colors.white),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DO_notification(
-                                        xposition: widget.xposition,
-                                        xstaff: widget.xstaff,
-                                        zemail: widget.zemail,
-                                        zid: widget.zid,
-                                      )));
-                        },
-                        child: Text(
-                          "Pending Do Approval",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.bakbakOne(
-                            fontSize: 18,
-                            color: Color(0xff064A76),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              if (voucherCount == '0')
-                ...[]
-              else ...[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                  child: Badge(
-                    position: BadgePosition.topEnd(end: 0),
-                    badgeContent: Text(
-                      voucherCount,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
-                      width: MediaQuery.of(context).size.width,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: TextButton(
-                        style:
-                            TextButton.styleFrom(backgroundColor: Colors.white),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Pending_voucher(
-                                        xposition: widget.xposition,
-                                        xstaff: widget.xstaff,
-                                        zemail: widget.zemail,
-                                        zid: widget.zid,
-                                      )));
-                        },
-                        child: Text(
-                          "Pending voucher Approval",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.bakbakOne(
-                            fontSize: 18,
-                            color: Color(0xff064A76),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              if (mrCount == '0')
-                ...[]
-              else ...[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                  child: Badge(
-                    position: BadgePosition.topEnd(end: 0),
-                    badgeContent: Text(
-                      mrCount,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
-                      width: MediaQuery.of(context).size.width,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: TextButton(
-                        style:
-                            TextButton.styleFrom(backgroundColor: Colors.white),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MRNotificationScreen(
-                                        xposition: widget.xposition,
-                                        xstaff: widget.xstaff,
-                                        zemail: widget.zemail,
-                                        zid: widget.zid,
-                                      )));
-                        },
-                        child: Text(
-                          "Pending MR Approval",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.bakbakOne(
-                            fontSize: 18,
-                            color: Color(0xff064A76),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              if (pmCount == '0')
-                ...[]
-              else ...[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                  child: Badge(
-                    position: BadgePosition.topEnd(end: 0),
-                    badgeContent: Text(
-                      pmCount,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
-                      width: MediaQuery.of(context).size.width,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -377,7 +128,7 @@ class _FinanceAccountNotificationListState
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      SupplierPMNotificationScreen(
+                                      PO_WO_approval_NotificationList(
                                         xposition: widget.xposition,
                                         xstaff: widget.xstaff,
                                         zemail: widget.zemail,
@@ -385,7 +136,7 @@ class _FinanceAccountNotificationListState
                                       )));
                         },
                         child: Text(
-                          "Supplier Payment Approval",
+                          "PO/WO For Approval",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
@@ -397,7 +148,8 @@ class _FinanceAccountNotificationListState
                   ),
                 ),
               ],
-              if (iouCount == '0')
+              //Fahim's edit
+              if (csCount == "0")
                 ...[]
               else ...[
                 Padding(
@@ -406,11 +158,11 @@ class _FinanceAccountNotificationListState
                   child: Badge(
                     position: BadgePosition.topEnd(end: 0),
                     badgeContent: Text(
-                      iouCount,
+                      csCount,
                       style: TextStyle(color: Colors.white),
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
+                      height: MediaQuery.of(context).size.width / 8,
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
@@ -421,8 +173,7 @@ class _FinanceAccountNotificationListState
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -433,7 +184,7 @@ class _FinanceAccountNotificationListState
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => IOUNotificationScreen(
+                                  builder: (context) => CS_notification(
                                         xposition: widget.xposition,
                                         xstaff: widget.xstaff,
                                         zemail: widget.zemail,
@@ -441,7 +192,7 @@ class _FinanceAccountNotificationListState
                                       )));
                         },
                         child: Text(
-                          "Supplier IOU Approval",
+                          "CS Notifications",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
@@ -453,7 +204,82 @@ class _FinanceAccountNotificationListState
                   ),
                 ),
               ],
-              if (ptCashCount == '0')
+
+              /*if (widget.adminCash == "0")
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Container(
+                    height: MediaQuery.of(context).size.width / 8,
+                    width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: TextButton(
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Cash_notification(
+                                      xposition: widget.xposition,
+                                      xstaff: widget.xstaff,
+                                      zemail: widget.zemail,
+                                      zid: widget.zid,
+                                    )));
+                      },
+                      child: Badge(
+                        showBadge:
+                            int.parse(widget.adminCash) == 0 ? false : true,
+                        // padding: const EdgeInsets.only(
+                        //     left: 5, top: 5, bottom: 5, right: 5),
+                        badgeContent: StreamBuilder(
+                          stream: _eventCash.stream,
+                          builder: (BuildContext context, snapshot) {
+                            return Text(
+                              "${snapshot.data}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        ),
+                        //badgeColor: Color(0xff064A76),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Cash Notifications",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],*/
+
+              if (padjCount == "0")
                 ...[]
               else ...[
                 Padding(
@@ -462,11 +288,11 @@ class _FinanceAccountNotificationListState
                   child: Badge(
                     position: BadgePosition.topEnd(end: 0),
                     badgeContent: Text(
-                      ptCashCount,
+                      padjCount,
                       style: TextStyle(color: Colors.white),
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
+                      height: MediaQuery.of(context).size.width / 8,
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
@@ -477,8 +303,7 @@ class _FinanceAccountNotificationListState
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -489,7 +314,7 @@ class _FinanceAccountNotificationListState
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PettyNotificationScreen(
+                                  builder: (context) => PADJ_notification(
                                         xposition: widget.xposition,
                                         xstaff: widget.xstaff,
                                         zemail: widget.zemail,
@@ -497,7 +322,7 @@ class _FinanceAccountNotificationListState
                                       )));
                         },
                         child: Text(
-                          "Pending Petty Cash Approval",
+                          "PADJ Notifications",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
@@ -509,7 +334,8 @@ class _FinanceAccountNotificationListState
                   ),
                 ),
               ],
-              if (arCount == '0')
+
+              if (cashAdvCount == "0")
                 ...[]
               else ...[
                 Padding(
@@ -518,11 +344,11 @@ class _FinanceAccountNotificationListState
                   child: Badge(
                     position: BadgePosition.topEnd(end: 0),
                     badgeContent: Text(
-                      arCount,
+                      cashAdvCount,
                       style: TextStyle(color: Colors.white),
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
+                      height: MediaQuery.of(context).size.width / 8,
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
@@ -533,8 +359,7 @@ class _FinanceAccountNotificationListState
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -545,7 +370,7 @@ class _FinanceAccountNotificationListState
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ARNotificationScreen(
+                                  builder: (context) => CashAdvNotifScreen(
                                         xposition: widget.xposition,
                                         xstaff: widget.xstaff,
                                         zemail: widget.zemail,
@@ -553,7 +378,7 @@ class _FinanceAccountNotificationListState
                                       )));
                         },
                         child: Text(
-                          "AR Adjustment Approval",
+                          "Cash Adv. Notifications",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
@@ -565,7 +390,8 @@ class _FinanceAccountNotificationListState
                   ),
                 ),
               ],
-              if (apCount == '0')
+
+              if (prnCount == "0")
                 ...[]
               else ...[
                 Padding(
@@ -574,11 +400,11 @@ class _FinanceAccountNotificationListState
                   child: Badge(
                     position: BadgePosition.topEnd(end: 0),
                     badgeContent: Text(
-                      apCount,
+                      prnCount,
                       style: TextStyle(color: Colors.white),
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
+                      height: MediaQuery.of(context).size.width / 8,
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
@@ -589,8 +415,7 @@ class _FinanceAccountNotificationListState
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -601,7 +426,7 @@ class _FinanceAccountNotificationListState
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => APNotificationScreen(
+                                  builder: (context) => PRN_notification(
                                         xposition: widget.xposition,
                                         xstaff: widget.xstaff,
                                         zemail: widget.zemail,
@@ -609,7 +434,7 @@ class _FinanceAccountNotificationListState
                                       )));
                         },
                         child: Text(
-                          "AP Adjustment Approval",
+                          "PRN Notifications",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
@@ -621,7 +446,8 @@ class _FinanceAccountNotificationListState
                   ),
                 ),
               ],
-              if (loanAdCount == '0')
+
+              if (sprCount == "0")
                 ...[]
               else ...[
                 Padding(
@@ -630,11 +456,11 @@ class _FinanceAccountNotificationListState
                   child: Badge(
                     position: BadgePosition.topEnd(end: 0),
                     badgeContent: Text(
-                      loanAdCount,
+                      sprCount,
                       style: TextStyle(color: Colors.white),
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.width / 7.5,
+                      height: MediaQuery.of(context).size.width / 8,
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
@@ -645,8 +471,7 @@ class _FinanceAccountNotificationListState
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -657,8 +482,7 @@ class _FinanceAccountNotificationListState
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      LoanAdjustNotificationScreen(
+                                  builder: (context) => SPR_notification(
                                         xposition: widget.xposition,
                                         xstaff: widget.xstaff,
                                         zemail: widget.zemail,
@@ -666,7 +490,7 @@ class _FinanceAccountNotificationListState
                                       )));
                         },
                         child: Text(
-                          "Pending Loan Adjustment Approval",
+                          "SPR Notifications",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
@@ -678,6 +502,80 @@ class _FinanceAccountNotificationListState
                   ),
                 ),
               ],
+
+              /*if (widget.adminPAF == "0")
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Container(
+                    height: MediaQuery.of(context).size.width / 8,
+                    width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: TextButton(
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.white),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PAF_notification(
+                                      xposition: widget.xposition,
+                                      xstaff: widget.xstaff,
+                                      zemail: widget.zemail,
+                                      zid: widget.zid,
+                                    )));
+                      },
+                      child: Badge(
+                        showBadge:
+                            int.parse(widget.adminPAF) == 0 ? false : true,
+                        // padding: const EdgeInsets.only(
+                        //     left: 5, top: 5, bottom: 5, right: 5),
+                        badgeContent: StreamBuilder(
+                          stream: _eventPAF.stream,
+                          builder: (BuildContext context, snapshot) {
+                            return Text(
+                              "${snapshot.data}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        ),
+                        //badgeColor: Color(0xff064A76),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "PAF Notifications",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],*/
             ],
           ),
         ),

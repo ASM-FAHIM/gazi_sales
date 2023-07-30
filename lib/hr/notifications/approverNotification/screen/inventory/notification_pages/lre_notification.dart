@@ -126,6 +126,8 @@ class _LRE_NotificationState extends State<LRE_Notification> {
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "${snapshot.data![index].xtornum}",

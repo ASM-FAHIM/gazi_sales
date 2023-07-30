@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../screen/FinanaceAccounts.dart';
 import '../../../../screen/Production.dart';
-import '../../../../screen/Purchase.dart';
+import '../../../../screen/SupplyChain.dart';
 import '../../../../screen/SandD.dart';
 import '../../../../widgets/ap_not_container.dart';
 import '../../../../screen/hr_approver_home.dart';
@@ -30,7 +30,6 @@ class AdminNotification extends StatefulWidget {
 }
 
 class _AdminNotificationState extends State<AdminNotification> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,8 +72,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    HrApproverHome(
+                                builder: (context) => HrApproverHome(
                                       xposition: widget.xposition,
                                       xstaff: widget.xStaff,
                                       zemail: widget.zemail,
@@ -95,17 +93,16 @@ class _AdminNotificationState extends State<AdminNotification> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                PersonalNotificationList(
-                                  xposition: widget.xposition,
-                                  xstaff: widget.xStaff,
-                                  zid: widget.zid,
-                                  // earlyCount: earlyCount,
-                                  // lateCount: lateCount,
-                                  // leaveCount: leaveCount,
-                                  // absentCount: absentCount,
-                                  // user: widget.loginModel.zemail,
-                                ),
+                            builder: (context) => PersonalNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zid: widget.zid,
+                              // earlyCount: earlyCount,
+                              // lateCount: lateCount,
+                              // leaveCount: leaveCount,
+                              // absentCount: absentCount,
+                              // user: widget.loginModel.zemail,
+                            ),
                           ),
                         );
                       },
@@ -123,23 +120,22 @@ class _AdminNotificationState extends State<AdminNotification> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                AdminNotificationList(
-                                  xposition: widget.xposition,
-                                  xstaff: widget.xStaff,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                  // adminSPR: SPRCount.toString(),
-                                  // adminSR: SRCount.toString(),
-                                  // adminRR: RRCount.toString(),
-                                  // adminASTI: ASTICount.toString(),
-                                  // adminTO: TOCount.toString(),
-                                  // adminLRE: LRECount.toString(),
-                                  // adminGRN: GRNCount.toString(),
-                                  // adminSQC: SQCCount.toString(),
-                                  // adminInspection: INSPCount.toString(),
-                                  // adminDamage: DAMAGECount.toString(),
-                                ),
+                            builder: (context) => AdminNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminSPR: SPRCount.toString(),
+                              // adminSR: SRCount.toString(),
+                              // adminRR: RRCount.toString(),
+                              // adminASTI: ASTICount.toString(),
+                              // adminTO: TOCount.toString(),
+                              // adminLRE: LRECount.toString(),
+                              // adminGRN: GRNCount.toString(),
+                              // adminSQC: SQCCount.toString(),
+                              // adminInspection: INSPCount.toString(),
+                              // adminDamage: DAMAGECount.toString(),
+                            ),
                           ),
                         );
                       },
@@ -165,18 +161,17 @@ class _AdminNotificationState extends State<AdminNotification> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                PurchaseNotificationList(
-                                  xposition: widget.xposition,
-                                  xstaff: widget.xStaff,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                  // adminPO: POCount.toString(),
-                                  // adminCS: CSCount.toString(),
-                                  // adminCash: CashCount.toString(),
-                                  // adminPADJ: PADJCount.toString(),
-                                  // adminPAF: PAFCount.toString(),
-                                ),
+                            builder: (context) => PurchaseNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminPO: POCount.toString(),
+                              // adminCS: CSCount.toString(),
+                              // adminCash: CashCount.toString(),
+                              // adminPADJ: PADJCount.toString(),
+                              // adminPAF: PAFCount.toString(),
+                            ),
                           ),
                         );
                       },
@@ -196,12 +191,12 @@ class _AdminNotificationState extends State<AdminNotification> {
                           MaterialPageRoute(
                             builder: (context) =>
                                 FinanceAccountNotificationList(
-                                  xposition: widget.xposition,
-                                  xstaff: widget.xStaff,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                  //adminVoucher: VoucherCount,
-                                ),
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminVoucher: VoucherCount,
+                            ),
                           ),
                         );
                       },
@@ -220,14 +215,13 @@ class _AdminNotificationState extends State<AdminNotification> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                ProductionNotificationList(
-                                  xposition: widget.xposition,
-                                  xstaff: widget.xStaff,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                  //adminBOM: BOMCount,
-                                ),
+                            builder: (context) => ProductionNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminBOM: BOMCount,
+                            ),
                           ),
                         );
                       },
@@ -253,8 +247,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SalesDistribution(
+                                builder: (context) => SalesDistribution(
                                       xposition: widget.xposition,
                                       xstaff: widget.xStaff,
                                       zemail: widget.zemail,
@@ -275,161 +268,156 @@ class _AdminNotificationState extends State<AdminNotification> {
                 SizedBox(
                   height: 20,
                 ),
-              ] else
-                ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
+              ] else ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AdminNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminSPR: SPRCount.toString(),
+                              // adminSR: SRCount.toString(),
+                              // adminRR: RRCount.toString(),
+                              // adminASTI: ASTICount.toString(),
+                              // adminTO: TOCount.toString(),
+                              // adminLRE: LRECount.toString(),
+                              // adminGRN: GRNCount.toString(),
+                              // adminSQC: SQCCount.toString(),
+                              // adminInspection: INSPCount.toString(),
+                              // adminDamage: DAMAGECount.toString(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: inventoryCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: inventoryCount.toString(),
+                        image: 'assets/images/inventory.png',
+                        text: 'Inventory',
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PurchaseNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              // adminPO: POCount.toString(),
+                              // adminCS: CSCount.toString(),
+                              // adminCash: CashCount.toString(),
+                              // adminPADJ: PADJCount.toString(),
+                              // adminPAF: PAFCount.toString(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: purchaseCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: purchaseCount.toString(),
+                        image: 'assets/images/folder.png',
+                        text: 'Supply chain',
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FinanceAccountNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminVoucher: VoucherCount,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: voucherCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: voucherCount.toString(),
+                        image: 'assets/images/procurement.png',
+                        text: 'Finance',
+                        textS: '& Accounts',
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductionNotificationList(
+                              xposition: widget.xposition,
+                              xstaff: widget.xStaff,
+                              zemail: widget.zemail,
+                              zid: widget.zid,
+                              //adminBOM: BOMCount,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ReusableWidget(
+                        // circleColor: bomCount == 0
+                        //     ? Colors.transparent
+                        //     : Colors.red,
+                        // badgeText: bomCount.toString(),
+                        image: 'assets/images/production.png',
+                        text: 'Production',
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  AdminNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    // adminSPR: SPRCount.toString(),
-                                    // adminSR: SRCount.toString(),
-                                    // adminRR: RRCount.toString(),
-                                    // adminASTI: ASTICount.toString(),
-                                    // adminTO: TOCount.toString(),
-                                    // adminLRE: LRECount.toString(),
-                                    // adminGRN: GRNCount.toString(),
-                                    // adminSQC: SQCCount.toString(),
-                                    // adminInspection: INSPCount.toString(),
-                                    // adminDamage: DAMAGECount.toString(),
-                                  ),
-                            ),
-                          );
-                        },
-                        child: ReusableWidget(
-                          // circleColor: inventoryCount == 0
-                          //     ? Colors.transparent
-                          //     : Colors.red,
-                          // badgeText: inventoryCount.toString(),
-                          image: 'assets/images/inventory.png',
-                          text: 'Inventory',
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  PurchaseNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    // adminPO: POCount.toString(),
-                                    // adminCS: CSCount.toString(),
-                                    // adminCash: CashCount.toString(),
-                                    // adminPADJ: PADJCount.toString(),
-                                    // adminPAF: PAFCount.toString(),
-                                  ),
-                            ),
-                          );
-                        },
-                        child: ReusableWidget(
-                          // circleColor: purchaseCount == 0
-                          //     ? Colors.transparent
-                          //     : Colors.red,
-                          // badgeText: purchaseCount.toString(),
-                          image: 'assets/images/folder.png',
-                          text: 'Supply chain',
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  FinanceAccountNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    //adminVoucher: VoucherCount,
-                                  ),
-                            ),
-                          );
-                        },
-                        child: ReusableWidget(
-                          // circleColor: voucherCount == 0
-                          //     ? Colors.transparent
-                          //     : Colors.red,
-                          // badgeText: voucherCount.toString(),
-                          image: 'assets/images/procurement.png',
-                          text: 'Finance',
-                          textS: '& Accounts',
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ProductionNotificationList(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xStaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    //adminBOM: BOMCount,
-                                  ),
-                            ),
-                          );
-                        },
-                        child: ReusableWidget(
-                          // circleColor: bomCount == 0
-                          //     ? Colors.transparent
-                          //     : Colors.red,
-                          // badgeText: bomCount.toString(),
-                          image: 'assets/images/production.png',
-                          text: 'Production',
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      SalesDistribution(
-                                        xposition: widget.xposition,
-                                        xstaff: widget.xStaff,
-                                        zemail: widget.zemail,
-                                        zid: widget.zid,
-                                      )));
-                        },
-                        child: ReusableWidget(
-                          /*circleColor: PurchaseCount == 0
+                                builder: (context) => SalesDistribution(
+                                      xposition: widget.xposition,
+                                      xstaff: widget.xStaff,
+                                      zemail: widget.zemail,
+                                      zid: widget.zid,
+                                    )));
+                      },
+                      child: ReusableWidget(
+                        /*circleColor: PurchaseCount == 0
                               ? Colors.transparent
                               : Colors.red,*/
-                          image: 'assets/images/money (1).png',
-                          text: 'Sales',
-                          textS: '& Distribution',
-                        ),
+                        image: 'assets/images/money (1).png',
+                        text: 'Sales',
+                        textS: '& Distribution',
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ]
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ]
               /*if (widget.zid == '100000') ...[
                       Padding(
                         padding:

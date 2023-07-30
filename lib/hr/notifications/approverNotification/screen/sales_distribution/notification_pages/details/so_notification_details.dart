@@ -12,14 +12,14 @@ import '../../../../../../../sales/constant/app_constants.dart';
 
 class SO_details_notification extends StatefulWidget {
   SO_details_notification({
-    required this.xtornum,
+    required this.xsonumber,
     required this.zid,
     required this.xposition,
     required this.xstatustor,
     required this.zemail,
   });
 
-  String xtornum;
+  String xsonumber;
   String zid;
   String xposition;
   String xstatustor;
@@ -36,9 +36,13 @@ class _SO_details_notificationState extends State<SO_details_notification> {
   AppConstants appConstants = AppConstants();
 
   Future<List<SoDetailsModel>> fetchPostdetails() async {
-    var response = await http.post(Uri.parse(ConstApiLink().soDetailsApi),
-        body: jsonEncode(
-            <String, String>{"zid": widget.zid, "xsonumber": widget.xtornum}));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/Notification/sales/so/soDetails.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xsonumber": widget.xsonumber
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -99,7 +103,7 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                     child: Column(
                       children: [
                         Text(
-                          "${widget.xtornum}",
+                          "${widget.xsonumber}",
                           style: GoogleFonts.bakbakOne(
                             fontSize: 18,
                             //color: Color(0xff074974),
@@ -221,12 +225,12 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/GAZI/Notification/so/soApprove.php'),
+                                  'http://${AppConstants.baseurl}/GAZI/Notification/sales/so/soApprove.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xsonumber": widget.xtornum.toString(),
+                                "xsonumber": widget.xsonumber.toString(),
                                 "xstatus": widget.xstatustor.toString()
                               }));
                           print('approver sent $response');
@@ -318,12 +322,12 @@ class _SO_details_notificationState extends State<SO_details_notification> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  'http://${AppConstants.baseurl}/GAZI/Notification/so/soReject.php'),
+                                                  'http://${AppConstants.baseurl}/GAZI/Notification/sales/so/soReject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
                                                 "xposition": widget.xposition,
-                                                "xsonumber": widget.xtornum,
+                                                "xsonumber": widget.xsonumber,
                                                 "xnote": rejectNote
                                               }));
                                           print(response.statusCode);

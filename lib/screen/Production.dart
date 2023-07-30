@@ -135,175 +135,181 @@ class _ProductionNotificationListState
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (bomCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    bomCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            children: [
+              if (bomCount == '0')
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Badge(
+                    position: BadgePosition.topEnd(end: 0),
+                    badgeContent: Text(
+                      bomCount,
+                      style: TextStyle(color: Colors.white),
                     ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BOM_notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "BOM Approval",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.white),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BOM_notification(
+                                        xposition: widget.xposition,
+                                        xstaff: widget.xstaff,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "BOM Approval",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-            if (inspCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    inspCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
+              ],
+              if (inspCount == '0')
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Badge(
+                    position: BadgePosition.topEnd(end: 0),
+                    badgeContent: Text(
+                      inspCount,
+                      style: TextStyle(color: Colors.white),
                     ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    InspectionApproval_notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "Inspection Approval",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.white),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      InspectionApproval_notification(
+                                        xposition: widget.xposition,
+                                        xstaff: widget.xstaff,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "Inspection Approval",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-            if (inspCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    stoCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
+              ],
+              if (inspCount == '0')
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Badge(
+                    position: BadgePosition.topEnd(end: 0),
+                    badgeContent: Text(
+                      stoCount,
+                      style: TextStyle(color: Colors.white),
                     ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PendingSTOScreen(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "STO Approval",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.white),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PendingSTOScreen(
+                                        xposition: widget.xposition,
+                                        xstaff: widget.xstaff,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                      )));
+                        },
+                        child: Text(
+                          "STO Approval",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

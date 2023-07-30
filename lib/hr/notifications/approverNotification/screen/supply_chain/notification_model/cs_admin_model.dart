@@ -1,35 +1,24 @@
 // To parse this JSON data, do
 //
-//     final padjNoticationModel = padjNoticationModelFromJson(jsonString);
+//     final csModel = csModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<PadjNoticationModel> padjNoticationModelFromJson(String str) =>
-    List<PadjNoticationModel>.from(
-        json.decode(str).map((x) => PadjNoticationModel.fromJson(x)));
+List<CsModel> csModelFromJson(String str) =>
+    List<CsModel>.from(json.decode(str).map((x) => CsModel.fromJson(x)));
 
-String padjNoticationModelToJson(List<PadjNoticationModel> data) =>
+String csModelToJson(List<CsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class PadjNoticationModel {
+class CsModel {
   String zid;
-  String xporeqnum;
-  String xadvnum;
+  String requisition;
   String xdate;
-  String xstatus;
-  String statusName;
+  String xregi;
+  String xtwh;
+  String name;
   String xstatusreq;
-  String statusreqdesc;
-  String xtypeobj;
-  String xtype;
-  String xfwh;
-  String storeName;
-  String xnote;
-  String xstaff;
-  String tornum;
-  String xprime;
-  String xnote1;
-  String sname;
+  String xstatusreqDesc;
   String preparerName;
   String preparerXdesignation;
   String preparerXdeptname;
@@ -42,25 +31,15 @@ class PadjNoticationModel {
   String signrejectDesignation;
   String signrejectXdeptname;
 
-  PadjNoticationModel({
+  CsModel({
     required this.zid,
-    required this.xporeqnum,
-    required this.xadvnum,
+    required this.requisition,
     required this.xdate,
-    required this.xstatus,
-    required this.statusName,
+    required this.xregi,
+    required this.xtwh,
+    required this.name,
     required this.xstatusreq,
-    required this.statusreqdesc,
-    required this.xtypeobj,
-    required this.xtype,
-    required this.xfwh,
-    required this.storeName,
-    required this.xnote,
-    required this.xstaff,
-    required this.tornum,
-    required this.xprime,
-    required this.xnote1,
-    required this.sname,
+    required this.xstatusreqDesc,
     required this.preparerName,
     required this.preparerXdesignation,
     required this.preparerXdeptname,
@@ -74,26 +53,15 @@ class PadjNoticationModel {
     required this.signrejectXdeptname,
   });
 
-  factory PadjNoticationModel.fromJson(Map<String, dynamic> json) =>
-      PadjNoticationModel(
+  factory CsModel.fromJson(Map<String, dynamic> json) => CsModel(
         zid: json["zid"],
-        xporeqnum: json["xporeqnum"],
-        xadvnum: json["xadvnum"],
+        requisition: json["requisition"],
         xdate: json["xdate"],
-        xstatus: json["xstatus"],
-        statusName: json["statusName"],
+        xregi: json["xregi"],
+        xtwh: json["xtwh"],
+        name: json["name"],
         xstatusreq: json["xstatusreq"],
-        statusreqdesc: json["statusreqdesc"],
-        xtypeobj: json["xtypeobj"],
-        xtype: json["xtype"],
-        xfwh: json["xfwh"],
-        storeName: json["storeName"],
-        xnote: json["xnote"],
-        xstaff: json["xstaff"],
-        tornum: json["tornum"],
-        xprime: json["xprime"],
-        xnote1: json["xnote1"],
-        sname: json["sname"],
+        xstatusreqDesc: json["xstatusreqDesc"],
         preparerName: json["preparer_name"],
         preparerXdesignation: json["preparer_xdesignation"],
         preparerXdeptname: json["preparer_xdeptname"],
@@ -109,23 +77,13 @@ class PadjNoticationModel {
 
   Map<String, dynamic> toJson() => {
         "zid": zid,
-        "xporeqnum": xporeqnum,
-        "xadvnum": xadvnum,
+        "requisition": requisition,
         "xdate": xdate,
-        "xstatus": xstatus,
-        "statusName": statusName,
+        "xregi": xregi,
+        "xtwh": xtwh,
+        "name": name,
         "xstatusreq": xstatusreq,
-        "statusreqdesc": statusreqdesc,
-        "xtypeobj": xtypeobj,
-        "xtype": xtype,
-        "xfwh": xfwh,
-        "storeName": storeName,
-        "xnote": xnote,
-        "xstaff": xstaff,
-        "tornum": tornum,
-        "xprime": xprime,
-        "xnote1": xnote1,
-        "sname": sname,
+        "xstatusreqDesc": xstatusreqDesc,
         "preparer_name": preparerName,
         "preparer_xdesignation": preparerXdesignation,
         "preparer_xdeptname": preparerXdeptname,

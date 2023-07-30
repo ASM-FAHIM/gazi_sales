@@ -32,7 +32,8 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
 
   Future<List<DepositNotificationModel>> fetchPost() async {
     var response = await http.post(
-      Uri.parse(ConstApiLink().depositApi),
+      Uri.parse(
+          'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit.php'),
       body: jsonEncode(
         <String, String>{
           "zid": widget.zid,
@@ -223,7 +224,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                     onPressed: () async {
                                       var response = await http.post(
                                           Uri.parse(
-                                              'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
+                                              'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit_Approve.php'),
                                           body: jsonEncode(<String, String>{
                                             "zid": widget.zid,
                                             "user": widget.zemail,
@@ -339,7 +340,7 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                                       var response =
                                                           await http.post(
                                                               Uri.parse(
-                                                                  'http://${AppConstants.baseurl}/GAZI/Notification/deposit/deposit_Approve.php'),
+                                                                  'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit_Approve.php'),
                                                               body: jsonEncode(<
                                                                   String,
                                                                   String>{

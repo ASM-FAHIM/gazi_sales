@@ -5,15 +5,20 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/cs_admin_model.dart';
+import '../../../../../../screen/SupplyChain.dart';
+import '../notification_model/cs_admin_model.dart';
 import '../../../../../../sales/constant/app_constants.dart';
 import 'details_page/cs_notification_details.dart';
 
 class CS_notification extends StatefulWidget {
   CS_notification(
-      {required this.xposition, required this.zemail, required this.zid});
+      {required this.xposition,
+      required this.xstaff,
+      required this.zemail,
+      required this.zid});
 
   String xposition;
+  String xstaff;
   String zemail;
   String zid;
 
@@ -30,7 +35,8 @@ class _CS_notificationState extends State<CS_notification> {
     print('=============${widget.zid}');
     print('=============${widget.xposition}');
     var response = await http.post(
-        Uri.parse('http://${AppConstants.baseurl}/GAZI/Notification/CS/cs.php'),
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/Notification/scm/CS/cs.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition
@@ -60,11 +66,20 @@ class _CS_notificationState extends State<CS_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PurchaseNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
           child: Text(
-            "Pending CS For Approval",
+            "Pending CS Approval",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -110,7 +125,15 @@ class _CS_notificationState extends State<CS_notification> {
                                       ),
                                     ),
                                     Text(
-                                      " ${snapshot.data![index].xdate}",
+                                      " ${snapshot.data![index].preparerName}",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      " ${snapshot.data![index].preparerXdeptname}",
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
@@ -121,10 +144,19 @@ class _CS_notificationState extends State<CS_notification> {
                                 ),
                               ],
                             ),
+                            childrenPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
                                 "Requisition Number: " +
                                     snapshot.data![index].requisition,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Date: " + snapshot.data![index].xdate,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -152,14 +184,15 @@ class _CS_notificationState extends State<CS_notification> {
                                 ),
                               ),
                               Text(
-                                "Status : " + snapshot.data![index].xstatusreq,
+                                "Status : " +
+                                    snapshot.data![index].xstatusreqDesc,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                 ),
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  primary: Colors.lightBlueAccent,
+                                  backgroundColor: Colors.lightBlueAccent,
                                 ),
                                 //color: Colors.lightBlueAccent,
                                 onPressed: () async {
@@ -185,7 +218,11 @@ class _CS_notificationState extends State<CS_notification> {
                                     });
                                   }
                                 },
-                                child: const Center(child: Text("Details")),
+                                child: const Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment.center,

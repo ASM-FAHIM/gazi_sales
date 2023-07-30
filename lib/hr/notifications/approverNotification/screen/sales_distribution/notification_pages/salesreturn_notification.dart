@@ -1,48 +1,46 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/screen/SandD.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../conts_api_link.dart';
-import '../../../data_model/notification_model/admin_approver_model/cash_adv_admin_model.dart';
-import 'details/cash_adv_details.dart';
+import 'package:http/http.dart' as http;
 
-class CashAdvNotifScreen extends StatefulWidget {
+import '../../../../../../data_model/notificaiton_count/admin_count.dart';
+import '../notification_models/salesreturn_admin_model.dart';
+import 'details/salesreturn_details.dart';
+
+class PSRA_notification extends StatefulWidget {
+  PSRA_notification(
+      {required this.xposition,
+      required this.xstaff,
+      required this.zemail,
+      required this.zid});
+
   String xposition;
+  String xstaff;
   String zemail;
   String zid;
 
-  CashAdvNotifScreen(
-      {required this.xposition,
-      required this.zemail,
-      required this.zid,
-      Key? key})
-      : super(key: key);
-
   @override
-  State<CashAdvNotifScreen> createState() => _CashAdvNotifScreenState();
+  State<PSRA_notification> createState() => _PSRA_notificationState();
 }
 
-class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
-  Future<List<CashAdvNotificationModel>>? futurePost;
+class _PSRA_notificationState extends State<PSRA_notification> {
+  Future<List<SalesReturnNoticationModel>>? futurePost;
   String rejectNote = " ";
 
-  Future<List<CashAdvNotificationModel>> fetchPost() async {
-    var response = await http.post(
-      Uri.parse(ConstApiLink().cashAdvApi),
-      body: jsonEncode(
-        <String, String>{
+  Future<List<SalesReturnNoticationModel>> fetchPost() async {
+    var response = await http.post(Uri.parse(''),
+        body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
-        },
-      ),
-    );
-    // print(response.body);
+        }));
+
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<CashAdvNotificationModel>(
-              (json) => CashAdvNotificationModel.fromJson(json))
+          .map<SalesReturnNoticationModel>(
+              (json) => SalesReturnNoticationModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -64,11 +62,20 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SalesDistribution(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
           child: Text(
-            "Cash Adv. Approval",
+            "Sales Return Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -84,7 +91,7 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<CashAdvNotificationModel>>(
+        child: FutureBuilder<List<SalesReturnNoticationModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -95,8 +102,10 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                     children: [
                       Card(
                         child: Padding(
-                          padding: EdgeInsets.only(bottom: 6.0, left: 10),
+                          padding: EdgeInsets.only(left: 10, bottom: 6.0),
                           child: ExpansionTile(
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -105,77 +114,198 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2.2,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              " ${snapshot.data![index].xporeqnum}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
+                                      width: MediaQuery.of(context).size.width /
+                                          1.6,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "${snapshot.data![index].xcrnnum}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
                                             ),
-                                            Text(
-                                              " ${snapshot.data![index].preparerName}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
+                                          ),
+                                          Text(
+                                            "${snapshot.data![index].preparerName}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
                                             ),
-                                            Text(
-                                              " ${snapshot.data![index].preparerXdesignation}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
+                                          ),
+                                          Text(
+                                            "${snapshot.data![index].preparerXdeptname}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
                                             ),
-                                          ],
-                                        )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                            expandedCrossAxisAlignment:
-                                CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Requisition number :" +
-                                    "${snapshot.data![index].xporeqnum}",
+                                "Sales Return NO: " +
+                                    " ${snapshot.data![index].xcrnnum}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Date : " + "${snapshot.data![index].xdate}",
+                                "Invoice No: " +
+                                    " ${snapshot.data![index].xordernum}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Purchase type : ${snapshot.data![index].xtype}",
+                                "Date: " + " ${snapshot.data![index].xdate}",
+                                textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Store code : ${snapshot.data![index].xtwh}",
+                                "Reason: " + "  ${snapshot.data![index].xref}",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              // Text(
+                              //   "Store Name:" +
+                              //       "${snapshot.data![index].}",
+                              //   style: GoogleFonts.bakbakOne(
+                              //     fontSize: 18,
+                              //     //color: Color(0xff074974),
+                              //   ),
+                              // ),
+                              Text(
+                                "Customer Name: " + snapshot.data![index].xorg,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Store name : ${snapshot.data![index].xtypeobj}",
+                                "DExecutive: " +
+                                    "${snapshot.data![index].executive ?? " "}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "ZM: " + "${snapshot.data![index].zm}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "DSM: " + "${snapshot.data![index].dsm}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Base: " + "${snapshot.data![index].base}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Zone: " + "${snapshot.data![index].zone}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Division: " +
+                                    "${snapshot.data![index].division}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Depot/Store: " +
+                                    "${snapshot.data![index].xwh}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Depot/Store Name: " +
+                                    "${snapshot.data![index].xwhdesc}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Total Amount: " +
+                                    "${snapshot.data![index].xtotamt}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              // Text(
+                              //   "Credit Limit: " + "${snapshot.data![index].credit}",
+                              //   style: GoogleFonts.bakbakOne(
+                              //     fontSize: 18,
+                              //     //color: Color(0xff074974),
+                              //   ),
+                              // ),
+                              // Text(
+                              //   "Credit Used: " +
+                              //       "${snapshot.data![index].crused}",
+                              //   style: GoogleFonts.bakbakOne(
+                              //     fontSize: 18,
+                              //     //color: Color(0xff074974),
+                              //   ),
+                              // ),
+                              // Text(
+                              //   "Credit Availability: " +
+                              //       "${snapshot.data![index].creditchk}",
+                              //   style: GoogleFonts.bakbakOne(
+                              //     fontSize: 18,
+                              //     //color: Color(0xff074974),
+                              //   ),
+                              // ),
+                              Text(
+                                "Product Type: " +
+                                    "${snapshot.data![index].xpnature}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Sales Return Status: " +
+                                    "${snapshot.data![index].xstatuscrn}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Approval Status: " +
+                                    "${snapshot.data![index].status}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -183,20 +313,21 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                    primary: Colors.lightBlueAccent),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 onPressed: () async {
                                   final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              CashAdvDetailsNotifiScreen(
-                                                reqNumber: snapshot
-                                                    .data![index].xporeqnum,
+                                              SalesReturnDetailsScreen(
+                                                xcrnnum: snapshot
+                                                    .data![index].xcrnnum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
-                                                xstatusreq: snapshot
+                                                xstatus: snapshot
                                                     .data![index].xstatus,
+                                                xstaff: widget.xstaff,
                                               )));
                                   debugPrint(result.toString());
                                   print(result);
@@ -207,28 +338,30 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
-                              /* Row(
+                              /*Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   TextButton(
-                                    color: Colors.green,
+                                    //color: Colors.green,
                                     onPressed: () async {
                                       var response = await http.post(
                                           Uri.parse(
-                                              'http://$api/ughcm/adminapprove/csapprove.php'),
+                                              'no data present for further proceed'),
                                           body: jsonEncode(<String, String>{
                                             "zid": widget.zid,
                                             "user": widget.zemail,
                                             "xposition": widget.xposition,
-                                            "xporeqnum": snapshot
-                                                .data![index].requisition
+                                            "xcrnnum": snapshot
+                                                .data![index].xcrnnum
                                                 .toString(),
                                             "ypd": "0",
-                                            "xstatusreq": snapshot
-                                                .data![index].xstatusreq
-                                                .toString(),
+                                            "aprcs": "SO Approval"
                                           }));
 
                                       Get.snackbar('Message', 'Approved',
@@ -262,7 +395,7 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                                                     //height: MediaQuery.of(context).size.height/6,
                                                     child: TextFormField(
                                                       style:
-                                                      GoogleFonts.bakbakOne(
+                                                          GoogleFonts.bakbakOne(
                                                         //fontWeight: FontWeight.bold,
                                                         fontSize: 18,
                                                         color: Colors.black,
@@ -276,13 +409,13 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                                                         }
                                                       },
                                                       scrollPadding:
-                                                      EdgeInsets.all(20),
+                                                          EdgeInsets.all(20),
                                                       decoration:
-                                                      InputDecoration(
+                                                          InputDecoration(
                                                         contentPadding:
-                                                        EdgeInsets.only(
-                                                            left:
-                                                            20), // add padding to adjust text
+                                                            EdgeInsets.only(
+                                                                left: 20),
+                                                        // add padding to adjust text
                                                         isDense: false,
 
                                                         hintStyle: GoogleFonts
@@ -292,14 +425,14 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                                                           color: Colors.black,
                                                         ),
                                                         labelText:
-                                                        "Reject Note",
+                                                            "Reject Note",
                                                         labelStyle: GoogleFonts
                                                             .bakbakOne(
                                                           fontSize: 18,
                                                           color: Colors.black,
                                                         ),
                                                         border:
-                                                        OutlineInputBorder(),
+                                                            OutlineInputBorder(),
                                                       ),
                                                     ),
                                                   ),
@@ -309,40 +442,35 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                                                 TextButton(
                                                   color: Color(0xff064A76),
                                                   onPressed: () async {
-                                                    //http://$api/ughcm/adminapprove/poreject.php
+                                                    //http://172.20.20.69/adminapprove/poreject.php
 
                                                     var response = await http.post(
                                                         Uri.parse(
-                                                            'http://$api/ughcm/adminapprove/csreject.php'),
+                                                            'no data present for further proceed'),
                                                         body: jsonEncode(<
                                                             String, String>{
                                                           "zid": widget.zid,
                                                           "user": widget.zemail,
                                                           "xposition":
-                                                          widget.xposition,
-                                                          "xporeqnum": snapshot
-                                                              .data![index]
-                                                              .requisition
-                                                              .toString(),
+                                                              widget.xposition,
                                                           "wh": "0",
-                                                          "xnote": rejectNote,
+                                                          "xtornum": snapshot
+                                                              .data![index]
+                                                              .xtornum,
+                                                          "xnote1": rejectNote
                                                         }));
+                                                    print(response.statusCode);
                                                     print(response.body);
-
-                                                    print("Rejected " +
-                                                        snapshot.data![index]
-                                                            .requisition
-                                                            .toString());
                                                     Navigator.pop(context);
 
                                                     Get.snackbar(
                                                         'Message', 'Rejected',
                                                         backgroundColor:
-                                                        Color(0XFF8CA6DB),
+                                                            Color(0XFF8CA6DB),
                                                         colorText: Colors.white,
                                                         snackPosition:
-                                                        SnackPosition
-                                                            .BOTTOM);
+                                                            SnackPosition
+                                                                .BOTTOM);
 
                                                     setState(() {
                                                       snapshot.data!
@@ -352,7 +480,7 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
                                                   child: Text(
                                                     "Reject",
                                                     style:
-                                                    GoogleFonts.bakbakOne(
+                                                        GoogleFonts.bakbakOne(
                                                       color: Colors.white,
                                                     ),
                                                   ),
@@ -376,7 +504,7 @@ class _CashAdvNotifScreenState extends State<CashAdvNotifScreen> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("assets/images/loading.gif")),
+                child: Image(image: AssetImage("images/loading.gif")),
               );
             }
           },

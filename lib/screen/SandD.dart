@@ -1,8 +1,10 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/notification_pages/dc_notification.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/inventory/notification_pages/sr_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/deposit_notification.dart';
+import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/salesreturn_notification.dart';
 import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/so_notification.dart';
 
 class SalesDistribution extends StatefulWidget {
@@ -31,6 +33,8 @@ class _SalesDistributionState extends State<SalesDistribution> {
   String dcCount = "1";
 
   String depositCount = "1";
+
+  String salesReturnCount = "1";
 
   bool isLoading = false;
   int totalCount = 0;
@@ -119,20 +123,246 @@ class _SalesDistributionState extends State<SalesDistribution> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Badge(
-                position: BadgePosition.topEnd(end: 0),
-                badgeContent: Text(
-                  depositCount,
-                  style: TextStyle(color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            children: [
+              if (soCount == '0')
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Badge(
+                    position: BadgePosition.topEnd(end: 0),
+                    badgeContent: Text(
+                      soCount,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SO_notification(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                        xStaff: widget.xstaff,
+                                      )));
+                        },
+                        child: Text(
+                          "Sales Order",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
+              ],
+              if (depositCount == '0')
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Badge(
+                    position: BadgePosition.topEnd(end: 0),
+                    badgeContent: Text(
+                      depositCount,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DepositNotifiScreen(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                        xstaff: widget.xstaff,
+                                      )));
+                        },
+                        child: Text(
+                          "Deposit Notification",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              if (dcCount == '0')
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Badge(
+                    position: BadgePosition.topEnd(end: 0),
+                    badgeContent: Text(
+                      dcCount,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DC_Notification(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                        xstaff: widget.xstaff,
+                                      )));
+                        },
+                        child: Text(
+                          "DC Notification",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              if (salesReturnCount == '0')
+                ...[]
+              else ...[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                  child: Badge(
+                    position: BadgePosition.topEnd(end: 0),
+                    badgeContent: Text(
+                      salesReturnCount,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 7.5,
+                      width: MediaQuery.of(context).size.width,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(20.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PSRA_notification(
+                                        xposition: widget.xposition,
+                                        zemail: widget.zemail,
+                                        zid: widget.zid,
+                                        xstaff: widget.xstaff,
+                                      )));
+                        },
+                        child: Text(
+                          "Sales Return Approval",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.bakbakOne(
+                            fontSize: 18,
+                            color: Color(0xff064A76),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+
+              /*Padding(
+                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                 child: Container(
-                  height: MediaQuery.of(context).size.width / 7.5,
-                  width: MediaQuery.of(context).size.width,
-                  clipBehavior: Clip.hardEdge,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 8,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   decoration: BoxDecoration(
                     color: Colors.white70,
                     borderRadius: BorderRadius.circular(20),
@@ -141,8 +371,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 5,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
+                        offset: Offset(0, 3), // changes position of shadow
                       ),
                     ],
                   ),
@@ -153,15 +382,15 @@ class _SalesDistributionState extends State<SalesDistribution> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SO_notification(
+                              builder: (context) =>
+                                  DealerVisitList(
                                     xposition: widget.xposition,
                                     zemail: widget.zemail,
                                     zid: widget.zid,
-                                    xStaff: widget.xstaff,
                                   )));
                     },
                     child: Text(
-                      "Sales Order",
+                      "Daily visit list",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.bakbakOne(
                         fontSize: 18,
@@ -170,159 +399,9 @@ class _SalesDistributionState extends State<SalesDistribution> {
                     ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Badge(
-                position: BadgePosition.topEnd(end: 0),
-                badgeContent: Text(
-                  depositCount,
-                  style: TextStyle(color: Colors.white),
-                ),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 7.5,
-                  width: MediaQuery.of(context).size.width,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    // shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(20.0)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DepositNotifiScreen(
-                                    xposition: widget.xposition,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    xstaff: widget.xstaff,
-                                  )));
-                    },
-                    child: Text(
-                      "Deposit Notification",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.bakbakOne(
-                        fontSize: 18,
-                        color: Color(0xff064A76),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Badge(
-                position: BadgePosition.topEnd(end: 0),
-                badgeContent: Text(
-                  dcCount,
-                  style: TextStyle(color: Colors.white),
-                ),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 7.5,
-                  width: MediaQuery.of(context).size.width,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    // shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(20.0)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DC_Notification(
-                                    xposition: widget.xposition,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                    xstaff: widget.xstaff,
-                                  )));
-                    },
-                    child: Text(
-                      "DC Notification",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.bakbakOne(
-                        fontSize: 18,
-                        color: Color(0xff064A76),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            /*Padding(
-              padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-              child: Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .width / 8,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DealerVisitList(
-                                  xposition: widget.xposition,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                )));
-                  },
-                  child: Text(
-                    "Daily visit list",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.bakbakOne(
-                      fontSize: 18,
-                      color: Color(0xff064A76),
-                    ),
-                  ),
-                ),
-              ),
-            ),*/
-          ],
+              ),*/
+            ],
+          ),
         ),
       ),
     );

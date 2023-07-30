@@ -193,7 +193,6 @@ class _DO_details_notificationState extends State<DO_details_notification> {
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
                                 "xdornum": widget.xdornum.toString(),
-                                "ypd": "0",
                                 "xstatus": widget.xstatus.toString()
                               }));
 

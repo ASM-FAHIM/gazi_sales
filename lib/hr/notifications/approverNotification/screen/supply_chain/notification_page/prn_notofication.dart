@@ -1,6 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import '../../../../../../data_model/notificaiton_count/admin_count.dart';
+import '../../../../../../screen/SupplyChain.dart';
 
 class PRN_notification extends StatefulWidget {
   PRN_notification(
@@ -8,6 +13,7 @@ class PRN_notification extends StatefulWidget {
       required this.xstaff,
       required this.zemail,
       required this.zid});
+
   String xposition;
   String xstaff;
   String zemail;
@@ -20,35 +26,34 @@ class PRN_notification extends StatefulWidget {
 //No need to prn notification
 
 class _PRN_notificationState extends State<PRN_notification> {
-  // Future<List<''>>? futurePost;
-  // String rejectNote = " ";
-  // Future<List<''>> fetchPost() async {
-  //   var response = await http.post(
-  //       Uri.parse('http://172.20.20.69/aygaz/notifications/pendingPurchaseReturn.php'),
-  //       body: jsonEncode(<String, String>{
-  //         "xposition": widget.xposition,
-  //       }));
-  //
-  //   // print(response.body);
-  //
-  //   if (response.statusCode == 200) {
-  //     final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-  //
-  //     return parsed.map<GrnModel>((json) => GrnModel.fromJson(json)).toList();
-  //   } else {
-  //     throw Exception('Failed to load album');
-  //   }
-  // }
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   // submitData();
-  //   futurePost = fetchPost();
-  //
-  //   fetchPost().whenComplete(() => futurePost);
-  // }
+  Future<List<GrnModel>>? futurePost;
+  String rejectNote = " ";
+
+  Future<List<GrnModel>> fetchPost() async {
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/aygaz/notifications/pendingPurchaseReturn.php'),
+        body: jsonEncode(<String, String>{
+          "xposition": widget.xposition,
+        }));
+
+    // print(response.body);
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      return parsed.map<GrnModel>((json) => GrnModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futurePost = fetchPost();
+    fetchPost().whenComplete(() => futurePost);
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +63,15 @@ class _PRN_notificationState extends State<PRN_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PurchaseNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -133,6 +147,7 @@ class _PRN_notificationState extends State<PRN_notification> {
       //                           ),
       //                         ],
       //                       ),
+      //                       childrenPadding: EdgeInsets.symmetric(horizontal: 10),
       //                       children: <Widget>[
       //                         Text(
       //                           "Goods receipts Note Number: " +

@@ -1,15 +1,10 @@
 import 'dart:convert';
-
 import '../../../../../../../conts_api_link.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../../../../../sales/constant/app_constants.dart';
-import '../../Notification_model/details_model/do_details_model.dart';
 import '../../Notification_model/details_model/petty_details_model.dart';
 
 class PettyDetailsScreen extends StatefulWidget {
@@ -39,7 +34,7 @@ class _PettyDetailsScreenState extends State<PettyDetailsScreen> {
   Future<List<PettyDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/accounts/petty/petty.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/accounts/petty/petty_details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xbillno": widget.xbillno,
@@ -147,14 +142,15 @@ class _PettyDetailsScreenState extends State<PettyDetailsScreen> {
                                     ),
                                     Text(
                                       "Approved Amount: " +
-                                          snapshot.data![index].,
+                                          snapshot.data![index].xprime,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Justification: " + snapshot.data![index].xlong,
+                                      "Justification: " +
+                                          snapshot.data![index].xlong,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -179,14 +175,14 @@ class _PettyDetailsScreenState extends State<PettyDetailsScreen> {
                         //color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse(ConstApiLink().doApproveApi),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/gazi/notification/accounts/petty/petty_approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xdornum": widget.xdornum.toString(),
-                                "ypd": "0",
-                                "xstatus": widget.xstatus.toString()
+                                "xbillno": widget.xbillno,
+                                "xstatus": widget.xstatus
                               }));
 
                           Get.snackbar('Message', 'Approved',
@@ -278,14 +274,13 @@ class _PettyDetailsScreenState extends State<PettyDetailsScreen> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  ConstApiLink().doRejectApi),
+                                                  'http://${AppConstants.baseurl}/gazi/notification/accounts/iou/iou_reject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
                                                 "xposition": widget.xposition,
-                                                "xdornum": widget.xdornum,
-                                                "wh": "0",
-                                                "xnote1": rejectNote
+                                                "xbillno": widget.xbillno,
+                                                "xnote": rejectNote
                                               }));
                                           print(
                                               'success: ${response.statusCode}');

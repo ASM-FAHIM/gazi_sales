@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/spr_admin_model.dart';
+import '../../../../../../screen/SupplyChain.dart';
+import '../notification_model/spr_admin_model.dart';
 import 'details_page/spr_notification_details.dart';
 
 class SPR_notification extends StatefulWidget {
@@ -71,6 +72,15 @@ class _SPR_notificationState extends State<SPR_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PurchaseNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -139,6 +149,8 @@ class _SPR_notificationState extends State<SPR_notification> {
                                 ),
                               ],
                             ),
+                            childrenPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
                                 "SPR No.: " +

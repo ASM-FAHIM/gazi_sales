@@ -3,11 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/grn_admin_model.dart';
+import '../../../../../../data_model/notificaiton_count/admin_count.dart';
 import '../../../../../../sales/constant/app_constants.dart';
 import '../../approver_notification.dart';
+import '../notification_models/grn_admin_model.dart';
 import 'details_page/grn_notification_details.dart';
 
 class GRN_notification extends StatefulWidget {
@@ -27,10 +26,10 @@ class GRN_notification extends StatefulWidget {
 }
 
 class _GRN_notificationState extends State<GRN_notification> {
-  Future<List<GrnModel>>? futurePost;
+  Future<List<GrnNotificationModel>>? futurePost;
   String rejectNote = " ";
 
-  Future<List<GrnModel>> fetchPost() async {
+  Future<List<GrnNotificationModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
             'http://${AppConstants.baseurl}/gazi/notification/inventory/GRN/GRN.php'),
@@ -41,7 +40,10 @@ class _GRN_notificationState extends State<GRN_notification> {
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      return parsed.map<GrnModel>((json) => GrnModel.fromJson(json)).toList();
+      return parsed
+          .map<GrnNotificationModel>(
+              (json) => GrnNotificationModel.fromJson(json))
+          .toList();
     } else {
       throw Exception('Failed to load album');
     }
@@ -91,7 +93,7 @@ class _GRN_notificationState extends State<GRN_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<GrnModel>>(
+        child: FutureBuilder<List<GrnNotificationModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -117,6 +119,8 @@ class _GRN_notificationState extends State<GRN_notification> {
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "${snapshot.data![index].xgrnnum}",

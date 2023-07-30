@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
+import '../../../../../../screen/SupplyChain.dart';
 import '../notification_model/pr_cs_admin_model.dart';
 import 'details_page/cs_details.dart';
 
@@ -67,6 +68,15 @@ class _CS_notificationState extends State<CS_notification> {
           color: Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PurchaseNotificationList(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          zid: widget.zid,
+                          xstaff: widget.xstaff,
+                        )));
           },
         ),
         title: Center(
@@ -125,6 +135,8 @@ class _CS_notificationState extends State<CS_notification> {
                             ),
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
+                            childrenPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
                                 "Department:" +

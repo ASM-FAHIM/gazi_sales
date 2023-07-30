@@ -1,14 +1,11 @@
-/*
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../../../../../api.dart';
-import '../../notification_model/details_model/pr_cash_details_model.dart';
+import '../../notification_model/details_model/padj_details_model.dart';
 
 class PADJ_details_notification extends StatefulWidget {
   PADJ_details_notification(
@@ -33,22 +30,23 @@ class PADJ_details_notification extends StatefulWidget {
 
 class _PADJ_details_notificationState extends State<PADJ_details_notification> {
   String api = API_Names().api;
-  Future<List<CashDetailsModel>>? futurePost;
+  Future<List<PadjDetailsModel>>? futurePost;
   String rejectNote = " ";
 
-  Future<List<CashDetailsModel>> fetchPostdetails() async {
-    var response =
-        await http.post(Uri.parse('http://$api/ughcm/UG/RR_Details.php'),
-            body: jsonEncode(<String, String>{
-              "zid": widget.zid,
-              "xporeqnum": widget.xporeqnum,
-            }));
+  Future<List<PadjDetailsModel>> fetchPostdetails() async {
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/scm/Adv_Adj/padj_details.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xporeqnum": widget.xporeqnum,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<CashDetailsModel>((json) => CashDetailsModel.fromJson(json))
+          .map<PadjDetailsModel>((json) => PadjDetailsModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -74,7 +72,7 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
         ),
         title: Center(
           child: Text(
-            "PADJ Details",
+            "Advance Adjustment Details",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -90,7 +88,7 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<CashDetailsModel>>(
+        child: FutureBuilder<List<PadjDetailsModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -121,6 +119,14 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
                                       ),
                                     ),
                                     Text(
+                                      "GRN No : " +
+                                          snapshot.data![index].xgrnnum,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
                                       "Description : " +
                                           snapshot.data![index].xdesc,
                                       style: GoogleFonts.bakbakOne(
@@ -128,23 +134,16 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    Text(
-                                      "Brand : " + snapshot.data![index].xbrand,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
                                     //
                                     Text(
-                                      "Required Qty : " +
-                                          "${snapshot.data![index].xqtyreq}",
+                                      "Line Amount : " +
+                                          "${snapshot.data![index].xlineamt}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    Text(
+                                    /*Text(
                                       "Approved Qty: " +
                                           "${snapshot.data![index].xqtyapv}",
                                       style: GoogleFonts.bakbakOne(
@@ -174,7 +173,7 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -187,19 +186,20 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FlatButton(
-                        color: Colors.green,
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://$api/ughcm/UG/purchase/CashAdv_Approve.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/scm/Adv_Adj/padj_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
                                 "xporeqnum": widget.xporeqnum,
                                 "xstatusreq": widget.xstatusreq
-                                // "aprcs": "GRN Approval"
                               }));
 
                           Get.snackbar('Message', 'Approved',
@@ -216,13 +216,18 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
                           print(response.statusCode);
                           print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text("Approve",
+                            style: TextStyle(
+                              color: Colors.white,
+                            )),
                       ),
                       SizedBox(
                         width: 50,
                       ),
-                      FlatButton(
-                        color: Colors.red,
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -271,33 +276,40 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
                                     ],
                                   ),
                                   actions: [
-                                    FlatButton(
-                                      color: Color(0xff064A76),
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: Color(0xff064A76),
+                                      ),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/gazi/notification/scm/Adv_Adj/padj_Reject.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xporeqnum": widget.xporeqnum,
+                                                "xnote": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        var response = await http.post(
-                                            Uri.parse(
-                                                'http://$api/ughcm/UG/purchase/CashAdv_Reject.php'),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "xporeqnum": widget.xporeqnum,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-                                        print(rejectNote);
-
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.TOP);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
@@ -311,7 +323,10 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text("Reject",
+                            style: TextStyle(
+                              color: Colors.white,
+                            )),
                       ),
                     ],
                   )
@@ -319,7 +334,7 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },
@@ -328,4 +343,3 @@ class _PADJ_details_notificationState extends State<PADJ_details_notification> {
     );
   }
 }
-*/

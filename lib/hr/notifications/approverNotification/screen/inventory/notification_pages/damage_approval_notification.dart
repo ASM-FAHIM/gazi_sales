@@ -128,6 +128,8 @@ class _DamageApproval_notificationState
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "${snapshot.data![index].xtornum}",
