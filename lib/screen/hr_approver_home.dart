@@ -1,19 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_clearance.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_hrd_transfer.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_settlement.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
 import 'package:badges/badges.dart' as badges;
 import '../data_model/notificaiton_count/admin_count.dart';
+import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_requisition.dart';
+import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_short_leave.dart';
 import '../sales/constant/app_constants.dart';
 import '../sales/constant/colors.dart';
-import '../hr/notifications/approverNotification/screen/approver.dart';
-import '../hr/notifications/approverNotification/screen/hr_approver/absent_employee.dart';
-import '../hr/notifications/approverNotification/screen/hr_approver/early_employee.dart';
-import '../hr/notifications/approverNotification/screen/hr_approver/late_employee.dart';
-import '../hr/notifications/approverNotification/screen/hr_approver/leave_tour_employee.dart';
+import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/absent_employee.dart';
+import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/early_employee.dart';
+import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/late_employee.dart';
+import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/leave_tour_employee.dart';
 
 class HrApproverHome extends StatefulWidget {
   HrApproverHome({
@@ -37,17 +40,27 @@ class HrApproverHome extends StatefulWidget {
 }
 
 class _HrApproverHomeState extends State<HrApproverHome> {
-  String absentemployee_count = "0";
+  String absentemployee_count = "1";
   late AbsentCountModel absentemployee_count1;
 
-  String leaveandtouradmin_count = "0";
+  String leaveandtouradmin_count = "1";
   late LeaveandTourCountModel leaveandtouradmin_count1;
 
-  String earlyemployee_count = "0";
+  String earlyemployee_count = "1";
   late EarlyCountModel earlyemployee_count1;
 
-  String lateemployee_count = "0";
+  String lateemployee_count = "1";
   late LateCountModel lateemployee_count1;
+
+  String empReqCount = "1";
+
+  String shortLeaveCount = "1";
+
+  String clearLCount = "1";
+
+  String settleLCount = "1";
+
+  String hrdTCount = "1";
 
   bool isLoading = false;
   int totalCount = 0;
@@ -412,220 +425,517 @@ class _HrApproverHomeState extends State<HrApproverHome> {
               padding: const EdgeInsets.only(bottom: 20),
               child: Column(
                 children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                    child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
-                        lateemployee_count,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.width / 7.5,
-                        width: MediaQuery.of(context).size.width,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
+                  if (lateemployee_count == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          lateemployee_count,
+                          style: TextStyle(color: Colors.white),
                         ),
-                        child: TextButton(
-                          // shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Admin_Late_Leave_NotificationList(
-                                  xposition: widget.xposition,
-                                  xstaff: widget.xstaff,
-                                  zemail: widget.zemail,
-                                  zid: widget.zid,
-                                ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
                               ),
-                            );
-                          },
-                          child: Text(
-                            "Late Employees",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: const Color(0xff064A76),
-                            ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                    child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
-                        earlyemployee_count,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.width / 7.5,
-                        width: MediaQuery.of(context).size.width,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: TextButton(
-                          // shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            Navigator.push(
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Admin_Early_Leave_NotificationList(
-                                          xposition: widget.xposition,
-                                          xstaff: widget.xstaff,
-                                          zemail: widget.zemail,
-                                          zid: widget.zid,
-                                        )));
-                          },
-                          child: Text(
-                            "Early Leave Employee",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: const Color(0xff064A76),
+                                  builder: (context) =>
+                                      Admin_Late_Leave_NotificationList(
+                                    xposition: widget.xposition,
+                                    xstaff: widget.xstaff,
+                                    zemail: widget.zemail,
+                                    zid: widget.zid,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Late Employees",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                    child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
-                        leaveandtouradmin_count,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.width / 7.5,
-                        width: MediaQuery.of(context).size.width,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
+                  ],
+                  if (earlyemployee_count == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          earlyemployee_count,
+                          style: TextStyle(color: Colors.white),
                         ),
-                        child: TextButton(
-                          // shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Admin_Leave_Tour_NotificationList(
-                                          xposition: widget.xposition,
-                                          xstaff: widget.xstaff,
-                                          zemail: widget.zemail,
-                                          zid: widget.zid,
-                                        )));
-                          },
-                          child: Text(
-                            "Leave & Tour for Approval",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: const Color(0xff064A76),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Admin_Early_Leave_NotificationList(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Early Leave Employee",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                    child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
-                        absentemployee_count,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.width / 7.5,
-                        width: MediaQuery.of(context).size.width,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
+                  ],
+                  if (leaveandtouradmin_count == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          leaveandtouradmin_count,
+                          style: TextStyle(color: Colors.white),
                         ),
-                        child: TextButton(
-                          // shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Admin_Absent_NotificationList(
-                                          xposition: widget.xposition,
-                                          xstaff: widget.xstaff,
-                                          zemail: widget.zemail,
-                                          zid: widget.zid,
-                                        )));
-                          },
-                          child: Text(
-                            "Absent Employee",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: const Color(0xff064A76),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Admin_Leave_Tour_NotificationList(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Leave & Tour for Approval",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
+                  if (absentemployee_count == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          absentemployee_count,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Admin_Absent_NotificationList(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Absent Employee",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (empReqCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          empReqCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EmpReqScreen(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Employee Requisition List",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (shortLeaveCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          shortLeaveCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ShortLeaveScreen(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Short Leave Approval",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (clearLCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          clearLCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ClearanceListScreen(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Clearance List Approval",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (settleLCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          settleLCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SettlementListScreen(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Settlement List Approval",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (hrdTCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          hrdTCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HRDTransferScreen(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "HRD Transfer List",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             )),

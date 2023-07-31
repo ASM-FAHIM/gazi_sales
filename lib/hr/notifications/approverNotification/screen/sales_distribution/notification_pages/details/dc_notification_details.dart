@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import '../../../../../../../sales/constant/app_constants.dart';
 import '../../notification_models/details_model/dc_details_model.dart';
 
 class DC_Details_Notification extends StatefulWidget {
@@ -37,8 +38,11 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
   String rejectNote = " ";
 
   Future<List<DcDetailsModel>> fetchPostdetails() async {
-    var response = await http.post(Uri.parse(ConstApiLink().dcDetailsApi),
-        body: jsonEncode(<String, String>{"xdocnum": widget.xdocnum}));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc_Details.php'),
+        body: jsonEncode(
+            <String, String>{"zid": widget.zid, "xdornum": widget.xdocnum}));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -112,29 +116,6 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Delivery Chalan num: ${snapshot.data![index].xdocnum}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Document Row: "
-                                      "${snapshot.data![index].xdocrow}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Unit of Measure: "
-                                      "${snapshot.data![index].xunit}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
                                       "Product Code: " +
                                           "${snapshot.data![index].xitem}",
                                       style: GoogleFonts.bakbakOne(
@@ -143,24 +124,55 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                                       ),
                                     ),
                                     Text(
-                                      "Chalan Quantity: " +
-                                          snapshot.data![index].xqtydoc,
+                                      "Name Of The Product: " +
+                                          "${snapshot.data![index].xdesc}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Product Name: " +
-                                          snapshot.data![index].des,
+                                      "Quantity: " +
+                                          snapshot.data![index].xqtyord,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Product Description: " +
-                                          snapshot.data![index].xref,
+                                      "Unit: "
+                                      "${snapshot.data![index].xunit}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Rate: " + snapshot.data![index].xrate,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Regular Price: " +
+                                          snapshot.data![index].xlineamt,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "VAT Amt: " +
+                                          snapshot.data![index].xvatamt,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Net Amt: " +
+                                          snapshot.data![index].xnetamt,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -180,18 +192,18 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         //color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse(ConstApiLink().dcApproveApi),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xdocnum": widget.xdocnum.toString(),
-                                "ypd": "0",
+                                "xdornum": widget.xdocnum.toString(),
                                 "xstatus": widget.xstatus.toString()
                               }));
 
@@ -201,18 +213,19 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                               snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
-
                           print(response.statusCode);
-                          print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -270,7 +283,6 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                                       onPressed: () async {
                                         if (rejectNote == " ") {
                                           Navigator.pop(context);
-                                          print('response code: Empty field');
                                           Get.snackbar('Warning!',
                                               'Please enter reject note',
                                               backgroundColor: Colors.redAccent,
@@ -279,14 +291,13 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  ConstApiLink().dcRejectApi),
+                                                  'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc_Reject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
                                                 "xposition": widget.xposition,
-                                                "xdocnum": widget.xdocnum,
-                                                "wh": "0",
-                                                "xnote1": rejectNote
+                                                "xdornum": widget.xdocnum,
+                                                "xnote": rejectNote
                                               }));
                                           print(
                                               'successful: ${response.statusCode}');
@@ -312,7 +323,10 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
@@ -320,7 +334,7 @@ class _DC_Details_NotificationState extends State<DC_Details_Notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

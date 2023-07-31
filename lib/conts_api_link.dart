@@ -35,7 +35,7 @@ class ConstApiLink {
   final String dealerVisitApi =
       'http://${AppConstants.baseurl}/salesforce/TSO_Daily_Visit.php?id=972';
   final String dcApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/dcvalue.php';
+      'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc.php';
   final String doApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingInvoice.php';
   final String pendingPSRAApi = 'no data present for further proceed';
@@ -91,7 +91,7 @@ class ConstApiLink {
   final String soDetailsApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/sales/so/soDetails.php';
   final String dcDetailsApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/dcdetails.php';
+      'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc_Details.php';
   final String doDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingInvoicedetails.php';
   final String pendingPSRADetailsApi = 'no data present for further proceed';
@@ -169,9 +169,9 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/GAZI/Notification/so/soReject.php';
 
   final String dcApproveApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/dcapprove.php';
+      'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc_Approve.php';
   final String dcRejectApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/dcreject.php';
+      'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc_Reject.php';
 
   final String doApproveApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingInvoiceApprove.php';
@@ -239,6 +239,16 @@ class ConstApiLink {
   final String leaveTourEpmApi =
       'http://${AppConstants.baseurl}/GAZI/HR/Notification/leaveandtouradmin.php';
   final String absEpmApi =
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/absentemployee.php';
+  final String empReqApi =
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/lateemployee.php';
+  final String shortLApi =
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/earlyemployee.php';
+  final String clearLApi =
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/leaveandtouradmin.php';
+  final String settleLApi =
+      'http://${AppConstants.baseurl}/GAZI/HR/Notification/absentemployee.php';
+  final String hrdLApi =
       'http://${AppConstants.baseurl}/GAZI/HR/Notification/absentemployee.php';
 
   //HR Approve & Reject

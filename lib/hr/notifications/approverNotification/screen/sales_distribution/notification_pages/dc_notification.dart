@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../../../../../conts_api_link.dart';
+import '../../../../../../sales/constant/app_constants.dart';
 import '../../../../../../screen/SandD.dart';
 import '../notification_models/dc_admin_model.dart';
 import 'details/dc_notification_details.dart';
@@ -30,8 +31,11 @@ class _DC_NotificationState extends State<DC_Notification> {
   dynamic rejectNote = " ";
 
   Future<List<DcAdminModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().dcApi),
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/sales/dc/dc.php'),
         body: jsonEncode(<String, String>{
+          "zid": widget.zid,
           "xposition": widget.xposition,
         }));
 
@@ -120,14 +124,14 @@ class _DC_NotificationState extends State<DC_Notification> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${snapshot.data![index].xdocnum}",
+                                            "${snapshot.data![index].xdornum}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].preparer}",
+                                            "${snapshot.data![index].preparerName}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
@@ -143,7 +147,7 @@ class _DC_NotificationState extends State<DC_Notification> {
                             children: <Widget>[
                               Text(
                                 "Delivery Chalan: " +
-                                    " ${snapshot.data![index].xdocnum}",
+                                    " ${snapshot.data![index].xdornum}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -151,17 +155,7 @@ class _DC_NotificationState extends State<DC_Notification> {
                                 ),
                               ),
                               Text(
-                                "Sales Order Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Received Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdatecom.date).toString()))}",
+                                "DC Date: " + " ${snapshot.data![index].xdate}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -178,102 +172,116 @@ class _DC_NotificationState extends State<DC_Notification> {
                               ),
                               Text(
                                 "Customer Name: " +
-                                    "${snapshot.data![index].xcusname}",
+                                    "${snapshot.data![index].xorg}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Category: " +
-                                    "${snapshot.data![index].xsubcat}",
+                                "Depo/Store: " + "${snapshot.data![index].xwh}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Vehicle(Truck/Tanker): " +
-                                    snapshot.data![index].xtruckno,
+                                "Depo/Store Name: " +
+                                    snapshot.data![index].xwhdesc,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Sales Order Number: " +
-                                    "${snapshot.data![index].xtornum}",
+                                "DC Type: " +
+                                    "${snapshot.data![index].xpaymenttype}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "From Stroe: " +
-                                    "${snapshot.data![index].xfwh}",
+                                "Incentive Applicable: " +
+                                    "${snapshot.data![index].xopincapply}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Territory: " +
-                                    "${snapshot.data![index].xterritory}",
+                                "SO Number: " +
+                                    "${snapshot.data![index].xsonumber}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "TSO ID: " + "${snapshot.data![index].xtso}",
+                                "Executive Channel: " +
+                                    "${snapshot.data![index].executive}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
-                                "TSO Name: " +
-                                    "${snapshot.data![index].xtsoname}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
+                              // Text(
+                              //   "Location: " +
+                              //       "${snapshot.data![index]}",
+                              //   style: GoogleFonts.bakbakOne(
+                              //     fontSize: 18,
+                              //     //color: Color(0xff074974),
+                              //   ),
+                              // ),
                               //ASM Name
                               Text(
-                                "Area Sales Manager Name: " +
-                                    "\n ${snapshot.data![index].asmname} : ${snapshot.data![index].xsm}",
+                                "ZM: " + "\n ${snapshot.data![index].zm}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Thana: " + "${snapshot.data![index].xthanaop}",
+                                "DSM: " + "${snapshot.data![index].dsm}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "District: " +
-                                    "${snapshot.data![index].xdistrictop}",
+                                "Location: " + "${snapshot.data![index].zone}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Delivery Chalan Status: " +
-                                    "${snapshot.data![index].xstatusdoc}",
+                                "Division: " +
+                                    "${snapshot.data![index].division}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Preparer: " +
-                                    "${snapshot.data![index].preparer}",
+                                "Exp Adjustment Amt: " +
+                                    "${snapshot.data![index].xexpamt}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Discount Type: " +
+                                    "${snapshot.data![index].xdisctype}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Voucher Number: " +
+                                    "${snapshot.data![index].xvoucher}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -281,7 +289,7 @@ class _DC_NotificationState extends State<DC_Notification> {
                               ),
                               Text(
                                 "Approval Status: " +
-                                    "${snapshot.data![index].xstatus}",
+                                    "${snapshot.data![index].status}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -289,7 +297,7 @@ class _DC_NotificationState extends State<DC_Notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  primary: Colors.lightBlueAccent,
+                                  backgroundColor: Colors.lightBlueAccent,
                                 ),
                                 onPressed: () async {
                                   final result = await Navigator.push(
@@ -300,7 +308,7 @@ class _DC_NotificationState extends State<DC_Notification> {
                                                 xdornum: snapshot
                                                     .data![index].xdornum,
                                                 xdocnum: snapshot
-                                                    .data![index].xdocnum,
+                                                    .data![index].xdornum,
                                                 zid: widget.zid,
                                                 xposition: widget.xposition,
                                                 zemail: widget.zemail,
@@ -315,7 +323,11 @@ class _DC_NotificationState extends State<DC_Notification> {
                                     });
                                   }
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -481,7 +493,7 @@ class _DC_NotificationState extends State<DC_Notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

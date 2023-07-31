@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import '../../../../../conts_api_link.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/absent_emp_admin_model.dart';
-import '../../../../../screen/hr_approver_home.dart';
+import '../../../../../../conts_api_link.dart';
+import '../../../../../../sales/constant/app_constants.dart';
+import '../../../../../../screen/hr_approver_home.dart';
+import '../notification_models/emp_req_admin_model.dart';
 
-class Admin_Absent_NotificationList extends StatefulWidget {
+class EmpReqScreen extends StatefulWidget {
   //const NotificationList({Key? key}) : super(key: key);
 
-  Admin_Absent_NotificationList(
+  EmpReqScreen(
       {required this.xposition,
       required this.xstaff,
       required this.zemail,
@@ -23,25 +23,25 @@ class Admin_Absent_NotificationList extends StatefulWidget {
   String zid;
 
   @override
-  _Admin_Absent_NotificationListState createState() =>
-      _Admin_Absent_NotificationListState();
+  _EmpReqScreenState createState() => _EmpReqScreenState();
 }
 
-class _Admin_Absent_NotificationListState
-    extends State<Admin_Absent_NotificationList> {
+class _EmpReqScreenState extends State<EmpReqScreen> {
   // fetchnotification _noteList = fetchnotification();
   //fetchnotification _noteList = fetchnotification();
 
   @override
-  Future<List<AbsentempNotiModel>>? futurePost;
+  Future<List<EmpReqAdminModel>>? futurePost;
 
   String rejectNote = " ";
 
-  Future<List<AbsentempNotiModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().absEpmApi),
+  Future<List<EmpReqAdminModel>> fetchPost() async {
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/gazi/notification/hr/Emp_Req/empReq.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
-          "xposition": widget.xposition,
+          "zemail": widget.zemail,
         }));
 
     print(response.body);
@@ -50,7 +50,7 @@ class _Admin_Absent_NotificationListState
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<AbsentempNotiModel>((json) => AbsentempNotiModel.fromJson(json))
+          .map<EmpReqAdminModel>((json) => EmpReqAdminModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -88,7 +88,7 @@ class _Admin_Absent_NotificationListState
         ),
         title: Center(
           child: Text(
-            "Absent Approval",
+            "Employee Requisition List",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -104,7 +104,7 @@ class _Admin_Absent_NotificationListState
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<AbsentempNotiModel>>(
+        child: FutureBuilder<List<EmpReqAdminModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -121,28 +121,22 @@ class _Admin_Absent_NotificationListState
                       Card(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 36.0, left: 6.0, right: 6.0, bottom: 6.0),
+                              top: 10, left: 6.0, right: 6.0, bottom: 6.0),
                           child: ExpansionTile(
                             title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
-                                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Text((DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].intime.date).toString()))).toString(),
-                                    //   style: GoogleFonts.bakbakOne(
-                                    //     fontSize: 18,
-                                    //     //color: Color(0xff074974),
-                                    //   ),
-                                    // ),
-                                    Text(" ${snapshot.data![index].name}",
+                                    Text(" ${snapshot.data![index].xpdreqnum}",
                                         style: GoogleFonts.bakbakOne(
                                           fontSize: 18,
                                           //color: Color(0xff074974),
                                         )),
 
                                     Text(
-                                      " ${snapshot.data![index].xstatus}",
+                                      " ${snapshot.data![index].xstatusreqdesc}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -153,82 +147,98 @@ class _Admin_Absent_NotificationListState
                                 ),
                               ],
                             ),
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            childrenPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
-                                "Date : " +
-                                    (DateFormat("dd-MM-yyyy").format(
-                                            DateTime.parse((snapshot
-                                                    .data![index].intime.date)
-                                                .toString())))
-                                        .toString(),
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              // Text("Day : "+(DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].toDate.date).toString()))).toString(),
-                              //   style: TextStyle(
-                              //       fontSize: 15,
-                              //       fontWeight: FontWeight.bold
-                              //   ),
-                              // ),
-                              Text(
-                                "In Time : " +
-                                    (DateFormat("hh:mm:ss a").format(
-                                            DateTime.parse((snapshot
-                                                    .data![index].intime.date)
-                                                .toString())))
-                                        .toString(),
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-
-                              Text(
-                                "Out Time : " +
-                                    (DateFormat("hh:mm:ss a").format(
-                                            DateTime.parse((snapshot
-                                                    .data![index].outtime.date)
-                                                .toString())))
-                                        .toString(),
-                                textAlign: TextAlign.center,
+                                "Date : " + "${snapshot.data![index].xdate}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Working Hour : " +
-                                    (DateFormat("HH:mm:ss").format(
-                                            DateTime.parse((snapshot
-                                                    .data![index]
-                                                    .xworktime
-                                                    .date)
-                                                .toString())))
-                                        .toString(),
+                                "Position Name: " +
+                                    "${snapshot.data![index].xpositiondesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Status : " +
-                                    "${snapshot.data![index].xstatus.toString()}",
+                                "Headcount(Actual): " +
+                                    "${snapshot.data![index].xdeadcounta}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Note : " +
-                                    "${snapshot.data![index].xnote.toString()}",
+                                "Position Type: " +
+                                    "${snapshot.data![index].xpositiontype}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-
+                              Text(
+                                "Reporting To: " +
+                                    "${snapshot.data![index].xstaff}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Reporting Name: " +
+                                    "${snapshot.data![index].staffn}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Budgeted Salary: " +
+                                    "${snapshot.data![index].xsalbudget}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Location: " +
+                                    "${snapshot.data![index].xlocation}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Employment Type: " +
+                                    "${snapshot.data![index].xemptype}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Made Of Advertisement: " +
+                                    "${snapshot.data![index].xadvertise}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Requisition Status: " +
+                                    "${snapshot.data![index].xstatusreqdesc}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -241,21 +251,18 @@ class _Admin_Absent_NotificationListState
                                       //http://172.20.20.69/adminapprove/earlyapprove.php
                                       var response = await http.post(
                                           Uri.parse(
-                                              ConstApiLink().absEpmApproveApi),
+                                              'http://${AppConstants.baseurl}/gazi/notification/hr/Emp_Req/empReq_Approve.php'),
                                           body: jsonEncode(<String, String>{
                                             "zid": "100000",
                                             "user": widget.zemail,
                                             "xposition": widget.xposition,
-                                            "xstaff":
-                                                snapshot.data![index].xstaff,
-                                            "xyearperdate": snapshot
-                                                .data![index].xyearperdate
+                                            "xpdreqnum": snapshot
+                                                .data![index].xpdreqnum
                                                 .toString(),
-                                            "xnote": rejectNote
+                                            "xstatusreq": snapshot
+                                                .data![index].xstatusreq
+                                                .toString(),
                                           }));
-
-                                      print(response.body);
-
                                       Get.snackbar('Message', 'Approved',
                                           backgroundColor: Color(0XFF8CA6DB),
                                           colorText: Colors.white,
@@ -264,10 +271,6 @@ class _Admin_Absent_NotificationListState
                                       setState(() {
                                         snapshot.data!.removeAt(index);
                                       });
-
-                                      print("Approve" +
-                                          snapshot.data![index].name
-                                              .toString());
                                     },
                                     child: Text(
                                       "Approve",
@@ -283,56 +286,19 @@ class _Admin_Absent_NotificationListState
                                     ),
                                     //color: Colors.red,
                                     onPressed: () async {
-                                      showDialog(
+                                      /*showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              title: const Text("Reject Note"),
+                                              title: const Text("Reject"),
                                               content: Column(
                                                 children: [
                                                   Container(
                                                     //height: MediaQuery.of(context).size.height/6,
-                                                    child: TextFormField(
-                                                      style:
-                                                          GoogleFonts.bakbakOne(
-                                                        //fontWeight: FontWeight.bold,
-                                                        fontSize: 18,
-                                                        color: Colors.black,
-                                                      ),
-                                                      onChanged: (input) {
-                                                        rejectNote = input;
-                                                      },
-                                                      validator: (input) {
-                                                        if (input!.isEmpty) {
-                                                          return "Please Write Reject Note";
-                                                        }
-                                                      },
-                                                      scrollPadding:
-                                                          EdgeInsets.all(20),
-                                                      decoration:
-                                                          InputDecoration(
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                                left: 20),
-                                                        // add padding to adjust text
-                                                        isDense: false,
-
-                                                        hintStyle: GoogleFonts
-                                                            .bakbakOne(
-                                                          //fontWeight: FontWeight.bold,
-                                                          fontSize: 18,
-                                                          color: Colors.black,
-                                                        ),
-                                                        labelText:
-                                                            "Reject Note",
-                                                        labelStyle: GoogleFonts
-                                                            .bakbakOne(
-                                                          fontSize: 18,
-                                                          color: Colors.black,
-                                                        ),
-                                                        border:
-                                                            OutlineInputBorder(),
-                                                      ),
+                                                    child: Column(
+                                                      children: [
+                                                        Text('')
+                                                      ],
                                                     ),
                                                   ),
                                                 ],
@@ -348,8 +314,6 @@ class _Admin_Absent_NotificationListState
                                                     //http://172.20.20.69/adminapprove/poreject.php
                                                     if (rejectNote == " ") {
                                                       Navigator.pop(context);
-                                                      print(
-                                                          'response code: Empty field');
                                                       Get.snackbar('Warning!',
                                                           'Please enter reject note',
                                                           backgroundColor:
@@ -360,32 +324,23 @@ class _Admin_Absent_NotificationListState
                                                               SnackPosition
                                                                   .TOP);
                                                     } else {
-                                                      var response = await http.post(
-                                                          Uri.parse(ConstApiLink()
-                                                              .absEpmRejectApi),
-                                                          body: jsonEncode(<
-                                                              String, String>{
-                                                            "zid": "100000",
-                                                            "user":
-                                                                widget.zemail,
-                                                            "xposition": widget
-                                                                .xposition,
-                                                            "xstaff": snapshot
-                                                                .data![index]
-                                                                .xstaff,
-                                                            "xyearperdate":
-                                                                snapshot
-                                                                    .data![
-                                                                        index]
-                                                                    .xyearperdate
-                                                                    .toString(),
-                                                            "xnote": rejectNote
-                                                          }));
-
-                                                      print(response.body);
-
+                                                      var response =
+                                                          await http.post(
+                                                              Uri.parse(
+                                                                  'http://${AppConstants.baseurl}/gazi/notification/hr/Emp_Req/empReq_Reject.php'),
+                                                              body: jsonEncode(<
+                                                                  String,
+                                                                  String>{
+                                                                "zid": "100000",
+                                                                "user": widget
+                                                                    .zemail,
+                                                                "xposition": widget
+                                                                    .xposition,
+                                                                "xstaff": snapshot.data![index].xstaff,
+                                                                "xpdreqnum": snapshot.data![index].xpdreqnum.toString(),
+                                                                "xnote": rejectNote
+                                                              }));
                                                       Navigator.pop(context);
-
                                                       Get.snackbar(
                                                           'Message', 'Rejected',
                                                           backgroundColor:
@@ -413,11 +368,31 @@ class _Admin_Absent_NotificationListState
                                               ],
                                               scrollable: true,
                                             );
-                                          });
-
-                                      print("Reject" +
-                                          snapshot.data![index].name
-                                              .toString());
+                                          });*/
+                                      var response = await http.post(
+                                          Uri.parse(
+                                              'http://${AppConstants.baseurl}/gazi/notification/hr/Emp_Req/empReq_Reject.php'),
+                                          body: jsonEncode(<String, String>{
+                                            "zid": "100000",
+                                            "user": widget.zemail,
+                                            "xposition": widget.xposition,
+                                            "xstaff":
+                                                snapshot.data![index].xstaff,
+                                            "xpdreqnum": snapshot
+                                                .data![index].xpdreqnum
+                                                .toString(),
+                                            "xnote": rejectNote
+                                          }));
+                                      Get.snackbar(
+                                        'Message',
+                                        'Rejected',
+                                        backgroundColor: Color(0XFF8CA6DB),
+                                        colorText: Colors.white,
+                                        snackPosition: SnackPosition.TOP,
+                                      );
+                                      setState(() {
+                                        snapshot.data!.removeAt(index);
+                                      });
                                     },
                                     child: Text(
                                       "Reject",

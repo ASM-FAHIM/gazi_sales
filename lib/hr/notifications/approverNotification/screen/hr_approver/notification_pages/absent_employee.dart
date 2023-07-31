@@ -1,22 +1,21 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import '../../../../../conts_api_link.dart';
-import '../../../../../data_model/notification_model/admin_approver_model/early_emp_admin_appr.dart';
-import '../../../../../screen/hr_approver_home.dart';
+import '../../../../../../conts_api_link.dart';
+import '../notification_models/absent_emp_admin_model.dart';
+import '../../../../../../screen/hr_approver_home.dart';
 
-class Admin_Early_Leave_NotificationList extends StatefulWidget {
-  Admin_Early_Leave_NotificationList({
-    required this.xposition,
-    required this.xstaff,
-    required this.zemail,
-    required this.zid,
-  });
+class Admin_Absent_NotificationList extends StatefulWidget {
+  //const NotificationList({Key? key}) : super(key: key);
+
+  Admin_Absent_NotificationList(
+      {required this.xposition,
+      required this.xstaff,
+      required this.zemail,
+      required this.zid});
 
   String xposition;
   String xstaff;
@@ -24,28 +23,34 @@ class Admin_Early_Leave_NotificationList extends StatefulWidget {
   String zid;
 
   @override
-  _Admin_Early_Leave_NotificationListState createState() =>
-      _Admin_Early_Leave_NotificationListState();
+  _Admin_Absent_NotificationListState createState() =>
+      _Admin_Absent_NotificationListState();
 }
 
-class _Admin_Early_Leave_NotificationListState
-    extends State<Admin_Early_Leave_NotificationList> {
+class _Admin_Absent_NotificationListState
+    extends State<Admin_Absent_NotificationList> {
+  // fetchnotification _noteList = fetchnotification();
+  //fetchnotification _noteList = fetchnotification();
+
   @override
-  Future<List<AdminearlyNotiModel>>? futurePost;
+  Future<List<AbsentempNotiModel>>? futurePost;
+
   String rejectNote = " ";
 
-  Future<List<AdminearlyNotiModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().earlyLeaveEpmApi),
+  Future<List<AbsentempNotiModel>> fetchPost() async {
+    var response = await http.post(Uri.parse(ConstApiLink().absEpmApi),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xposition": widget.xposition,
         }));
+
+    print(response.body);
+
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed
-          .map<AdminearlyNotiModel>(
-              (json) => AdminearlyNotiModel.fromJson(json))
+          .map<AbsentempNotiModel>((json) => AbsentempNotiModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -55,7 +60,10 @@ class _Admin_Early_Leave_NotificationListState
   @override
   void initState() {
     super.initState();
+
+    // submitData();
     futurePost = fetchPost();
+
     fetchPost().whenComplete(() => futurePost);
   }
 
@@ -80,7 +88,7 @@ class _Admin_Early_Leave_NotificationListState
         ),
         title: Center(
           child: Text(
-            "Early Employee Notification",
+            "Absent Approval",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -96,7 +104,7 @@ class _Admin_Early_Leave_NotificationListState
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: FutureBuilder<List<AdminearlyNotiModel>>(
+        child: FutureBuilder<List<AbsentempNotiModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -105,6 +113,11 @@ class _Admin_Early_Leave_NotificationListState
                 itemBuilder: (_, index) => Container(
                   child: Column(
                     children: [
+                      // Icon(Icons.notifications_active_outlined),
+                      // SizedBox(
+                      //   width: 100,
+                      // ),
+
                       Card(
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -114,41 +127,30 @@ class _Admin_Early_Leave_NotificationListState
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Column(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          2.2,
-                                      child:
-                                          Text(" ${snapshot.data![index].name}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              )),
-                                    ),
+                                    // Text((DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].intime.date).toString()))).toString(),
+                                    //   style: GoogleFonts.bakbakOne(
+                                    //     fontSize: 18,
+                                    //     //color: Color(0xff074974),
+                                    //   ),
+                                    // ),
+                                    Text(" ${snapshot.data![index].name}",
+                                        style: GoogleFonts.bakbakOne(
+                                          fontSize: 18,
+                                          //color: Color(0xff074974),
+                                        )),
+
                                     Text(
-                                      "Date : " +
-                                          (DateFormat("dd-MM-yyyy").format(
-                                                  DateTime.parse((snapshot
-                                                          .data![index]
-                                                          .xtimein
-                                                          .date)
-                                                      .toString())))
-                                              .toString(),
+                                      " ${snapshot.data![index].xstatus}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
+                                    //Text(" ${snapshot.data![index].status}")
                                   ],
                                 ),
-                                Text(
-                                  " Early\n Leave",
-                                  style: GoogleFonts.bakbakOne(
-                                    fontSize: 18,
-                                    //color: Color(0xff074974),
-                                  ),
-                                )
                               ],
                             ),
                             children: <Widget>[
@@ -156,7 +158,7 @@ class _Admin_Early_Leave_NotificationListState
                                 "Date : " +
                                     (DateFormat("dd-MM-yyyy").format(
                                             DateTime.parse((snapshot
-                                                    .data![index].xtimein.date)
+                                                    .data![index].intime.date)
                                                 .toString())))
                                         .toString(),
                                 style: GoogleFonts.bakbakOne(
@@ -164,38 +166,38 @@ class _Admin_Early_Leave_NotificationListState
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
-                                "In Time : " +
-                                    (DateFormat("hh:mm:ss a").format(
-                                            DateTime.parse((snapshot
-                                                    .data![index].xtimein.date)
-                                                .toString())))
-                                        .toString(),
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Out Time : " +
-                                    (DateFormat("hh:mm:ss a").format(
-                                            DateTime.parse((snapshot
-                                                    .data![index]
-                                                    .xtimeout1
-                                                    .date)
-                                                .toString())))
-                                        .toString(),
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              // Text("OUT Time : "+"${snapshot.data![index].approvedDayS.toString()}",
+                              // Text("Day : "+(DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].toDate.date).toString()))).toString(),
                               //   style: TextStyle(
                               //       fontSize: 15,
                               //       fontWeight: FontWeight.bold
                               //   ),
                               // ),
+                              Text(
+                                "In Time : " +
+                                    (DateFormat("hh:mm:ss a").format(
+                                            DateTime.parse((snapshot
+                                                    .data![index].intime.date)
+                                                .toString())))
+                                        .toString(),
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+
+                              Text(
+                                "Out Time : " +
+                                    (DateFormat("hh:mm:ss a").format(
+                                            DateTime.parse((snapshot
+                                                    .data![index].outtime.date)
+                                                .toString())))
+                                        .toString(),
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
                               Text(
                                 "Working Hour : " +
                                     (DateFormat("HH:mm:ss").format(
@@ -211,17 +213,16 @@ class _Admin_Early_Leave_NotificationListState
                                 ),
                               ),
                               Text(
-                                "Note: " +
-                                    "${snapshot.data![index].xnote ?? " "}",
-                                textAlign: TextAlign.center,
+                                "Status : " +
+                                    "${snapshot.data![index].xstatus.toString()}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Status : " +
-                                    "${snapshot.data![index].xstatusel.toString()}",
+                                "Note : " +
+                                    "${snapshot.data![index].xnote.toString()}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -235,12 +236,12 @@ class _Admin_Early_Leave_NotificationListState
                                     style: TextButton.styleFrom(
                                       backgroundColor: Colors.green,
                                     ),
-                                    // color: Colors.green,
+                                    //color: Colors.green,
                                     onPressed: () async {
                                       //http://172.20.20.69/adminapprove/earlyapprove.php
                                       var response = await http.post(
-                                          Uri.parse(ConstApiLink()
-                                              .earlyLeaveEpmApproveApi),
+                                          Uri.parse(
+                                              ConstApiLink().absEpmApproveApi),
                                           body: jsonEncode(<String, String>{
                                             "zid": "100000",
                                             "user": widget.zemail,
@@ -250,7 +251,7 @@ class _Admin_Early_Leave_NotificationListState
                                             "xyearperdate": snapshot
                                                 .data![index].xyearperdate
                                                 .toString(),
-                                            "xnote": "note"
+                                            "xnote": rejectNote
                                           }));
 
                                       print(response.body);
@@ -280,7 +281,7 @@ class _Admin_Early_Leave_NotificationListState
                                     style: TextButton.styleFrom(
                                       backgroundColor: Colors.red,
                                     ),
-                                    // color: Colors.red,
+                                    //color: Colors.red,
                                     onPressed: () async {
                                       showDialog(
                                           context: context,
@@ -342,7 +343,7 @@ class _Admin_Early_Leave_NotificationListState
                                                     backgroundColor:
                                                         Color(0xff064A76),
                                                   ),
-                                                  // color: Color(0xff064A76),
+                                                  //color: Color(0xff064A76),
                                                   onPressed: () async {
                                                     //http://172.20.20.69/adminapprove/poreject.php
                                                     if (rejectNote == " ") {
@@ -361,7 +362,7 @@ class _Admin_Early_Leave_NotificationListState
                                                     } else {
                                                       var response = await http.post(
                                                           Uri.parse(ConstApiLink()
-                                                              .earlyLeaveEpmRejectApi),
+                                                              .absEpmRejectApi),
                                                           body: jsonEncode(<
                                                               String, String>{
                                                             "zid": "100000",
