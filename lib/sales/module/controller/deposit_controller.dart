@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/sales/module/model/bank_list_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -9,7 +7,6 @@ import '../../constant/app_constants.dart';
 import '../../databaseHelper/database_repo.dart';
 import '../../databaseHelper/deposit_repo.dart';
 import '../model/deposit_number_model.dart';
-import '../model/payment_model_model.dart';
 import 'login_controller.dart';
 
 class DepositController extends GetxController {

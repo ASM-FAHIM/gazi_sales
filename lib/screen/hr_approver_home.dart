@@ -40,27 +40,27 @@ class HrApproverHome extends StatefulWidget {
 }
 
 class _HrApproverHomeState extends State<HrApproverHome> {
-  String absentemployee_count = "1";
+  String absentemployee_count = "0";
   late AbsentCountModel absentemployee_count1;
 
-  String leaveandtouradmin_count = "1";
+  String leaveandtouradmin_count = "0";
   late LeaveandTourCountModel leaveandtouradmin_count1;
 
-  String earlyemployee_count = "1";
+  String earlyemployee_count = "0";
   late EarlyCountModel earlyemployee_count1;
 
-  String lateemployee_count = "1";
+  String lateemployee_count = "0";
   late LateCountModel lateemployee_count1;
 
-  String empReqCount = "1";
+  String empReqCount = "0";
 
-  String shortLeaveCount = "1";
+  String shortLeaveCount = "0";
 
-  String clearLCount = "1";
+  String clearLCount = "0";
 
-  String settleLCount = "1";
+  String settleLCount = "0";
 
-  String hrdTCount = "1";
+  String hrdTCount = "0";
 
   bool isLoading = false;
   int totalCount = 0;
@@ -69,255 +69,6 @@ class _HrApproverHomeState extends State<HrApproverHome> {
     setState(() {
       isLoading = true;
     });
-/*    http.Response responseCS = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/cs_count.php'),
-        body: jsonEncode(<String, String>{"xposition": widget.xposition}));
-
-    cs_Count1 = csModelFromJson(responseCS.body);
-    cs_Count = cs_Count1.total.toString();
-
-    print("Admin Early" + responseCS.body);
-    http.Response responseGRN = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/grn_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    grn_Count1 = grnModelFromJson(responseGRN.body);
-    grn_Count = grn_Count1.total.toString();
-
-    print("Admin late" + responseGRN.body);
-    http.Response responseBM = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingBOM_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    bm_Count1 = bomModelFromJson(responseBM.body);
-    bm_Count = bm_Count1.total.toString();
-
-    print("Admin Leave" + responseBM.body);
-    http.Response responseaBAT = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingBatch_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    bat_Count1 = batModelFromJson(responseaBAT.body);
-    bat_Count = bat_Count1.total.toString();
-
-    print("Admin Absent" + responseaBAT.body);
-    http.Response responseDO = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingInvoice_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    do_Count1 = doModelFromJson(responseDO.body);
-    do_Count = do_Count1.total.toString();
-
-    print("Admin PO" + responseDO.body);
-    http.Response responsePRN = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingPurchaseReturn_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    prn_Count1 = prnModelFromJson(responsePRN.body);
-    prn_Count = prn_Count1.total.toString();
-
-    print("Admin SR" + responsePRN.body);
-    http.Response responseBATP = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/PendingPreProcessBatch_Count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    batp_Count1 = batpModelFromJson(responseBATP.body);
-    batp_Count = batp_Count1.total.toString();
-
-    print("Admin CS" + responseBATP.body);
-    http.Response responseSO = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/PendingSalesOrder_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    so_Count1 = soModelFromJson(responseSO.body);
-    so_Count = so_Count1.total.toString();
-
-    print("Admin LA" + responseSO.body);
-    http.Response responseSalesReturn = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/PendingSalesReturn_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    salesReturn_Count1 = salesReturnModelFromJson(responseSalesReturn.body);
-    salesReturn_Count = salesReturn_Count1.total.toString();
-
-    print("Admin LFA" + responseSalesReturn.body);
-    http.Response responsePendingVoucher = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/pendingVoucher_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    pendingVoucher_Count1 =
-        pendingVoucherModelFromJson(responsePendingVoucher.body);
-    pendingVoucher_Count = pendingVoucher_Count1.total.toString();
-
-    print("Admin PO" + responsePendingVoucher.body);
-    http.Response responsePO = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/povalue_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    po_Count1 = poModelFromJson(responsePO.body);
-    po_Count = po_Count1.total.toString();
-
-    print("Admin LFA" + responsePO.body);
-    http.Response responseBMP = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/preProcessBOM_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    bmp_Count1 = bmpModelFromJson(responseBMP.body);
-    bmp_Count = bmp_Count1.total.toString();
-
-    print("Admin LFA" + responseBMP.body);
-    http.Response responseSPA = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/spotpurchaseadvance_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    spa_Count1 = spaModelFromJson(responseSPA.body);
-    spa_Count = spa_Count1.total.toString();
-
-    print("Admin LFA" + responseSPA.body);
-    http.Response responseSPR = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/spr_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    spr_Count1 = sprModelFromJson(responseSPR.body);
-    spr_Count = spr_Count1.total.toString();
-
-    print("Admin LFA" + responseSPR.body);
-    http.Response responseSQC = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/sqclist_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    sqc_Count1 = sqcModelFromJson(responseSQC.body);
-    sqc_Count = sqc_Count1.total.toString();
-    print("Admin LFA" + responseSQC.body);
-
-    http.Response responseSR = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/sr_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    sr_Count1 = srModelFromJson(responseSR.body);
-    sr_Count = sr_Count1.total.toString();
-    print("Admin LFA" + responseSR.body);
-
-    http.Response responseCusList = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/count_customer.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    cusList_Count1 = cusListCountModelFromJson(responseCusList.body);
-    cusList_Count = cusList_Count1.total.toString();
-    print("Admin cusList_Count" + responseCusList.body);
-
-    http.Response responseMonReq = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/moneyreqapprovalcount.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    monReq_Count1 = monReqCountModelFromJson(responseMonReq.body);
-    monReq_Count = monReq_Count1.total.toString();
-    print("Admin monReq_Count" + responseMonReq.body);
-
-    http.Response responseMonReqAdj = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/moneyreqapprovalcount_adj.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    monReqAdj_Count1 = monReqAdjCountModelFromJson(responseMonReqAdj.body);
-    monReqAdj_Count = monReqAdj_Count1.total.toString();
-    print("Admin monReqAdj_Count" + responseMonReqAdj.body);
-
-    http.Response responseDC = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/dc_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-
-    dc_Count1 = dcCountModelFromJson(responseDC.body);
-    dc_Count = dc_Count1.total.toString();
-    print("Admin dc_Count" + responseDC.body);
-
-    http.Response responseServNotify = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/service_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    serviceNoti_Count1 =
-        serviceNotifyCountModelFromJson(responseServNotify.body);
-    serviceNoti_Count = serviceNoti_Count1.total.toString();
-    print("Admin Service Notification:" + responseServNotify.body);
-
-    http.Response responseItemCount = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/item_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    items_Count1 = itemsCountModelFromJson(responseItemCount.body);
-    items_Count = items_Count1.total.toString();
-    print("Admin Item Approval Notification:" + responseItemCount.body);
-
-    http.Response responseSupplierCount = await http.post(
-        Uri.parse(
-            'http://103.150.48.235:2165/API/aygaz/notifications/supplier_count.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    supplier_Count1 = supplierCountModelFromJson(responseSupplierCount.body);
-    supplier_Count = supplier_Count1.total.toString();
-    print("Admin Supplier Approval Notification:" + responseSupplierCount.body);*/
     http.Response responseAbsentCount = await http.post(
         Uri.parse(
             'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalabsent.php'),

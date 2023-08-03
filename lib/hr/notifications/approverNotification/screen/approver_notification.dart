@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
+import '../../../../data_model/notificaiton_count/total_count_model.dart';
+import '../../../../sales/constant/app_constants.dart';
+import '../../../../sales/constant/colors.dart';
 import 'inventory/notification_pages/grn_notification.dart';
 import 'inventory/notification_pages/sqc_notification.dart';
 import 'inventory/notification_pages/sr_notification.dart';
@@ -29,37 +33,24 @@ class AdminNotificationList extends StatefulWidget {
 }
 
 class _AdminNotificationListState extends State<AdminNotificationList> {
-  String toCount = "1";
+  String toCount = "0";
 
-  //late AbsentCountModel toCount1;
+  String astiCount = "0";
 
-  String astiCount = "1";
+  String damageCount = "0";
 
-  //late LeaveandTourCountModel astiCount1;
+  String grnCount = "0";
 
-  String damageCount = "1";
+  //String lreCount = "0";
 
-  // late EarlyCountModel damageCount1;
+  String rrCount = "0";
 
-  String grnCount = "1";
+  String sqcCount = "0";
 
-  //late LateCountModel grnCount1;
+  String srCount = "0";
 
-  String lreCount = "1";
-
-  //late AbsentCountModel lreCount1;
-
-  String rrCount = "1";
-
-  //late LeaveandTourCountModel rrCount1;
-
-  String sqcCount = "1";
-
-  // late EarlyCountModel sqcCount1;
-
-  String srCount = "1";
-
-  //late LateCountModel srCount1;
+  int inventory = 0;
+  late InventoryModel inventory1;
 
   bool isLoading = false;
   int totalCount = 0;
@@ -68,48 +59,17 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
     setState(() {
       isLoading = true;
     });
-    /*http.Response responseAbsentCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalabsent.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    absentemployee_count1 = absentCountModelFromJson(responseAbsentCount.body);
-    absentemployee_count = absentemployee_count1.total.toString();
-    print("Admin Absent Notification:" + responseAbsentCount.body);
-
-    http.Response responseLeaveandTourCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalleaveandtour.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    leaveandtouradmin_count1 =
-        leaveandTourCountModelFromJson(responseLeaveandTourCount.body);
-    leaveandtouradmin_count = leaveandtouradmin_count1.total.toString();
-    print(
-        "Admin Leave and Tour Notification:" + responseLeaveandTourCount.body);
-
-    http.Response responseLateCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totallate.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    lateemployee_count1 = lateCountModelFromJson(responseLateCount.body);
-    lateemployee_count = lateemployee_count1.total.toString();
-    print("Admin Late Notification:" + responseLateCount.body);
-
-    http.Response responseEarlyCount = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/HR/Notification/smallAPI/totalearly.php'),
-        body: jsonEncode(<String, String>{
-          "xposition": widget.xposition,
-        }));
-    earlyemployee_count1 = earlyCountModelFromJson(responseEarlyCount.body);
-    earlyemployee_count = earlyemployee_count1.total.toString();
-    print("Admin Early Notification:" + responseEarlyCount.body);*/
-
+    var responseInv = await http.get(Uri.parse(
+        'http://${AppConstants.baseurl}/gazi/notification/inventory/total_inventory.php?zid=${widget.zid}&xposition=${widget.xposition}'));
+    print('---------------${responseInv.body}');
+    inventory1 = inventoryModelFromJson(responseInv.body);
+    toCount = inventory1.toCount.toString();
+    //astiCount = inventory1.astiCount.toString();
+    damageCount = inventory1.damageCount.toString();
+    grnCount = inventory1.grnCount.toString();
+    rrCount = inventory1.rrCount.toString();
+    sqcCount = inventory1.sqcCount.toString();
+    srCount = inventory1.srCount.toString();
     setState(() {
       isLoading = false;
     });
@@ -119,7 +79,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
   @override
   void initState() {
     super.initState();
-    //getAdminNotificationCount();
+    getAdminNotificationCount();
   }
 
   Widget build(BuildContext context) {
@@ -149,182 +109,200 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
         ],
         backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            //Fahim's edit
-            if (srCount == "0")
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    srCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SR_notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "Sales Return Notifications",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
-                        ),
-                      ),
+      body: isLoading == true
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: const CircularProgressIndicator(
+                      color: AppColor.appBarColor,
                     ),
                   ),
-                ),
+                  const Text('Loading...')
+                ],
               ),
-            ],
-            if (rrCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    rrCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
+            )
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  //Fahim's edit
+                  if (srCount == "0")
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          srCount,
+                          style: TextStyle(color: Colors.white),
                         ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RR_Notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "RR Notifications",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-            if (grnCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    grnCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => GRN_notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "GRN Notifications",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Color(0xff064A76),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SR_notification(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Sales Return Notifications",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ],
-            /*if (widget.adminSPR == '0')
+                  ],
+                  if (rrCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          rrCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RR_Notification(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "RR Notifications",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (grnCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          grnCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GRN_notification(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "GRN Notifications",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.bakbakOne(
+                                    fontSize: 18,
+                                    color: Color(0xff064A76),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  /*if (widget.adminSPR == '0')
               ...[]
             else ...[
               Padding(
@@ -393,7 +371,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                 ),
               )
             ],*/
-            /*if (widget.adminASTI == '0')
+                  /*if (widget.adminASTI == '0')
               ...[]
             else ...[
               Padding(
@@ -463,62 +441,63 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                 ),
               )
             ],*/
-            if (toCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    toCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
+                  if (toCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          toCount,
+                          style: TextStyle(color: Colors.white),
                         ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TO_Notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "TO Notification",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TO_Notification(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "TO Notification",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-            if (lreCount == '0')
+                    )
+                  ],
+                  /*if (lreCount == '0')
               ...[]
             else ...[
               Padding(
@@ -572,64 +551,65 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                   ),
                 ),
               )
-            ],
-            if (damageCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    damageCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
+            ],*/
+                  if (damageCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          damageCount,
+                          style: TextStyle(color: Colors.white),
                         ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DamageApproval_notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "Damage Approval Notification",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DamageApproval_notification(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Damage Approval Notification",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-            /*if (widget.adminInspection == '0')
+                    )
+                  ],
+                  /*if (widget.adminInspection == '0')
               ...[]
             else ...[
               Padding(
@@ -700,64 +680,65 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                 ),
               )
             ],*/
-            if (sqcCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    sqcCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
+                  if (sqcCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          sqcCount,
+                          style: TextStyle(color: Colors.white),
                         ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SQC_notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "SQC Notification",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SQC_notification(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "SQC Notification",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ],
-        ),
-      ),
+                    )
+                  ],
+                ],
+              ),
+            ),
     );
   }
 }
