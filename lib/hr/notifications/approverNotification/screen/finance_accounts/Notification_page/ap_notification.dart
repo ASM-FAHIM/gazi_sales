@@ -51,7 +51,7 @@ class _APNotificationScreenState extends State<APNotificationScreen> {
   @override
   void initState() {
     super.initState();
-    print('zid == ${widget.zid}, xposition == ${widget.xposition}');
+    //print('zid == ${widget.zid}, xposition == ${widget.xposition}');
     futurePost = fetchPost();
     fetchPost().whenComplete(() => futurePost);
   }
@@ -328,8 +328,8 @@ class _APNotificationScreenState extends State<APNotificationScreen> {
                                         snapshot.data!.removeAt(index);
                                       });
 
-                                      print(response.statusCode);
-                                      print(response.body);
+                                      //print(response.statusCode);
+                                      //print(response.body);
                                     },
                                     child: Text(
                                       "Approve",
@@ -409,8 +409,7 @@ class _APNotificationScreenState extends State<APNotificationScreen> {
                                                     //http://172.20.20.69/adminapprove/poreject.php
                                                     if (rejectNote == " ") {
                                                       Navigator.pop(context);
-                                                      print(
-                                                          'response code: Empty field');
+                                                      //print('response code: Empty field');
                                                       Get.snackbar('Warning!',
                                                           'Please enter reject note',
                                                           backgroundColor:
@@ -441,8 +440,7 @@ class _APNotificationScreenState extends State<APNotificationScreen> {
                                                                 "xnote":
                                                                     rejectNote
                                                               }));
-                                                      print(
-                                                          response.statusCode);
+                                                      //print(response.statusCode);
                                                       Navigator.pop(context);
                                                       Get.snackbar(
                                                           'Message', 'Rejected',

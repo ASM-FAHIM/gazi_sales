@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
-import '../../../../../../conts_api_link.dart';
 import '../../../../../../sales/constant/app_constants.dart';
 import '../../../../../../screen/FinanaceAccounts.dart';
-import '../Notification_model/details_model/do_details_model.dart';
 import '../Notification_model/do_admin_model.dart';
 import 'details_page/do_notification_details.dart';
 
@@ -35,8 +32,9 @@ class _DO_notificationState extends State<DO_notification> {
   Future<List<DoModel>> fetchPost() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingInvoice.php'),
+            'http://${AppConstants.baseurl}/gazi/notification/accounts/do/do.php'),
         body: jsonEncode(<String, String>{
+          "zid": widget.zid,
           "xposition": widget.xposition,
         }));
 
@@ -77,7 +75,7 @@ class _DO_notificationState extends State<DO_notification> {
         ),
         title: Center(
           child: Text(
-            "Pending Invoice Notification",
+            "Supplier Invoice Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: Color(0xff074974),
@@ -86,7 +84,7 @@ class _DO_notificationState extends State<DO_notification> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Container(
+      /*body: Container(
         padding: EdgeInsets.all(20),
         child: FutureBuilder<List<DoModel>>(
           future: futurePost,
@@ -118,7 +116,7 @@ class _DO_notificationState extends State<DO_notification> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${snapshot.data![index].xdornum}",
+                                            "${snapshot.data![index].xvoucher}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
@@ -148,7 +146,7 @@ class _DO_notificationState extends State<DO_notification> {
                             children: <Widget>[
                               Text(
                                 "Invoice Number: " +
-                                    " ${snapshot.data![index].xdornum}",
+                                    " ${snapshot.data![index].xvoucher}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -156,15 +154,14 @@ class _DO_notificationState extends State<DO_notification> {
                                 ),
                               ),
                               Text(
-                                "DO Date: " +
-                                    " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
+                                "Date: " + " ${snapshot.data![index].xdate}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              */ /*Text(
                                 "Delivery Date: " +
                                     " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdatedel.date).toString()))}",
                                 textAlign: TextAlign.center,
@@ -172,10 +169,9 @@ class _DO_notificationState extends State<DO_notification> {
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/ /*
                               Text(
-                                "Customer ID: " +
-                                    "${snapshot.data![index].xcus}",
+                                "PO Number: " + "${snapshot.data![index].xp}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -373,7 +369,7 @@ class _DO_notificationState extends State<DO_notification> {
             }
           },
         ),
-      ),
+      ),*/
     );
   }
 }

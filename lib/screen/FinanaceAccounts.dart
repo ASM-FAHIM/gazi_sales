@@ -247,7 +247,7 @@ class _FinanceAccountNotificationListState
                                             )));
                               },
                               child: Text(
-                                "Pending Do Approval",
+                                "Supplier Invoice Approval",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -474,7 +474,7 @@ class _FinanceAccountNotificationListState
                                             )));
                               },
                               child: Text(
-                                "Supplier IOU Approval",
+                                "Pending IOU Approval",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,

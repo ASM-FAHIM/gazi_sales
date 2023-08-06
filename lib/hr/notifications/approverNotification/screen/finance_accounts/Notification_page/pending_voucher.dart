@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/sales/constant/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../../conts_api_link.dart';
 import '../../../../../../data_model/notification_model/admin_approver_model/pendingvoucher_model.dart';
 import '../../../../../../screen/FinanaceAccounts.dart';
 import 'details_page/voucher_details.dart';
@@ -114,7 +113,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                     Container(
                                         width:
                                             MediaQuery.of(context).size.width /
-                                                2.2,
+                                                1.6,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,

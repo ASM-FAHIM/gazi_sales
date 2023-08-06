@@ -10,10 +10,11 @@ import '../../../../../../sales/constant/app_constants.dart';
 import 'details/so_notification_details.dart';
 
 class SO_notification extends StatefulWidget {
-  SO_notification({required this.xposition,
-    required this.zemail,
-    required this.zid,
-    required this.xStaff});
+  SO_notification(
+      {required this.xposition,
+      required this.zemail,
+      required this.zid,
+      required this.xStaff});
 
   String xposition;
   String zemail;
@@ -30,15 +31,16 @@ class _SO_notificationState extends State<SO_notification> {
   AppConstants appConstants = AppConstants();
 
   Future<List<SoModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(
-        'http://${AppConstants.baseurl}/GAZI/Notification/sales/so/so.php'),
-        body: jsonEncode(
-            <String, String>{
-              "zid": widget.zid,
-              "xposition": widget.xposition
-            }));
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/Notification/sales/so/so.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xposition": widget.xposition
+        }));
 
     if (response.statusCode == 200) {
+      print('body of so : ${response.body}');
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
       return parsed.map<SoModel>((json) => SoModel.fromJson(json)).toList();
@@ -65,8 +67,7 @@ class _SO_notificationState extends State<SO_notification> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        SalesDistribution(
+                    builder: (context) => SalesDistribution(
                           xposition: widget.xposition,
                           zemail: widget.zemail,
                           zid: widget.zid,
@@ -98,127 +99,123 @@ class _SO_notificationState extends State<SO_notification> {
             if (snapshot.hasData) {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) =>
-                    Container(
-                      child: Column(
-                        children: [
-                          Card(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 10, bottom: 6.0),
-                              child: ExpansionTile(
-                                expandedCrossAxisAlignment:
+                itemBuilder: (_, index) => Container(
+                  child: Column(
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10, bottom: 6.0),
+                          child: ExpansionTile(
+                            expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Container(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width /
-                                              1.5,
-                                          child: Column(
-                                            crossAxisAlignment:
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.5,
+                                      child: Column(
+                                        crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "${snapshot.data![index]
-                                                    .xsonumber}",
-                                                style: GoogleFonts.bakbakOne(
-                                                  fontSize: 18,
-                                                  //color: Color(0xff074974),
-                                                ),
-                                              ),
-                                              Text(
-                                                "${snapshot.data![index]
-                                                    .tsoName}",
-                                                style: GoogleFonts.bakbakOne(
-                                                  fontSize: 18,
-                                                  //color: Color(0xff074974),
-                                                ),
-                                              ),
-                                            ],
+                                        children: [
+                                          Text(
+                                            "${snapshot.data![index].xsonumber}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          Text(
+                                            "${snapshot.data![index].tsoName}",
+                                            style: GoogleFonts.bakbakOne(
+                                              fontSize: 18,
+                                              //color: Color(0xff074974),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                                children: <Widget>[
-                                  Text(
-                                    "SO Date: ${snapshot.data![index].xdate}",
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.bakbakOne(
-                                      fontSize: 18,
-                                      //color: Color(0xff074974),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 30,
-                                    child: Text(
-                                      "Dealer name: ${snapshot.data![index]
-                                          .cusname}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Territory: " +
-                                        "${snapshot.data![index].xterritory}",
-                                    style: GoogleFonts.bakbakOne(
-                                      fontSize: 18,
-                                      //color: Color(0xff074974),
-                                    ),
-                                  ),
-                                  Text(
-                                    "SO Status: " +
-                                        "${snapshot.data![index].statusName}",
-                                    style: GoogleFonts.bakbakOne(
-                                      fontSize: 18,
-                                      //color: Color(0xff074974),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.lightBlueAccent,
-                                    ),
-                                    onPressed: () async {
-                                      final result = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SO_details_notification(
-                                                    xsonumber: snapshot
-                                                        .data![index].xsonumber,
-                                                    zid: widget.zid,
-                                                    xposition: widget.xposition,
-                                                    zemail: widget.zemail,
-                                                    xstatustor: snapshot
-                                                        .data![index].xstatus,
-                                                  )));
-                                      if (result.toString() == "approval") {
-                                        debugPrint("pressed");
-                                        setState(() {
-                                          snapshot.data!.removeAt(index);
-                                        });
-                                      }
-                                    },
-                                    child: Center(child: Text("Details",
-                                      style: TextStyle(color: Colors.white),)),
-                                  ),
-                                ],
-                              ),
+                              ],
                             ),
+                            children: <Widget>[
+                              Text(
+                                "SO Date: ${snapshot.data![index].xdate}",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Container(
+                                height: 30,
+                                child: Text(
+                                  "Dealer name: ${snapshot.data![index].cusname}",
+                                  style: GoogleFonts.bakbakOne(
+                                    fontSize: 18,
+                                    //color: Color(0xff074974),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Territory: " +
+                                    "${snapshot.data![index].xterritory}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "SO Status: " +
+                                    "${snapshot.data![index].statusName}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.lightBlueAccent,
+                                ),
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SO_details_notification(
+                                                xsonumber: snapshot
+                                                    .data![index].xsonumber,
+                                                zid: widget.zid,
+                                                xposition: widget.xposition,
+                                                zemail: widget.zemail,
+                                                xstatustor: snapshot
+                                                    .data![index].xstatus,
+                                              )));
+                                  if (result.toString() == "approval") {
+                                    debugPrint("pressed");
+                                    setState(() {
+                                      snapshot.data!.removeAt(index);
+                                    });
+                                  }
+                                },
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
+                ),
               );
             } else {
               return Center(

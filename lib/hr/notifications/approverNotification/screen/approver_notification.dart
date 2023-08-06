@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +10,6 @@ import 'inventory/notification_pages/grn_notification.dart';
 import 'inventory/notification_pages/sqc_notification.dart';
 import 'inventory/notification_pages/sr_notification.dart';
 import 'inventory/notification_pages/damage_approval_notification.dart';
-import 'inventory/notification_pages/lre_notification.dart';
 import 'inventory/notification_pages/rr_notification.dart';
 import 'inventory/notification_pages/to_notification.dart';
 
@@ -172,7 +170,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                                           )));
                             },
                             child: Text(
-                              "Sales Return Notifications",
+                              "Store Requisition Notifications",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.bakbakOne(
                                 fontSize: 18,

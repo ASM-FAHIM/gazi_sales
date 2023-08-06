@@ -169,13 +169,13 @@ class _CS_notificationState extends State<CS_notification> {
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              /*Text(
                                 "Regi: " + snapshot.data![index].xregi,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               Text(
                                 "To Store: " + snapshot.data![index].xtwh,
                                 style: GoogleFonts.bakbakOne(

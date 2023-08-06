@@ -47,11 +47,9 @@ class _Login_pageState extends State<Login_page> {
   late LoginModel data;
 
   submitData(String zemail, String xpassword) async {
-    print("Go online");
     var response = await http.get(Uri.parse(
         'http://${AppConstants.baseurl}/gazi/loginapi.php?zemail=$zemail&xpassword=$xpassword'));
-    data = loginModelFromJson(response.body);
-    print('response body : ${response.body}');
+    //print('response body : ${response.body}');
     if (response.statusCode == 404) {
       setState(() {
         isLoading = false;
@@ -79,7 +77,7 @@ class _Login_pageState extends State<Login_page> {
     }
 
     data = loginModelFromJson(response.body);
-    print(response.body);
+    //print(response.body);
     if (response.statusCode == 200 && data.xpassword != xpassword) {
       setState(() {
         isLoading = false;
@@ -106,9 +104,6 @@ class _Login_pageState extends State<Login_page> {
           });
     }
     if (response.statusCode == 200 && data.xpassword == xpassword) {
-      //save user wise business in the business table
-      await loginController.insertBusinessTable(zemail);
-      print('insert into Business table called');
       setState(() {
         isLoading = false;
       });
@@ -128,7 +123,7 @@ class _Login_pageState extends State<Login_page> {
     var response = await http.get(Uri.parse(
         'http://${AppConstants.baseurl}/gazi/loginapi_offline.php?zemail=$zemail&xpassword=$xpassword'));
     return (json.decode(response.body) as List).map((user) {
-      print('Inserting $user');
+      //print('Inserting $user');
       LoginRepo().insertToLoginTable(OfflineLoginModel.fromJson(user));
       setState(() {
         isLoading = false;
@@ -141,13 +136,34 @@ class _Login_pageState extends State<Login_page> {
 
   Future loginStatus() async {
     loginState = await LoginRepo().getLoginStatus();
-    print('=============$loginState');
+    //print('=============$loginState');
   }
 
   //internet Connection Check
   bool isConnected = true;
 
   Future<void> internetCheck() async {
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: Text(
+    //           "Warning",
+    //           style: TextStyle(
+    //               fontSize: 20,
+    //               color: Color(0xffC85E2D),
+    //               fontWeight: FontWeight.bold),
+    //         ),
+    //         content: Text(
+    //           "Wrong Username or Password",
+    //           style: TextStyle(
+    //             // color:Color(0xffE75A29)
+    //           ),
+    //         ),
+    //         scrollable: true,
+    //       );
+    //     });
+
     final StreamSubscription<InternetConnectionStatus> listener =
         InternetConnectionChecker().onStatusChange.listen(
       (InternetConnectionStatus status) async {
@@ -157,21 +173,21 @@ class _Login_pageState extends State<Login_page> {
               isConnected = true;
             });
             //Navigator.pop(context);
-            print("Conn Status" + isConnected.toString());
+            //print("Conn Status" + isConnected.toString());
             break;
           case InternetConnectionStatus.disconnected:
             setState(() {
               isConnected = false;
             });
             //Navigator.pop(context);
-            print("Conn Status" + isConnected.toString());
+            //print("Conn Status" + isConnected.toString());
             break;
         }
       },
     );
 
     // close listener after 30 seconds, so the program doesn't run forever
-    await Future<void>.delayed(const Duration(seconds: 30));
+    await Future<void>.delayed(const Duration(seconds: 5));
     await listener.cancel();
   }
 
@@ -192,12 +208,19 @@ class _Login_pageState extends State<Login_page> {
 
   //offline route
   offline_go_homepage() async {
+    //print("offline");
+
     final conn = DBHelper.dbHelper;
     var dbclient = await conn.db;
     List<Map> result = await dbclient!.rawQuery(
         "SELECT * FROM ${DBHelper.loginTable} where zemail = ${userController.text} LIMIT 1");
     // await dbclient.close();
+    //print('===========$result');
     Map firstRow = result[0];
+
+    //print('all' + firstRow.toString());
+    //print('zemail' + firstRow['zemail']);
+
     if (firstRow['zemail'] == userController.text &&
         firstRow['xpassword'] == passController.text) {
       Navigator.push(
@@ -229,7 +252,6 @@ class _Login_pageState extends State<Login_page> {
   @override
   void initState() {
     super.initState();
-    //hiveopen
     createBox();
     internetCheck();
     loginStatus();
@@ -379,87 +401,6 @@ class _Login_pageState extends State<Login_page> {
                       ),
                     ),
                   ),
-                  /*Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      child: TextFormField(
-                        controller: userController,
-                        style: GoogleFonts.bakbakOne(
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                        onChanged: (input) {
-                          zemail = input;
-                        },
-                        validator: (input) {
-                          if (input!.isEmpty) {
-                            return "Empty";
-                          }
-                        },
-                        scrollPadding: EdgeInsets.all(20),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(left: 20),
-                          // add padding to adjust text
-                          isDense: false,
-                          labelText: "User Name",
-                          labelStyle: GoogleFonts.bakbakOne(
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                          border: const OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.person),
-                        ),
-                      ),
-                    ),
-                  ),*/
-                  /*Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      child: TextFormField(
-                        controller: passController,
-                        style: GoogleFonts.bakbakOne(
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                        obscureText: _obsecureText,
-                        onChanged: (input) {
-                          xpassword = input;
-                        },
-                        scrollPadding: EdgeInsets.all(20),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(
-                            left: 20,
-                          ),
-                          // add padding to adjust text
-                          isDense: true,
-                          labelText: "Password",
-                          labelStyle: GoogleFonts.bakbakOne(
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                          border: const OutlineInputBorder(),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 8), // add padding to adjust icon
-                            child: IconButton(
-                              icon: Icon(
-                                _obsecureText
-                                    ? FontAwesomeIcons.solidEye
-                                    : FontAwesomeIcons.solidEyeSlash,
-                              ),
-                              onPressed: () {
-                                toggle();
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),*/
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Row(
@@ -503,9 +444,9 @@ class _Login_pageState extends State<Login_page> {
                     clipBehavior: Clip.hardEdge,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: AppColor.appBarColor,
+                        backgroundColor: AppColor.appBarColor,
                       ),
-                      onPressed: () async {
+                      onPressed: () {
                         setState(
                           () {
                             isLoading = true;
@@ -514,11 +455,10 @@ class _Login_pageState extends State<Login_page> {
                         Future.delayed(Duration(seconds: 3), () {
                           if (userController.text == '' ||
                               passController.text == '') {
-                            print("User Invalid");
                             Get.snackbar('Error', 'User Invalid',
                                 backgroundColor: Color(0XFF8CA6DB),
                                 colorText: Colors.white,
-                                snackPosition: SnackPosition.BOTTOM);
+                                snackPosition: SnackPosition.TOP);
                             setState(() {
                               isLoading = false;
                             });

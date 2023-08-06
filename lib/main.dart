@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Gazi_Sales',
+      title: 'My Gazi',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

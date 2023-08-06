@@ -71,7 +71,7 @@ class _HomepageState extends State<Homepage> {
     List<Map> result = await dbclient!.rawQuery(
         "SELECT * FROM ${DBHelper.loginTable} where zemail = '${widget.zemail}' LIMIT 1");
     // await dbclient.close();
-    print('===========$result');
+    //print('===========$result');
     Map firstRow = result[0];
 
     setState(() {
@@ -96,17 +96,17 @@ class _HomepageState extends State<Homepage> {
     loginController.xName.value = xname;
     loginController.xstaff.value = xstaff;
 
-    print('all' + firstRow.toString());
-    print('zemail' + firstRow['zemail']);
-    print(xposition);
+    //print('all' + firstRow.toString());
+    //print('zemail' + firstRow['zemail']);
+    //print(xposition);
   }
 
   Future<List<PromotionModel>>? futurePost;
 
   Future<void> getLocationin() async {
     Position position = await Geolocator.getCurrentPosition();
-    print(position.latitude);
-    print(position.longitude);
+    //print(position.latitude);
+    //print(position.longitude);
 
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
@@ -121,7 +121,7 @@ class _HomepageState extends State<Homepage> {
         },
       );
     } catch (e) {
-      print(e);
+      //print(e);
     }
   }
 
@@ -130,8 +130,8 @@ class _HomepageState extends State<Homepage> {
 
   Future<void> getLocationout() async {
     Position position = await Geolocator.getCurrentPosition();
-    print(position.latitude);
-    print(position.longitude);
+    //print(position.latitude);
+    //print(position.longitude);
 
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
@@ -146,7 +146,7 @@ class _HomepageState extends State<Homepage> {
             "${place.locality}, ${place.postalCode}, ${place.country}";
       });
     } catch (e) {
-      print(e);
+      //print(e);
     }
   }
 
@@ -326,7 +326,7 @@ class _HomepageState extends State<Homepage> {
                                       ),
                                     ),
                                     Text(
-                                      " ${xempcategory}",
+                                      " ${xdeptname}",
                                       textAlign: TextAlign.justify,
                                       style: GoogleFonts.bakbakOne(
                                         // //fontWeight: FontWeight.bold,
@@ -375,7 +375,7 @@ class _HomepageState extends State<Homepage> {
                                       notificationTime = DateTime.now();
                                     },
                                   );
-                                  print(notificationTime);
+                                  //print(notificationTime);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -509,11 +509,13 @@ class _HomepageState extends State<Homepage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Image(
-                                    image:
-                                        AssetImage('assets/images/sales.png'),
-                                    height: 60,
-                                    width: 60,
+                                  Image(
+                                    image: const AssetImage(
+                                        'assets/images/sales.png'),
+                                    height:
+                                        MediaQuery.of(context).size.height / 8,
+                                    width:
+                                        MediaQuery.of(context).size.width / 8,
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -522,7 +524,9 @@ class _HomepageState extends State<Homepage> {
                                     "Sales",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.bakbakOne(
-                                      fontSize: 15,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height /
+                                              46,
                                       color: const Color(0xff074974),
                                     ),
                                   )
@@ -587,13 +591,13 @@ class home_page_buttons extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 8,
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Text(
                   buttonName,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.bakbakOne(
-                    fontSize: MediaQuery.of(context).size.height / 44,
+                    fontSize: MediaQuery.of(context).size.height / 46,
                     color: const Color(0xff074974),
                   ),
                 )

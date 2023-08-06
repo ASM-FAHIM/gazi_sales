@@ -174,7 +174,14 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                 ),
                               ),
                               Text(
-                                "Bank : ${snapshot.data![index].xbank}",
+                                "Bank Name: ${snapshot.data![index].xbank}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Deposit Ref No: ${snapshot.data![index].xdepositref}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -251,7 +258,10 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                       print(response.statusCode);
                                       print(response.body);
                                     },
-                                    child: Text("Approve"),
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 50,
@@ -389,7 +399,8 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                                             );
                                           });
                                     },
-                                    child: Text("Reject"),
+                                    child: Text("Reject",
+                                        style: TextStyle(color: Colors.white)),
                                   ),
                                 ],
                               )
