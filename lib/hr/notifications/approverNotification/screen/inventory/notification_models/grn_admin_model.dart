@@ -12,106 +12,94 @@ String grnNotificationModelToJson(List<GrnNotificationModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class GrnNotificationModel {
-  GrnNotificationModel({
-    required this.xstatusdoc,
-    required this.xinvnum,
-    required this.xcus,
-    required this.xnote,
-    required this.xstatusgrn,
-    required this.xorg,
-    required this.xref,
-    required this.xtypeobj,
-    required this.xstatusreq,
-    required this.xgrnnum,
-    required this.xpornum,
-    required this.xdate,
-    required this.xregi,
-    required this.xlcno,
-    required this.sup,
-    required this.xwhdesc,
-    required this.xwh,
-    required this.preparer,
-    required this.designation,
-    required this.deptname,
-    required this.signname,
-    required this.signdesignation,
-    required this.signdeptname,
-  });
-
-  String xstatusdoc;
-  String xinvnum;
+  String xgrnnum;
+  String xdate;
   String xcus;
+  String sup;
+  String xref;
   String xnote;
   String xstatusgrn;
-  String xorg;
-  String xref;
-  String xtypeobj;
-  String xstatusreq;
-  String xgrnnum;
-  String xpornum;
-  String xdate;
-  String xregi;
-  String xlcno;
-  String sup;
-  String xwhdesc;
   String xwh;
+  String xwhdesc;
+  String xpornum;
+  String xnote1;
+  String xstatusdoc;
+  String statusdocdesc;
+  String xgateentryno;
   String preparer;
   String designation;
   String deptname;
-  String signname;
-  String signdesignation;
-  String signdeptname;
+  String signrejectName;
+  String signrejectDesignation;
+  String signrejectXdeptname;
+
+  GrnNotificationModel({
+    required this.xgrnnum,
+    required this.xdate,
+    required this.xcus,
+    required this.sup,
+    required this.xref,
+    required this.xnote,
+    required this.xstatusgrn,
+    required this.xwh,
+    required this.xwhdesc,
+    required this.xpornum,
+    required this.xnote1,
+    required this.xstatusdoc,
+    required this.statusdocdesc,
+    required this.xgateentryno,
+    required this.preparer,
+    required this.designation,
+    required this.deptname,
+    required this.signrejectName,
+    required this.signrejectDesignation,
+    required this.signrejectXdeptname,
+  });
 
   factory GrnNotificationModel.fromJson(Map<String, dynamic> json) =>
       GrnNotificationModel(
-        xstatusdoc: json["xstatusdoc"],
-        xinvnum: json["xinvnum"],
+        xgrnnum: json["xgrnnum"],
+        xdate: json["xdate"],
         xcus: json["xcus"],
+        sup: json["sup"],
+        xref: json["xref"],
         xnote: json["xnote"],
         xstatusgrn: json["xstatusgrn"],
-        xorg: json["xorg"],
-        xref: json["xref"],
-        xtypeobj: json["xtypeobj"],
-        xstatusreq: json["xstatusreq"],
-        xgrnnum: json["xgrnnum"],
-        xpornum: json["xpornum"],
-        xdate: json["xdate"],
-        xregi: json["xregi"],
-        xlcno: json["xlcno"],
-        sup: json["sup"],
-        xwhdesc: json["xwhdesc"],
         xwh: json["xwh"],
+        xwhdesc: json["xwhdesc"],
+        xpornum: json["xpornum"],
+        xnote1: json["xnote1"],
+        xstatusdoc: json["xstatusdoc"],
+        statusdocdesc: json["statusdocdesc"],
+        xgateentryno: json["xgateentryno"],
         preparer: json["preparer"],
         designation: json["designation"],
         deptname: json["deptname"],
-        signname: json["signname"],
-        signdesignation: json["signdesignation"],
-        signdeptname: json["signdeptname"],
+        signrejectName: json["signreject_name"],
+        signrejectDesignation: json["signreject_designation"],
+        signrejectXdeptname: json["signreject_xdeptname"],
       );
 
   Map<String, dynamic> toJson() => {
-        "xstatusdoc": xstatusdoc,
-        "xinvnum": xinvnum,
+        "xgrnnum": xgrnnum,
+        "xdate": xdate,
         "xcus": xcus,
+        "sup": sup,
+        "xref": xref,
         "xnote": xnote,
         "xstatusgrn": xstatusgrn,
-        "xorg": xorg,
-        "xref": xref,
-        "xtypeobj": xtypeobj,
-        "xstatusreq": xstatusreq,
-        "xgrnnum": xgrnnum,
-        "xpornum": xpornum,
-        "xdate": xdate,
-        "xregi": xregi,
-        "xlcno": xlcno,
-        "sup": sup,
-        "xwhdesc": xwhdesc,
         "xwh": xwh,
+        "xwhdesc": xwhdesc,
+        "xpornum": xpornum,
+        "xnote1": xnote1,
+        "xstatusdoc": xstatusdoc,
+        "statusdocdesc": statusdocdesc,
+        "xgateentryno": xgateentryno,
         "preparer": preparer,
         "designation": designation,
         "deptname": deptname,
-        "signname": signname,
-        "signdesignation": signdesignation,
-        "signdeptname": signdeptname,
+        "signreject_name": signrejectName,
+        "signreject_designation": signrejectDesignation,
+        "signreject_xdeptname": signrejectXdeptname,
       };
 }

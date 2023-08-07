@@ -513,12 +513,12 @@ class _HomepageState extends State<Homepage> {
                                     image: const AssetImage(
                                         'assets/images/sales.png'),
                                     height:
-                                        MediaQuery.of(context).size.height / 8,
+                                        MediaQuery.of(context).size.height / 10,
                                     width:
                                         MediaQuery.of(context).size.width / 8,
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   Text(
                                     "Sales",
@@ -526,7 +526,7 @@ class _HomepageState extends State<Homepage> {
                                     style: GoogleFonts.bakbakOne(
                                       fontSize:
                                           MediaQuery.of(context).size.height /
-                                              46,
+                                              48,
                                       color: const Color(0xff074974),
                                     ),
                                   )
@@ -587,7 +587,7 @@ class home_page_buttons extends StatelessWidget {
               children: [
                 Image(
                   image: AssetImage(imageName),
-                  height: MediaQuery.of(context).size.height / 8,
+                  height: MediaQuery.of(context).size.height / 10,
                   width: MediaQuery.of(context).size.width / 8,
                 ),
                 const SizedBox(
@@ -597,7 +597,7 @@ class home_page_buttons extends StatelessWidget {
                   buttonName,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.bakbakOne(
-                    fontSize: MediaQuery.of(context).size.height / 46,
+                    fontSize: MediaQuery.of(context).size.height / 48,
                     color: const Color(0xff074974),
                   ),
                 )
