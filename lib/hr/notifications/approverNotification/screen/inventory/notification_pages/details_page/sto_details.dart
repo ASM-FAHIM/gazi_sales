@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../../api.dart';
 import '../../../approver_notification.dart';
-import '../../notification_model/details_model/bom_details_model.dart';
-import '../../notification_model/details_model/sto_details_model.dart';
+import '../../../production/notification_model/details_model/bom_details_model.dart';
+import '../../notification_models/details/sto_details_model.dart';
 
 class STODetailsScreen extends StatefulWidget {
   String xtornum;

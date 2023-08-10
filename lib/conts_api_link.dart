@@ -102,7 +102,7 @@ class ConstApiLink {
   final String pendingBATPDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/PendingPreProcessBatchdetails.php';
   final String pendingBATDetailsApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingBatchdetails.php';
+      'http://${AppConstants.baseurl}/gazi/notification/production/batch/batch_details.php';
 
   //notification details terms&conditions
   final String poTermsApi =
@@ -197,9 +197,9 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/PendingPreProcessBatchReject.php';
 
   final String pendingBATApproveApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingBatchApprove.php';
+      'http://${AppConstants.baseurl}/gazi/notification/production/batch/batch_approve.php';
   final String pendingBATRejectApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingBatchReject.php';
+      'http://${AppConstants.baseurl}/gazi/notification/production/batch/batch_reject.php';
 
   final String moneyReqApproveApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/moneyreqapprovalapprove.php';

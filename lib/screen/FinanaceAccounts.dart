@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
 import '../data_model/notificaiton_count/total_count_model.dart';
+import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/ap_notification.dart';
 import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/ar_notification.dart';
 import '../hr/notifications/approverNotification/screen/finance_accounts/Notification_page/loan_ad_notification.dart';
@@ -109,6 +110,15 @@ class _FinanceAccountNotificationListState
           ),
           onTap: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotification(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xStaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         centerTitle: true,

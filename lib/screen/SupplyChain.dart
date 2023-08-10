@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
 import '../data_model/notificaiton_count/total_count_model.dart';
+import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/cash_adv_notification.dart';
 import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/cs_notification.dart';
 import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/po_notification.dart';
@@ -55,7 +56,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
 
     var responseInv = await http.get(Uri.parse(
         'http://${AppConstants.baseurl}/gazi/notification/scm/total_scm.php?zid=${widget.zid}&xposition=${widget.xposition}'));
-    print('---------------${responseInv.body}');
+    //print('---------------${responseInv.body}');
 
     scmModel1 = scmmOdelFromJson(responseInv.body);
     poCount = scmModel1.poCount.toString();
@@ -89,6 +90,15 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
           ),
           onTap: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotification(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xStaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         centerTitle: true,

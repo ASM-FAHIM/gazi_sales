@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
 import '../../../../../../screen/Production.dart';
 import '../../approver_notification.dart';
-import '../notification_model/bom_admin_model.dart';
-import '../notification_model/sto_admin_model.dart';
+import '../../production/notification_model/bom_admin_model.dart';
+import '../notification_models/sto_admin_model.dart';
 import 'details_page/sto_details.dart';
 
 class PendingSTOScreen extends StatefulWidget {

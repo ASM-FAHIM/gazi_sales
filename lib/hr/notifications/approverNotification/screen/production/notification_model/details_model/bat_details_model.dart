@@ -14,7 +14,6 @@ String batDetailsModelToJson(List<BatDetailsModel> data) =>
 class BatDetailsModel {
   String xbomrow;
   String xbatch;
-  String xitem;
   String xdesc;
   String xqtyreq;
   String unit;
@@ -24,7 +23,6 @@ class BatDetailsModel {
   BatDetailsModel({
     required this.xbomrow,
     required this.xbatch,
-    required this.xitem,
     required this.xdesc,
     required this.xqtyreq,
     required this.unit,
@@ -36,7 +34,6 @@ class BatDetailsModel {
       BatDetailsModel(
         xbomrow: json["xbomrow"],
         xbatch: json["xbatch"],
-        xitem: json["xitem"],
         xdesc: json["xdesc"],
         xqtyreq: json["xqtyreq"],
         unit: json["unit"],
@@ -47,7 +44,6 @@ class BatDetailsModel {
   Map<String, dynamic> toJson() => {
         "xbomrow": xbomrow,
         "xbatch": xbatch,
-        "xitem": xitem,
         "xdesc": xdesc,
         "xqtyreq": xqtyreq,
         "unit": unit,

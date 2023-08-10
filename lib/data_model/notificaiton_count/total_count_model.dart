@@ -58,7 +58,54 @@ class PurchaseCountModel {
 //
 //     final inventoryCountModel = inventoryCountModelFromJson(jsonString);
 
+// To parse this JSON data, do
+//
+//     final totalAdminCount = totalAdminCountFromJson(jsonString);
+
 import 'dart:convert';
+
+TotalAdminCount totalAdminCountFromJson(String str) =>
+    TotalAdminCount.fromJson(json.decode(str));
+
+String totalAdminCountToJson(TotalAdminCount data) =>
+    json.encode(data.toJson());
+
+class TotalAdminCount {
+  int accountsCount;
+  int inventoryCount;
+  int productionCount;
+  int salesCount;
+  int scmCount;
+
+  TotalAdminCount({
+    required this.accountsCount,
+    required this.inventoryCount,
+    required this.productionCount,
+    required this.salesCount,
+    required this.scmCount,
+  });
+
+  factory TotalAdminCount.fromJson(Map<String, dynamic> json) =>
+      TotalAdminCount(
+        accountsCount: json["Accounts_Count"],
+        inventoryCount: json["Inventory_Count"],
+        productionCount: json["Production_Count"],
+        salesCount: json["Sales_Count"],
+        scmCount: json["SCM_Count"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "Accounts_Count": accountsCount,
+        "Inventory_Count": inventoryCount,
+        "Production_Count": productionCount,
+        "Sales_Count": salesCount,
+        "SCM_Count": scmCount,
+      };
+}
+
+// To parse this JSON data, do
+//
+//     final inventoryModel = inventoryModelFromJson(jsonString);
 
 InventoryModel inventoryModelFromJson(String str) =>
     InventoryModel.fromJson(json.decode(str));
@@ -66,42 +113,42 @@ InventoryModel inventoryModelFromJson(String str) =>
 String inventoryModelToJson(InventoryModel data) => json.encode(data.toJson());
 
 class InventoryModel {
-  int total;
   int damageCount;
   int grnCount;
   int rrCount;
   int sqcCount;
   int srCount;
   int toCount;
+  int stoCount;
 
   InventoryModel({
-    required this.total,
     required this.damageCount,
     required this.grnCount,
     required this.rrCount,
     required this.sqcCount,
     required this.srCount,
     required this.toCount,
+    required this.stoCount,
   });
 
   factory InventoryModel.fromJson(Map<String, dynamic> json) => InventoryModel(
-        total: json["total"],
         damageCount: json["DamageCount"],
         grnCount: json["GRNCount"],
         rrCount: json["RRCount"],
         sqcCount: json["SQCCount"],
         srCount: json["SRCount"],
         toCount: json["TOCount"],
+        stoCount: json["STOCount"],
       );
 
   Map<String, dynamic> toJson() => {
-        "total": total,
         "DamageCount": damageCount,
         "GRNCount": grnCount,
         "RRCount": rrCount,
         "SQCCount": sqcCount,
         "SRCount": srCount,
         "TOCount": toCount,
+        "STOCount": stoCount,
       };
 }
 
@@ -303,27 +350,23 @@ String productionModelToJson(ProductionModel data) =>
     json.encode(data.toJson());
 
 class ProductionModel {
-  int total;
   int bomCount;
-  int stoCount;
+  int batchCOunt;
 
   ProductionModel({
-    required this.total,
     required this.bomCount,
-    required this.stoCount,
+    required this.batchCOunt,
   });
 
   factory ProductionModel.fromJson(Map<String, dynamic> json) =>
       ProductionModel(
-        total: json["total"],
         bomCount: json["BOMCount"],
-        stoCount: json["STOCount"],
+        batchCOunt: json["BatchCOunt"],
       );
 
   Map<String, dynamic> toJson() => {
-        "total": total,
         "BOMCount": bomCount,
-        "STOCount": stoCount,
+        "BatchCOunt": batchCOunt,
       };
 }
 

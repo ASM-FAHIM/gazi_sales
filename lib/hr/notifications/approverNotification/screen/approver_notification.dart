@@ -6,11 +6,13 @@ import 'package:badges/badges.dart';
 import '../../../../data_model/notificaiton_count/total_count_model.dart';
 import '../../../../sales/constant/app_constants.dart';
 import '../../../../sales/constant/colors.dart';
+import 'approver.dart';
 import 'inventory/notification_pages/grn_notification.dart';
 import 'inventory/notification_pages/sqc_notification.dart';
 import 'inventory/notification_pages/sr_notification.dart';
 import 'inventory/notification_pages/damage_approval_notification.dart';
 import 'inventory/notification_pages/rr_notification.dart';
+import 'inventory/notification_pages/sto_notification.dart';
 import 'inventory/notification_pages/to_notification.dart';
 
 class AdminNotificationList extends StatefulWidget {
@@ -47,6 +49,8 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
 
   String srCount = "0";
 
+  String stoCount = "0";
+
   int inventory = 0;
   late InventoryModel inventory1;
 
@@ -59,10 +63,10 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
     });
     var responseInv = await http.get(Uri.parse(
         'http://${AppConstants.baseurl}/gazi/notification/inventory/total_inventory.php?zid=${widget.zid}&xposition=${widget.xposition}'));
-    print('---------------${responseInv.body}');
+    //print('---------------${responseInv.body}');
     inventory1 = inventoryModelFromJson(responseInv.body);
     toCount = inventory1.toCount.toString();
-    //astiCount = inventory1.astiCount.toString();
+    stoCount = inventory1.stoCount.toString();
     damageCount = inventory1.damageCount.toString();
     grnCount = inventory1.grnCount.toString();
     rrCount = inventory1.rrCount.toString();
@@ -90,6 +94,15 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
           ),
           onTap: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotification(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xStaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         centerTitle: true,
@@ -733,6 +746,63 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                         ),
                       ),
                     )
+                  ],
+
+                  if (stoCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        position: BadgePosition.topEnd(end: 0),
+                        badgeContent: Text(
+                          stoCount,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PendingSTOScreen(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "STO Approval",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ],
               ),

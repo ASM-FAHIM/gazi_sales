@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/production/notification_page/bat_notification.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/production/notification_page/inspection_approval_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
 
 import '../data_model/notificaiton_count/total_count_model.dart';
+import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/production/notification_page/bom_notification.dart';
-import '../hr/notifications/approverNotification/screen/production/notification_page/sto_notification.dart';
+import '../hr/notifications/approverNotification/screen/inventory/notification_pages/sto_notification.dart';
 import '../sales/constant/app_constants.dart';
 import '../sales/constant/colors.dart';
 
@@ -40,7 +42,7 @@ class _ProductionNotificationListState
 
   String inspCount = "0";
 
-  String stoCount = "0";
+  String batCount = "0";
 
   int productionCount = 0;
   late ProductionModel productionCount1;
@@ -54,12 +56,11 @@ class _ProductionNotificationListState
     });
     var responseInv = await http.get(Uri.parse(
         'http://${AppConstants.baseurl}/gazi/notification/production/total_production.php?zid=${widget.zid}&xposition=${widget.xposition}'));
-    print('---------------${responseInv.body}');
+    //print('---------------${responseInv.body}');
 
     productionCount1 = productionModelFromJson(responseInv.body);
     bomCount = productionCount1.bomCount.toString();
-    //inspCount = productionCount1.inspCount.toString();
-    stoCount = productionCount1.stoCount.toString();
+    batCount = productionCount1.batchCOunt.toString();
 
     setState(() {
       isLoading = false;
@@ -85,6 +86,15 @@ class _ProductionNotificationListState
           ),
           onTap: () {
             Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotification(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xStaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         centerTitle: true,
@@ -235,7 +245,7 @@ class _ProductionNotificationListState
                         ),
                       ),
                     ],
-                    if (inspCount == '0')
+                    if (batCount == '0')
                       ...[]
                     else ...[
                       Padding(
@@ -244,7 +254,7 @@ class _ProductionNotificationListState
                         child: Badge(
                           position: BadgePosition.topEnd(end: 0),
                           badgeContent: Text(
-                            stoCount,
+                            batCount,
                             style: TextStyle(color: Colors.white),
                           ),
                           child: Container(
@@ -271,7 +281,7 @@ class _ProductionNotificationListState
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => PendingSTOScreen(
+                                        builder: (context) => BAT_notification(
                                               xposition: widget.xposition,
                                               xstaff: widget.xstaff,
                                               zemail: widget.zemail,
@@ -279,7 +289,7 @@ class _ProductionNotificationListState
                                             )));
                               },
                               child: Text(
-                                "STO Approval",
+                                "Pending BAT Approval",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,

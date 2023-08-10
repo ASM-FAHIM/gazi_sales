@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
 import 'package:badges/badges.dart' as badges;
 import '../data_model/notificaiton_count/admin_count.dart';
+import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_requisition.dart';
 import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_short_leave.dart';
 import '../sales/constant/app_constants.dart';
@@ -135,15 +136,15 @@ class _HrApproverHomeState extends State<HrApproverHome> {
           color: const Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
-            // Navigator.pushReplacement(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => AdminNotification(
-            //               xposition: widget.xposition,
-            //               zemail: widget.zemail,
-            //               xStaff: widget.xstaff,
-            //               zid: widget.zid,
-            //             )));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminNotification(
+                          xposition: widget.xposition,
+                          zemail: widget.zemail,
+                          xStaff: widget.xstaff,
+                          zid: widget.zid,
+                        )));
           },
         ),
         centerTitle: true,

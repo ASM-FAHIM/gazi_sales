@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data_model/notificaiton_count/admin_count.dart';
+import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/personal/notification_pages/absent_information.dart';
 import '../hr/notifications/approverNotification/screen/personal/notification_pages/early_leave_information.dart';
 import '../hr/notifications/approverNotification/screen/personal/notification_pages/late_info_notification.dart';
@@ -18,6 +19,7 @@ class PersonalNotificationList extends StatefulWidget {
     required this.xposition,
     required this.zid,
     required this.xstaff,
+    required this.zemail,
     // required this.earlyCount,
     // required this.leaveCount,
     // required this.lateCount,
@@ -27,6 +29,7 @@ class PersonalNotificationList extends StatefulWidget {
   String xposition;
   String zid;
   String xstaff;
+  String zemail;
 
   // String earlyCount;
   // String leaveCount;
@@ -59,14 +62,14 @@ class _PersonalNotificationListState extends State<PersonalNotificationList> {
       isLoading = true;
     });
 
-    var responseInv = await http.post(
-        Uri.parse(
-            'http://${AppConstants.baseurl}/gazi/notification/accounts/total_count_accounts.php'),
-        body: jsonEncode(<String, dynamic>{
-          "zid": widget.zid,
-          "xposition": widget.xposition
-        }));
-    print('---------------${responseInv.body}');
+    // var responseInv = await http.post(
+    //     Uri.parse(
+    //         'http://${AppConstants.baseurl}/gazi/notification/accounts/total_count_accounts.php'),
+    //     body: jsonEncode(<String, dynamic>{
+    //       "zid": widget.zid,
+    //       "xposition": widget.xposition
+    //     }));
+    // print('---------------${responseInv.body}');
 
     /*InventoryCount1 = inventoryCountModelFromJson(responseInv.body);
     pAbsCount = InventoryCount1.srCount.toInt();
@@ -98,6 +101,15 @@ class _PersonalNotificationListState extends State<PersonalNotificationList> {
             color: Color(0xff064A76),
             onPressed: () {
               Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AdminNotification(
+                            xposition: widget.xposition,
+                            zemail: widget.zemail,
+                            xStaff: widget.xstaff,
+                            zid: widget.zid,
+                          )));
             },
           ),
           title: Center(
