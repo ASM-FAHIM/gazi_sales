@@ -61,7 +61,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
     scmModel1 = scmmOdelFromJson(responseInv.body);
     poCount = scmModel1.poCount.toString();
     csCount = scmModel1.csCount.toString();
-    //sprCount = scmModel1.sprCount.toString();
+    sprCount = scmModel1.sprCount.toString();
     // prnCount = scmModel1.prnCount.toString();
     cashAdvCount = scmModel1.cashAdvCount.toString();
     padjCount = scmModel1.padjCount.toString();

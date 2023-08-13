@@ -193,7 +193,7 @@ class _BillNotificationScreenState extends State<BillNotificationScreen> {
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              /*Text(
                                 "Debit Account: " +
                                     "${snapshot.data![index].xaccdr}",
                                 style: GoogleFonts.bakbakOne(
@@ -202,32 +202,23 @@ class _BillNotificationScreenState extends State<BillNotificationScreen> {
                                 ),
                               ),
                               Text(
-                                "Debit Account: " +
-                                    "${snapshot.data![index].xacccrdesc}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
-                                "Credit Account: " +
-                                    "${snapshot.data![index].xacccr}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
-                              ),
-                              Text(
                                 "Credit Account: " +
                                     "${snapshot.data![index].xacccrdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
-                              Text(
-                                "Plant/Project Code: " +
+                              ),*/
+                              /*Text(
+                                "Branch/Depot Code: " +
                                     snapshot.data![index].xwh,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),*/
+                              Text(
+                                "Receive Status : ${snapshot.data![index].recdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),

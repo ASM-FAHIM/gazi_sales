@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../../../../conts_api_link.dart';
 import '../../../../../../../data_model/notification_model/admin_approver_model/details/spr_details_model.dart';
+import '../../../../../../../sales/constant/app_constants.dart';
 
 class SPR_details_notification extends StatefulWidget {
   SPR_details_notification(
@@ -36,8 +37,12 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
 
   Future<List<SprDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
-        Uri.parse(ConstApiLink().pendingSPRDetailsApi),
-        body: jsonEncode(<String, String>{"xtornum": widget.xtornum}));
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_details.php'),
+        body: jsonEncode(<String, String>{
+          "zid": widget.zid,
+          "xtornum": widget.xtornum,
+        }));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -61,8 +66,8 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Color(0xff064A76),
+          icon: const Icon(Icons.arrow_back),
+          color: const Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -72,19 +77,19 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
             "SPR Details",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
-              color: Color(0xff074974),
+              color: const Color(0xff074974),
             ),
           ),
         ),
         actions: [
-          SizedBox(
+          const SizedBox(
             width: 20,
           )
         ],
         backgroundColor: Colors.white,
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: FutureBuilder<List<SprDetailsModel>>(
           future: futurePost,
           builder: (context, snapshot) {
@@ -98,7 +103,7 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (_, index) => Card(
                         child: Padding(
-                          padding: EdgeInsets.only(bottom: 6.0, left: 15),
+                          padding: const EdgeInsets.only(bottom: 6.0, left: 15),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -109,7 +114,7 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${snapshot.data![index].xtornum}",
+                                      "${widget.xtornum}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -132,43 +137,6 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                         //color: Color(0xff074974),
                                       ),
                                     ),
-                                    // Text(
-                                    //   "Item:" +
-                                    //       " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
-                                    //   textAlign: TextAlign.center,
-                                    //   style: GoogleFonts.bakbakOne(
-                                    //     fontSize: 18,
-                                    //     //color: Color(0xff074974),
-                                    //   ),
-                                    // ),
-                                    // Text(
-                                    //   "Required By Date:" +
-                                    //       " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdatereq.date).toString()))}",
-                                    //   textAlign: TextAlign.center,
-                                    //   style: GoogleFonts.bakbakOne(
-                                    //     fontSize: 18,
-                                    //     //color: Color(0xff074974),
-                                    //   ),
-                                    // ),
-                                    //
-                                    Text(
-                                      "Description: " +
-                                          "${snapshot.data![index].xdesc ?? "  "}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    //
-                                    // Text(
-                                    //   "Part No: " +
-                                    //       "${snapshot.data![index].xqty ?? ""}",
-                                    //   style: GoogleFonts.bakbakOne(
-                                    //     fontSize: 18,
-                                    //     //color: Color(0xff074974),
-                                    //   ),
-                                    // ),
-                                    //
                                     Text(
                                       "Unit of Measure: " +
                                           snapshot.data![index].xunit,
@@ -179,8 +147,8 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                     ),
                                     //
                                     Text(
-                                      "Preperer Qty: " +
-                                          snapshot.data![index].prepqty,
+                                      "Quantity Required: " +
+                                          snapshot.data![index].xqtyreq,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -188,7 +156,7 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                     ),
                                     Text(
                                       "Approved Qty: " +
-                                          snapshot.data![index].dphqty,
+                                          snapshot.data![index].xavail,
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -216,43 +184,39 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
                         //color: Colors.green,
                         onPressed: () async {
                           var response = await http.post(
-                              Uri.parse(ConstApiLink().pendingSPRApproveApi),
+                              Uri.parse(
+                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
                                 "xtornum": widget.xtornum.toString(),
-                                "ypd": "0",
                                 " xstatustor": widget.xstatustor.toString()
                               }));
 
                           Get.snackbar('Message', 'Approved',
-                              backgroundColor: Color(0XFF8CA6DB),
+                              backgroundColor: const Color(0XFF8CA6DB),
                               colorText: Colors.white,
                               snackPosition: SnackPosition.TOP);
-
                           Navigator.pop(context, "approval");
-
-                          // setState(() {
-                          //   snapshot.data!.removeAt(index);
-                          // });
-
                           print(response.statusCode);
-                          print(response.body);
                         },
-                        child: Text("Approve"),
+                        child: const Text(
+                          "Approve",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                         //color: Colors.red,
                         onPressed: () {
@@ -279,10 +243,11 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                               return "Please Write Reject Note";
                                             }
                                           },
-                                          scrollPadding: EdgeInsets.all(20),
+                                          scrollPadding:
+                                              const EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
-                                                EdgeInsets.only(left: 20),
+                                                const EdgeInsets.only(left: 20),
                                             // add padding to adjust text
                                             isDense: false,
 
@@ -296,7 +261,7 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                               fontSize: 18,
                                               color: Colors.black,
                                             ),
-                                            border: OutlineInputBorder(),
+                                            border: const OutlineInputBorder(),
                                           ),
                                         ),
                                       ),
@@ -305,33 +270,41 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        primary: Color(0xff064A76),
+                                        backgroundColor:
+                                            const Color(0xff064A76),
                                       ),
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
                                         //http://172.20.20.69/adminapprove/poreject.php
+                                        if (rejectNote == " ") {
+                                          Navigator.pop(context);
+                                          print('response code: Empty field');
+                                          Get.snackbar('Warning!',
+                                              'Please enter reject note',
+                                              backgroundColor: Colors.redAccent,
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
+                                        } else {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_approve.php'),
+                                              body: jsonEncode(<String, String>{
+                                                "zid": widget.zid,
+                                                "user": widget.zemail,
+                                                "xposition": widget.xposition,
+                                                "xtornum": widget.xtornum,
+                                                "xnote": rejectNote
+                                              }));
+                                          print(response.statusCode);
+                                          Get.snackbar('Message', 'Rejected',
+                                              backgroundColor:
+                                                  Color(0XFF8CA6DB),
+                                              colorText: Colors.white,
+                                              snackPosition: SnackPosition.TOP);
 
-                                        var response = await http.post(
-                                            Uri.parse(ConstApiLink()
-                                                .pendingSPRRejectApi),
-                                            body: jsonEncode(<String, String>{
-                                              "zid": widget.zid,
-                                              "user": widget.zemail,
-                                              "xposition": widget.xposition,
-                                              "wh": "0",
-                                              "xtornum": widget.xtornum,
-                                              "xnote": rejectNote
-                                            }));
-                                        print(response.statusCode);
-                                        print(response.body);
-
-                                        Get.snackbar('Message', 'Rejected',
-                                            backgroundColor: Color(0XFF8CA6DB),
-                                            colorText: Colors.white,
-                                            snackPosition: SnackPosition.TOP);
-
-                                        Navigator.pop(context);
-                                        Navigator.pop(context, "approval");
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "approval");
+                                        }
                                       },
                                       child: Text(
                                         "Reject",
@@ -345,15 +318,18 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                 );
                               });
                         },
-                        child: Text("Reject"),
+                        child: const Text(
+                          "Reject",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   )
                 ],
               );
             } else {
-              return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+              return const Center(
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

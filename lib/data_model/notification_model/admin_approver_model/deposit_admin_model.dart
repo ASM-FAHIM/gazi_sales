@@ -23,6 +23,17 @@ class DepositNotificationModel {
   String xbank;
   String xbranch;
   String xamount;
+  String xarnature;
+  String xstatusjv;
+  String statusjv;
+  String xnote;
+  String xtso;
+  String executive;
+  String zm;
+  String dsm;
+  String base;
+  String zone;
+  String division;
   String xpreparer;
   String preparerName;
 
@@ -38,6 +49,17 @@ class DepositNotificationModel {
     required this.xbank,
     required this.xbranch,
     required this.xamount,
+    required this.xarnature,
+    required this.xstatusjv,
+    required this.statusjv,
+    required this.xnote,
+    required this.xtso,
+    required this.executive,
+    required this.zm,
+    required this.dsm,
+    required this.base,
+    required this.zone,
+    required this.division,
     required this.xpreparer,
     required this.preparerName,
   });
@@ -55,6 +77,17 @@ class DepositNotificationModel {
         xbank: json["xbank"],
         xbranch: json["xbranch"],
         xamount: json["xamount"],
+        xarnature: json["xarnature"],
+        xstatusjv: json["xstatusjv"],
+        statusjv: json["statusjv"],
+        xnote: json["xnote"],
+        xtso: json["xtso"],
+        executive: json["Executive"],
+        zm: json["ZM"],
+        dsm: json["DSM"],
+        base: json["Base"],
+        zone: json["Zone"],
+        division: json["Division"],
         xpreparer: json["xpreparer"],
         preparerName: json["preparer_name"],
       );
@@ -71,6 +104,17 @@ class DepositNotificationModel {
         "xbank": xbank,
         "xbranch": xbranch,
         "xamount": xamount,
+        "xarnature": xarnature,
+        "xstatusjv": xstatusjv,
+        "statusjv": statusjv,
+        "xnote": xnote,
+        "xtso": xtso,
+        "Executive": executive,
+        "ZM": zm,
+        "DSM": dsm,
+        "Base": base,
+        "Zone": zone,
+        "Division": division,
         "xpreparer": xpreparer,
         "preparer_name": preparerName,
       };

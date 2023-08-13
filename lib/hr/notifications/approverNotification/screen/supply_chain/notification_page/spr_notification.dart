@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../conts_api_link.dart';
+import '../../../../../../sales/constant/app_constants.dart';
 import '../../../../../../screen/SupplyChain.dart';
 import '../notification_model/spr_admin_model.dart';
 import 'details_page/spr_notification_details.dart';
@@ -29,24 +30,13 @@ class _SPR_notificationState extends State<SPR_notification> {
   String rejectNote = " ";
 
   Future<List<SprModel>> fetchPost() async {
-    var response = await http.post(Uri.parse(ConstApiLink().pendingSPRApi),
+    var response = await http.post(
+        Uri.parse(
+            'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_notifications.php'),
         body: jsonEncode(<String, String>{
+          "zid": widget.zid,
           "xposition": widget.xposition,
         }));
-
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-
-      return parsed.map<SprModel>((json) => SprModel.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load album');
-    }
-  }
-
-  Future<List<SprModel>> fetchDetailsPost() async {
-    var response = await http.post(
-        Uri.parse('http://172.20.20.69/aygaz/notifications/sprdetails.php'),
-        body: jsonEncode(<String, String>{"xtornum": "SPR-000027"}));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -112,7 +102,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                     children: [
                       Card(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 6.0),
+                          padding: EdgeInsets.only(left: 10, bottom: 6.0),
                           child: ExpansionTile(
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
@@ -127,6 +117,8 @@ class _SPR_notificationState extends State<SPR_notification> {
                                       width: MediaQuery.of(context).size.width /
                                           1.6,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "${snapshot.data![index].xtornum}",
@@ -187,6 +179,13 @@ class _SPR_notificationState extends State<SPR_notification> {
                                 ),
                               ),
                               Text(
+                                "Store Name: " + snapshot.data![index].twhdesc,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
                                 "Justification: " +
                                     "${snapshot.data![index].xlong}",
                                 style: GoogleFonts.bakbakOne(
@@ -234,6 +233,14 @@ class _SPR_notificationState extends State<SPR_notification> {
                                 ),
                               ),
                               Text(
+                                "Purchase Natutre: " +
+                                    "${snapshot.data![index].xprodnaturedesc}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
                                 "SPR Status: " +
                                     "${snapshot.data![index].statusName}",
                                 style: GoogleFonts.bakbakOne(
@@ -243,7 +250,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                               ),
                               TextButton(
                                 style: TextButton.styleFrom(
-                                  primary: Colors.lightBlueAccent,
+                                  backgroundColor: Colors.lightBlueAccent,
                                 ),
                                 //color: Colors.lightBlueAccent,
                                 onPressed: () async {
@@ -265,7 +272,11 @@ class _SPR_notificationState extends State<SPR_notification> {
                                   //   snapshot.data!.removeAt(index);
                                   // });
                                 },
-                                child: Center(child: Text("Details")),
+                                child: Center(
+                                    child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                               ),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -430,7 +441,7 @@ class _SPR_notificationState extends State<SPR_notification> {
               );
             } else {
               return Center(
-                child: Image(image: AssetImage("images/loading.gif")),
+                child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }
           },

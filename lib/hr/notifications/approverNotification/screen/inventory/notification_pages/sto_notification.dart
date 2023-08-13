@@ -77,7 +77,7 @@ class _PendingSTOScreenState extends State<PendingSTOScreen> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ProductionNotificationList(
+                    builder: (context) => AdminNotificationList(
                           xposition: widget.xposition,
                           zemail: widget.zemail,
                           zid: widget.zid,
@@ -204,8 +204,8 @@ class _PendingSTOScreenState extends State<PendingSTOScreen> {
                                 ),
                               ),
                               Text(
-                                "STO Status :" +
-                                    "${snapshot.data![index].xstatustor}",
+                                "STO Status : " +
+                                    "${snapshot.data![index].xstatusrdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),

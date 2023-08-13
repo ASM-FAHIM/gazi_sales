@@ -279,15 +279,14 @@ class _PO_details_notificationState extends State<PO_details_notification> {
                                                 "xpornum": widget.xpornum,
                                                 "xnote": rejectNote
                                               }));
-                                          print(response.statusCode);
                                           Get.snackbar('Message', 'Rejected',
                                               backgroundColor:
                                                   Color(0XFF8CA6DB),
                                               colorText: Colors.white,
                                               snackPosition: SnackPosition.TOP);
-
                                           Navigator.pop(context);
                                           Navigator.pop(context, "approval");
+                                          print(response.statusCode);
                                         }
                                       },
                                       child: Text(

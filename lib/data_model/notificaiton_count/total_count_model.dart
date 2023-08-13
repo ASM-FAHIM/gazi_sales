@@ -383,12 +383,14 @@ class ScmmOdel {
   int cashAdvCount;
   int csCount;
   int poCount;
+  int sprCount;
 
   ScmmOdel({
     required this.padjCount,
     required this.cashAdvCount,
     required this.csCount,
     required this.poCount,
+    required this.sprCount,
   });
 
   factory ScmmOdel.fromJson(Map<String, dynamic> json) => ScmmOdel(
@@ -396,6 +398,7 @@ class ScmmOdel {
         cashAdvCount: json["Cash_Adv_Count"],
         csCount: json["CS_Count"],
         poCount: json["POCount"],
+        sprCount: json["SPRCount"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -403,6 +406,7 @@ class ScmmOdel {
         "Cash_Adv_Count": cashAdvCount,
         "CS_Count": csCount,
         "POCount": poCount,
+        "SPRCount": sprCount,
       };
 }
 

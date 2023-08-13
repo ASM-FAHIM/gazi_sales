@@ -22,7 +22,7 @@ class ConstApiLink {
   final String depositApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit.php';
   final String pendingSPRApi =
-      'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_notification.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_notifications.php';
   final String pendingSpotPurchaseAdvanceApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/spotpurchaseadvance.php';
   final String grnApi =
@@ -81,7 +81,7 @@ class ConstApiLink {
   final String cashAdvDetailsApi =
       'http://${AppConstants.baseurl}/GAZI/Notification/scm/Cash_Adv/cashAdv_details.php';
   final String pendingSPRDetailsApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/sprdetails.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_details.php';
   final String pendingSpotPurchaseAdvanceDetails = 'Has no data for test';
   final String grnDetailsApi =
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/grndetail.php';
@@ -140,9 +140,9 @@ class ConstApiLink {
       'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/pendingVoucherreject.php';
 
   final String pendingSPRApproveApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/sprapprove.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_approve.php';
   final String pendingSPRRejectApi =
-      'http://${AppConstants.baseurl}/API_Aygaz/aygaz/notifications/sprreject.php';
+      'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_reject.php';
 
   //pending SPA has issue, details screen not present and api need to test
   final String pendingSpotPurchaseAdvanceApproveApi =

@@ -108,304 +108,308 @@ class _DepositNotifiScreenState extends State<DepositNotifiScreen> {
                   child: Column(
                     children: [
                       Card(
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 6.0, left: 10),
-                          child: ExpansionTile(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                        child: ExpansionTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.6,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2.2,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              " ${snapshot.data![index].xdepositnum}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
-                                            ),
-                                            Text(
-                                              " ${snapshot.data![index].preparerName}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.bakbakOne(
-                                                fontSize: 18,
-                                                //color: Color(0xff074974),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
+                                    Text(
+                                      "${snapshot.data![index].xdepositnum}",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "${snapshot.data![index].cusname}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 16,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "${snapshot.data![index].preparerName}",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                          childrenPadding: EdgeInsets.symmetric(horizontal: 10),
+                          children: <Widget>[
+                            Text(
+                              "Deposit number :" +
+                                  "${snapshot.data![index].xdepositnum}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
+                              ),
                             ),
-                            expandedCrossAxisAlignment:
-                                CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Deposit number :" +
-                                    "${snapshot.data![index].xdepositnum}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
+                            Text(
+                              "Date : " + "${snapshot.data![index].xdate}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
                               ),
-                              Text(
-                                "Date : " + "${snapshot.data![index].xdate}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
+                            ),
+                            Text(
+                              "Customer name : ${snapshot.data![index].cusname}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
                               ),
-                              Text(
-                                "Customer name : ${snapshot.data![index].cusname}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
+                            ),
+                            Text(
+                              "Bank Name: ${snapshot.data![index].xbank}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
                               ),
-                              Text(
-                                "Bank Name: ${snapshot.data![index].xbank}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
+                            ),
+                            Text(
+                              "Branch: ${snapshot.data![index].xbranch}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
                               ),
-                              Text(
-                                "Deposit Ref No: ${snapshot.data![index].xdepositref}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
+                            ),
+                            Text(
+                              "Deposit Ref No: ${snapshot.data![index].xnote}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
                               ),
-                              Text(
-                                "Amount : ${snapshot.data![index].xamount}",
-                                style: GoogleFonts.bakbakOne(
-                                  fontSize: 18,
-                                  //color: Color(0xff074974),
-                                ),
+                            ),
+                            Text(
+                              "Invoice Type : ${snapshot.data![index].xarnature}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
                               ),
-                              /*TextButton(
-                                style: TextButton.styleFrom(
-                                    primary:Colors.lightBlueAccent
-                                ),
-                                onPressed: () async {
-                                  final result = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CashAdvDetailsNotifiScreen(
-                                                reqNumber: snapshot.data![index].xporeqnum,
-                                                zid: widget.zid,
-                                                xposition: widget.xposition,
-                                                zemail: widget.zemail,
-                                                xstatusreq: snapshot.data![index].xstatusreq,
-                                              )));
-                                  debugPrint(result.toString());
-                                  print(result);
-                                  if (result.toString() == "approval") {
-                                    debugPrint("pressed");
+                            ),
+                            Text(
+                              "Deposit Status : ${snapshot.data![index].statusName}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
+                              ),
+                            ),
+                            Text(
+                              "Amount : ${snapshot.data![index].xamount}",
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                //color: Color(0xff074974),
+                              ),
+                            ),
+                            /*TextButton(
+                              style: TextButton.styleFrom(
+                                  primary:Colors.lightBlueAccent
+                              ),
+                              onPressed: () async {
+                                final result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CashAdvDetailsNotifiScreen(
+                                              reqNumber: snapshot.data![index].xporeqnum,
+                                              zid: widget.zid,
+                                              xposition: widget.xposition,
+                                              zemail: widget.zemail,
+                                              xstatusreq: snapshot.data![index].xstatusreq,
+                                            )));
+                                debugPrint(result.toString());
+                                print(result);
+                                if (result.toString() == "approval") {
+                                  debugPrint("pressed");
+                                  setState(() {
+                                    snapshot.data!.removeAt(index);
+                                  });
+                                }
+                              },
+                              child: Center(child: Text("Details")),
+                            ),*/
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                  ),
+                                  onPressed: () async {
+                                    var response = await http.post(
+                                        Uri.parse(
+                                            'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit_Approve.php'),
+                                        body: jsonEncode(<String, String>{
+                                          "zid": widget.zid,
+                                          "user": widget.zemail,
+                                          "xposition": widget.xposition,
+                                          "xdepositnum":
+                                              snapshot.data![index].xdepositnum,
+                                          "xbank": snapshot.data![index].xbank,
+                                          "xbranch":
+                                              snapshot.data![index].xbranch,
+                                          "xstatusreq":
+                                              snapshot.data![index].xstatus
+                                        }));
+
+                                    Get.snackbar('Message', 'Approved',
+                                        backgroundColor: Color(0XFF8CA6DB),
+                                        colorText: Colors.white,
+                                        snackPosition: SnackPosition.TOP);
+
                                     setState(() {
                                       snapshot.data!.removeAt(index);
                                     });
-                                  }
-                                },
-                                child: Center(child: Text("Details")),
-                              ),*/
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.green,
-                                    ),
-                                    onPressed: () async {
-                                      var response = await http.post(
-                                          Uri.parse(
-                                              'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit_Approve.php'),
-                                          body: jsonEncode(<String, String>{
-                                            "zid": widget.zid,
-                                            "user": widget.zemail,
-                                            "xposition": widget.xposition,
-                                            "xdepositnum": snapshot
-                                                .data![index].xdepositnum,
-                                            "xbank":
-                                                snapshot.data![index].xbank,
-                                            "xbranch":
-                                                snapshot.data![index].xbranch,
-                                            "xstatusreq":
-                                                snapshot.data![index].xstatus
-                                          }));
 
-                                      Get.snackbar('Message', 'Approved',
-                                          backgroundColor: Color(0XFF8CA6DB),
-                                          colorText: Colors.white,
-                                          snackPosition: SnackPosition.TOP);
-
-                                      setState(() {
-                                        snapshot.data!.removeAt(index);
-                                      });
-
-                                      print(response.statusCode);
-                                      print(response.body);
-                                    },
-                                    child: Text(
-                                      "Approve",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                    print(response.statusCode);
+                                    print(response.body);
+                                  },
+                                  child: Text(
+                                    "Approve",
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  SizedBox(
-                                    width: 50,
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Colors.redAccent,
                                   ),
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.redAccent,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text("Reject Note"),
-                                              content: Column(
-                                                children: [
-                                                  Container(
-                                                    //height: MediaQuery.of(context).size.height/6,
-                                                    child: TextFormField(
-                                                      style:
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text("Reject Note"),
+                                            content: Column(
+                                              children: [
+                                                Container(
+                                                  //height: MediaQuery.of(context).size.height/6,
+                                                  child: TextFormField(
+                                                    style:
+                                                        GoogleFonts.bakbakOne(
+                                                      //fontWeight: FontWeight.bold,
+                                                      fontSize: 18,
+                                                      color: Colors.black,
+                                                    ),
+                                                    onChanged: (input) {
+                                                      rejectNote = input;
+                                                    },
+                                                    validator: (input) {
+                                                      if (input!.isEmpty) {
+                                                        return "Please Write Reject Note";
+                                                      }
+                                                    },
+                                                    scrollPadding:
+                                                        EdgeInsets.all(20),
+                                                    decoration: InputDecoration(
+                                                      contentPadding:
+                                                          EdgeInsets.only(
+                                                              left: 20),
+                                                      // add padding to adjust text
+                                                      isDense: false,
+
+                                                      hintStyle:
                                                           GoogleFonts.bakbakOne(
                                                         //fontWeight: FontWeight.bold,
                                                         fontSize: 18,
                                                         color: Colors.black,
                                                       ),
-                                                      onChanged: (input) {
-                                                        rejectNote = input;
-                                                      },
-                                                      validator: (input) {
-                                                        if (input!.isEmpty) {
-                                                          return "Please Write Reject Note";
-                                                        }
-                                                      },
-                                                      scrollPadding:
-                                                          EdgeInsets.all(20),
-                                                      decoration:
-                                                          InputDecoration(
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                                left: 20),
-                                                        // add padding to adjust text
-                                                        isDense: false,
-
-                                                        hintStyle: GoogleFonts
-                                                            .bakbakOne(
-                                                          //fontWeight: FontWeight.bold,
-                                                          fontSize: 18,
-                                                          color: Colors.black,
-                                                        ),
-                                                        labelText:
-                                                            "Reject Note",
-                                                        labelStyle: GoogleFonts
-                                                            .bakbakOne(
-                                                          fontSize: 18,
-                                                          color: Colors.black,
-                                                        ),
-                                                        border:
-                                                            OutlineInputBorder(),
+                                                      labelText: "Reject Note",
+                                                      labelStyle:
+                                                          GoogleFonts.bakbakOne(
+                                                        fontSize: 18,
+                                                        color: Colors.black,
                                                       ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    backgroundColor:
-                                                        Color(0xff064A76),
-                                                  ),
-                                                  onPressed: () async {
-                                                    //http://$api/ughcm/adminapprove/poreject.php
-                                                    if (rejectNote == " ") {
-                                                      Navigator.pop(context);
-                                                      print(
-                                                          'response code: Empty field');
-                                                      Get.snackbar('Warning!',
-                                                          'Please enter reject note',
-                                                          backgroundColor:
-                                                              Colors.redAccent,
-                                                          colorText:
-                                                              Colors.white,
-                                                          snackPosition:
-                                                              SnackPosition
-                                                                  .TOP);
-                                                    } else {
-                                                      var response =
-                                                          await http.post(
-                                                              Uri.parse(
-                                                                  'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit_Approve.php'),
-                                                              body: jsonEncode(<
-                                                                  String,
-                                                                  String>{
-                                                                "zid":
-                                                                    widget.zid,
-                                                                "user": widget
-                                                                    .zemail,
-                                                                "xposition": widget
-                                                                    .xposition,
-                                                                "xdepositnum":
-                                                                    snapshot
-                                                                        .data![
-                                                                            index]
-                                                                        .xdepositnum,
-                                                                "xnote":
-                                                                    rejectNote
-                                                              }));
-                                                      print(response.body);
-                                                      Navigator.pop(context);
-                                                      Get.snackbar(
-                                                          'Message', 'Rejected',
-                                                          backgroundColor:
-                                                              Color(0XFF8CA6DB),
-                                                          colorText:
-                                                              Colors.white,
-                                                          snackPosition:
-                                                              SnackPosition
-                                                                  .TOP);
-
-                                                      setState(() {
-                                                        snapshot.data!
-                                                            .removeAt(index);
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Text(
-                                                    "Reject",
-                                                    style:
-                                                        GoogleFonts.bakbakOne(
-                                                      color: Colors.white,
+                                                      border:
+                                                          OutlineInputBorder(),
                                                     ),
                                                   ),
                                                 ),
                                               ],
-                                              scrollable: true,
-                                            );
-                                          });
-                                    },
-                                    child: Text("Reject",
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                  backgroundColor:
+                                                      Color(0xff064A76),
+                                                ),
+                                                onPressed: () async {
+                                                  //http://$api/ughcm/adminapprove/poreject.php
+                                                  if (rejectNote == " ") {
+                                                    Navigator.pop(context);
+                                                    print(
+                                                        'response code: Empty field');
+                                                    Get.snackbar('Warning!',
+                                                        'Please enter reject note',
+                                                        backgroundColor:
+                                                            Colors.redAccent,
+                                                        colorText: Colors.white,
+                                                        snackPosition:
+                                                            SnackPosition.TOP);
+                                                  } else {
+                                                    var response = await http.post(
+                                                        Uri.parse(
+                                                            'http://${AppConstants.baseurl}/GAZI/Notification/sales/deposit/deposit_Approve.php'),
+                                                        body: jsonEncode(<
+                                                            String, String>{
+                                                          "zid": widget.zid,
+                                                          "user": widget.zemail,
+                                                          "xposition":
+                                                              widget.xposition,
+                                                          "xdepositnum":
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .xdepositnum,
+                                                          "xnote": rejectNote
+                                                        }));
+                                                    print(response.body);
+                                                    Navigator.pop(context);
+                                                    Get.snackbar(
+                                                        'Message', 'Rejected',
+                                                        backgroundColor:
+                                                            Color(0XFF8CA6DB),
+                                                        colorText: Colors.white,
+                                                        snackPosition:
+                                                            SnackPosition.TOP);
+
+                                                    setState(() {
+                                                      snapshot.data!
+                                                          .removeAt(index);
+                                                    });
+                                                  }
+                                                },
+                                                child: Text(
+                                                  "Reject",
+                                                  style: GoogleFonts.bakbakOne(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                            scrollable: true,
+                                          );
+                                        });
+                                  },
+                                  child: Text("Reject",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     ],
