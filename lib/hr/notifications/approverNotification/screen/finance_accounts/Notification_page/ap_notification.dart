@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import '../../../../../../sales/constant/app_constants.dart';
 import '../../../../../../screen/FinanaceAccounts.dart';
 import '../Notification_model/ap_admin_model.dart';
-import '../Notification_model/ar_admin_model.dart';
 
 class APNotificationScreen extends StatefulWidget {
   APNotificationScreen(

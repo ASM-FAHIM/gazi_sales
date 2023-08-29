@@ -188,7 +188,7 @@ class _SR_notificationState extends State<SR_notification> {
                               ),
                               Text(
                                 "Status:" +
-                                    "${snapshot.data![index].xstatustor}",
+                                    "${snapshot.data![index].descxstatustor}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),

@@ -124,36 +124,6 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "${snapshot.data![index].xitem}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "${snapshot.data![index].xdesc}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "${snapshot.data![index].xunit}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-
-                                    Text(
-                                      "Serial No: " + (index + 1).toString(),
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
                                     // Text(
                                     //   "Item:" +
                                     //       " ${DateFormat("dd-MM-yyyy").format(DateTime.parse((snapshot.data![index].xdate.date).toString()))}",
@@ -180,6 +150,14 @@ class _SR_details_notificationState extends State<SR_details_notification> {
                                       ),
                                     ),
                                     //
+                                    Text(
+                                      "Unit: "
+                                      "${snapshot.data![index].xunit}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
                                     Text(
                                       "Description: "
                                       "${snapshot.data![index].xdesc}",

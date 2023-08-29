@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data_model/notificaiton_count/admin_count.dart';
@@ -9,7 +6,6 @@ import '../hr/notifications/approverNotification/screen/personal/notification_pa
 import '../hr/notifications/approverNotification/screen/personal/notification_pages/early_leave_information.dart';
 import '../hr/notifications/approverNotification/screen/personal/notification_pages/late_info_notification.dart';
 import '../hr/notifications/approverNotification/screen/personal/notification_pages/leave&tour_notification.dart';
-import '../sales/constant/app_constants.dart';
 import 'package:http/http.dart' as http;
 
 class PersonalNotificationList extends StatefulWidget {
@@ -140,8 +136,7 @@ class _PersonalNotificationListState extends State<PersonalNotificationList> {
                     padding:
                         const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                     child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
+                      label: Text(
                         pLateCount,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -195,8 +190,7 @@ class _PersonalNotificationListState extends State<PersonalNotificationList> {
                     padding:
                         const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                     child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
+                      label: Text(
                         pLeaveCount,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -250,8 +244,7 @@ class _PersonalNotificationListState extends State<PersonalNotificationList> {
                     padding:
                         const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                     child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
+                      label: Text(
                         pEarlyCount,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -306,8 +299,7 @@ class _PersonalNotificationListState extends State<PersonalNotificationList> {
                     padding:
                         const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                     child: Badge(
-                      position: BadgePosition.topEnd(end: 0),
-                      badgeContent: Text(
+                      label: Text(
                         pAbsCount,
                         style: TextStyle(color: Colors.white),
                       ),

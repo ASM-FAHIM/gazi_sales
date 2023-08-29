@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
-import '../Notification_model/mr_admin_model.dart';
 import '../Notification_model/supplier_payment_admin_model.dart';
 
 class SupplierPMNotificationScreen extends StatefulWidget {

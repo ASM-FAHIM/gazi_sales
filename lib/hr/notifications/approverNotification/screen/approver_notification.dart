@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:badges/badges.dart';
 import '../../../../data_model/notificaiton_count/total_count_model.dart';
 import '../../../../sales/constant/app_constants.dart';
 import '../../../../sales/constant/colors.dart';
@@ -22,6 +21,7 @@ class AdminNotificationList extends StatefulWidget {
   String zid;
 
   AdminNotificationList({
+    super.key,
     required this.xposition,
     required this.xstaff,
     required this.zemail,
@@ -146,8 +146,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           srCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -202,8 +201,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           rrCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -258,8 +256,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           grnCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -459,8 +456,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           toCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -570,8 +566,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           damageCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -698,8 +693,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           sqcCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -755,8 +749,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           stoCount,
                           style: TextStyle(color: Colors.white),
                         ),

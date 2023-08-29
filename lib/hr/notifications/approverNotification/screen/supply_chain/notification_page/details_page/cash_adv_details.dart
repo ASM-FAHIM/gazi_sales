@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../../../conts_api_link.dart';
 import '../../notification_model/details_model/cash_adv_details_model.dart';
 import '../../../../../../../sales/constant/app_constants.dart';
 

@@ -130,14 +130,14 @@ class _GRN_notificationState extends State<GRN_notification> {
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].preparer}",
+                                            "${snapshot.data![index].sup}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].deptname}",
+                                            "${snapshot.data![index].preparer}",
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
@@ -168,15 +168,13 @@ class _GRN_notificationState extends State<GRN_notification> {
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              /*Text(
-                                "Invoice Number: " +
-                                    "  ${snapshot.data![index].xinvnum}",
-                                textAlign: TextAlign.center,
+                              Text(
+                                "PO Num:" + "${snapshot.data![index].xpornum}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),*/
+                              ),
                               /*Text(
                                 "LC No: " + snapshot.data![index].xlcno,
                                 style: GoogleFonts.bakbakOne(
@@ -216,7 +214,7 @@ class _GRN_notificationState extends State<GRN_notification> {
                                 ),
                               ),
                               Text(
-                                "Plant/Store: " +
+                                "Store/Depot: " +
                                     "${snapshot.data![index].xwh}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
@@ -233,6 +231,22 @@ class _GRN_notificationState extends State<GRN_notification> {
                               ),
                               Text(
                                 "Note: " + "${snapshot.data![index].xnote}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Gate Entry No: " +
+                                    "${snapshot.data![index].xgateentryno}",
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  //color: Color(0xff074974),
+                                ),
+                              ),
+                              Text(
+                                "Approval Status: " +
+                                    "${snapshot.data![index].statusdocdesc}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),

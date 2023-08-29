@@ -6,8 +6,6 @@ import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/hr_a
 import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_settlement.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:badges/badges.dart';
-import 'package:badges/badges.dart' as badges;
 import '../data_model/notificaiton_count/admin_count.dart';
 import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/hr_approver/notification_pages/employee_requisition.dart';
@@ -184,8 +182,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           lateemployee_count,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -243,8 +240,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           earlyemployee_count,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -300,8 +296,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           leaveandtouradmin_count,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -357,8 +352,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           absentemployee_count,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -414,8 +408,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           empReqCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -470,8 +463,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           shortLeaveCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -526,8 +518,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           clearLCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -582,8 +573,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           settleLCount,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -639,8 +629,7 @@ class _HrApproverHomeState extends State<HrApproverHome> {
                       padding:
                           const EdgeInsets.only(top: 20.0, right: 20, left: 20),
                       child: Badge(
-                        position: BadgePosition.topEnd(end: 0),
-                        badgeContent: Text(
+                        label: Text(
                           hrdTCount,
                           style: TextStyle(color: Colors.white),
                         ),

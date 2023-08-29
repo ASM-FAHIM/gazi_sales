@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
-import '../../../../../../conts_api_link.dart';
-import '../../../../../../data_model/notification_model/admin_approver_model/details/sqc_details_model.dart';
 import '../../../../../../data_model/notification_model/admin_approver_model/sqc_admin_model.dart';
 import '../../../../../../sales/constant/app_constants.dart';
 import '../../approver_notification.dart';

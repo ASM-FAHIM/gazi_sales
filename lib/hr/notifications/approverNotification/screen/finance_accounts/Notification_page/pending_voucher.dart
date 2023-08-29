@@ -180,14 +180,14 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              /*Text(
                                 "Plant/Project :" +
                                     "${snapshot.data![index].xwh}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               Text(
                                 "Description :" +
                                     "${snapshot.data![index].xwhdec}",
@@ -269,7 +269,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
+                              /*Text(
                                 "Reviewer Name : " +
                                     snapshot.data![index].signname,
                                 style: GoogleFonts.bakbakOne(
@@ -292,7 +292,7 @@ class _Pending_voucherState extends State<Pending_voucher> {
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               TextButton(
                                 style: TextButton.styleFrom(
                                     backgroundColor: Colors.lightBlueAccent),

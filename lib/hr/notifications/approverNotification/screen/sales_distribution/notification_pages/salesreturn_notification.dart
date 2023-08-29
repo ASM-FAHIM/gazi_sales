@@ -197,7 +197,7 @@ class _PSRA_notificationState extends State<PSRA_notification> {
                                 ),
                               ),
                               Text(
-                                "DExecutive: " +
+                                "Executive: " +
                                     "${snapshot.data![index].executive ?? " "}",
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,

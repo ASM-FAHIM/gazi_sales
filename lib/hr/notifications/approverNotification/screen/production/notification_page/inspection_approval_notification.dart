@@ -4,10 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../api.dart';
 import '../../../../../../screen/Production.dart';
-import '../../approver_notification.dart';
-import '../../inventory/notification_models/damage_approval_admin_model.dart';
 import '../notification_model/inspection_approval_admin_model.dart';
-import '../../inventory/notification_pages/details_page/damage_details.dart';
 import 'details_page/inspection_details.dart';
 
 class InspectionApproval_notification extends StatefulWidget {
@@ -68,7 +65,7 @@ class _InspectionApproval_notificationState
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        /*appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: Color(0xff064A76),
@@ -428,7 +425,7 @@ class _InspectionApproval_notificationState
             }
           },
         ),
-      ),
-    );
+      ),*/
+        );
   }
 }

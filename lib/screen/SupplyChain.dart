@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:badges/badges.dart';
 import '../data_model/notificaiton_count/total_count_model.dart';
 import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/supply_chain/notification_page/cash_adv_notification.dart';
@@ -143,8 +141,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             poCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -201,8 +198,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             csCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -332,8 +328,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             padjCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -389,8 +384,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             cashAdvCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -447,8 +441,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             prnCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -504,8 +497,7 @@ class _PurchaseNotificationListState extends State<PurchaseNotificationList> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             sprCount,
                             style: TextStyle(color: Colors.white),
                           ),

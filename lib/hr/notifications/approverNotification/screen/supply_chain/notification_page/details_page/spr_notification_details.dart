@@ -11,13 +11,12 @@ import '../../../../../../../data_model/notification_model/admin_approver_model/
 import '../../../../../../../sales/constant/app_constants.dart';
 
 class SPR_details_notification extends StatefulWidget {
-  SPR_details_notification(
-      {required this.xtornum,
-      required this.zid,
-      required this.xposition,
-      required this.xstatustor,
-      required this.zemail,
-      required this.xstaff});
+  SPR_details_notification({required this.xtornum,
+    required this.zid,
+    required this.xposition,
+    required this.xstatustor,
+    required this.zemail,
+    required this.xstaff});
 
   String xtornum;
   String zid;
@@ -38,7 +37,8 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
   Future<List<SprDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
         Uri.parse(
-            'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_details.php'),
+            'http://${AppConstants
+                .baseurl}/GAZI/Notification/scm/spr/spr_details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xtornum": widget.xtornum,
@@ -101,82 +101,90 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
-                      itemBuilder: (_, index) => Card(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 6.0, left: 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${widget.xtornum}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
+                      itemBuilder: (_, index) =>
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 6.0, left: 15),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          "${widget.xtornum}",
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Serial No: " +
+                                              "${snapshot.data![index].xrow}",
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Product Code: " +
+                                              "${snapshot.data![index].xitem}",
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Unit of Measure: " +
+                                              snapshot.data![index].xunit,
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                        //
+                                        Text(
+                                          "Quantity Required: " +
+                                              snapshot.data![index].xqtyreq,
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Approved Qty: " +
+                                              snapshot.data![index].xavail,
+                                          style: GoogleFonts.bakbakOne(
+                                            fontSize: 18,
+                                            //color: Color(0xff074974),
+                                          ),
+                                        ),
+                                        //
+                                        // Text(
+                                        //   "Justification:" + snapshot.data![index].xlong,
+                                        //   style: GoogleFonts.bakbakOne(
+                                        //     fontSize: 18,
+                                        //     //color: Color(0xff074974),
+                                        //   ),
+                                        // ),
+                                      ],
                                     ),
-                                    Text(
-                                      "Serial No: " +
-                                          "${snapshot.data![index].xrow}",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Product Code: " +
-                                          "${snapshot.data![index].xitem}",
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Unit of Measure: " +
-                                          snapshot.data![index].xunit,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    //
-                                    Text(
-                                      "Quantity Required: " +
-                                          snapshot.data![index].xqtyreq,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Approved Qty: " +
-                                          snapshot.data![index].xavail,
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    //
-                                    // Text(
-                                    //   "Justification:" + snapshot.data![index].xlong,
-                                    //   style: GoogleFonts.bakbakOne(
-                                    //     fontSize: 18,
-                                    //     //color: Color(0xff074974),
-                                    //   ),
-                                    // ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
                     ),
                   ),
                   Row(
@@ -190,7 +198,8 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_approve.php'),
+                                  'http://${AppConstants
+                                      .baseurl}/GAZI/Notification/scm/spr/spr_approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
@@ -198,13 +207,12 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                 "xtornum": widget.xtornum.toString(),
                                 " xstatustor": widget.xstatustor.toString()
                               }));
-
                           Get.snackbar('Message', 'Approved',
-                              backgroundColor: const Color(0XFF8CA6DB),
+                              backgroundColor: Color(0XFF8CA6DB),
                               colorText: Colors.white,
                               snackPosition: SnackPosition.TOP);
+
                           Navigator.pop(context, "approval");
-                          print(response.statusCode);
                         },
                         child: const Text(
                           "Approve",
@@ -244,10 +252,10 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                             }
                                           },
                                           scrollPadding:
-                                              const EdgeInsets.all(20),
+                                          const EdgeInsets.all(20),
                                           decoration: InputDecoration(
                                             contentPadding:
-                                                const EdgeInsets.only(left: 20),
+                                            const EdgeInsets.only(left: 20),
                                             // add padding to adjust text
                                             isDense: false,
 
@@ -271,7 +279,7 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                     TextButton(
                                       style: TextButton.styleFrom(
                                         backgroundColor:
-                                            const Color(0xff064A76),
+                                        const Color(0xff064A76),
                                       ),
                                       //color: Color(0xff064A76),
                                       onPressed: () async {
@@ -287,7 +295,8 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  'http://${AppConstants.baseurl}/GAZI/Notification/scm/spr/spr_approve.php'),
+                                                  'http://${AppConstants
+                                                      .baseurl}/GAZI/Notification/scm/spr/spr_approve.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
@@ -298,7 +307,7 @@ class _SPR_details_notificationState extends State<SPR_details_notification> {
                                           print(response.statusCode);
                                           Get.snackbar('Message', 'Rejected',
                                               backgroundColor:
-                                                  Color(0XFF8CA6DB),
+                                              Color(0XFF8CA6DB),
                                               colorText: Colors.white,
                                               snackPosition: SnackPosition.TOP);
 

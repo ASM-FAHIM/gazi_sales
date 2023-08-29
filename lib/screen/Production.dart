@@ -1,16 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/production/notification_page/bat_notification.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/production/notification_page/inspection_approval_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:badges/badges.dart';
-
 import '../data_model/notificaiton_count/total_count_model.dart';
 import '../hr/notifications/approverNotification/screen/approver.dart';
 import '../hr/notifications/approverNotification/screen/production/notification_page/bom_notification.dart';
-import '../hr/notifications/approverNotification/screen/inventory/notification_pages/sto_notification.dart';
 import '../sales/constant/app_constants.dart';
 import '../sales/constant/colors.dart';
 
@@ -139,8 +135,7 @@ class _ProductionNotificationListState
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             bomCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -195,8 +190,7 @@ class _ProductionNotificationListState
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             inspCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -252,8 +246,7 @@ class _ProductionNotificationListState
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             batCount,
                             style: TextStyle(color: Colors.white),
                           ),

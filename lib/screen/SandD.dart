@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/notification_pages/dc_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +8,6 @@ import '../hr/notifications/approverNotification/screen/sales_distribution/notif
 import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/so_notification.dart';
 import '../sales/constant/app_constants.dart';
 import 'package:http/http.dart' as http;
-
 import '../sales/constant/colors.dart';
 
 class SalesDistribution extends StatefulWidget {
@@ -133,8 +131,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             soCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -189,8 +186,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             depositCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -246,8 +242,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             dcCount,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -302,8 +297,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
                         padding: const EdgeInsets.only(
                             top: 20.0, right: 20, left: 20),
                         child: Badge(
-                          position: BadgePosition.topEnd(end: 0),
-                          badgeContent: Text(
+                          label: Text(
                             salesReturnCount,
                             style: TextStyle(color: Colors.white),
                           ),

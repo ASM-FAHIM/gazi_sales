@@ -152,21 +152,22 @@ class _RR_NotificationState extends State<RR_Notification> {
                             ),
                             children: <Widget>[
                               Text(
-                                "SR Number : --------",
+                                "SR Number : " +
+                                    "${snapshot.data![index].xtornum}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
-                              Text(
-                                "Return Qty : --------",
+                              /*Text(
+                                "Return Qty : " + "${snapshot.data![index].x}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
-                              ),
+                              ),*/
                               Text(
                                 "Requisition Number : " +
                                     " ${snapshot.data![index].xtornum}",

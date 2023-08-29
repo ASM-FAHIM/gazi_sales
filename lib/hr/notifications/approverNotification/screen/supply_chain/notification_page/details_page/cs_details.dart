@@ -63,7 +63,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        /*appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: Color(0xff064A76),
@@ -297,7 +297,7 @@ class _CS_details_notificationState extends State<CS_details_notification> {
             }
           },
         ),
-      ),
-    );
+      ),*/
+        );
   }
 }
