@@ -285,7 +285,6 @@ class _Login_pageState extends State<Login_page> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: const Color(0xffFFFFFF),
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,

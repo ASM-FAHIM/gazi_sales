@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../../conts_api_link.dart';
 import '../../../../../../sales/constant/app_constants.dart';
 import '../../../../../../screen/SupplyChain.dart';
 import '../notification_model/spr_admin_model.dart';
@@ -58,8 +57,8 @@ class _SPR_notificationState extends State<SPR_notification> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Color(0xff064A76),
+          icon: const Icon(Icons.arrow_back),
+          color: const Color(0xff064A76),
           onPressed: () {
             Navigator.pop(context);
             Navigator.pushReplacement(
@@ -78,11 +77,11 @@ class _SPR_notificationState extends State<SPR_notification> {
             "SPR Notification",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
-              color: Color(0xff074974),
+              color: const Color(0xff074974),
             ),
           ),
         ),
-        actions: [
+        actions: const [
           SizedBox(
             width: 20,
           )
@@ -90,7 +89,7 @@ class _SPR_notificationState extends State<SPR_notification> {
         backgroundColor: Colors.white,
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: FutureBuilder<List<SprModel>>(
           future: futurePost,
           builder: (context, snapshot) {
@@ -102,7 +101,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                     children: [
                       Card(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 10, bottom: 6.0),
+                          padding: const EdgeInsets.only(left: 10, bottom: 6.0),
                           child: ExpansionTile(
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
@@ -121,14 +120,14 @@ class _SPR_notificationState extends State<SPR_notification> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${snapshot.data![index].xtornum}",
+                                            snapshot.data![index].xtornum,
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
                                             ),
                                           ),
                                           Text(
-                                            "${snapshot.data![index].preparer}",
+                                            snapshot.data![index].preparer,
                                             style: GoogleFonts.bakbakOne(
                                               fontSize: 18,
                                               //color: Color(0xff074974),
@@ -142,7 +141,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                               ],
                             ),
                             childrenPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
+                                const EdgeInsets.symmetric(horizontal: 10),
                             children: <Widget>[
                               Text(
                                 "SPR No.: " +
@@ -186,31 +185,28 @@ class _SPR_notificationState extends State<SPR_notification> {
                                 ),
                               ),
                               Text(
-                                "Justification: " +
-                                    "${snapshot.data![index].xlong}",
+                                "Justification: " + snapshot.data![index].xlong,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Reference: " + "${snapshot.data![index].xref}",
+                                "Reference: " + snapshot.data![index].xref,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Priority: " +
-                                    "${snapshot.data![index].xpriority}",
+                                "Priority: " + snapshot.data![index].xpriority,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Justification: " +
-                                    "${snapshot.data![index].xlong}",
+                                "Justification: " + snapshot.data![index].xlong,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -218,23 +214,22 @@ class _SPR_notificationState extends State<SPR_notification> {
                               ),
                               Text(
                                 "Requisition Type: " +
-                                    "${snapshot.data![index].xtypeobj}",
+                                    snapshot.data![index].xtypeobj,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Request to: " +
-                                    "${snapshot.data![index].xreqtype}",
+                                "Request to: " + snapshot.data![index].xreqtype,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
                                 ),
                               ),
                               Text(
-                                "Purchase Natutre: " +
-                                    "${snapshot.data![index].xprodnaturedesc}",
+                                "Purchase Nature: " +
+                                    snapshot.data![index].xprodnaturedesc,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -242,7 +237,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                               ),
                               Text(
                                 "SPR Status: " +
-                                    "${snapshot.data![index].statusName}",
+                                    snapshot.data![index].statusName,
                                 style: GoogleFonts.bakbakOne(
                                   fontSize: 18,
                                   //color: Color(0xff074974),
@@ -272,7 +267,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                                   //   snapshot.data!.removeAt(index);
                                   // });
                                 },
-                                child: Center(
+                                child: const Center(
                                     child: Text(
                                   "Details",
                                   style: TextStyle(color: Colors.white),
@@ -440,7 +435,7 @@ class _SPR_notificationState extends State<SPR_notification> {
                 ),
               );
             } else {
-              return Center(
+              return const Center(
                 child: Image(image: AssetImage("assets/images/loading.gif")),
               );
             }

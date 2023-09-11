@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:gazi_sales_app/sales/constant/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../constant/colors.dart';
 import '../../../widget/big_text.dart';
