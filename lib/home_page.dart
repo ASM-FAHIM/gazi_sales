@@ -95,10 +95,6 @@ class _HomepageState extends State<Homepage> {
     loginController.xposition.value = xposition;
     loginController.xName.value = xname;
     loginController.xstaff.value = xstaff;
-
-    //print('all' + firstRow.toString());
-    //print('zemail' + firstRow['zemail']);
-    //print(xposition);
   }
 
   Future<List<PromotionModel>>? futurePost;

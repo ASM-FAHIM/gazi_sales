@@ -39,7 +39,8 @@ class DepositController extends GetxController {
       return dealerList;
     } else {
       return dealerList
-          .where((dealer) => dealer["xorg"]
+          .where((dealer) =>
+          dealer["xorg"]
               .toLowerCase()
               .contains(searchQuery.value.toLowerCase()))
           .toList();
@@ -84,7 +85,7 @@ class DepositController extends GetxController {
     try {
       bankLoaded(true);
       bankList =
-          await DepositRepo().getFromBankTable(loginController.zID.value);
+      await DepositRepo().getFromBankTable(loginController.zID.value);
       print('bank name List : ${bankList}');
       bankLoaded(false);
     } catch (error) {
@@ -102,7 +103,7 @@ class DepositController extends GetxController {
     try {
       isLoading2(true);
       paymentList =
-          await DepositRepo().getFromPaymentTable(loginController.zID.value);
+      await DepositRepo().getFromPaymentTable(loginController.zID.value);
       print('bank name List : ${paymentList.length}');
       isLoading2(false);
       print('List of payment types: $paymentList');
@@ -120,7 +121,7 @@ class DepositController extends GetxController {
     try {
       isLoading3(true);
       invoiceList =
-          await DatabaseRepo().getProductNature(loginController.zID.value);
+      await DatabaseRepo().getProductNature(loginController.zID.value);
       print('Invoice type : ${invoiceList.length}');
       isLoading3(false);
       print('Invoice type: $invoiceList');
@@ -128,6 +129,13 @@ class DepositController extends GetxController {
       print("Something went wrong in Invoice type: $e");
     }
   }
+
+  var incentiveApplicable = 'Yes'.obs; // Default value is 'Yes'
+
+  void setSelectedValue(String value) {
+    incentiveApplicable.value = value;
+  }
+
 
   //date Controller for take date
   TextEditingController dateController = TextEditingController();
@@ -152,7 +160,9 @@ class DepositController extends GetxController {
 
   Future<void> generateDPNumber() async {
     var response = await http.get(Uri.parse(
-        'http://${AppConstants.baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID.value}'));
+        'http://${AppConstants
+            .baseurl}/gazi/deposit/getDPnum.php?zid=${loginController.zID
+            .value}'));
     if (response.statusCode == 200) {
       DepositNumModel? data = depositNumModelFromJson(response.body);
       print('Deposit number : ${data.dPnum}');
@@ -185,8 +195,7 @@ class DepositController extends GetxController {
   RxBool isEmptyField = false.obs;
   RxInt depositTableMax = 0.obs;
 
-  Future<void> insertToDeposit(
-      String cusId,
+  Future<void> insertToDeposit(String cusId,
       String xOrg,
       String status,
       String invoiceType,
@@ -244,7 +253,8 @@ class DepositController extends GetxController {
         await generateDPNumber();
         var response = await http.post(
             Uri.parse(
-                'http://${AppConstants.baseurl}/gazi/deposit/depositInsert.php'),
+                'http://${AppConstants
+                    .baseurl}/gazi/deposit/depositInsert.php'),
             body: jsonEncode(<String, dynamic>{
               "zid": loginController.zID.value,
               "zauserid": loginController.xstaff.value,
@@ -306,7 +316,8 @@ class DepositController extends GetxController {
         await generateDPNumber();
         var response = await http.post(
             Uri.parse(
-                'http://${AppConstants.baseurl}/gazi/deposit/depositInsert.php'),
+                'http://${AppConstants
+                    .baseurl}/gazi/deposit/depositInsert.php'),
             body: jsonEncode(<String, dynamic>{
               "zid": openDeposit[i]["zid"],
               "zauserid": openDeposit[i]["zauserid"],
@@ -362,7 +373,7 @@ class DepositController extends GetxController {
     try {
       isLoading4(true);
       openDeposit =
-          await DepositRepo().getOpenDeposit(loginController.zID.value);
+      await DepositRepo().getOpenDeposit(loginController.zID.value);
       print('Open deposit: ${openDeposit.length}');
       isLoading4(false);
       print('List of payment types: $openDeposit');

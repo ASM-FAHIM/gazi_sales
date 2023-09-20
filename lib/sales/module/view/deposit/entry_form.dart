@@ -9,14 +9,14 @@ import '../../../widget/big_text.dart';
 import '../../controller/deposit_controller.dart';
 
 class DepositFormScreen extends StatefulWidget {
-  String tso;
-  String cusId;
-  String cusName;
-  String territory;
-  String zone;
-  String zm;
-  String division;
-  String dm;
+  final String tso;
+  final String cusId;
+  final String cusName;
+  final String territory;
+  final String zone;
+  final String zm;
+  final String division;
+  final String dm;
 
   DepositFormScreen({
     Key? key,
@@ -226,6 +226,76 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   style: const TextStyle(
                                     fontSize: 18.0,
                                   ),
+                                ),
+                              ),
+                              Container(
+                                height: Dimensions.height70,
+                                width: double.maxFinite,
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(
+                                    left: 10, top: 10, right: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? Colors.red
+                                            : Colors.grey,
+                                    width:
+                                        depositController.isEmptyField.value ==
+                                                true
+                                            ? 2.0
+                                            : 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Incentive Applicable ',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Obx(
+                                      () => DropdownButton<String>(
+                                        value: depositController
+                                            .incentiveApplicable.value,
+                                        elevation: 0,
+                                        underline: const SizedBox(),
+                                        iconSize: 30.0,
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          color: Colors.black,
+                                        ),
+                                        onChanged: (newValue) {
+                                          depositController
+                                              .incentiveApplicable(newValue!);
+                                        },
+                                        items: <String>['Yes', 'No']
+                                            .map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Container(

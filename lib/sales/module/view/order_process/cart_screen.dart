@@ -8,11 +8,11 @@ import '../../../widget/cart_total.dart';
 import '../../controller/cart_controller.dart';
 
 class CartScreen extends StatelessWidget {
-  CartController cartController = Get.find<CartController>();
-  String xcus;
-  String xOrg;
-  String xterritory;
-  String delDisc;
+  final CartController cartController = Get.find<CartController>();
+  final String xcus;
+  final String xOrg;
+  final String xterritory;
+  final String delDisc;
 
   CartScreen({
     Key? key,

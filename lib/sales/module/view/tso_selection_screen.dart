@@ -6,11 +6,11 @@ import '../../widget/small_text.dart';
 import '../controller/login_controller.dart';
 
 class TsoSelectionScreen extends StatefulWidget {
-  String zid;
-  String businessSupeID;
-  String xStaff;
+  final String zid;
+  final String businessSupeID;
+  final String xStaff;
 
-  TsoSelectionScreen(
+  const TsoSelectionScreen(
       {required this.zid,
       required this.xStaff,
       required this.businessSupeID,
@@ -116,7 +116,6 @@ class _TsoSelectionScreenState extends State<TsoSelectionScreen> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      border: Border(),
                                       borderRadius: BorderRadius.circular(20.0),
                                       color: const Color(0xff7c94b6),
                                       image: DecorationImage(

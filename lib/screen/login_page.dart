@@ -85,7 +85,7 @@ class _Login_pageState extends State<Login_page> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               title: Text(
                 "Warning",
                 style: TextStyle(
@@ -107,6 +107,7 @@ class _Login_pageState extends State<Login_page> {
       setState(() {
         isLoading = false;
       });
+      await loginController.insertBusinessTable(zemail);
       saveLoginData(zemail, xpassword).whenComplete(() => Navigator.push(
           context,
           MaterialPageRoute(
@@ -143,27 +144,6 @@ class _Login_pageState extends State<Login_page> {
   bool isConnected = true;
 
   Future<void> internetCheck() async {
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         title: Text(
-    //           "Warning",
-    //           style: TextStyle(
-    //               fontSize: 20,
-    //               color: Color(0xffC85E2D),
-    //               fontWeight: FontWeight.bold),
-    //         ),
-    //         content: Text(
-    //           "Wrong Username or Password",
-    //           style: TextStyle(
-    //             // color:Color(0xffE75A29)
-    //           ),
-    //         ),
-    //         scrollable: true,
-    //       );
-    //     });
-
     final StreamSubscription<InternetConnectionStatus> listener =
         InternetConnectionChecker().onStatusChange.listen(
       (InternetConnectionStatus status) async {
@@ -315,13 +295,13 @@ class _Login_pageState extends State<Login_page> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 110,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       height: 65,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -340,8 +320,8 @@ class _Login_pageState extends State<Login_page> {
                               onChanged: (input) {
                                 zemail = input;
                               },
-                              decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
                                   suffixIcon: Icon(Icons.person),
                                   hintText: "Enter user id",
                                   enabledBorder: InputBorder.none,
@@ -355,7 +335,7 @@ class _Login_pageState extends State<Login_page> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       height: 65,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -451,11 +431,11 @@ class _Login_pageState extends State<Login_page> {
                             isLoading = true;
                           },
                         );
-                        Future.delayed(Duration(seconds: 3), () {
+                        Future.delayed(const Duration(seconds: 3), () {
                           if (userController.text == '' ||
                               passController.text == '') {
                             Get.snackbar('Error', 'User Invalid',
-                                backgroundColor: Color(0XFF8CA6DB),
+                                backgroundColor: const Color(0XFF8CA6DB),
                                 colorText: Colors.white,
                                 snackPosition: SnackPosition.TOP);
                             setState(() {
