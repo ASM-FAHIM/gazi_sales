@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/inventory/notification_pages/depo_dc_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../data_model/notificaiton_count/total_count_model.dart';
@@ -15,12 +16,12 @@ import 'inventory/notification_pages/sto_notification.dart';
 import 'inventory/notification_pages/to_notification.dart';
 
 class AdminNotificationList extends StatefulWidget {
-  String xposition;
-  String xstaff;
-  String zemail;
-  String zid;
+  final String xposition;
+  final String xstaff;
+  final String zemail;
+  final String zid;
 
-  AdminNotificationList({
+  const AdminNotificationList({
     super.key,
     required this.xposition,
     required this.xstaff,
@@ -51,6 +52,8 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
 
   String stoCount = "0";
 
+  String depoDcCount = "0";
+
   int inventory = 0;
   late InventoryModel inventory1;
 
@@ -72,6 +75,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
     rrCount = inventory1.rrCount.toString();
     sqcCount = inventory1.sqcCount.toString();
     srCount = inventory1.srCount.toString();
+    depoDcCount = inventory1.srCount.toString();
     setState(() {
       isLoading = false;
     });
@@ -88,7 +92,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back,
             color: Color(0xff064A76),
           ),
@@ -110,11 +114,11 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
           "Inventory Notifications",
           style: GoogleFonts.bakbakOne(
             fontSize: 20,
-            color: Color(0xff074974),
+            color: const Color(0xff074974),
           ),
         ),
         actions: [
-          SizedBox(
+          const SizedBox(
             width: 20,
           )
         ],
@@ -148,7 +152,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       child: Badge(
                         label: Text(
                           srCount,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         child: Container(
                           height: MediaQuery.of(context).size.width / 7.5,
@@ -186,7 +190,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.bakbakOne(
                                 fontSize: 18,
-                                color: Color(0xff064A76),
+                                color: const Color(0xff064A76),
                               ),
                             ),
                           ),
@@ -203,7 +207,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       child: Badge(
                         label: Text(
                           rrCount,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         child: Container(
                           height: MediaQuery.of(context).size.width / 7.5,
@@ -241,7 +245,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.bakbakOne(
                                 fontSize: 18,
-                                color: Color(0xff064A76),
+                                color: const Color(0xff064A76),
                               ),
                             ),
                           ),
@@ -258,7 +262,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       child: Badge(
                         label: Text(
                           grnCount,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         child: Container(
                           height: MediaQuery.of(context).size.width / 7.5,
@@ -300,7 +304,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.bakbakOne(
                                     fontSize: 18,
-                                    color: Color(0xff064A76),
+                                    color: const Color(0xff064A76),
                                   ),
                                 ),
                               ],
@@ -310,145 +314,6 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       ),
                     ),
                   ],
-                  /*if (widget.adminSPR == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 8,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SPR_notification(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xstaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                  )));
-                    },
-                    child: Badge(
-                      showBadge: int.parse(widget.adminSPR) == 0 ? false : true,
-                      // padding: const EdgeInsets.only(
-                      //     left: 5, top: 5, bottom: 5, right: 5),
-                      badgeContent: StreamBuilder(
-                        stream: _eventSPR.stream,
-                        builder: (BuildContext context, snapshot) {
-                          return Text(
-                            "${snapshot.data}",
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          );
-                        },
-                      ),
-                      //badgeColor: Color(0xff064A76),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Store Purchase Requisition",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Color(0xff064A76),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],*/
-                  /*if (widget.adminASTI == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 8,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ASTI_Notification(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xstaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                  )));
-                    },
-                    child: Badge(
-                      showBadge:
-                          int.parse(widget.adminASTI) == 0 ? false : true,
-                      // padding: const EdgeInsets.only(
-                      //     left: 5, top: 5, bottom: 5, right: 5),
-                      badgeContent: StreamBuilder(
-                        stream: _eventASTI.stream,
-                        builder: (BuildContext context, snapshot) {
-                          return Text(
-                            "${snapshot.data}",
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          );
-                        },
-                      ),
-                      //badgeColor: Color(0xff064A76),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "ASTI Notification",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Color(0xff064A76),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],*/
                   if (toCount == '0')
                     ...[]
                   else ...[
@@ -458,7 +323,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       child: Badge(
                         label: Text(
                           toCount,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         child: Container(
                           height: MediaQuery.of(context).size.width / 7.5,
@@ -496,7 +361,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.bakbakOne(
                                 fontSize: 18,
-                                color: Color(0xff064A76),
+                                color: const Color(0xff064A76),
                               ),
                             ),
                           ),
@@ -504,61 +369,6 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       ),
                     )
                   ],
-                  /*if (lreCount == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0),
-                  badgeContent: Text(
-                    lreCount,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width / 7.5,
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LRE_Notification(
-                                      xposition: widget.xposition,
-                                      xstaff: widget.xstaff,
-                                      zemail: widget.zemail,
-                                      zid: widget.zid,
-                                    )));
-                      },
-                      child: Text(
-                        "LRE Notification",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.bakbakOne(
-                          fontSize: 18,
-                          color: Color(0xff064A76),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],*/
                   if (damageCount == '0')
                     ...[]
                   else ...[
@@ -568,7 +378,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       child: Badge(
                         label: Text(
                           damageCount,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         child: Container(
                           height: MediaQuery.of(context).size.width / 7.5,
@@ -607,7 +417,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.bakbakOne(
                                 fontSize: 18,
-                                color: Color(0xff064A76),
+                                color: const Color(0xff064A76),
                               ),
                             ),
                           ),
@@ -615,77 +425,6 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       ),
                     )
                   ],
-                  /*if (widget.adminInspection == '0')
-              ...[]
-            else ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 8,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  InspectionApproval_notification(
-                                    xposition: widget.xposition,
-                                    xstaff: widget.xstaff,
-                                    zemail: widget.zemail,
-                                    zid: widget.zid,
-                                  )));
-                    },
-                    child: Badge(
-                      showBadge:
-                          int.parse(widget.adminInspection) == 0 ? false : true,
-                      // padding: const EdgeInsets.only(
-                      //     left: 5, top: 5, bottom: 5, right: 5),
-                      badgeContent: StreamBuilder(
-                        stream: _eventInspection.stream,
-                        builder: (BuildContext context, snapshot) {
-                          return Text(
-                            "${snapshot.data}",
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          );
-                        },
-                      ),
-                      //badgeColor: Color(0xff064A76),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Inspection Approval Notification",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Color(0xff064A76),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],*/
                   if (sqcCount == '0')
                     ...[]
                   else ...[
@@ -695,7 +434,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       child: Badge(
                         label: Text(
                           sqcCount,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         child: Container(
                           height: MediaQuery.of(context).size.width / 7.5,
@@ -733,7 +472,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.bakbakOne(
                                 fontSize: 18,
-                                color: Color(0xff064A76),
+                                color: const Color(0xff064A76),
                               ),
                             ),
                           ),
@@ -741,7 +480,6 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       ),
                     )
                   ],
-
                   if (stoCount == '0')
                     ...[]
                   else ...[
@@ -751,7 +489,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                       child: Badge(
                         label: Text(
                           stoCount,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         child: Container(
                           height: MediaQuery.of(context).size.width / 7.5,
@@ -789,7 +527,62 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.bakbakOne(
                                 fontSize: 18,
-                                color: Color(0xff064A76),
+                                color: const Color(0xff064A76),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (depoDcCount == '0')
+                    ...[]
+                  else ...[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+                      child: Badge(
+                        label: Text(
+                          depoDcCount,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        child: Container(
+                          height: MediaQuery.of(context).size.width / 7.5,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DepoDCNotification(
+                                            xposition: widget.xposition,
+                                            xstaff: widget.xstaff,
+                                            zemail: widget.zemail,
+                                            zid: widget.zid,
+                                          )));
+                            },
+                            child: Text(
+                              "Depo DC Approval",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.bakbakOne(
+                                fontSize: 18,
+                                color: const Color(0xff064A76),
                               ),
                             ),
                           ),
