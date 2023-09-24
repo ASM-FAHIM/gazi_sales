@@ -83,8 +83,8 @@ class _DDCDetailsNotificationsState extends State<DDCDetailsNotifications> {
             ),
           ),
         ),
-        actions: [
-          const SizedBox(
+        actions: const [
+          SizedBox(
             width: 20,
           )
         ],
