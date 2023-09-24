@@ -35,17 +35,13 @@ class NotifyController extends GetxController {
   var depositNotifyList = <DepositNotificationModel>[].obs;
   RxBool isLoading1 = false.obs;
 
-  void fetchDepositNotification(String staff) async {
+  void fetchDepositNotification(String staff, String zid) async {
     try {
       isLoading1(true);
       var response = await http.get(Uri.parse(
-          "http://${AppConstants.baseurl}/gazi/deposit/depositNotification.php?staff=$staff"));
+          "http://${AppConstants.baseurl}/gazi/deposit/depositNotification.php?staff=$staff&zid=$zid"));
       var depoNotify = depositNotificationModelFromJson(response.body);
       depositNotifyList.assignAll(depoNotify.map((e) => e));
-      print('length: ${depositNotifyList.length}');
-      for (int i = 0; i < depositNotifyList.length; i++) {
-        print('Fetched notifications: ${depositNotifyList[i].xstatus}');
-      }
     } finally {
       isLoading1(false);
     }
@@ -83,8 +79,6 @@ class NotifyController extends GetxController {
       String year = DateFormat.y().format(now);
       var response = await http.get(Uri.parse(
           'http://${AppConstants.baseurl}/salesforce/SROwiseTSOdash.php?zid=$zID&tso=$tsoId&month_per=$month&xyear=$year'));
-      print(
-          'http://${AppConstants.baseurl}/salesforce/SROwiseTSOdash.php?zid=$zID&tso=$tsoId&month_per=$month&xyear=$year');
       tsoSummary = tsoSummaryModelFromJson(response.body);
       await fetchTSOWiseDealerVisit(tsoId);
       isDataFetched(false);

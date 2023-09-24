@@ -100,6 +100,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                   ),
                                 )
                               : ListView.builder(
+                                  physics: BouncingScrollPhysics(),
                                   itemCount: dashboardController
                                       .foundDealerList.length,
                                   itemBuilder: (context, index) {

@@ -36,6 +36,7 @@ class CartProducts extends StatelessWidget {
                 ),
               )
             : ListView.builder(
+                physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: controller.addedProducts.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -425,15 +426,16 @@ class ReusableAlert extends StatelessWidget {
             ),
           ),
           onPressed: () async {
-              if (cartController.discount.text.isEmpty) {
+            if (cartController.discount.text.isEmpty) {
               Navigator.pop(context);
-              } else {
-              cartController.updateDiscount(index, cartController.discount.text); // Update the discount
+            } else {
+              cartController.updateDiscount(
+                  index, cartController.discount.text); // Update the discount
               Navigator.pop(context);
-              }
-              cartController.discount.clear();
-              print(
-                  'The updated selected products are: ${cartController.addedProducts}');
+            }
+            cartController.discount.clear();
+            print(
+                'The updated selected products are: ${cartController.addedProducts}');
           },
         ),
       ],

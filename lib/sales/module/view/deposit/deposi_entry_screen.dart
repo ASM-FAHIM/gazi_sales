@@ -78,6 +78,7 @@ class _DepositEntryScreenState extends State<DepositEntryScreen> {
                       Obx(() {
                         return Expanded(
                           child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
                               itemCount: depositController.filteredDeals.length,
                               itemBuilder: (context, index) {
                                 return Padding(

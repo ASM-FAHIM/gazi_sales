@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../constant/colors.dart';
 import '../../../constant/dimensions.dart';
 import '../../../widget/big_text.dart';
@@ -23,7 +22,8 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    notifyController.fetchDepositNotification(loginController.xstaff.value);
+    notifyController.fetchDepositNotification(
+        loginController.xstaff.value, loginController.zID.value);
     super.initState();
   }
 
@@ -65,6 +65,7 @@ class _DepositNotificationScreenState extends State<DepositNotificationScreen> {
           );
         } else {
           return ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: notifyController.depositNotifyList.length,
               itemBuilder: (context, index) {
                 return Container(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/sales_distribution/notification_pages/dc_notification.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data_model/notificaiton_count/total_count_model.dart';
 import '../hr/notifications/approverNotification/screen/approver.dart';
+import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/dc_notification.dart';
+import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/ddc_list_notifications.dart';
 import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/deposit_notification.dart';
 import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/salesreturn_notification.dart';
 import '../hr/notifications/approverNotification/screen/sales_distribution/notification_pages/so_notification.dart';
@@ -11,12 +12,12 @@ import 'package:http/http.dart' as http;
 import '../sales/constant/colors.dart';
 
 class SalesDistribution extends StatefulWidget {
-  String xposition;
-  String zid;
-  String zemail;
-  String xstaff;
+  final String xposition;
+  final String zid;
+  final String zemail;
+  final String xstaff;
 
-  SalesDistribution(
+  const SalesDistribution(
       {required this.xposition,
       required this.zid,
       required this.zemail,
@@ -36,6 +37,8 @@ class _SalesDistributionState extends State<SalesDistribution> {
   String depositCount = "0";
 
   String salesReturnCount = "0";
+
+  String ddcListCount = "0";
 
   int salesCount = 0;
   late SalesMOdel salesCount1;
@@ -57,6 +60,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
     dcCount = salesCount1.dcCount.toString();
     depositCount = salesCount1.depositCount.toString();
     salesReturnCount = salesCount1.srCount.toString();
+    ddcListCount = '1';
 
     setState(() {
       isLoading = false;
@@ -208,8 +212,6 @@ class _SalesDistributionState extends State<SalesDistribution> {
                               ],
                             ),
                             child: TextButton(
-                              // shape: RoundedRectangleBorder(
-                              //     borderRadius: BorderRadius.circular(20.0)),
                               onPressed: () {
                                 Navigator.push(
                                     context,
@@ -345,55 +347,62 @@ class _SalesDistributionState extends State<SalesDistribution> {
                         ),
                       ),
                     ],
-
-                    /*Padding(
-                      padding: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
-                      child: Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 8,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                    if (ddcListCount == '0')
+                      ...[]
+                    else ...[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20.0, right: 20, left: 20),
+                        child: Badge(
+                          label: Text(
+                            ddcListCount,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.width / 7.5,
+                            width: MediaQuery.of(context).size.width,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              color: Colors.white70,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: TextButton(
-                          // shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DealerVisitList(
-                                          xposition: widget.xposition,
-                                          zemail: widget.zemail,
-                                          zid: widget.zid,
-                                        )));
-                          },
-                          child: Text(
-                            "Daily visit list",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.bakbakOne(
-                              fontSize: 18,
-                              color: Color(0xff064A76),
+                            child: TextButton(
+                              // shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(20.0)),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DDCListNotification(
+                                              xposition: widget.xposition,
+                                              zemail: widget.zemail,
+                                              zid: widget.zid,
+                                              xstaff: widget.xstaff,
+                                            )));
+                              },
+                              child: Text(
+                                "DDC List Approval",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.bakbakOne(
+                                  fontSize: 18,
+                                  color: Color(0xff064A76),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),*/
+                    ],
                   ],
                 ),
               ),

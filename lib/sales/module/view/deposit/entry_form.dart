@@ -463,10 +463,6 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                         bank['xname'] as String;
                                     depositController.bankCode.value =
                                         bank['xbank'] as String;
-                                    print(
-                                        'name of the bank: ${depositController.bankSelection.value}');
-                                    print(
-                                        'name of the bank: ${depositController.bankCode.value}');
                                   },
                                   hint: Obx(
                                     () => Text(

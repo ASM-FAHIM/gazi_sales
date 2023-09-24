@@ -96,32 +96,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
             color: AppColor.defWhite,
             size: 25,
           ),
-          /*actions: [
-            Obx(() => IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      context: context,
-                      builder: (context) {
-                        return checkInBottomSheet(context);
-                      });
-                },
-                icon: dashboardController.isConnected.value
-                    ? const Center(child: CircularProgressIndicator(color: Colors.white,),)
-                    : const Icon(MdiIcons.cloudUpload,)),),
-            Obx(() => IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      context: context,
-                      builder: (context) {
-                        return checkOutBottomSheet(context);
-                      });
-                },
-                icon: dashboardController.isOutDone.value
-                    ? const Center(child: CircularProgressIndicator(color: Colors.white,),)
-                    : const Icon(MdiIcons.cloudDownload,)),),
-          ],*/
         ),
         body: Obx(() => dashboardController.isLoading2.value
             ? Center(
@@ -173,6 +147,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   ),
                                 )
                               : ListView.builder(
+                                  physics: BouncingScrollPhysics(),
                                   itemCount: dashboardController
                                       .foundProductList.length,
                                   itemBuilder: (context, index) {

@@ -1,13 +1,18 @@
 import 'dart:convert';
+
+import '../../../../../../../conts_api_link.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gazi_sales_app/hr/notifications/approverNotification/screen/inventory/notification_models/details/depo_dc_details_model.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../../../sales/constant/app_constants.dart';
+import '../../notification_models/details_model/dc_details_model.dart';
+import '../../notification_models/details_model/ddc_details_model.dart';
 
-class DepoDCDetailsNotification extends StatefulWidget {
-  const DepoDCDetailsNotification(
+class DDCDetailsNotifications extends StatefulWidget {
+  const DDCDetailsNotifications(
       {super.key,
       required this.xdocnum,
       required this.zid,
@@ -24,18 +29,18 @@ class DepoDCDetailsNotification extends StatefulWidget {
   final String zemail;
 
   @override
-  State<DepoDCDetailsNotification> createState() =>
-      _DepoDCDetailsNotificationState();
+  State<DDCDetailsNotifications> createState() =>
+      _DDCDetailsNotificationsState();
 }
 
-class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
-  Future<List<DepoDcDetailsModel>>? futurePost;
+class _DDCDetailsNotificationsState extends State<DDCDetailsNotifications> {
+  Future<List<DdcDetailsModel>>? futurePost;
   String rejectNote = " ";
 
-  Future<List<DepoDcDetailsModel>> fetchPostdetails() async {
+  Future<List<DdcDetailsModel>> fetchPostdetails() async {
     var response = await http.post(
         Uri.parse(
-            "http://${AppConstants.baseurl}/GAZI/Notification/inventory/DEPO_DC/DEPODC_Details.php"),
+            'http://${AppConstants.baseurl}/GAZI/Notification/sales/DDC/DDC_Details.php'),
         body: jsonEncode(<String, String>{
           "zid": widget.zid,
           "xdocnum": widget.xdocnum,
@@ -43,9 +48,8 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-
       return parsed
-          .map<DepoDcDetailsModel>((json) => DepoDcDetailsModel.fromJson(json))
+          .map<DdcDetailsModel>((json) => DdcDetailsModel.fromJson(json))
           .toList();
     } else {
       throw Exception('Failed to load album');
@@ -59,6 +63,7 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
     fetchPostdetails().whenComplete(() => futurePost);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -71,15 +76,15 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
         ),
         title: Center(
           child: Text(
-            "Depo DC Details",
+            "DC Details",
             style: GoogleFonts.bakbakOne(
               fontSize: 20,
               color: const Color(0xff074974),
             ),
           ),
         ),
-        actions: const [
-          SizedBox(
+        actions: [
+          const SizedBox(
             width: 20,
           )
         ],
@@ -87,7 +92,7 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: FutureBuilder<List<DepoDcDetailsModel>>(
+        child: FutureBuilder<List<DdcDetailsModel>>(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -111,42 +116,48 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.xdocnum,
+                                      "Item: " +
+                                          "${snapshot.data![index].xitem}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Product Code: " +
-                                          snapshot.data![index].xitem
-                                              .toString(),
-                                      style: GoogleFonts.bakbakOne(
-                                        fontSize: 18,
-                                        //color: Color(0xff074974),
-                                      ),
-                                    ),
-                                    //
-                                    Text(
-                                      "Name Of The Product: " +
-                                          (snapshot.data![index].descp ?? "  "),
+                                      "Description: " +
+                                          "${snapshot.data![index].descp}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Qty: " +
-                                          "${snapshot.data![index].xqtyord}",
+                                      "Unit: "
+                                      "${snapshot.data![index].xunit}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
                                       ),
                                     ),
                                     Text(
-                                      "Unit: " +
-                                          snapshot.data![index].xunit
-                                              .toString(),
+                                      "Quantity Required: " +
+                                          "${snapshot.data![index].xqtycom}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Excess Qty: " +
+                                          "${snapshot.data![index].xqtylead}",
+                                      style: GoogleFonts.bakbakOne(
+                                        fontSize: 18,
+                                        //color: Color(0xff074974),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Short Qty: " +
+                                          "${snapshot.data![index].xqtycrn}",
                                       style: GoogleFonts.bakbakOne(
                                         fontSize: 18,
                                         //color: Color(0xff074974),
@@ -172,14 +183,13 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
                         onPressed: () async {
                           var response = await http.post(
                               Uri.parse(
-                                  'http://${AppConstants.baseurl}/gazi/notification/inventory/DEPO_DC/DEPODC_Approve.php'),
+                                  'http://${AppConstants.baseurl}/gazi/notification/sales/DDC/DDC_Approve.php'),
                               body: jsonEncode(<String, String>{
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xdocnum": widget.xdocnum,
-                                "xstatus": widget.xstatus
-                                // "aprcs": "GRN Approval"
+                                "xdornum": widget.xdocnum.toString(),
+                                "xstatus": widget.xstatus.toString()
                               }));
 
                           Get.snackbar('Message', 'Approved',
@@ -188,13 +198,7 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
                               snackPosition: SnackPosition.TOP);
 
                           Navigator.pop(context, "approval");
-
-                          // setState(() {
-                          //   snapshot.data!.removeAt(index);
-                          // });
-
                           print(response.statusCode);
-                          print(response.body);
                         },
                         child: const Text(
                           "Approve",
@@ -218,8 +222,7 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
                                   content: Column(
                                     children: [
                                       Container(
-                                        //height: MediaQuery.of(context).size.height/6,
-                                        child: TextField(
+                                        child: TextFormField(
                                           style: GoogleFonts.bakbakOne(
                                             //fontWeight: FontWeight.bold,
                                             fontSize: 18,
@@ -228,11 +231,11 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
                                           onChanged: (input) {
                                             rejectNote = input;
                                           },
-                                          // validator: (input) {
-                                          //   if (input!.isEmpty) {
-                                          //     return "Please Write Reject Note";
-                                          //   }
-                                          // },
+                                          validator: (input) {
+                                            if (input!.isEmpty) {
+                                              return "Please Write Reject Note";
+                                            }
+                                          },
                                           scrollPadding:
                                               const EdgeInsets.all(20),
                                           decoration: InputDecoration(
@@ -263,12 +266,10 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
                                         backgroundColor:
                                             const Color(0xff064A76),
                                       ),
-                                      // color: Color(0xff064A76),
+                                      //color: Color(0xff064A76),
                                       onPressed: () async {
-                                        //http://172.20.20.69/adminapprove/poreject.php
                                         if (rejectNote == " ") {
                                           Navigator.pop(context);
-                                          print('response code: Empty field');
                                           Get.snackbar('Warning!',
                                               'Please enter reject note',
                                               backgroundColor: Colors.redAccent,
@@ -277,15 +278,16 @@ class _DepoDCDetailsNotificationState extends State<DepoDCDetailsNotification> {
                                         } else {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  'http://${AppConstants.baseurl}/http://172.20.20.96/gazi/notification/inventory/DEPO_DC/DEPODC_Reject.php'),
+                                                  'http://${AppConstants.baseurl}/gazi/notification/sales/DDC/DDC_Reject.php'),
                                               body: jsonEncode(<String, String>{
                                                 "zid": widget.zid,
                                                 "user": widget.zemail,
                                                 "xposition": widget.xposition,
-                                                "xdocnum": widget.xdocnum,
+                                                "xdornum": widget.xdocnum,
                                                 "xnote": rejectNote
                                               }));
-                                          print(response.statusCode);
+                                          print(
+                                              'successful: ${response.statusCode}');
                                           Get.snackbar('Message', 'Rejected',
                                               backgroundColor:
                                                   const Color(0XFF8CA6DB),

@@ -68,6 +68,7 @@ class _SoNotificationScreenState extends State<SoNotificationScreen> {
                   );
                 } else {
                   return ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: notifyController.notifyList.length,
                       itemBuilder: (context, index) {
                         return Container(

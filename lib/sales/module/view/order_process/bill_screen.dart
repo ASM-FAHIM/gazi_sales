@@ -83,6 +83,7 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                     Container(
                       height: size.height / 1.35,
                       child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
                           itemCount: cartController.listOfAddedProducts.length,
                           itemBuilder: (context, index) {
                             return Container(
@@ -110,14 +111,8 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                         .listOfAddedProducts[index].itemName,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 13),
-                                  ),
-                                  /*Text(
-                                    " ${cartController.listOfAddedProducts[index]["xqty"]} X ${cartController.listOfAddedProducts[index]["xrate"]} = ${cartController.listOfAddedProducts[index]["xlineamt"]} Tk.",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
                                         fontSize: 12),
-                                  ),*/
+                                  ),
                                   Text(
                                     'Quantity Ordered: ${cartController.listOfAddedProducts[index].xqtyreq}',
                                     style: const TextStyle(
@@ -127,7 +122,8 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  if ('${cartController.listOfAddedProducts[index].xpartno}' ==
+                                  if (cartController
+                                          .listOfAddedProducts[index].xpartno ==
                                       'No') ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -220,7 +216,9 @@ class _BillDetailsScreenState extends State<BillDetailsScreen> {
                                                   color: AppColor.appBarColor),
                                             ),
                                             Text(
-                                              '${cartController.listOfAddedProducts[index].masterItemName}',
+                                              cartController
+                                                  .listOfAddedProducts[index]
+                                                  .masterItemName,
                                               style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w600,

@@ -1009,8 +1009,6 @@ class CartController extends GetxController {
       print("Total price is :$totalDiscount");*/
   Future getAddedProducts(String zId, String soNum) async {
     try {
-      print('soNum: $soNum');
-      print('selected zid : $zId');
       isValueLoaded(true);
       var responseProcess = await http.get(Uri.parse(
           'http://${AppConstants.baseurl}/gazi/salesforce/SODetailValues.php?zid=$zId&xsonum=$soNum'));
@@ -1018,15 +1016,10 @@ class CartController extends GetxController {
         var responseData = processResponseModelFromJson(responseProcess.body);
         listOfAddedProducts
             .assignAll(List<ProcessResponseModel>.from(responseData));
-        // Handle the data as per your requirement
-        print('Response data: $listOfAddedProducts');
-        // totalAmount = listOfAddedProducts.fold(0, (sum, product) => sum + product['subTotal']);
         totalAmount = listOfAddedProducts.fold(
             0, (sum, product) => sum + double.parse(product.xlineamt));
-        print("Total price is :$totalAmount");
         totalDiscount = listOfAddedProducts.fold(
             0.0, (sum, product) => sum + (product.xdisc as double));
-        print("Total price is :$totalDiscount");
       } else {
         print(
             'Error happens fetching dp numbers: ${responseProcess.statusCode}');
