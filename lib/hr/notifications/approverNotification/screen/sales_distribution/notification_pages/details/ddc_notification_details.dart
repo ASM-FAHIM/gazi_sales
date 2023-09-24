@@ -188,7 +188,7 @@ class _DDCDetailsNotificationsState extends State<DDCDetailsNotifications> {
                                 "zid": widget.zid,
                                 "user": widget.zemail,
                                 "xposition": widget.xposition,
-                                "xdornum": widget.xdocnum.toString(),
+                                "xdocnum": widget.xdocnum.toString(),
                                 "xstatus": widget.xstatus.toString()
                               }));
 
@@ -199,6 +199,7 @@ class _DDCDetailsNotificationsState extends State<DDCDetailsNotifications> {
 
                           Navigator.pop(context, "approval");
                           print(response.statusCode);
+                          print(response.body);
                         },
                         child: const Text(
                           "Approve",
