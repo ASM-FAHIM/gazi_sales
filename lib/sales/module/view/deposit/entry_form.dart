@@ -255,7 +255,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Incentive Applicable ',
                                       style: TextStyle(
                                         color: Colors.black,
@@ -263,7 +263,7 @@ class _DepositFormScreenState extends State<DepositFormScreen> {
                                         fontSize: 18.0,
                                       ),
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Obx(
                                       () => DropdownButton<String>(
                                         value: depositController

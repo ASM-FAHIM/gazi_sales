@@ -75,7 +75,7 @@ class _AdminNotificationListState extends State<AdminNotificationList> {
     rrCount = inventory1.rrCount.toString();
     sqcCount = inventory1.sqcCount.toString();
     srCount = inventory1.srCount.toString();
-    depoDcCount = '1';
+    depoDcCount = inventory1.depoDcCount.toString();
     setState(() {
       isLoading = false;
     });

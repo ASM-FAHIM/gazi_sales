@@ -60,7 +60,7 @@ class _SalesDistributionState extends State<SalesDistribution> {
     dcCount = salesCount1.dcCount.toString();
     depositCount = salesCount1.depositCount.toString();
     salesReturnCount = salesCount1.srCount.toString();
-    ddcListCount = '1';
+    ddcListCount = salesCount1.ddcCount.toString();
 
     setState(() {
       isLoading = false;

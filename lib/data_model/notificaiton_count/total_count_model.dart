@@ -120,6 +120,7 @@ class InventoryModel {
   int srCount;
   int toCount;
   int stoCount;
+  int depoDcCount;
 
   InventoryModel({
     required this.damageCount,
@@ -129,6 +130,7 @@ class InventoryModel {
     required this.srCount,
     required this.toCount,
     required this.stoCount,
+    required this.depoDcCount,
   });
 
   factory InventoryModel.fromJson(Map<String, dynamic> json) => InventoryModel(
@@ -139,6 +141,7 @@ class InventoryModel {
         srCount: json["SRCount"],
         toCount: json["TOCount"],
         stoCount: json["STOCount"],
+        depoDcCount: json["DepoDC_Count"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -149,6 +152,7 @@ class InventoryModel {
         "SRCount": srCount,
         "TOCount": toCount,
         "STOCount": stoCount,
+        "DepoDC_Count": depoDcCount,
       };
 }
 
@@ -425,6 +429,7 @@ class SalesMOdel {
   int depositCount;
   int soCount;
   int srCount;
+  int ddcCount;
 
   SalesMOdel({
     required this.total,
@@ -432,6 +437,7 @@ class SalesMOdel {
     required this.depositCount,
     required this.soCount,
     required this.srCount,
+    required this.ddcCount,
   });
 
   factory SalesMOdel.fromJson(Map<String, dynamic> json) => SalesMOdel(
@@ -440,6 +446,7 @@ class SalesMOdel {
         depositCount: json["DepositCount"],
         soCount: json["SOCount"],
         srCount: json["SR_Count"],
+        ddcCount: json["DDC_Count"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -448,5 +455,6 @@ class SalesMOdel {
         "DepositCount": depositCount,
         "SOCount": soCount,
         "SR_Count": srCount,
+        "DDC_Count": ddcCount,
       };
 }
