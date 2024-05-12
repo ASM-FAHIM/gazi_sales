@@ -15,10 +15,10 @@ class AppConstants {
   //static const String baseurl = "103.150.48.70:6116";
 
   // Gazi Test
-   //static const String baseurl = "erp.gazitanks.net:8089";
+   static const String baseurl = "erp.gazitanks.net:8089";
 
   // Gazi Live
-  static const String baseurl = "apps.gazitanks.net:8443";
+  // static const String baseurl = "apps.gazitanks.net:8443";
 
   static const String googleApiKey = "AIzaSyAf6Rw4ALQoj5GHAD-m1-L2jQk9uFgxc1U";
   static const String token = "DBtoken";
