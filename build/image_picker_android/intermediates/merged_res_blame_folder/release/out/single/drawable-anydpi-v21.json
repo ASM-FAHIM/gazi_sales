@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\image_picker_android\\intermediates\\merged_res\\release\\drawable-anydpi-v21\\ic_call_decline.xml",
+        "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cbdbfc77071f9a37966f12c3c436b1c8\\transformed\\core-1.10.1\\res\\drawable-anydpi-v21\\ic_call_decline.xml"
+    },
+    {
+        "merged": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\image_picker_android\\intermediates\\merged_res\\release\\drawable-anydpi-v21\\ic_call_answer_low.xml",
+        "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cbdbfc77071f9a37966f12c3c436b1c8\\transformed\\core-1.10.1\\res\\drawable-anydpi-v21\\ic_call_answer_low.xml"
+    },
+    {
+        "merged": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\image_picker_android\\intermediates\\merged_res\\release\\drawable-anydpi-v21\\ic_call_answer_video_low.xml",
+        "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cbdbfc77071f9a37966f12c3c436b1c8\\transformed\\core-1.10.1\\res\\drawable-anydpi-v21\\ic_call_answer_video_low.xml"
+    },
+    {
+        "merged": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\image_picker_android\\intermediates\\merged_res\\release\\drawable-anydpi-v21\\ic_call_decline_low.xml",
+        "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cbdbfc77071f9a37966f12c3c436b1c8\\transformed\\core-1.10.1\\res\\drawable-anydpi-v21\\ic_call_decline_low.xml"
+    },
+    {
+        "merged": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\image_picker_android\\intermediates\\merged_res\\release\\drawable-anydpi-v21\\ic_call_answer.xml",
+        "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cbdbfc77071f9a37966f12c3c436b1c8\\transformed\\core-1.10.1\\res\\drawable-anydpi-v21\\ic_call_answer.xml"
+    },
+    {
+        "merged": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\image_picker_android\\intermediates\\merged_res\\release\\drawable-anydpi-v21\\ic_call_answer_video.xml",
+        "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cbdbfc77071f9a37966f12c3c436b1c8\\transformed\\core-1.10.1\\res\\drawable-anydpi-v21\\ic_call_answer_video.xml"
+    }
+]

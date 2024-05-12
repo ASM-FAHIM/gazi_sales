@@ -1,0 +1,4 @@
+#Mon May 06 22:32:25 BDT 2024
+base.0=D\:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

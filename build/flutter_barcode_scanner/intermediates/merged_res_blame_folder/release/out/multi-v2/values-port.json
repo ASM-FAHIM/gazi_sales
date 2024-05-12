@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\flutter_barcode_scanner\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-port\\values-port.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\a0f82584b3480c5aadfd6053d4f7ebcd\\transformed\\appcompat-1.2.0\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\flutter_barcode_scanner\\intermediates\\merged_res\\release\\values-port\\values-port.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\a0f82584b3480c5aadfd6053d4f7ebcd\\transformed\\appcompat-1.2.0\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

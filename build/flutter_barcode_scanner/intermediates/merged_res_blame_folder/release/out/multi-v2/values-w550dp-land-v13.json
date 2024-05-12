@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\flutter_barcode_scanner\\intermediates\\merged_res\\release\\values-w550dp-land-v13\\values-w550dp-land-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cca763904137afc1b8be410570cf9851\\transformed\\material-1.3.0\\res\\values-w550dp-land-v13\\values-w550dp-land-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "51",
+                        "endOffsets": "102"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\FLUTTER\\myGazi_Live\\gazi_sales-main\\gazi_sales-main\\build\\flutter_barcode_scanner\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-w550dp-land-v13\\values-w550dp-land-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ebna.sina\\.gradle\\caches\\transforms-3\\cca763904137afc1b8be410570cf9851\\transformed\\material-1.3.0\\res\\values-w550dp-land-v13\\values-w550dp-land-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "51",
+                        "endOffsets": "102"
+                    }
+                }
+            ]
+        }
+    ]
+}

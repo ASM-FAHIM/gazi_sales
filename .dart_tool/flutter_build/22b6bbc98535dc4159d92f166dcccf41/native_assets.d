@@ -1,0 +1,1 @@
+ E:\\Sopnil\\gazi_sales-main\\.dart_tool\\flutter_build\\22b6bbc98535dc4159d92f166dcccf41\\native_assets.yaml: 

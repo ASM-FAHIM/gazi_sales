@@ -1,0 +1,488 @@
+-- Merging decision tree log ---
+application
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:11:5-43:19
+MERGED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:15:5-19:19
+MERGED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:15:5-19:19
+MERGED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
+MERGED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
+MERGED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-14:19
+MERGED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-14:19
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cca763904137afc1b8be410570cf9851\transformed\material-1.3.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cca763904137afc1b8be410570cf9851\transformed\material-1.3.0\AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\e31d23e9bee8ed36a93f0bf166d8774e\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\e31d23e9bee8ed36a93f0bf166d8774e\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ec4fa6ffd9782ff7e97eab5593ded377\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ec4fa6ffd9782ff7e97eab5593ded377\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision:20.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\505870be1ea43536e82ef198401e963c\transformed\jetified-play-services-vision-20.1.3\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision:20.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\505870be1ea43536e82ef198401e963c\transformed\jetified-play-services-vision-20.1.3\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision-common:19.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\53a806a2c173d80f3d2699b149541c2b\transformed\jetified-play-services-vision-common-19.1.3\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-vision-common:19.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\53a806a2c173d80f3d2699b149541c2b\transformed\jetified-play-services-vision-common-19.1.3\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-clearcut:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\3ace24ad1cd3c4651c201c37cc69677f\transformed\jetified-play-services-clearcut-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-clearcut:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\3ace24ad1cd3c4651c201c37cc69677f\transformed\jetified-play-services-clearcut-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-phenotype:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\69159c4a8ad983bad11a728a129ebe62\transformed\jetified-play-services-phenotype-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-phenotype:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\69159c4a8ad983bad11a728a129ebe62\transformed\jetified-play-services-phenotype-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\b05b81a37d3a6e179819b65531e25cee\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\b05b81a37d3a6e179819b65531e25cee\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:28:5-89
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\7655aba37f86185b2a13958a5b27e34f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\7655aba37f86185b2a13958a5b27e34f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\0209fb06f7026a92ec25529986b8d78c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\0209fb06f7026a92ec25529986b8d78c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
+	android:largeHeap
+		ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-33
+	android:theme
+		ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-59
+	android:name
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+manifest
+ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:1-44:12
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:1-44:12
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:1-44:12
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:1-44:12
+MERGED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:1-44:12
+MERGED from [:shared_preferences_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-21:12
+MERGED from [:google_maps_flutter_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\google_maps_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-21:12
+MERGED from [:flutter_plugin_android_lifecycle] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:sqflite] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:geocoding_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geocoding_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-16:12
+MERGED from [:path_provider_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cca763904137afc1b8be410570cf9851\transformed\material-1.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\e31d23e9bee8ed36a93f0bf166d8774e\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\a0f82584b3480c5aadfd6053d4f7ebcd\transformed\appcompat-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\0bc4f3afd14657303db3f74afa8a29c3\transformed\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:17:1-44:12
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ec4fa6ffd9782ff7e97eab5593ded377\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-vision:20.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\505870be1ea43536e82ef198401e963c\transformed\jetified-play-services-vision-20.1.3\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-vision-common:19.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\53a806a2c173d80f3d2699b149541c2b\transformed\jetified-play-services-vision-common-19.1.3\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-clearcut:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\3ace24ad1cd3c4651c201c37cc69677f\transformed\jetified-play-services-clearcut-17.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-flags:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\13f436542480b33c1f2893a4fe8fd3bc\transformed\jetified-play-services-flags-17.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-phenotype:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\69159c4a8ad983bad11a728a129ebe62\transformed\jetified-play-services-phenotype-17.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\b05b81a37d3a6e179819b65531e25cee\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\5ed70b57ab8355d16c557ae1033c07c8\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\50ea1e32a19a24a5afc7475a426e6b8b\transformed\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.7.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\3fac365dfa6bf5cfa75e2e135786b8a8\transformed\jetified-activity-1.7.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\5ce1392cbcb996c21a1276cea15afe17\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\d33c2297587374a92878529e1c9a6dba\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e2329178376839e71bf1943c47324482\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\922bfe317ae2c16432c2f39b319b4ecf\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\ad4956eb40c4a77cddb3c19f09807aec\transformed\media-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\a84e399d68f23755b14215e2af62a517\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f6b7c73e65590189e69fc4abc6138f4d\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\42a95bd64bfaa96a8c14a4429ec2e68b\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\bb3593ba4e68db8c1b8ddf7f31fda274\transformed\transition-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\043bbdd3f21faeb38641846da256847d\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\9fe9de98dc37e619cd3bdb30eced6d77\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cb38e7f88bebec65bab5033cd6ce9eff\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f22ad8615768541fc5811e03df547dff\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\2bbdef53e249e48718d19c3ccfb7a3b4\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\b27d62201f11e069594fc422bfe6132e\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\914ceb9a7363209b81e6cf65e65ee8f0\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\ffe118c42874596947fcd16f5f1e40b2\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\770deb3ec8d48c4b1b9247432c586558\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\00b6d592abff0385f2b7e420ae8b652d\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\90d6f16acb58f38aa546536e69d0a376\transformed\jetified-savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\77a7b67a4cd5e79f19754517e53d162f\transformed\lifecycle-livedata-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ebca29b8a27151cdc0258e3e0c94f18a\transformed\lifecycle-livedata-core-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\4b9d646461b6982323723a525fb77985\transformed\lifecycle-viewmodel-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\07b0e9b3aebb2992f89d3bc720c84e20\transformed\lifecycle-runtime-2.6.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\9df39115be87fcda577e6f1704955530\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\962cfe865c3271b159b8e272771bdff5\transformed\multidex-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.6] C:\Users\ebna.sina\.gradle\caches\transforms-3\c50c229d956376a2f4418e69bf4689eb\transformed\exifinterface-1.3.6\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\7655aba37f86185b2a13958a5b27e34f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\0ef3376b0e2ad39444c552b7c0417592\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\32b4b6f15decd6e81bd3ce62faac03e7\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\938fd91525f1cb0a7cb81d28b56364dc\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\65ff581ced118f805ba51fd5398a227e\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\0209fb06f7026a92ec25529986b8d78c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\24cd0c1f8e4fc73e4f4be58ca76d21ae\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\d38278ae4e120304513d12e5e65fb508\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f6d1a7ccb5bdb4179bb4673da1465ae6\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\53502875f751549ab11395dad7e031a0\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\c1c88d131cab855941a3d406243c5538\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:17:1-22:12
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml:1:1-8:12
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml:1:1-8:12
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml:1:1-8:12
+	package
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:2:5-37
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:1-44:12
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml
+	android:versionCode
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:1-44:12
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:1:11-69
+uses-permission#android.permission.INTERNET
+ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:4:5-67
+MERGED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:4:5-67
+MERGED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:4:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:24:5-67
+	android:name
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:4:22-64
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:5:5-79
+	android:name
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:5:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:6:5-81
+	android:name
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:6:22-78
+uses-permission#android.permission.CAMERA
+ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:7:5-65
+MERGED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-65
+MERGED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-65
+	android:name
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:7:22-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:8:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:9:5-80
+	android:name
+		ADDED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml:9:22-77
+uses-sdk
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+MERGED from [:shared_preferences_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:google_maps_flutter_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\google_maps_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:google_maps_flutter_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\google_maps_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:sqflite] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:sqflite] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:geocoding_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geocoding_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:geocoding_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geocoding_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cca763904137afc1b8be410570cf9851\transformed\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cca763904137afc1b8be410570cf9851\transformed\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\e31d23e9bee8ed36a93f0bf166d8774e\transformed\constraintlayout-2.0.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\e31d23e9bee8ed36a93f0bf166d8774e\transformed\constraintlayout-2.0.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\a0f82584b3480c5aadfd6053d4f7ebcd\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\a0f82584b3480c5aadfd6053d4f7ebcd\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\0bc4f3afd14657303db3f74afa8a29c3\transformed\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\0bc4f3afd14657303db3f74afa8a29c3\transformed\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ec4fa6ffd9782ff7e97eab5593ded377\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ec4fa6ffd9782ff7e97eab5593ded377\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision:20.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\505870be1ea43536e82ef198401e963c\transformed\jetified-play-services-vision-20.1.3\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision:20.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\505870be1ea43536e82ef198401e963c\transformed\jetified-play-services-vision-20.1.3\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:19.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\53a806a2c173d80f3d2699b149541c2b\transformed\jetified-play-services-vision-common-19.1.3\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:19.1.3] C:\Users\ebna.sina\.gradle\caches\transforms-3\53a806a2c173d80f3d2699b149541c2b\transformed\jetified-play-services-vision-common-19.1.3\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-clearcut:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\3ace24ad1cd3c4651c201c37cc69677f\transformed\jetified-play-services-clearcut-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-clearcut:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\3ace24ad1cd3c4651c201c37cc69677f\transformed\jetified-play-services-clearcut-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-flags:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\13f436542480b33c1f2893a4fe8fd3bc\transformed\jetified-play-services-flags-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-flags:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\13f436542480b33c1f2893a4fe8fd3bc\transformed\jetified-play-services-flags-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-phenotype:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\69159c4a8ad983bad11a728a129ebe62\transformed\jetified-play-services-phenotype-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-phenotype:17.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\69159c4a8ad983bad11a728a129ebe62\transformed\jetified-play-services-phenotype-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\b05b81a37d3a6e179819b65531e25cee\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\b05b81a37d3a6e179819b65531e25cee\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\5ed70b57ab8355d16c557ae1033c07c8\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\5ed70b57ab8355d16c557ae1033c07c8\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\50ea1e32a19a24a5afc7475a426e6b8b\transformed\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\50ea1e32a19a24a5afc7475a426e6b8b\transformed\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.7.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\3fac365dfa6bf5cfa75e2e135786b8a8\transformed\jetified-activity-1.7.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.7.2] C:\Users\ebna.sina\.gradle\caches\transforms-3\3fac365dfa6bf5cfa75e2e135786b8a8\transformed\jetified-activity-1.7.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\5ce1392cbcb996c21a1276cea15afe17\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\5ce1392cbcb996c21a1276cea15afe17\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\d33c2297587374a92878529e1c9a6dba\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\d33c2297587374a92878529e1c9a6dba\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e2329178376839e71bf1943c47324482\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e2329178376839e71bf1943c47324482\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\922bfe317ae2c16432c2f39b319b4ecf\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\922bfe317ae2c16432c2f39b319b4ecf\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\ad4956eb40c4a77cddb3c19f09807aec\transformed\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\ad4956eb40c4a77cddb3c19f09807aec\transformed\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\a84e399d68f23755b14215e2af62a517\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\a84e399d68f23755b14215e2af62a517\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f6b7c73e65590189e69fc4abc6138f4d\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f6b7c73e65590189e69fc4abc6138f4d\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\42a95bd64bfaa96a8c14a4429ec2e68b\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\42a95bd64bfaa96a8c14a4429ec2e68b\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\bb3593ba4e68db8c1b8ddf7f31fda274\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\bb3593ba4e68db8c1b8ddf7f31fda274\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\043bbdd3f21faeb38641846da256847d\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\043bbdd3f21faeb38641846da256847d\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\9fe9de98dc37e619cd3bdb30eced6d77\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\9fe9de98dc37e619cd3bdb30eced6d77\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cb38e7f88bebec65bab5033cd6ce9eff\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\cb38e7f88bebec65bab5033cd6ce9eff\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f22ad8615768541fc5811e03df547dff\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f22ad8615768541fc5811e03df547dff\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\2bbdef53e249e48718d19c3ccfb7a3b4\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\2bbdef53e249e48718d19c3ccfb7a3b4\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\b27d62201f11e069594fc422bfe6132e\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\b27d62201f11e069594fc422bfe6132e\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\914ceb9a7363209b81e6cf65e65ee8f0\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\914ceb9a7363209b81e6cf65e65ee8f0\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\ffe118c42874596947fcd16f5f1e40b2\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\ffe118c42874596947fcd16f5f1e40b2\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\770deb3ec8d48c4b1b9247432c586558\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\770deb3ec8d48c4b1b9247432c586558\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\00b6d592abff0385f2b7e420ae8b652d\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\00b6d592abff0385f2b7e420ae8b652d\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\90d6f16acb58f38aa546536e69d0a376\transformed\jetified-savedstate-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\90d6f16acb58f38aa546536e69d0a376\transformed\jetified-savedstate-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\77a7b67a4cd5e79f19754517e53d162f\transformed\lifecycle-livedata-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\77a7b67a4cd5e79f19754517e53d162f\transformed\lifecycle-livedata-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ebca29b8a27151cdc0258e3e0c94f18a\transformed\lifecycle-livedata-core-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\ebca29b8a27151cdc0258e3e0c94f18a\transformed\lifecycle-livedata-core-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\4b9d646461b6982323723a525fb77985\transformed\lifecycle-viewmodel-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\4b9d646461b6982323723a525fb77985\transformed\lifecycle-viewmodel-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\07b0e9b3aebb2992f89d3bc720c84e20\transformed\lifecycle-runtime-2.6.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\07b0e9b3aebb2992f89d3bc720c84e20\transformed\lifecycle-runtime-2.6.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\9df39115be87fcda577e6f1704955530\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\9df39115be87fcda577e6f1704955530\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\962cfe865c3271b159b8e272771bdff5\transformed\multidex-2.0.0\AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\962cfe865c3271b159b8e272771bdff5\transformed\multidex-2.0.0\AndroidManifest.xml:20:5-43
+MERGED from [androidx.exifinterface:exifinterface:1.3.6] C:\Users\ebna.sina\.gradle\caches\transforms-3\c50c229d956376a2f4418e69bf4689eb\transformed\exifinterface-1.3.6\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.6] C:\Users\ebna.sina\.gradle\caches\transforms-3\c50c229d956376a2f4418e69bf4689eb\transformed\exifinterface-1.3.6\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\7655aba37f86185b2a13958a5b27e34f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\7655aba37f86185b2a13958a5b27e34f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\0ef3376b0e2ad39444c552b7c0417592\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\0ef3376b0e2ad39444c552b7c0417592\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\32b4b6f15decd6e81bd3ce62faac03e7\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\32b4b6f15decd6e81bd3ce62faac03e7\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\938fd91525f1cb0a7cb81d28b56364dc\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\938fd91525f1cb0a7cb81d28b56364dc\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\65ff581ced118f805ba51fd5398a227e\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\65ff581ced118f805ba51fd5398a227e\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\0209fb06f7026a92ec25529986b8d78c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\0209fb06f7026a92ec25529986b8d78c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\24cd0c1f8e4fc73e4f4be58ca76d21ae\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\24cd0c1f8e4fc73e4f4be58ca76d21ae\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\d38278ae4e120304513d12e5e65fb508\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\d38278ae4e120304513d12e5e65fb508\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f6d1a7ccb5bdb4179bb4673da1465ae6\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\f6d1a7ccb5bdb4179bb4673da1465ae6\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\53502875f751549ab11395dad7e031a0\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\53502875f751549ab11395dad7e031a0\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\c1c88d131cab855941a3d406243c5538\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\c1c88d131cab855941a3d406243c5538\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml
+INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\main\AndroidManifest.xml
+		INJECTED from D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\android\app\src\debug\AndroidManifest.xml
+service#com.baseflow.geolocator.GeolocatorLocationService
+ADDED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:56
+	android:enabled
+		ADDED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-35
+	android:exported
+		ADDED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+	android:foregroundServiceType
+		ADDED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-53
+	android:name
+		ADDED from [:geolocator_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-77
+uses-feature#android.hardware.camera
+ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-60
+	android:name
+		ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:11:19-57
+uses-permission#android.permission.FLASHLIGHT
+ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-69
+	android:name
+		ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-66
+activity#com.amolg.flutterbarcodescanner.BarcodeCaptureActivity
+ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-91
+	android:name
+		ADDED from [:flutter_barcode_scanner] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\flutter_barcode_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:18:19-88
+provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
+ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+	android:grantUriPermissions
+		ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+	android:authorities
+		ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+	android:exported
+		ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+	android:name
+		ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+	android:resource
+		ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+	android:name
+		ADDED from [:image_picker_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+activity#io.flutter.plugins.urllauncher.WebViewActivity
+ADDED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
+	android:exported
+		ADDED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
+	android:theme
+		ADDED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
+	android:name
+		ADDED from [:url_launcher_android] D:\FLUTTER\myGazi_Live\gazi_sales-main\gazi_sales-main\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:23:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:23:22-76
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:26:5-28:35
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:27:9-41
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:28:9-32
+queries
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:30:5-34:15
+package#com.google.android.apps.maps
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:33:9-64
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:33:18-61
+uses-library#org.apache.http.legacy
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:39:9-41:40
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:41:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\6abfbc2601f051eb73c4a22881516c8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:40:13-50
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\923fe431576bb8e0584b7ed374f94cb5\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\e7342d8a4b5fa7457a3a67525a4c7bab\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+uses-library#androidx.window.extensions
+ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+uses-library#androidx.window.sidecar
+ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ebna.sina\.gradle\caches\transforms-3\34ccdc97f8caa2e7bab7bb8c13ba58d5\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
+permission#com.osl.gazi_sales_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
+uses-permission#com.osl.gazi_sales_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.10.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\cbdbfc77071f9a37966f12c3c436b1c8\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\7655aba37f86185b2a13958a5b27e34f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\ebna.sina\.gradle\caches\transforms-3\7655aba37f86185b2a13958a5b27e34f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:25:13-67
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\ebna.sina\.gradle\caches\transforms-3\760cb1239566d4af76f5f879062a41ab\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
